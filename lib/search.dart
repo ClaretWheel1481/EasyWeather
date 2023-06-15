@@ -26,7 +26,7 @@ class SearchState extends State<Search>{
     return "success";
   }
 
-  void loadjson() async{
+  void loadtodayweather() async{
     var url = Uri.parse('https://restapi.amap.com/v3/weather/weatherInfo?city=$cityid&key=ed5b8f909739b3b48b40b2f220993fd9');
     var response = await http.get(url);
     Map<String,dynamic> temper = json.decode(response.body);
@@ -35,6 +35,13 @@ class SearchState extends State<Search>{
     controller.weather.value = temper['lives'][0]['weather'];
   }
 
+  void loadallweather() async{
+    var url = Uri.parse('https://restapi.amap.com/v3/weather/weatherInfo?city=$cityid&key=ed5b8f909739b3b48b40b2f220993fd9&extensions=all');
+    var response = await http.get(url);
+    Map<String,dynamic> temper = json.decode(response.body);
+    controller.hightemp1.value = temper['forecasts'][0]['casts'][0]['daytemp'];
+    controller.lowtemp1.value = temper['forecasts'][0]['casts'][0]['nighttemp'];
+  }
 
   @override
   void initState(){
@@ -70,7 +77,8 @@ class SearchState extends State<Search>{
         title: Obx(()=>Text(controller.cityname.value)),
         onTap: (){
             Get.back();
-            loadjson();
+            loadtodayweather();
+            loadallweather();
         },
       )
     );

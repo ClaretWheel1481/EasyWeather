@@ -4,12 +4,15 @@ import 'package:get/get.dart';
 import 'Setting.dart';
 
 
+
 class Mycontroller extends GetxController{
   var tempera = ''.obs;
   var province = ''.obs;
   var weather = ''.obs;
   var cityname = ''.obs;
   var query = "北京".obs;
+  var hightemp1 = ''.obs;
+  var lowtemp1 = ''.obs;
 }
 
 class MyApp extends StatelessWidget {
@@ -64,34 +67,51 @@ class _MyHomePageState extends State<MyHomePage> {
           Positioned(
             left: 10,
             top: 5,
-            child: Obx(()=>Text(
-              '${controller.province},${controller.cityname}',
-              style: const TextStyle(fontSize: 40),
-              ),
+            child:Row(
+              children: [
+                const Icon(Icons.location_on),
+                Obx(()=>Text(
+                  '${controller.province},${controller.cityname}',
+                  style: const TextStyle(fontSize: 28),
+                ),
+                )
+              ],
             )
           ),
           Positioned(
-            left:MediaQuery.of(context).size.width*0.65,
-            top: MediaQuery.of(context).size.height*0.4,
-            child: Obx(()=>Text(
-              '${controller.tempera}°c',
-              style: const TextStyle(fontSize: 66),
-            ),
+            top: MediaQuery.of(context).size.height-195,
+            left:MediaQuery.of(context).size.width-215,
+            child: Stack(
+              children: [
+                Obx(()=>Text(
+                  '${controller.tempera}°c',
+                  style: const TextStyle(fontSize: 108),
+                ),
+                ),
+                Positioned(
+                  left: 82,
+                  child: Obx(()=>Text(
+                    '${controller.hightemp1}°c ~ ${controller.lowtemp1}°c',
+                    style: const TextStyle(fontSize: 24),
+                  ),
+                  ),
+                ),
+              ],
             )
           ),
           Positioned(
-            left:10,
-            top: 65,
-            child: Row(
+            left:15,
+            top: 50,
+            child: Column(
               children: <Widget>[
                 Obx(()=>Text(
                   '${controller.weather}',
-                  style: const TextStyle(fontSize: 28),
+                  style: const TextStyle(fontSize: 26),
                    ),
                 ),
               ],
             ),
-          )
+          ),
         ],
       )
 
@@ -106,7 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
               fit: BoxFit.cover),
         ),
         child: Text('EasyWeather',
-            style: TextStyle(fontSize:24,color: Colors.blueAccent)
+            style: TextStyle(fontSize:24,color: Colors.orangeAccent)
         )
       ),
       ListTile(
