@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:easyweather/home.dart';
-
+import 'dart:async';
 
 var cityid = '0';
 
@@ -65,20 +65,22 @@ class SearchState extends State<Search>{
           decoration: const InputDecoration(hintText: '输入城市'),
           textInputAction: TextInputAction.search,
           onChanged: (text){
-            controller.query.value = text;
-            setState(() {
-              getData();
-            });
-          },
+              controller.query.value = text;
+              setState(() {
+                getData();
+              });
+            }
         ),
       ),
       body: ListTile(
         leading: const Icon(Icons.location_on),
         title: Obx(()=>Text(controller.cityname.value)),
-        onTap: (){
+        onTap: () async{
             Get.back();
-            loadtodayweather();
-            loadallweather();
+            setState(() {
+              loadtodayweather();
+              loadallweather();
+            });
         },
       )
     );

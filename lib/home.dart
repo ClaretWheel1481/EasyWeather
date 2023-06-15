@@ -42,92 +42,18 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final Mycontroller controller = Get.put(Mycontroller());
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary.withOpacity(0.1),
-        title: Text(widget.title),
-        actions: <Widget>[
-          IconButton(onPressed: (){
-            Get.to(()=>const Search(),transition: Transition.cupertino);
-          }, icon: const Icon(Icons.search))
-        ],
-      ),
-      drawer: Drawer(
-        elevation: 3,
-        child: _buildChild(),
-      ),
-      body: Stack(
-        children: <Widget>[
-          // Positioned.fill(
-          //   top:0,
-          //   child: Image.asset('assets/images/1.jpg',fit: BoxFit.none,alignment: Alignment.topCenter,),
-          // ),
-          Positioned(
-            left: 10,
-            top: 5,
-            child:Row(
-              children: [
-                const Icon(Icons.location_on),
-                Obx(()=>Text(
-                  '${controller.province},${controller.cityname}',
-                  style: const TextStyle(fontSize: 28),
-                ),
-                )
-              ],
-            )
-          ),
-          Positioned(
-            top: MediaQuery.of(context).size.height-195,
-            left:MediaQuery.of(context).size.width-215,
-            child: Stack(
-              children: [
-                Obx(()=>Text(
-                  '${controller.tempera}°c',
-                  style: const TextStyle(fontSize: 108),
-                ),
-                ),
-                Positioned(
-                  left: 82,
-                  child: Obx(()=>Text(
-                    '${controller.hightemp1}°c ~ ${controller.lowtemp1}°c',
-                    style: const TextStyle(fontSize: 24),
-                  ),
-                  ),
-                ),
-              ],
-            )
-          ),
-          Positioned(
-            left:15,
-            top: 50,
-            child: Column(
-              children: <Widget>[
-                Obx(()=>Text(
-                  '${controller.weather}',
-                  style: const TextStyle(fontSize: 26),
-                   ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      )
 
-    );
-  }
   Widget _buildChild() =>ListView(
     padding: EdgeInsets.zero,
     children:  <Widget>[
       const DrawerHeader(
-        decoration: BoxDecoration(
-          image: DecorationImage(image: AssetImage('images/1.jpg'),
-              fit: BoxFit.cover),
-        ),
-        child: Text('EasyWeather',
-            style: TextStyle(fontSize:24,color: Colors.orangeAccent)
-        )
+          decoration: BoxDecoration(
+            image: DecorationImage(image: AssetImage('images/1.jpg'),
+                fit: BoxFit.cover),
+          ),
+          child: Text('EasyWeather',
+              style: TextStyle(fontSize:24,color: Colors.orangeAccent)
+          )
       ),
       ListTile(
         leading: const Icon(Icons.settings),
@@ -145,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 builder:(context){
                   return const AlertDialog(
                     title: Text("关于 EasyWeather"),
-                    content: Text("EasyWeather v0.0.1 由 Claret 制作, 数据来源 高德天气API. "),
+                    content: Text("EasyWeather v0.0.1 由 Claret 制作, 数据来源 高德地图API. "),
                   );
                 }
             );
@@ -153,4 +79,92 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     ],
   );
-}
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() =>
+    controller.weather.value == '' ? Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary.withOpacity(0.1),
+        title: Text(widget.title),
+        actions: <Widget>[
+          IconButton(onPressed: (){
+            Get.to(()=>const Search(),transition: Transition.cupertino);
+          }, icon: const Icon(Icons.search))
+        ],
+      ),
+      drawer: Drawer(
+        elevation: 3,
+        child: _buildChild(),
+      ),
+      body:const Center(
+        child: Text('请先进行"搜索城市"操作后,点击想查看的城市.'),
+      ),
+    )
+        : Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary.withOpacity(0.1),
+        title: Text(widget.title),
+        actions: <Widget>[
+          IconButton(onPressed: (){
+            Get.to(()=>const Search(),transition: Transition.cupertino);
+          }, icon: const Icon(Icons.search))
+        ],
+      ),
+      drawer: Drawer(
+        elevation: 3,
+        child: _buildChild(),
+      ),
+      body: Stack(
+        children: <Widget>[
+          Positioned(
+              left: 10,
+              top: 5,
+              child:Row(
+                children: [
+                  const Icon(Icons.location_on),
+                  Obx(()=>Text(
+                    '${controller.province},${controller.cityname}',
+                    style: const TextStyle(fontSize: 28),
+                  ),
+                  )
+                ],
+              )
+          ),
+          Positioned(
+              top: MediaQuery.of(context).size.height-195,
+              left:MediaQuery.of(context).size.width-215,
+              child: Stack(
+                children: [
+                  Obx(()=>Text(
+                    '${controller.tempera}°c',
+                    style: const TextStyle(fontSize: 108),
+                  ),
+                  ),
+                  Positioned(
+                    left: 82,
+                    child: Obx(()=>Text(
+                      '${controller.hightemp1}°c ~ ${controller.lowtemp1}°c',
+                      style: const TextStyle(fontSize: 24),
+                    ),
+                    ),
+                  ),
+                ],
+              )
+          ),
+          Positioned(
+            left:15,
+            top: 50,
+            child: Column(
+              children: <Widget>[
+                Obx(()=>Text(
+                  '${controller.weather}',
+                  style: const TextStyle(fontSize: 26),
+                ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),));
+}}
