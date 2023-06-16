@@ -27,7 +27,7 @@ class SearchState extends State<Search>{
   }
 
   void loadtodayweather() async{
-    var url = Uri.parse('https://restapi.amap.com/v3/weather/weatherInfo?city=$cityid&key=ed5b8f909739b3b48b40b2f220993fd9');
+    var url = Uri.parse('https://restapi.amap.com/v3/weather/weatherInfo?city=$cityid&key=ed5b8f909739b3b48b40b2f220993fd9&extensions=base');
     var response = await http.get(url);
     Map<String,dynamic> temper = json.decode(response.body);
     controller.tempera.value = temper['lives'][0]['temperature'];

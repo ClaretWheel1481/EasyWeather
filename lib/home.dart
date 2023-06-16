@@ -48,11 +48,11 @@ class _MyHomePageState extends State<MyHomePage> {
     children:  <Widget>[
       const DrawerHeader(
           decoration: BoxDecoration(
-            image: DecorationImage(image: AssetImage('images/1.jpg'),
+            image: DecorationImage(image: AssetImage('assets/images/1.jpg'),
                 fit: BoxFit.cover),
           ),
           child: Text('EasyWeather',
-              style: TextStyle(fontSize:24,color: Colors.orangeAccent)
+              style: TextStyle(fontSize:32,color: Color.fromRGBO(255, 140, 210, 1))
           )
       ),
       ListTile(
@@ -69,9 +69,17 @@ class _MyHomePageState extends State<MyHomePage> {
             showDialog(
                 context: context,
                 builder:(context){
-                  return const AlertDialog(
-                    title: Text("关于 EasyWeather"),
-                    content: Text("EasyWeather v0.0.1 由 Claret 制作, 数据来源 高德地图API. "),
+                  return AlertDialog(
+                    title: const Text("关于 EasyWeather"),
+                    content: const Text("EasyWeather v0.0.1 由 Claret 制作, 数据来源 高德地图API. "),
+                    actions: [
+                      TextButton(
+                        onPressed: (){
+                          Get.back();
+                        },
+                          child: const Text("确定")
+                      )
+                    ],
                   );
                 }
             );
@@ -132,8 +140,8 @@ class _MyHomePageState extends State<MyHomePage> {
               )
           ),
           Positioned(
-              top: MediaQuery.of(context).size.height-195,
-              left:MediaQuery.of(context).size.width-215,
+              top: MediaQuery.of(context).size.height-220,
+              left:MediaQuery.of(context).size.width-225,
               child: Stack(
                 children: [
                   Obx(()=>Text(
