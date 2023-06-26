@@ -2,7 +2,7 @@ import 'package:easyweather/search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'Setting.dart';
-
+import 'package:location_permissions/location_permissions.dart';
 
 
 class Mycontroller extends GetxController{
@@ -31,7 +31,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-
   final String title;
 
   @override
@@ -52,7 +51,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 fit: BoxFit.cover),
           ),
           child: Text('EasyWeather',
-              style: TextStyle(fontSize:32,color: Color.fromRGBO(255, 140, 210, 1))
+              style: TextStyle(fontSize:32,color: Color.fromRGBO(255, 140, 210, 1)),
+
           )
       ),
       ListTile(
@@ -69,16 +69,12 @@ class _MyHomePageState extends State<MyHomePage> {
             showDialog(
                 context: context,
                 builder:(context){
-                  return AlertDialog(
-                    title: const Text("关于 EasyWeather"),
-                    content: const Text("EasyWeather v0.0.1 由 Claret 制作, 数据来源 高德地图API. "),
-                    actions: [
-                      TextButton(
-                        onPressed: (){
-                          Get.back();
-                        },
-                          child: const Text("确定")
-                      )
+                  return AboutDialog(
+                    applicationIcon: Image.asset('assets/images/ic_launcher.png'),
+                    applicationVersion: 'v0.0.2',
+                    applicationName: 'EasyWeather',
+                    children: const <Widget>[
+                      Text('EasyWeather 数据来源 高德地图')
                     ],
                   );
                 }
@@ -90,36 +86,49 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() =>
-    controller.weather.value == '' ? Scaffold(
+    return Obx(() => controller.weather.value == '' ?
+    Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary.withOpacity(0.1),
         title: Text(widget.title),
         actions: <Widget>[
+          IconButton(onPressed: () async {
+            PermissionStatus permission = await LocationPermissions().requestPermissions();
+          },
+              icon: const Icon(Icons.location_on_outlined)
+          ),
           IconButton(onPressed: (){
             Get.to(()=>const Search(),transition: Transition.cupertino);
           }, icon: const Icon(Icons.search))
         ],
       ),
       drawer: Drawer(
+        width: MediaQuery.of(context).size.width * 0.8,
         elevation: 3,
-        child: _buildChild(),
+        child: _buildChild()
       ),
       body:const Center(
         child: Text('请先进行"搜索城市"操作后,点击想查看的城市.'),
       ),
     )
-        : Scaffold(
+        :
+    Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary.withOpacity(0.1),
         title: Text(widget.title),
         actions: <Widget>[
+          IconButton(onPressed: () async {
+            PermissionStatus permission = await LocationPermissions().requestPermissions();
+          },
+              icon: const Icon(Icons.location_on_outlined)
+          ),
           IconButton(onPressed: (){
             Get.to(()=>const Search(),transition: Transition.cupertino);
           }, icon: const Icon(Icons.search))
         ],
       ),
       drawer: Drawer(
+        width: MediaQuery.of(context).size.width * 0.7,
         elevation: 3,
         child: _buildChild(),
       ),
@@ -146,14 +155,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   Obx(()=>Text(
                     '${controller.tempera}°c',
-                    style: const TextStyle(fontSize: 108),
-                  ),
+                    style: const TextStyle(fontSize: 108),),
                   ),
                   Positioned(
-                    left: 82,
+                    left: 100,
                     child: Obx(()=>Text(
                       '${controller.hightemp1}°c ~ ${controller.lowtemp1}°c',
-                      style: const TextStyle(fontSize: 24),
+                      style: const TextStyle(fontSize: 20),
                     ),
                     ),
                   ),
@@ -163,11 +171,12 @@ class _MyHomePageState extends State<MyHomePage> {
           Positioned(
             left:15,
             top: 50,
-            child: Column(
-              children: <Widget>[
+            child: Row(
+              children: [
+                Icon(Icons.cloud),
                 Obx(()=>Text(
                   '${controller.weather}',
-                  style: const TextStyle(fontSize: 26),
+                  style: const TextStyle(fontSize: 24),
                 ),
                 ),
               ],
