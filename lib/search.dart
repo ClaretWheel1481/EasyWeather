@@ -2,10 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:easyweather/home.dart';
-import 'dart:async';
+import 'package:easyweather/Home.dart';
 
 var cityid = '0';
+
+final Mycontroller controller = Get.put(Mycontroller());
+
+void getData() async {    //解析Json
+    var url = Uri.parse('https://restapi.amap.com/v3/config/district?keywords=${controller.query}&subdistrict=0&key=ed5b8f909739b3b48b40b2f220993fd9&extensions=base');
+    var response = await http.get(url);
+    final Map<String,dynamic>jsonData = json.decode(response.body);
+    controller.cityname.value = jsonData['districts'][0]['name'];
+    cityid= jsonData['districts'][0]['adcode'];
+}
+
+void loadnow() async{    //获取当前位置与现在天气
+  var url = Uri.parse('https://restapi.amap.com/v3/weather/weatherInfo?city=$cityid&key=ed5b8f909739b3b48b40b2f220993fd9&extensions=base');
+  var response = await http.get(url);
+  Map<String,dynamic> temper = json.decode(response.body);
+  controller.tempera.value = temper['lives'][0]['temperature'];
+  controller.weather.value = temper['lives'][0]['weather'];
+  controller.winddirection.value = temper['lives'][0]['winddirection'];
+  controller.windpower.value = temper['lives'][0]['windpower'];
+  controller.humidity.value = temper['lives'][0]['humidity'];
+}
+
+void loadall() async{    //获取所有天气信息
+  var url = Uri.parse('https://restapi.amap.com/v3/weather/weatherInfo?city=$cityid&key=ed5b8f909739b3b48b40b2f220993fd9&extensions=all');
+  var response = await http.get(url);
+  Map<String,dynamic> temper = json.decode(response.body);
+  controller.hightemp1.value = temper['forecasts'][0]['casts'][0]['daytemp'];
+  controller.lowtemp1.value = temper['forecasts'][0]['casts'][0]['nighttemp'].toString();
+}
 
 class Search extends StatefulWidget{
   const Search({super.key});
@@ -14,34 +42,6 @@ class Search extends StatefulWidget{
 }
 
 class SearchState extends State<Search>{
-  final Mycontroller controller = Get.put(Mycontroller());
-
-  Future<String> getData() async {
-    var response = await http.get(
-        Uri.parse("https://restapi.amap.com/v3/config/district?keywords=${controller.query}&subdistrict=0&key=ed5b8f909739b3b48b40b2f220993fd9&extensions=base"),
-        headers: {"Accept": "application/json"});
-    final Map<String,dynamic>jsonData = json.decode(response.body);
-    controller.cityname.value = jsonData['districts'][0]['name'];
-    cityid= jsonData['districts'][0]['adcode'];
-    return "success";
-  }
-
-  void loadtodayweather() async{
-    var url = Uri.parse('https://restapi.amap.com/v3/weather/weatherInfo?city=$cityid&key=ed5b8f909739b3b48b40b2f220993fd9&extensions=base');
-    var response = await http.get(url);
-    Map<String,dynamic> temper = json.decode(response.body);
-    controller.tempera.value = temper['lives'][0]['temperature'];
-    controller.province.value = temper['lives'][0]['province'];
-    controller.weather.value = temper['lives'][0]['weather'];
-  }
-
-  void loadallweather() async{
-    var url = Uri.parse('https://restapi.amap.com/v3/weather/weatherInfo?city=$cityid&key=ed5b8f909739b3b48b40b2f220993fd9&extensions=all');
-    var response = await http.get(url);
-    Map<String,dynamic> temper = json.decode(response.body);
-    controller.hightemp1.value = temper['forecasts'][0]['casts'][0]['daytemp'];
-    controller.lowtemp1.value = temper['forecasts'][0]['casts'][0]['nighttemp'];
-  }
 
   @override
   void initState(){
@@ -78,8 +78,8 @@ class SearchState extends State<Search>{
         onTap: () async{
             Get.back();
             setState(() {
-              loadtodayweather();
-              loadallweather();
+              loadnow();
+              loadall();
             });
         },
       )
