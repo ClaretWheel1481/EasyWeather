@@ -1,4 +1,4 @@
-package com.example.easyweather
+package org.claret.easyweather
 
 import io.flutter.embedding.android.FlutterActivity
 
