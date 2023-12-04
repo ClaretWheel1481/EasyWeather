@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="easyweather"
+        android:label="EasyWeather"
         android:name="${applicationName}"
         android:icon="@mipmap/easyweather">
         <activity

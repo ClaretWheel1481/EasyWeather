@@ -1,28 +1,9 @@
 import 'package:easyweather/Search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:easyweather/function.dart';
 
-void requestLocationPermission() async {
-  var status = await Permission.location.request();
-  if (status.isGranted) {
-    try {
-      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-      print(position);
-    } catch (e) {
-      if (e is LocationServiceDisabledException) {
-        Get.snackbar("错误", "您没有启用设备的定位服务。");
-      } else {
-        requestLocationPermission();
-      }
-    }
-  } else if (status.isDenied) {
-    Get.snackbar("错误", "您拒绝了EasyWeather的定位权限！");
-  } else if (status.isPermanentlyDenied) {
-    Get.snackbar("错误", "您拒绝了EasyWeather的定位权限！");
-  }
-}
+final Mycontroller controller = Get.put(Mycontroller());
 
 class Mycontroller extends GetxController{
   var tempera = ''.obs; //当前温度
@@ -34,6 +15,7 @@ class Mycontroller extends GetxController{
   var humidity = ''.obs;  //湿度
   var windpower = ''.obs; //风力
   var winddirection = ''.obs; //风向
+  var locality = ''.obs;  //定位所在市、区
 }
 
 class MyApp extends StatelessWidget {
@@ -62,7 +44,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final Mycontroller controller = Get.put(Mycontroller());
 
-  Widget _buildChild() =>ListView(
+  Widget _buildChild() =>ListView(    //侧边栏
     padding: EdgeInsets.zero,
     children:  <Widget>[
       const DrawerHeader(
@@ -79,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [],
       ),
       ExpansionTile(
-        leading: Icon(Icons.brightness_4),
+        leading: const Icon(Icons.brightness_4),
         title: const Text('深色/浅色模式'),
         children: [
           ListTile(
@@ -112,10 +94,10 @@ class _MyHomePageState extends State<MyHomePage> {
             showDialog(
                 context: context,
                 builder:(context){
-                  return AboutDialog(
+                  return const AboutDialog(
                     applicationVersion: 'v0.0.3',
                     applicationName: 'EasyWeather',
-                    children: const <Widget>[
+                    children: <Widget>[
                       Text('EasyWeather 数据来源 高德地图')
                     ],
                   );
@@ -154,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: _buildChild()
       ),
       body:const Center(
-        child: Text('请先进行"搜索城市"操作后,点击想查看的城市.'),
+        child: Text('请先进行"搜索城市"操作后，点击想查看的城市。'),
       ),
     )
         :
@@ -197,11 +179,14 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _getWeatherBody(){ //获取天气后改变的主页面
     return ListView(
       children: <Widget>[
+        Container(
+          padding: EdgeInsets.only(top:20),
+        ),
         Center(
           child:Obx(()=>
           Text.rich(TextSpan(children: <InlineSpan>[
-                const WidgetSpan(child: SizedBox(child: Icon(Icons.location_on),width: 18,height: 30,)),
-                TextSpan(text:" "+'${controller.cityname}',style: const TextStyle(fontSize: 28)),
+                const WidgetSpan(child: SizedBox(width: 18,height: 30,child: Icon(Icons.location_on),)),
+                TextSpan(text:" ${controller.cityname}",style: const TextStyle(fontSize: 28)),
           ])),
           )
         ),
@@ -220,7 +205,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child:Obx(()=>
           Text.rich(TextSpan(children: <InlineSpan>[
                 TextSpan(text:'${controller.tempera}',style: const TextStyle(fontSize: 108)),
-                TextSpan(text:"°",style: const TextStyle(fontSize: 108)),
+                const TextSpan(text:"°",style: TextStyle(fontSize: 108)),
           ])),
           )
         ),
@@ -232,20 +217,20 @@ class _MyHomePageState extends State<MyHomePage> {
           )
         ),
         Container(
-          padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.1),
+          padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.15),
         ),
         Container(
           padding: EdgeInsets.only(
             left: MediaQuery.of(context).size.width*0.1,
             right: MediaQuery.of(context).size.width*0.1
           ),
-          child: Row(
+          child: const Row(
             children: <Widget>[
               Text('风力等级',style: TextStyle(fontSize: 20)),
-              const Spacer(flex: 1),
-              const Text('当前风向',style: TextStyle(fontSize: 20)),
-              const Spacer(flex: 1),
-              const Text('空气湿度',style: TextStyle(fontSize: 20)),
+              Spacer(flex: 1),
+              Text('当前风向',style: TextStyle(fontSize: 20)),
+              Spacer(flex: 1),
+              Text('空气湿度',style: TextStyle(fontSize: 20)),
             ],
           )
         ),
@@ -256,18 +241,17 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           child: Row(
             children: <Widget>[
-              Text('    ',style: TextStyle(fontSize: 22)),
-              Text('${controller.windpower}级',style: TextStyle(fontSize: 16)),
+              const Text('    ',style: TextStyle(fontSize: 22)),
+              Text('${controller.windpower}级',style: const TextStyle(fontSize: 16)),
               const Spacer(flex: 1),
-              Text('${controller.winddirection}',style: TextStyle(fontSize: 16)),
+              Text('${controller.winddirection}',style: const TextStyle(fontSize: 16)),
               const Spacer(flex: 1),
-              Text('${controller.humidity}%',style: TextStyle(fontSize: 16)),
-              Text('    ',style: TextStyle(fontSize: 22)),
+              Text('${controller.humidity}%',style: const TextStyle(fontSize: 16)),
+              const Text('    ',style: TextStyle(fontSize: 22)),
             ],
           ),
         ),
       ],
     );
   }
-
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Home.dart';
+import 'package:easyweather/home.dart';
 
 void main() async{
   runApp(const MyApp());
