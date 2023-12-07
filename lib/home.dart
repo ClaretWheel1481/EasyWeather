@@ -1,9 +1,11 @@
-import 'package:easyweather/Search.dart';
+import 'package:easyweather/search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:easyweather/function.dart';
 
-final Mycontroller controller = Get.put(Mycontroller());
+List<String> cityList = [];
+
+Mycontroller controller = Get.put(Mycontroller());
 
 class Mycontroller extends GetxController{
   var tempera = ''.obs; //当前温度
@@ -16,6 +18,7 @@ class Mycontroller extends GetxController{
   var windpower = ''.obs; //风力
   var winddirection = ''.obs; //风向
   var locality = ''.obs;  //定位所在市、区
+  var cityid = '0'; //市、区ID
 }
 
 class MyApp extends StatelessWidget {
@@ -42,7 +45,6 @@ class MyHomePage extends StatefulWidget {
 
 
 class _MyHomePageState extends State<MyHomePage> {
-  final Mycontroller controller = Get.put(Mycontroller());
 
   Widget _buildChild() =>ListView(    //侧边栏
     padding: EdgeInsets.zero,
@@ -52,13 +54,37 @@ class _MyHomePageState extends State<MyHomePage> {
             image: DecorationImage(image: AssetImage('assets/images/1.jpg'),
                 fit: BoxFit.cover),
           ),
-          child: Text('EasyWeather',style: TextStyle(fontSize:32,color: Color.fromRGBO(255, 140, 210, 1)),
-          )
+          child: Text('EasyWeather',style: TextStyle(fontSize:32,color: Color.fromRGBO(255, 140, 210, 1)))
       ),
       ExpansionTile(
-        leading: Icon(Icons.apartment_outlined),
+        leading: const Icon(Icons.apartment_outlined),
         title: const Text('城市选择'),
-        children: [],
+        children: [
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: cityList.length,
+            itemBuilder: (context,index){
+              //TODO: 重复的城市名不保存
+              return ListTile(
+                leading: const Icon(Icons.location_on),
+                title: Text(cityList[index]),
+                onTap: (){
+                  controller.locality.value = cityList[index];
+                  getLocationWeather();
+                  Get.back();
+                  saveData();
+                },
+                onLongPress: (){
+                  setState(() {
+                    Get.snackbar("通知", "您已删除${cityList[index]}！");
+                    cityList.remove(cityList[index]);
+                    saveData();
+                  });
+                },
+              );
+            }
+          )
+        ],
       ),
       ExpansionTile(
         leading: const Icon(Icons.brightness_4),
@@ -98,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     applicationVersion: 'v0.0.3',
                     applicationName: 'EasyWeather',
                     children: <Widget>[
-                      Text('EasyWeather 数据来源 高德地图')
+                      Text('EasyWeather数据来源高德开放平台')
                     ],
                   );
                 }
@@ -136,7 +162,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: _buildChild()
       ),
       body:const Center(
-        child: Text('请先进行"搜索城市"操作后，点击想查看的城市。'),
+        child: Text('请先进行左上角"搜索"后，点击想查看的城市。'),
       ),
     )
         :
@@ -147,8 +173,8 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: <Widget>[
           IconButton(
             onPressed: () {
-              loadnow();
-              loadall();
+              getNowWeather();
+              getNowWeatherAll();
             },
             icon: const Icon(Icons.refresh)
           ),
@@ -180,7 +206,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return ListView(
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(top:20),
+          padding: const EdgeInsets.only(top:20),
         ),
         Center(
           child:Obx(()=>

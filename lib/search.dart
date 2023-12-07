@@ -1,37 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:easyweather/home.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-
-var cityid = '0';
-
-void getData() async {    //解析查询天气Json
-    var url = Uri.parse('https://restapi.amap.com/v3/config/district?keywords=${controller.query}&subdistrict=0&key=ed5b8f909739b3b48b40b2f220993fd9&extensions=base');
-    var response = await http.get(url);
-    final Map<String,dynamic>jsonData = json.decode(response.body);
-    controller.cityname.value = jsonData['districts'][0]['name'];
-    cityid= jsonData['districts'][0]['adcode'];
-}
-
-void loadnow() async{    //获取当前位置与现在天气
-  var url = Uri.parse('https://restapi.amap.com/v3/weather/weatherInfo?city=$cityid&key=ed5b8f909739b3b48b40b2f220993fd9&extensions=base');
-  var response = await http.get(url);
-  Map<String,dynamic> temper = json.decode(response.body);
-  controller.tempera.value = temper['lives'][0]['temperature'];
-  controller.weather.value = temper['lives'][0]['weather'];
-  controller.winddirection.value = temper['lives'][0]['winddirection'];
-  controller.windpower.value = temper['lives'][0]['windpower'];
-  controller.humidity.value = temper['lives'][0]['humidity'];
-}
-
-void loadall() async{    //获取所有天气信息
-  var url = Uri.parse('https://restapi.amap.com/v3/weather/weatherInfo?city=$cityid&key=ed5b8f909739b3b48b40b2f220993fd9&extensions=all');
-  var response = await http.get(url);
-  Map<String,dynamic> temper = json.decode(response.body);
-  controller.hightemp1.value = temper['forecasts'][0]['casts'][0]['daytemp'];
-  controller.lowtemp1.value = temper['forecasts'][0]['casts'][0]['nighttemp'].toString();
-}
+import 'package:easyweather/function.dart';
 
 class Search extends StatefulWidget{
   const Search({super.key});
@@ -40,12 +10,6 @@ class Search extends StatefulWidget{
 }
 
 class SearchState extends State<Search>{
-
-  @override
-  void initState(){
-    super.initState();
-    getData();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,8 +40,11 @@ class SearchState extends State<Search>{
         onTap: () async{
             Get.back();
             setState(() {
-              loadnow();
-              loadall();
+              getNowWeather();
+              getNowWeatherAll();
+              addCityToList(cityList, controller.cityname.value);
+              // cityList.add(controller.cityname.value);
+              saveData();
             });
         },
       )

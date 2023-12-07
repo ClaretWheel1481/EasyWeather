@@ -1,16 +1,33 @@
 # EasyWeather
 
-EasyWeather by claret
+EasyWeather by ClaretWheel1481
 
+## Warning
+❗️Only suitable for use in Chinese Mainland, Hong Kong, Macao and Taiwan.<br>
+❗️Requires Google Location Services to quickly obtain your location.<br>
+❗️Only suitable for running on Android 9.0 and above.
 ## Getting Started
+Some of the features have already been implemented.
+<br>
+### Feature：<br>
+<input type="checkbox" disabled checked>
+Current weather query
+<br>
+<input type="checkbox" disabled checked>
+Store cities in the list
+<br>
+<input type="checkbox" disabled>
+Future weather
+<br>
+<input type="checkbox" disabled>
+Variable weather icons
+<br>
+<input type="checkbox" disabled>
+Variable weather background
+<br>
+<input type="checkbox" disabled checked>
+Dark Mode
+<br>
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Screenshot
+![Screenshot](/assets/images/example.png)
