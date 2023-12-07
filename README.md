@@ -30,4 +30,4 @@ Dark Mode
 <br>
 
 ## Screenshot
-![Screenshot](/assets/images/example.png)
+<img src="/assets/images/example.png" width="30%">
