@@ -10,22 +10,22 @@ EasyWeather by ClaretWheel1481
 Some of the features have already been implemented.
 <br>
 ### Feature：<br>
-<input type="checkbox" disabled checked>
+🗹
 Current weather query
 <br>
-<input type="checkbox" disabled checked>
+🗹
 Store cities in the list
 <br>
-<input type="checkbox" disabled>
+🗷
 Future weather
 <br>
-<input type="checkbox" disabled>
+🗷
 Variable weather icons
 <br>
-<input type="checkbox" disabled>
+🗷
 Variable weather background
 <br>
-<input type="checkbox" disabled checked>
+🗹
 Dark Mode
 <br>
 
