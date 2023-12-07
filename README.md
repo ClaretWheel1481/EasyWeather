@@ -5,8 +5,9 @@ EasyWeather by ClaretWheel1481
 The data is sourced from the Gaode Open Platform.
 ## ⚠️Warning
 ❗️Only suitable for use in Chinese Mainland, Hong Kong, Macao and Taiwan.<br>
-❗️Requires Google Location Services to quickly obtain your location.<br>
-❗️Only suitable for running on Android 9.0 and above.
+❗️Only suitable for running on Android 9.0 and above.<br>
+❗️Requires Google Location Services to quickly obtain your location.
+
 ## ➡️Getting Started
 Some of the features have already been implemented.
 <br>
