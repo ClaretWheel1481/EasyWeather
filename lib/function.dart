@@ -105,6 +105,6 @@ void addCityToList(List<String> list, String element) {
   if (!list.contains(element)) {
     list.add(element);
   } else{
-    Get.snackbar("通知", "您已经添加了$element在城市列表里了，如果要删除请在城市列表中长按该城市。",duration: const Duration(seconds: 2));
+    Get.snackbar("通知", "您已经添加了$element在城市列表里了，如果要删除请在城市列表中长按该城市。",duration: const Duration(seconds: 1));
   }
 }

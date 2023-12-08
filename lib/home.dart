@@ -48,7 +48,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   final Map<String,IconData> weatherIcons = {
-    '晴' : CupertinoIcons.sunset,
+    '晴' : Icons.sunny,
     '多云' : CupertinoIcons.cloud,
     '阴' : CupertinoIcons.cloud,
     '小雨' : CupertinoIcons.cloud_rain,
@@ -167,7 +167,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
     ),
       drawer: Drawer(
-        width: MediaQuery.of(context).size.width * 0.8,
+        width: MediaQuery.of(context).size.width * 0.6,
         elevation: 3,
         child: _buildChild()
       ),
@@ -203,7 +203,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       drawer: Drawer(
-        width: MediaQuery.of(context).size.width * 0.7,
+        width: MediaQuery.of(context).size.width * 0.6,
         elevation: 3,
         child: _buildChild(),
       ),
