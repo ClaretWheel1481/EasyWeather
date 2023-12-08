@@ -38,24 +38,24 @@ void requestLocationPermission() async {    //启用定位权限并检查
   var status = await Permission.location.request();
   if (status.isGranted) {
     try {     //获取经纬度转换为城市
-      Get.snackbar("通知","获取您的定位中，请稍后。");
+      Get.snackbar("通知","获取您的定位中，请稍后。",duration: const Duration(seconds: 2));
       Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
       Placemark place = placemarks[0];
       controller.locality.value = place.locality!;
       getLocationWeather();
-      Get.snackbar("通知","获取成功！您的位置为${controller.locality}");
+      Get.snackbar("通知","获取成功！您的位置为${controller.locality}",duration: const Duration(seconds: 2));
     } catch (e) {
       if (e is LocationServiceDisabledException) {
-        Get.snackbar("错误", "您没有启用设备的定位服务。");
+        Get.snackbar("错误", "您没有启用设备的定位服务。",duration: const Duration(seconds: 2));
       }else if(e is PositionUpdateException){
-        Get.snackbar("错误", "位置获取失败。");
+        Get.snackbar("错误", "位置获取失败。",duration: const Duration(seconds: 2));
       }
     }
   } else if (status.isDenied) {
-    Get.snackbar("错误", "您拒绝了EasyWeather的定位权限！");
+    Get.snackbar("错误", "您拒绝了EasyWeather的定位权限！",duration: const Duration(seconds: 2));
   } else if (status.isPermanentlyDenied) {
-    Get.snackbar("错误", "您拒绝了EasyWeather的定位权限！");
+    Get.snackbar("错误", "您拒绝了EasyWeather的定位权限！",duration: const Duration(seconds: 2));
   }
 }
 
@@ -105,6 +105,6 @@ void addCityToList(List<String> list, String element) {
   if (!list.contains(element)) {
     list.add(element);
   } else{
-    Get.snackbar("通知", "您已经添加了${element}在城市列表里了，如果要删除请在城市列表中长按该城市。");
+    Get.snackbar("通知", "您已经添加了$element在城市列表里了，如果要删除请在城市列表中长按该城市。",duration: const Duration(seconds: 2));
   }
 }

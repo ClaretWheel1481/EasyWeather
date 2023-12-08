@@ -1,9 +1,10 @@
 import 'package:easyweather/search.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:easyweather/function.dart';
 
-List<String> cityList = [];
+List<String> cityList = []; //数据持久化天气列表
 
 Mycontroller controller = Get.put(Mycontroller());
 
@@ -46,6 +47,16 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  final Map<String,IconData> weatherIcons = {
+    '晴' : CupertinoIcons.sunset,
+    '多云' : CupertinoIcons.cloud,
+    '阴' : CupertinoIcons.cloud,
+    '小雨' : CupertinoIcons.cloud_rain,
+    '中雨' : CupertinoIcons.cloud_rain,
+    '大雨' : CupertinoIcons.cloud_rain,
+    '暴雨' : CupertinoIcons.cloud_rain,
+  };
+
   Widget _buildChild() =>ListView(    //侧边栏
     padding: EdgeInsets.zero,
     children:  <Widget>[
@@ -64,7 +75,6 @@ class _MyHomePageState extends State<MyHomePage> {
             shrinkWrap: true,
             itemCount: cityList.length,
             itemBuilder: (context,index){
-              //TODO: 重复的城市名不保存
               return ListTile(
                 leading: const Icon(Icons.location_on),
                 title: Text(cityList[index]),
@@ -76,8 +86,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 onLongPress: (){
                   setState(() {
-                    Get.snackbar("通知", "您已删除${cityList[index]}！");
                     cityList.remove(cityList[index]);
+                    Get.snackbar("通知", "您已删除${cityList[index]}！",duration: const Duration(seconds: 2));
                     saveData();
                   });
                 },
@@ -121,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 context: context,
                 builder:(context){
                   return const AboutDialog(
-                    applicationVersion: 'v0.0.3',
+                    applicationVersion: 'v1.0.1',
                     applicationName: 'EasyWeather',
                     children: <Widget>[
                       Text('EasyWeather数据来源高德开放平台')
@@ -211,16 +221,16 @@ class _MyHomePageState extends State<MyHomePage> {
         Center(
           child:Obx(()=>
           Text.rich(TextSpan(children: <InlineSpan>[
-                const WidgetSpan(child: SizedBox(width: 18,height: 30,child: Icon(Icons.location_on),)),
-                TextSpan(text:" ${controller.cityname}",style: const TextStyle(fontSize: 28)),
+            const WidgetSpan(child: SizedBox(width: 18,height: 30,child: Icon(Icons.location_on),)),
+            TextSpan(text:" ${controller.cityname}",style: const TextStyle(fontSize: 28)),
           ])),
           )
         ),
         Center(
           child:Obx(()=>
           Text.rich(TextSpan(children: <InlineSpan>[
-                const WidgetSpan(child: SizedBox(child: Icon(Icons.cloud),)),
-                TextSpan(text:" "+'${controller.weather}',style: const TextStyle(fontSize: 20)),
+            WidgetSpan(child: SizedBox(child: Icon(weatherIcons[controller.weather.value]),)),
+            TextSpan(text:" ${controller.weather}",style: const TextStyle(fontSize: 20)),
           ])),
           )
         ),
@@ -230,8 +240,8 @@ class _MyHomePageState extends State<MyHomePage> {
         Center(
           child:Obx(()=>
           Text.rich(TextSpan(children: <InlineSpan>[
-                TextSpan(text:'${controller.tempera}',style: const TextStyle(fontSize: 108)),
-                const TextSpan(text:"°",style: TextStyle(fontSize: 108)),
+            TextSpan(text:'${controller.tempera}',style: const TextStyle(fontSize: 108)),
+            const TextSpan(text:"°",style: TextStyle(fontSize: 108)),
           ])),
           )
         ),

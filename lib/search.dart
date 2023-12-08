@@ -43,7 +43,6 @@ class SearchState extends State<Search>{
               getNowWeather();
               getNowWeatherAll();
               addCityToList(cityList, controller.cityname.value);
-              // cityList.add(controller.cityname.value);
               saveData();
             });
         },
