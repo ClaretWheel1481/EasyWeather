@@ -4,9 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:easyweather/function.dart';
 
+
 List<String> cityList = []; //数据持久化天气列表
 
 Mycontroller controller = Get.put(Mycontroller());
+
+final Map<String,IconData> weatherIcons = {
+    '晴' : Icons.sunny,
+    '多云' : Icons.cloud,
+    '阴' : CupertinoIcons.cloud,
+    '小雨' : CupertinoIcons.cloud_rain,
+    '中雨' : CupertinoIcons.cloud_rain,
+    '大雨' : CupertinoIcons.cloud_rain,
+    '暴雨' : CupertinoIcons.cloud_rain,
+    '霾' : CupertinoIcons.infinite,
+    '雾' : CupertinoIcons.cloud_fog_fill,
+    '雨夹雪' : CupertinoIcons.cloud_sleet,
+};
 
 class Mycontroller extends GetxController{
   var tempera = ''.obs; //当前温度
@@ -47,17 +61,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  final Map<String,IconData> weatherIcons = {
-    '晴' : Icons.sunny,
-    '多云' : CupertinoIcons.cloud,
-    '阴' : CupertinoIcons.cloud,
-    '小雨' : CupertinoIcons.cloud_rain,
-    '中雨' : CupertinoIcons.cloud_rain,
-    '大雨' : CupertinoIcons.cloud_rain,
-    '暴雨' : CupertinoIcons.cloud_rain,
-  };
-
-  Widget _buildChild() =>ListView(    //侧边栏
+  Widget _buildDrawer() =>ListView(    //侧边栏
     padding: EdgeInsets.zero,
     children:  <Widget>[
       const DrawerHeader(
@@ -69,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       ExpansionTile(
         leading: const Icon(Icons.apartment_outlined),
-        title: const Text('城市选择'),
+        title: const Text('城市列表'),
         children: [
           ListView.builder(
             shrinkWrap: true,
@@ -86,8 +90,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 onLongPress: (){
                   setState(() {
+                    showSnackbar("通知", "您已删除${cityList[index]}！");
                     cityList.remove(cityList[index]);
-                    Get.snackbar("通知", "您已删除${cityList[index]}！",duration: const Duration(seconds: 2));
                     saveData();
                   });
                 },
@@ -131,7 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 context: context,
                 builder:(context){
                   return const AboutDialog(
-                    applicationVersion: 'v1.0.1',
+                    applicationVersion: 'v1.0.2',
                     applicationName: 'EasyWeather',
                     children: <Widget>[
                       Text('EasyWeather数据来源高德开放平台')
@@ -169,10 +173,10 @@ class _MyHomePageState extends State<MyHomePage> {
       drawer: Drawer(
         width: MediaQuery.of(context).size.width * 0.6,
         elevation: 3,
-        child: _buildChild()
+        child: _buildDrawer()
       ),
       body:const Center(
-        child: Text('请先进行左上角"搜索"后，点击想查看的城市。'),
+        child: Text('请先点击左上角"搜索"后，点击想查看的城市。'),
       ),
     )
         :
@@ -181,13 +185,6 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary.withOpacity(0.1),
         title: Text(widget.title),
         actions: <Widget>[
-          IconButton(
-            onPressed: () {
-              getNowWeather();
-              getNowWeatherAll();
-            },
-            icon: const Icon(Icons.refresh)
-          ),
           IconButton(
             onPressed: () async {
               requestLocationPermission();
@@ -205,13 +202,15 @@ class _MyHomePageState extends State<MyHomePage> {
       drawer: Drawer(
         width: MediaQuery.of(context).size.width * 0.6,
         elevation: 3,
-        child: _buildChild(),
+        child: _buildDrawer(),
       ),
-      body: _getWeatherBody(),
+      body: _buildBody(),
       )
     );
   }
 
+
+  // 加载数据成功Body
   Widget _getWeatherBody(){ //获取天气后改变的主页面
     return ListView(
       children: <Widget>[
@@ -289,5 +288,20 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ],
     );
+  }
+
+  // 加载中Body
+  Widget _notYetGetWeatherBody(){
+    return const Center(
+      child: CircularProgressIndicator(),
+    );
+  }
+
+  // 加载数据成功/加载中Body
+  Widget _buildBody(){
+    if(controller.hightemp1.value == "" && controller.cityname.value != ""){
+      return _notYetGetWeatherBody();
+    }
+    return _getWeatherBody();
   }
 }

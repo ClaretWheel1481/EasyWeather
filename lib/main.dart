@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:easyweather/home.dart';
 
 void main() async{
-  //EasyWeather！启动！
+  // EasyWeather！启动！
   runApp(const MyApp());
 
   // 启动后数据读取处理
@@ -13,7 +13,7 @@ void main() async{
   Future<String> futureCityName = getCityName();
   controller.locality.value = await futureCityName;
 
-  //避免debug时出错
+  // 优化第一次启动与正常启动
   if(controller.locality.value != ''){
     getLocationWeather();
   }else{
