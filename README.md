@@ -21,7 +21,7 @@ Store cities in the list
 🔲
 Future weather
 <br>
-🔲
+☑️
 Variable weather icons
 <br>
 🔲
@@ -30,6 +30,7 @@ Variable weather background
 ☑️
 Dark Mode
 <br>
+................
 
 ## 📷Screenshot
 <img src="./assets/images/example.png" width="40%">
