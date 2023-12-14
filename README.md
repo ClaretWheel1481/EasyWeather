@@ -1,5 +1,10 @@
-# EasyWeather
+<p align="center">
+    <a href="https://github.com/ClaretWheel1481/easyweather">
+        <img src="./assets/images/easyweather.png" height="12%"/>
+    </a>
+</p>
 
+# EasyWeather
 EasyWeather by ClaretWheel1481
 <br>
 The data is sourced from the Gaode Open Platform.
