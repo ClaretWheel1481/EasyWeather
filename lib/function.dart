@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
+import 'package:date_format/date_format.dart';
 
 void getData() async {    //解析查询城市信息
     var url = Uri.parse('http://43.138.219.71/v1/data/baseCityInfo/${controller.query}');
@@ -30,9 +31,28 @@ void getNowWeather() async{    //获取当前天气
 void getNowWeatherAll() async{    //获取所有天气信息
   var url = Uri.parse('http://43.138.219.71/v1/data/allWeatherInfo/${controller.cityid}');
   var response = await http.get(url);
-  Map<String,dynamic> temper = json.decode(response.body);
-  controller.hightemp1.value = temper['forecasts'][0]['casts'][0]['daytemp'];
-  controller.lowtemp1.value = temper['forecasts'][0]['casts'][0]['nighttemp'];
+  Map<String,dynamic> temper2 = json.decode(response.body);
+  controller.hightemp.value = temper2['forecasts'][0]['casts'][0]['daytemp'];
+  controller.lowtemp.value = temper2['forecasts'][0]['casts'][0]['nighttemp'];
+
+  controller.day1weather.value = temper2['forecasts'][0]['casts'][1]['dayweather'];
+  controller.day1hightemp.value = temper2['forecasts'][0]['casts'][1]['daytemp'];
+  controller.day1lowtemp.value = temper2['forecasts'][0]['casts'][1]['nighttemp'];
+  controller.day1date.value =formatDate(DateTime.parse(temper2['forecasts'][0]['casts'][1]['date']), [mm,'-',dd]);
+
+  controller.day2weather.value = temper2['forecasts'][0]['casts'][2]['dayweather'];
+  controller.day2hightemp.value = temper2['forecasts'][0]['casts'][2]['daytemp'];
+  controller.day2lowtemp.value = temper2['forecasts'][0]['casts'][2]['nighttemp'];
+  controller.day2date.value =formatDate(DateTime.parse(temper2['forecasts'][0]['casts'][2]['date']), [mm,'-',dd]);
+
+  controller.day3weather.value = temper2['forecasts'][0]['casts'][3]['dayweather'];
+  controller.day3hightemp.value = temper2['forecasts'][0]['casts'][3]['daytemp'];
+  controller.day3lowtemp.value = temper2['forecasts'][0]['casts'][3]['nighttemp'];
+  controller.day3date.value =formatDate(DateTime.parse(temper2['forecasts'][0]['casts'][3]['date']), [mm,'-',dd]);
+
+  controller.day1week.value = temper2['forecasts'][0]['casts'][1]['week'];
+  controller.day2week.value = temper2['forecasts'][0]['casts'][2]['week'];
+  controller.day3week.value = temper2['forecasts'][0]['casts'][3]['week'];
 }
 
 void getLocationWeather() async {   //根据定位或保存的城市信息获取天气情况
@@ -41,21 +61,8 @@ void getLocationWeather() async {   //根据定位或保存的城市信息获取
   final Map<String,dynamic>jsonData = json.decode(response.body);
   controller.cityname.value = jsonData['districts'][0]['name'];
   controller.cityid = jsonData['districts'][0]['adcode'];
-
-  url = Uri.parse('http://43.138.219.71/v1/data/baseWeatherInfo/${controller.cityid}');
-  response = await http.get(url);
-  Map<String,dynamic> temper = json.decode(response.body);
-  controller.tempera.value = temper['lives'][0]['temperature'];
-  controller.weather.value = temper['lives'][0]['weather'];
-  controller.winddirection.value = temper['lives'][0]['winddirection'];
-  controller.windpower.value = temper['lives'][0]['windpower'];
-  controller.humidity.value = temper['lives'][0]['humidity'];
-
-  url = Uri.parse('http://43.138.219.71/v1/data/allWeatherInfo/${controller.cityid}');
-  response = await http.get(url);
-  Map<String,dynamic> temper2 = json.decode(response.body);
-  controller.hightemp1.value = temper2['forecasts'][0]['casts'][0]['daytemp'];
-  controller.lowtemp1.value = temper2['forecasts'][0]['casts'][0]['nighttemp'];
+  getNowWeather();
+  getNowWeatherAll();
 }
 
 void requestLocationPermission() async {    //启用定位权限并检查
@@ -69,7 +76,7 @@ void requestLocationPermission() async {    //启用定位权限并检查
       controller.locality.value = place.locality!;
       getLocationWeather();
       addCityToList(cityList, controller.locality.value);
-      showSnackbar("通知","获取成功！您的位置为${controller.locality}");
+      saveData();
     } catch (e) {
       if (e is LocationServiceDisabledException) {
         showSnackbar("错误", "您没有启用设备的定位服务。");
@@ -91,6 +98,7 @@ void saveData() async {
   await prefs.setString('cityname', controller.locality.value);
 }
 
+//TODO: 深色模式数据持久化
 //数据cityList、cityname读取
 Future<List<String>> getList() async {
   final prefs = await SharedPreferences.getInstance();
@@ -113,5 +121,5 @@ void addCityToList(List<String> list, String element) {
 
 //减少工作量、提升可读性的Snackbar
 void showSnackbar(String title,String content){
-  Get.snackbar(title, content,duration: const Duration(seconds: 3));
+  Get.snackbar(title, content,duration: const Duration(milliseconds: 2200));
 }

@@ -12,7 +12,7 @@ void main() async{
 
   Future<String> futureCityName = getCityName();
   controller.locality.value = await futureCityName;
-
+  
   // 优化第一次启动与正常启动
   if(controller.locality.value != ''){
     getLocationWeather();

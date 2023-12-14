@@ -18,19 +18,29 @@ Current weather query
 ☑️
 Store cities in the list
 <br>
-🔲
-Future weather
+☑️
+Weather forecast for the next 3 days.
 <br>
 ☑️
 Variable weather icons
 <br>
+☑️
+Dark Mode
+<br>
 🔲
 Variable weather background
 <br>
-☑️
-Dark Mode
+🔲
+Dangerous weather warning
+<br>
+🔲
+i18n support
+<br>
+🔲
+Multinational weather service support
 <br>
 ................
 
 ## 📷Screenshot
 <img src="./assets/images/example.png" width="40%">
+<img src="./assets/images/example_dark.png" width="40%">
