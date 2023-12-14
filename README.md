@@ -47,5 +47,5 @@ Multinational weather service support
 ................
 
 ## 📷Screenshot
-<img src="./assets/images/example.png" width="40%">
+<img src="./assets/images/example_light.png" width="40%">
 <img src="./assets/images/example_dark.png" width="40%">
