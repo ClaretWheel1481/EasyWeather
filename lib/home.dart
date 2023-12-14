@@ -387,7 +387,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Text.rich(TextSpan(children: <InlineSpan>[
                     const TextSpan(text:"  ",style: TextStyle(fontSize: 24)),
                     const WidgetSpan(child: SizedBox(width: 18,height: 22,child: Icon(Icons.date_range))),
-                    TextSpan(text:"  ${controller.day1date}  ${weeks[controller.day2week.value]}",style: const TextStyle(fontSize: 17)),
+                    TextSpan(text:"  ${controller.day2date}  ${weeks[controller.day2week.value]}",style: const TextStyle(fontSize: 17)),
                   ]))
                 ],
               ),
@@ -406,7 +406,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Text.rich(TextSpan(children: <InlineSpan>[
                     const TextSpan(text:"  ",style: TextStyle(fontSize: 24)),
                     const WidgetSpan(child: SizedBox(width: 18,height: 22,child: Icon(Icons.date_range))),
-                    TextSpan(text:"  ${controller.day1date}  ${weeks[controller.day3week.value]}",style: const TextStyle(fontSize: 17)),
+                    TextSpan(text:"  ${controller.day3date}  ${weeks[controller.day3week.value]}",style: const TextStyle(fontSize: 17)),
                   ]))
                 ],
               ),
