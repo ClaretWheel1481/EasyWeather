@@ -6,7 +6,9 @@ import 'package:easyweather/function.dart';
 
 List<String> cityList = []; //数据持久化天气列表
 
+//伟大的controller!
 Mycontroller1 controller = Get.put(Mycontroller1());
+MyController2 scrollAppbarController = Get.put(MyController2());
 
 Map<String,IconData> weatherIcons = {
     '晴' : Icons.sunny,
@@ -72,15 +74,43 @@ class Mycontroller1 extends GetxController{
   var day3date = ''.obs;  //大后日日期
 }
 
+class MyController2 extends GetxController {
+
+  var appBarTitle = 'EasyWeather'.obs;
+
+  ScrollController scrollController = ScrollController();
+
+  @override
+  void onInit() {
+    super.onInit();
+    scrollController.addListener(() {
+      if (scrollController.offset < 80) {
+        appBarTitle.value = 'EasyWeather';
+      } else if (scrollController.offset < 200) {
+        appBarTitle.value = controller.cityname.value;
+      }
+    });
+  }
+
+  @override
+  void onClose() {
+    scrollController.dispose();
+    super.onClose();
+  }
+}
+
 class MyApp extends StatelessWidget {
 
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'EasyWeather',
-      theme: ThemeData.light(useMaterial3: true),
-      darkTheme: ThemeData.dark(useMaterial3: true),
+      theme: ThemeData.light(
+        useMaterial3: true,
+      ),
+      darkTheme: ThemeData.dark(
+        useMaterial3: true,
+      ),
       themeMode: ThemeMode.system,
       home: const MyHomePage(title: 'EasyWeather'),
     );
@@ -121,7 +151,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
     ),
       drawer: Drawer(
-        width: MediaQuery.of(context).size.width * 0.6,
+        width: MediaQuery.of(context).size.width * 0.65,
         elevation: 3,
         child: _buildDrawer()
       ),
@@ -133,7 +163,7 @@ class _MyHomePageState extends State<MyHomePage> {
     Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary.withOpacity(0.1),
-        title: Text(widget.title),
+        title: Obx(() => Text(scrollAppbarController.appBarTitle.value)),
         actions: <Widget>[
           IconButton(
             onPressed: () async {
@@ -167,7 +197,7 @@ class _MyHomePageState extends State<MyHomePage> {
             image: DecorationImage(image: AssetImage('assets/images/1.jpg'),
                 fit: BoxFit.cover),
           ),
-          child: Text('EasyWeather',style: TextStyle(fontSize:32,color: Color.fromRGBO(255, 140, 210, 1)))
+          child: Text('EasyWeather',style: TextStyle(fontSize:30,color: Color.fromRGBO(11, 129, 197, 1)))
       ),
       ExpansionTile(
         leading: const Icon(Icons.apartment_outlined),
@@ -200,7 +230,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       ExpansionTile(
         leading: const Icon(Icons.brightness_4),
-        title: const Text('深色/浅色模式'),
+        title: const Text('主题'),
         children: [
           ListTile(
             title: const Text('浅色'),
@@ -233,7 +263,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 context: context,
                 builder:(context){
                   return const AboutDialog(
-                    applicationVersion: 'v1.0.3',
+                    applicationIcon: Image(image: AssetImage('assets/images/easyweather.png'),width: 50,),
+                    applicationVersion: 'v1.0.4',
                     applicationName: 'EasyWeather',
                     children: <Widget>[
                       Text('EasyWeather数据来源高德开放平台、和风天气。')
@@ -248,6 +279,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _getWeatherBody(){ //获取天气后改变的主页面
     return ListView(
+      controller: scrollAppbarController.scrollController,
       children: <Widget>[
         Container(
           padding: const EdgeInsets.only(top:20),
@@ -268,6 +300,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ])),
           )
         ),
+        // TODO:危险天气预警
         Container(
           padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.2),
         ),
@@ -275,7 +308,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child:Obx(()=>
           Text.rich(TextSpan(children: <InlineSpan>[
             TextSpan(text:'${controller.tempera}',style: const TextStyle(fontSize: 108)),
-            const TextSpan(text:"°",style: TextStyle(fontSize: 108)),
+            const TextSpan(text:"°",style: TextStyle(fontSize: 118)),
           ])),
           )
         ),
@@ -287,7 +320,7 @@ class _MyHomePageState extends State<MyHomePage> {
           )
         ),
         Container(
-          padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.2),
+          padding: const EdgeInsets.only(top:140),
         ),
         Container(
           margin: EdgeInsets.only(
@@ -314,22 +347,22 @@ class _MyHomePageState extends State<MyHomePage> {
               const Row(
                 crossAxisAlignment:CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text('   风力等级',style: TextStyle(fontSize: 20)),
+                  Text('   风力等级',style: TextStyle(fontSize: 18)),
                   Spacer(flex: 1),
-                  Text('当前风向',style: TextStyle(fontSize: 20)),
+                  Text('当前风向',style: TextStyle(fontSize: 18)),
                   Spacer(flex: 1),
-                  Text('空气湿度   ',style: TextStyle(fontSize: 20)),
+                  Text('空气湿度   ',style: TextStyle(fontSize: 18)),
                 ],
               ),
               Row(
                 children: <Widget>[
-                  const Text('    ',style: TextStyle(fontSize: 25)),
+                  const Text('    ',style: TextStyle(fontSize: 23)),
                   Text('  ${controller.windpower}级',style: const TextStyle(fontSize: 16)),
                   const Spacer(flex: 1),
                   Text('${controller.winddirection}',style: const TextStyle(fontSize: 16)),
                   const Spacer(flex: 1),
                   Text('${controller.humidity}%  ',style: const TextStyle(fontSize: 16)),
-                  const Text('    ',style: TextStyle(fontSize: 25)),
+                  const Text('    ',style: TextStyle(fontSize: 23)),
                 ],
               ),
               Container(  //空白填充
@@ -339,7 +372,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         Container(  //空白填充
-          padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.1),
+          padding: const EdgeInsets.only(top:50),
         ),
         Container(  //未来天气
           margin: EdgeInsets.only(
@@ -368,7 +401,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Text.rich(TextSpan(children: <InlineSpan>[
                     const TextSpan(text:"  ",style: TextStyle(fontSize: 24)),
                     const WidgetSpan(child: SizedBox(width: 18,height: 22,child: Icon(Icons.date_range))),
-                    TextSpan(text:"  ${controller.day1date}  ${weeks[controller.day1week.value]}",style: const TextStyle(fontSize: 17)),
+                    TextSpan(text:"  ${controller.day1date}  ${weeks[controller.day1week.value]}",style: const TextStyle(fontSize: 18)),
                   ]))
                 ],
               ),
@@ -376,8 +409,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: <Widget>[
                   Text.rich(TextSpan(children: <InlineSpan>[
                     const TextSpan(text:"  ",style: TextStyle(fontSize: 24)),
-                    WidgetSpan(child: SizedBox(width: 18,height: 25,child: Icon(weatherIcons[controller.day1weather.value]))),
-                    TextSpan(text:'  ${controller.day1weather}     ${controller.day1lowtemp}° ~ ${controller.day1hightemp}°',style: const TextStyle(fontSize: 25)),
+                    WidgetSpan(child: SizedBox(width: 16,height: 26,child: Icon(weatherIcons[controller.day1weather.value]))),
+                    WidgetSpan(child: ConstrainedBox(constraints: const BoxConstraints(minWidth: 95),child:Container(padding: const EdgeInsets.only(right:40),child: Text('   ${controller.day1weather}',style: const TextStyle(fontSize: 18))))),
+                    TextSpan(text: '     ${controller.day1lowtemp}° ~ ${controller.day1hightemp}°',style: const TextStyle(fontSize: 22)),
                   ])),
                 ],
               ),
@@ -387,7 +421,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Text.rich(TextSpan(children: <InlineSpan>[
                     const TextSpan(text:"  ",style: TextStyle(fontSize: 24)),
                     const WidgetSpan(child: SizedBox(width: 18,height: 22,child: Icon(Icons.date_range))),
-                    TextSpan(text:"  ${controller.day2date}  ${weeks[controller.day2week.value]}",style: const TextStyle(fontSize: 17)),
+                    TextSpan(text:"  ${controller.day2date}  ${weeks[controller.day2week.value]}",style: const TextStyle(fontSize: 18)),
                   ]))
                 ],
               ),
@@ -395,8 +429,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: <Widget>[
                   Text.rich(TextSpan(children: <InlineSpan>[
                     const TextSpan(text:"  ",style: TextStyle(fontSize: 24)),
-                    WidgetSpan(child: SizedBox(width: 18,height: 25,child: Icon(weatherIcons[controller.day2weather.value]))),
-                    TextSpan(text:'  ${controller.day2weather}     ${controller.day2lowtemp}° ~ ${controller.day2hightemp}°',style: const TextStyle(fontSize: 25)),
+                    WidgetSpan(child: SizedBox(width: 16,height: 26,child: Icon(weatherIcons[controller.day2weather.value]))),
+                    WidgetSpan(child: ConstrainedBox(constraints: const BoxConstraints(minWidth: 95),child:Container(padding: const EdgeInsets.only(right:40),child: Text('   ${controller.day2weather}',style: const TextStyle(fontSize: 18))))),
+                    TextSpan(text: '     ${controller.day2lowtemp}° ~ ${controller.day2hightemp}°',style: const TextStyle(fontSize: 22)),
                   ])),
                 ],
               ),
@@ -406,16 +441,17 @@ class _MyHomePageState extends State<MyHomePage> {
                   Text.rich(TextSpan(children: <InlineSpan>[
                     const TextSpan(text:"  ",style: TextStyle(fontSize: 24)),
                     const WidgetSpan(child: SizedBox(width: 18,height: 22,child: Icon(Icons.date_range))),
-                    TextSpan(text:"  ${controller.day3date}  ${weeks[controller.day3week.value]}",style: const TextStyle(fontSize: 17)),
-                  ]))
+                    TextSpan(text:"  ${controller.day3date}  ${weeks[controller.day3week.value]}",style: const TextStyle(fontSize: 18)),
+                  ])),
                 ],
               ),
               Row(
                 children: <Widget>[
                   Text.rich(TextSpan(children: <InlineSpan>[
                     const TextSpan(text:"  ",style: TextStyle(fontSize: 24)),
-                    WidgetSpan(child: SizedBox(width: 18,height: 25,child: Icon(weatherIcons[controller.day3weather.value]))),
-                    TextSpan(text:'  ${controller.day3weather}     ${controller.day3lowtemp}° ~ ${controller.day3hightemp}°',style: const TextStyle(fontSize: 25)),
+                    WidgetSpan(child: SizedBox(width: 16,height: 26,child: Icon(weatherIcons[controller.day3weather.value]))),
+                    WidgetSpan(child: ConstrainedBox(constraints: const BoxConstraints(minWidth: 95),child:Container(padding: const EdgeInsets.only(right:40),child: Text('   ${controller.day3weather}',style: const TextStyle(fontSize: 18))))),
+                    TextSpan(text: '     ${controller.day3lowtemp}° ~ ${controller.day3hightemp}°',style: const TextStyle(fontSize: 22)),
                   ])),
                 ],
               ),
@@ -441,7 +477,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   // 加载数据成功/加载中Body
   Widget _buildBody(){
-    if((controller.hightemp.value == ""||controller.day3weather.value == "") && controller.cityname.value != ""){
+    if((controller.hightemp.value == ''||controller.day3weather.value == '') && controller.cityname.value != ''){
       return _notYetGetWeatherBody();
     }
     return _getWeatherBody();

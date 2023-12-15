@@ -121,5 +121,5 @@ void addCityToList(List<String> list, String element) {
 
 //减少工作量、提升可读性的Snackbar
 void showSnackbar(String title,String content){
-  Get.snackbar(title, content,duration: const Duration(milliseconds: 2200));
+  Get.snackbar(title, content,duration: const Duration(milliseconds: 1500));
 }
