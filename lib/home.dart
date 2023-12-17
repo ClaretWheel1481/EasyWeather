@@ -106,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
         elevation: 3,
         child: _buildDrawer(),
       ),
-      body: _buildBody(),
+      body: _buildLoadBody(),
       )
     );
   }
@@ -134,8 +134,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 title: Text(cityList[index]),
                 onTap: (){
                   controller.locality.value = cityList[index];
-                  getLocationWeather();
                   Get.back();
+                  getLocationWeather();
                   saveData();
                 },
                 onLongPress: (){
@@ -255,7 +255,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           decoration: BoxDecoration(
             color: themeColor(),
-            borderRadius: const BorderRadius.all(Radius.circular(12)),
+            borderRadius: const BorderRadius.all(Radius.circular(15)),
             boxShadow: [boxShadows()]
           ),
           child: Column(
@@ -275,13 +275,13 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Row(
                 children: <Widget>[
-                  const Text('    ',style: TextStyle(fontSize: 23)),
+                  const Text('    ',style: TextStyle(fontSize: 21)),
                   Text('  ${controller.windpower}级',style: const TextStyle(fontSize: 16)),
                   const Spacer(flex: 1),
                   Text('${controller.winddirection}',style: const TextStyle(fontSize: 16)),
                   const Spacer(flex: 1),
                   Text('${controller.humidity}%  ',style: const TextStyle(fontSize: 16)),
-                  const Text('    ',style: TextStyle(fontSize: 23)),
+                  const Text('    ',style: TextStyle(fontSize: 21)),
                 ],
               ),
               Container(  //空白填充
@@ -300,7 +300,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           decoration: BoxDecoration(
             color: themeColor(),
-            borderRadius: const BorderRadius.all(Radius.circular(12)),
+            borderRadius: const BorderRadius.all(Radius.circular(15)),
             boxShadow: [boxShadows()]
           ),
           child: Column(
@@ -388,35 +388,37 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   // 加载数据成功/加载中Body
-  Widget _buildBody(){
-    if((controller.hightemp.value == ''||controller.day3weather.value == '' || controller.locality.value == '') && controller.cityname.value != ''){
-      return _notYetGetWeatherBody();
-    }
+  Widget _buildLoadBody(){
+    getLocationWeather().then((value) {
+      if (value == false) {
+        return _notYetGetWeatherBody();
+      }
+    });
     return _getWeatherBody();
   }
 
   //预警判断
-  Widget _buildWarning(){
-    return Container(
-      margin: EdgeInsets.only(
-        left: MediaQuery.of(context).size.width*0.05,
-        right: MediaQuery.of(context).size.width*0.05
-      ),
-      decoration: BoxDecoration(
-        color: themeColor(),
-        borderRadius: const BorderRadius.all(Radius.circular(12)),
-        boxShadow: [boxShadows()]
-      ),
-      child:Container(
-        padding: const EdgeInsets.all(8),
-        child: Column(
-          children: <Widget>[
-            Text.rich(TextSpan(children: <InlineSpan>[
-              TextSpan(text: "泉州市气象台2023年12月15日21时22分发布大风黄色预警信号：受冷空气影响，预计未来12小时我市沿海有8～9级东北大风。请注意防范！")
-            ]))
-          ],
-        ),
-      ),
-    );
-  }
+  // Widget _buildWarning(){
+  //   return Container(
+  //     margin: EdgeInsets.only(
+  //       left: MediaQuery.of(context).size.width*0.05,
+  //       right: MediaQuery.of(context).size.width*0.05
+  //     ),
+  //     decoration: BoxDecoration(
+  //       color: themeColor(),
+  //       borderRadius: const BorderRadius.all(Radius.circular(15)),
+  //       boxShadow: [boxShadows()]
+  //     ),
+  //     child:Container(
+  //       padding: const EdgeInsets.all(8),
+  //       child: Column(
+  //         children: <Widget>[
+  //           Text.rich(TextSpan(children: <InlineSpan>[
+  //             TextSpan(text: "泉州市气象台2023年12月15日21时22分发布大风黄色预警信号：受冷空气影响，预计未来12小时我市沿海有8～9级东北大风。请注意防范！")
+  //           ])),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 }

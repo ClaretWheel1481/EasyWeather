@@ -8,7 +8,7 @@ import 'dart:convert';
 class weatherController extends GetxController{
   var tempera = ''.obs; //当前温度
   var weather = ''.obs; //天气情况
-  var cityname = ''.obs;  //选中的市或区、县名称
+  var cityname = ''.obs;  //选中的市或区、县名称,用于显示
   var query = "北京".obs; //用于搜索
   var hightemp = ''.obs; //今日最高温度
   var lowtemp = ''.obs;  //今日最低温度

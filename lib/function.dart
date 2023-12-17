@@ -47,7 +47,7 @@ void getNowWeatherAll() async{    //获取所有天气信息
   controller.day3week.value = temper2['forecasts'][0]['casts'][3]['week'];
 }
 
-void getLocationWeather() async {   //根据定位或保存的城市信息获取天气情况
+Future<bool> getLocationWeather() async {   //根据定位或保存的城市信息获取天气情况
   var url = Uri.parse('http://43.138.219.71/v1/data/baseCityInfo/${controller.locality}');
   var response = await http.get(url);
   final Map<String,dynamic>jsonData = json.decode(response.body);
@@ -55,6 +55,7 @@ void getLocationWeather() async {   //根据定位或保存的城市信息获取
   controller.cityid = jsonData['districts'][0]['adcode'];
   getNowWeather();
   getNowWeatherAll();
+  return true;
 }
 
 void requestLocationPermission() async {    //启用定位权限并检查
@@ -62,7 +63,7 @@ void requestLocationPermission() async {    //启用定位权限并检查
   if (status.isGranted) {
     try {     //获取经纬度转换为城市
       showSnackbar("通知","获取您的位置中，请稍后。");
-      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best,forceAndroidLocationManager: true);
       List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
       Placemark place = placemarks[0];
       controller.locality.value = place.locality!;
