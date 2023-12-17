@@ -9,14 +9,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'package:date_format/date_format.dart';
 
-void getData() async {    //解析查询城市信息
-    var url = Uri.parse('http://43.138.219.71/v1/data/baseCityInfo/${controller.query}');
-    var response = await http.get(url);
-    final Map<String,dynamic>jsonData = json.decode(response.body);
-    controller.cityname.value = jsonData['districts'][0]['name'];
-    controller.cityid= jsonData['districts'][0]['adcode'];
-}
-
 void getNowWeather() async{    //获取当前天气
   var url = Uri.parse('http://43.138.219.71/v1/data/baseWeatherInfo/${controller.cityid}');
   var response = await http.get(url);
@@ -91,6 +83,7 @@ void requestLocationPermission() async {    //启用定位权限并检查
   }
 }
 
+//TODO: 深色模式数据持久化
 //数据持久化保存
 void saveData() async {
   final prefs = await SharedPreferences.getInstance();
@@ -98,7 +91,6 @@ void saveData() async {
   await prefs.setString('cityname', controller.locality.value);
 }
 
-//TODO: 深色模式数据持久化
 //数据cityList、cityname读取
 Future<List<String>> getList() async {
   final prefs = await SharedPreferences.getInstance();

@@ -2,24 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:easyweather/home.dart';
 import 'package:easyweather/function.dart';
-import 'dart:async';
+import 'package:easyweather/classes.dart';
 
-// 防抖类
-class Debouncer {
-  final int milliseconds;
-  VoidCallback? action;
-  Timer _timer = Timer(Duration.zero, () {});
-
-  Debouncer({required this.milliseconds});
-
-  run(VoidCallback action) {  
-    // ignore: unnecessary_null_comparison
-    if (_timer != null) {
-      _timer.cancel();
-    }
-    _timer = Timer(Duration(milliseconds: milliseconds), action);
-  }
-}
 
 class Search extends StatefulWidget{
   const Search({super.key});
@@ -28,8 +12,8 @@ class Search extends StatefulWidget{
 }
 
 class SearchState extends State<Search>{
-  // 防抖节流，暂缓0.5s
-  final debouncer = Debouncer(milliseconds: 500);
+  // 防抖节流，暂缓0.2s
+  final debouncer = Debouncer(milliseconds: 200);
 
   @override
   Widget build(BuildContext context) {
@@ -49,27 +33,34 @@ class SearchState extends State<Search>{
           onChanged: (text){
             debouncer.run(() {    // 节流
               controller.query.value = text;
-              setState(() {
-                getData();
-              });
+              cityQueryController.getData(controller.query.value);
             });
           }
         ),
       ),
-      body: ListTile(
-        leading: const Icon(Icons.location_on),
-        title: Obx(()=>Text(controller.cityname.value)),
-        onTap: () async{
-            Get.back();
-            setState(() {
-              getNowWeather();
-              getNowWeatherAll();
-              addCityToList(cityList, controller.cityname.value);
-              saveData();
-              showSnackbar("通知", "成功将${controller.cityname}添加到城市列表中。若需要设置为默认城市，请在城市列表中单击城市。");
-            });
-        },
-      )
+      body: Obx(() {
+              final cityQueryList = cityQueryController.cityQueryList;
+              return ListView.builder(
+                itemCount: cityQueryList.length,
+                itemBuilder: (context, index) {
+                  final city = cityQueryList[index];
+                  return ListTile(
+                    leading: const Icon(Icons.location_on_outlined),
+                    title: Text(city.name),
+                    onTap: () {
+                      controller.cityname.value = city.name;
+                      controller.cityid = city.adcode;
+                      Get.back();
+                      getNowWeather();
+                      getNowWeatherAll();
+                      addCityToList(cityList, controller.cityname.value);
+                      saveData();
+                      showSnackbar("通知", "成功将${controller.cityname}添加到城市列表中。若需要设置为默认城市，请在城市列表中单击城市。");
+                    },
+                  );
+                },
+              );
+            }),
     );
   }
 }

@@ -1,103 +1,17 @@
 import 'package:easyweather/search.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:easyweather/function.dart';
+import 'package:easyweather/controller.dart';
+import 'package:easyweather/widgets.dart';
+import 'package:easyweather/items.dart';
 
 List<String> cityList = []; //数据持久化天气列表
 
 //伟大的controller!
-Mycontroller1 controller = Get.put(Mycontroller1());
-MyController2 scrollAppbarController = Get.put(MyController2());
-
-Map<String,IconData> weatherIcons = {
-    '晴' : Icons.sunny,
-    '多云' : Icons.cloud,
-    '阴' : CupertinoIcons.cloud,
-    '小雨' : CupertinoIcons.cloud_rain,
-    '中雨' : CupertinoIcons.cloud_rain,
-    '大雨' : CupertinoIcons.cloud_rain,
-    '暴雨' : CupertinoIcons.cloud_rain,
-    '霾' : CupertinoIcons.infinite,
-    '雾' : CupertinoIcons.cloud_fog_fill,
-    '雪'  : Icons.snowing,
-    '阵雪'  : Icons.snowing,
-    '小雪'  : Icons.snowing,
-    '中雪': CupertinoIcons.cloud_snow,
-    '大雪': CupertinoIcons.cloud_snow_fill,
-    '暴雪': CupertinoIcons.cloud_snow_fill,
-    '雨夹雪' : CupertinoIcons.cloud_sleet,
-};
-
-Map<String,String> weeks = {
-    '1' : '星期一',
-    '2' : '星期二',
-    '3' : '星期三',
-    '4' : '星期四',
-    '5' : '星期五',
-    '6' : '星期六',
-    '7' : '星期日',
-};
-
-class Mycontroller1 extends GetxController{
-  var tempera = ''.obs; //当前温度
-  var weather = ''.obs; //天气情况
-  var cityname = ''.obs;  //选中的市或区、县名称
-  var query = "北京".obs; //用于搜索
-  var hightemp = ''.obs; //今日最高温度
-  var lowtemp = ''.obs;  //今日最低温度
-  var humidity = ''.obs;  //湿度
-  var windpower = ''.obs; //风力
-  var winddirection = ''.obs; //风向
-  var locality = ''.obs;  //定位所在市、区、及启动保存的城市名
-  var cityid = '0'; //市、区ID
-
-  var day1weather = ''.obs; //明日天气
-  var day2weather = ''.obs; //后日天气
-  var day3weather = ''.obs; //大后日天气
-
-  var day1week = ''.obs;  //明日日期（星期）
-  var day2week = ''.obs;  //后日日期（星期）
-  var day3week = ''.obs;  //大后日日期（星期）
-
-  var day1lowtemp = ''.obs; //明日最低温度
-  var day1hightemp = ''.obs;  //明日最高温度
-
-  var day2lowtemp = ''.obs; //后日最低温度
-  var day2hightemp = ''.obs;  //后日最高温度
-
-  var day3lowtemp = ''.obs; //大后日最低温度
-  var day3hightemp = ''.obs;  //大后日最高温度
-  
-  var day1date = ''.obs;  //明日日期
-  var day2date = ''.obs;  //后日日期
-  var day3date = ''.obs;  //大后日日期
-}
-
-class MyController2 extends GetxController {
-
-  var appBarTitle = 'EasyWeather'.obs;
-
-  ScrollController scrollController = ScrollController();
-
-  @override
-  void onInit() {
-    super.onInit();
-    scrollController.addListener(() {
-      if (scrollController.offset < 80) {
-        appBarTitle.value = 'EasyWeather';
-      } else if (scrollController.offset < 200) {
-        appBarTitle.value = controller.cityname.value;
-      }
-    });
-  }
-
-  @override
-  void onClose() {
-    scrollController.dispose();
-    super.onClose();
-  }
-}
+weatherController controller = Get.put(weatherController());
+animateController scrollAppbarController = Get.put(animateController());
+CityController cityQueryController = Get.put(CityController());
 
 class MyApp extends StatelessWidget {
 
@@ -112,13 +26,13 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       themeMode: ThemeMode.system,
-      home: const MyHomePage(title: 'EasyWeather'),
+      home: MyHomePage(title: 'EasyWeather'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  MyHomePage({super.key, required this.title});
   final String title;
 
   @override
@@ -156,14 +70,22 @@ class _MyHomePageState extends State<MyHomePage> {
         child: _buildDrawer()
       ),
       body:const Center(
-        child: Text('请先点击左上角"搜索"后，点击想查看的城市。'),
+        child: Text('请先点击右上角"搜索"后，点击想查看的城市。'),
       ),
     )
         :
     Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary.withOpacity(0.1),
-        title: Obx(() => Text(scrollAppbarController.appBarTitle.value)),
+        title:AnimatedSwitcher( 
+          duration: const Duration(milliseconds: 150),
+          transitionBuilder: (child, animation) => SizeTransition(
+            sizeFactor: animation,
+            child: child,
+          ),
+          child: Text(scrollAppbarController.appBarTitle.value,
+          key: ValueKey(scrollAppbarController.appBarTitle.value),)
+        ),
         actions: <Widget>[
           IconButton(
             onPressed: () async {
@@ -189,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget _buildDrawer() =>ListView(    //侧边栏
+  Widget _buildDrawer() => ListView(    //侧边栏
     padding: EdgeInsets.zero,
     children:  <Widget>[
       const DrawerHeader(
@@ -248,7 +170,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           ListTile(
             title: const Text('跟随系统设置'),
-            leading: const Icon(Icons.brightness_4_outlined),
+            leading: const Icon(Icons.brightness_4_rounded),
             onTap: (){
               Get.changeThemeMode(ThemeMode.system);
             },
@@ -300,9 +222,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ])),
           )
         ),
-        // TODO:危险天气预警
         Container(
-          padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.2),
+          padding: const EdgeInsets.only(top:140),
         ),
         Center(
           child:Obx(()=>
@@ -322,6 +243,11 @@ class _MyHomePageState extends State<MyHomePage> {
         Container(
           padding: const EdgeInsets.only(top:140),
         ),
+        //TODO:危险天气预警
+        // _buildWarning(),
+        Container(
+          padding: const EdgeInsets.only(top:50),
+        ),
         Container(
           margin: EdgeInsets.only(
             left: MediaQuery.of(context).size.width*0.05,
@@ -330,14 +256,7 @@ class _MyHomePageState extends State<MyHomePage> {
           decoration: BoxDecoration(
             color: themeColor(),
             borderRadius: const BorderRadius.all(Radius.circular(12)),
-            boxShadow: const [
-              BoxShadow(
-                color: Color.fromARGB(52, 0, 0, 0),
-                blurRadius: 4,
-                spreadRadius: 1,
-                offset: Offset(1, 2)
-              )
-            ]
+            boxShadow: [boxShadows()]
           ),
           child: Column(
             children: <Widget>[
@@ -382,14 +301,7 @@ class _MyHomePageState extends State<MyHomePage> {
           decoration: BoxDecoration(
             color: themeColor(),
             borderRadius: const BorderRadius.all(Radius.circular(12)),
-            boxShadow: const [
-              BoxShadow(
-                color: Color.fromARGB(52, 0, 0, 0),
-                blurRadius: 4,
-                spreadRadius: 1,
-                offset: Offset(1, 2)
-              )
-            ]
+            boxShadow: [boxShadows()]
           ),
           child: Column(
             children: <Widget>[
@@ -477,17 +389,34 @@ class _MyHomePageState extends State<MyHomePage> {
 
   // 加载数据成功/加载中Body
   Widget _buildBody(){
-    if((controller.hightemp.value == ''||controller.day3weather.value == '') && controller.cityname.value != ''){
+    if((controller.hightemp.value == ''||controller.day3weather.value == '' || controller.locality.value == '') && controller.cityname.value != ''){
       return _notYetGetWeatherBody();
     }
     return _getWeatherBody();
   }
 
-  // 根据状态改变部分组件的颜色
-  Color themeColor(){
-    if(Get.isDarkMode){
-      return const Color.fromARGB(183, 56, 56, 56);
-    }
-    return const Color.fromARGB(242, 255, 255, 255);
+  //预警判断
+  Widget _buildWarning(){
+    return Container(
+      margin: EdgeInsets.only(
+        left: MediaQuery.of(context).size.width*0.05,
+        right: MediaQuery.of(context).size.width*0.05
+      ),
+      decoration: BoxDecoration(
+        color: themeColor(),
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
+        boxShadow: [boxShadows()]
+      ),
+      child:Container(
+        padding: const EdgeInsets.all(8),
+        child: Column(
+          children: <Widget>[
+            Text.rich(TextSpan(children: <InlineSpan>[
+              TextSpan(text: "泉州市气象台2023年12月15日21时22分发布大风黄色预警信号：受冷空气影响，预计未来12小时我市沿海有8～9级东北大风。请注意防范！")
+            ]))
+          ],
+        ),
+      ),
+    );
   }
 }
