@@ -58,6 +58,14 @@ class animateController extends GetxController {
     });
   }
 
+  void scrollToTop() {
+    scrollController.animateTo(
+      0,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
   @override
   void onClose() {
     scrollController.dispose();

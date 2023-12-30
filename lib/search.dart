@@ -50,12 +50,13 @@ class SearchState extends State<Search>{
                     onTap: () {
                       controller.cityname.value = city.name;
                       controller.cityid = city.adcode;
+                      controller.locality.value = city.name;
                       Get.back();
-                      getNowWeather();
-                      getNowWeatherAll();
+                      getLocationWeather();
+                      scrollAppbarController.scrollToTop();
                       addCityToList(cityList, controller.cityname.value);
                       saveData();
-                      showSnackbar("通知", "成功将${controller.cityname}添加到城市列表中。若需要设置为默认城市，请在城市列表中单击城市。");
+                      showSnackbar("⚠️通知", "已将${controller.cityname}添加到城市列表中。");
                     },
                   );
                 },

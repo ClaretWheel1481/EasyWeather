@@ -62,7 +62,7 @@ void requestLocationPermission() async {    //启用定位权限并检查
   var status = await Permission.location.request();
   if (status.isGranted) {
     try {     //获取经纬度转换为城市
-      showSnackbar("通知","获取您的位置中，请稍后。");
+      showSnackbar("⚠️通知","获取您的位置中，请稍后。");
       Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best,forceAndroidLocationManager: true);
       List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
       Placemark place = placemarks[0];
@@ -72,15 +72,15 @@ void requestLocationPermission() async {    //启用定位权限并检查
       saveData();
     } catch (e) {
       if (e is LocationServiceDisabledException) {
-        showSnackbar("错误", "您没有启用设备的定位服务。");
+        showSnackbar("⚠️错误", "失败，没有启用设备的定位服务。");
       }else{
-        showSnackbar("错误", "位置获取失败。");
+        showSnackbar("⚠️错误", "位置获取失败。");
       }
     }
   } else if (status.isDenied) {
-    showSnackbar("错误", "您拒绝了EasyWeather的定位权限！");
+    showSnackbar("⚠️错误", "您拒绝了EasyWeather的定位权限！");
   } else if (status.isPermanentlyDenied) {
-    showSnackbar("错误", "您拒绝了EasyWeather的定位权限！");
+    showSnackbar("⚠️错误", "您拒绝了EasyWeather的定位权限！");
   }
 }
 
@@ -108,11 +108,11 @@ void addCityToList(List<String> list, String element) {
   if (!list.contains(element)) {
     list.add(element);
   } else{
-    showSnackbar("通知", "您已经添加了$element在城市列表里了，若删除请长按该城市。");
+    showSnackbar("⚠️通知", "$element已在列表内，若删除请长按城市。");
   }
 }
 
 //减少工作量、提升可读性的Snackbar
 void showSnackbar(String title,String content){
-  Get.snackbar(title, content,duration: const Duration(milliseconds: 1500));
+  Get.snackbar(title, content,duration: const Duration(milliseconds: 1500),snackPosition: SnackPosition.TOP);
 }

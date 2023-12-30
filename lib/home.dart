@@ -26,14 +26,13 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       themeMode: ThemeMode.system,
-      home: MyHomePage(title: 'EasyWeather'),
+      home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({super.key, required this.title});
-  final String title;
+  MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -44,11 +43,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => controller.weather.value == '' ? //三目运算判断是否已经获取了城市
+    return Obx(() => controller.cityname.value == '' ? //三目运算判断是否已经获取了城市
     Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary.withOpacity(0.1),
-        title: Text(widget.title),
+        title: const Text("EasyWeather"),
         actions: <Widget>[
           IconButton(
             onPressed: () async {
@@ -70,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: _buildDrawer()
       ),
       body:const Center(
-        child: Text('请先点击右上角"搜索"后，点击想查看的城市。'),
+        child: Text('点击右上角"搜索"，进行搜索城市。'),
       ),
     )
         :
@@ -102,11 +101,11 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       drawer: Drawer(
-        width: MediaQuery.of(context).size.width * 0.6,
+        width: MediaQuery.of(context).size.width * 0.65,
         elevation: 3,
         child: _buildDrawer(),
       ),
-      body: _buildLoadBody(),
+      body: _getWeatherBody(),
       )
     );
   }
@@ -136,11 +135,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   controller.locality.value = cityList[index];
                   Get.back();
                   getLocationWeather();
+                  scrollAppbarController.scrollToTop();
                   saveData();
                 },
                 onLongPress: (){
                   setState(() {
-                    showSnackbar("通知", "您已删除${cityList[index]}！");
+                    showSnackbar("⚠️通知", "已删除${cityList[index]}！");
                     cityList.remove(cityList[index]);
                     saveData();
                   });
@@ -378,23 +378,6 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ],
     );
-  }
-
-  // 加载中Body
-  Widget _notYetGetWeatherBody(){
-    return const Center(
-      child: CircularProgressIndicator(),
-    );
-  }
-
-  // 加载数据成功/加载中Body
-  Widget _buildLoadBody(){
-    getLocationWeather().then((value) {
-      if (value == false) {
-        return _notYetGetWeatherBody();
-      }
-    });
-    return _getWeatherBody();
   }
 
   //预警判断
