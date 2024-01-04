@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+//城市Json格式化类
 class CityInfo {
   final String name;
   final String adcode;

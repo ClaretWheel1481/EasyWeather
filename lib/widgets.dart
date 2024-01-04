@@ -17,7 +17,7 @@ Color themeColor(){
   if(Get.isDarkMode){
     return const Color.fromARGB(183, 56, 56, 56);
   }
-  return const Color.fromARGB(241, 231, 231, 231);
+  return const Color.fromARGB(255, 255, 255, 255);
 }
 
 //未来时间复用代码
@@ -44,5 +44,12 @@ Widget buildRowWeather(RxString lt,RxString ht,String weather){
               TextSpan(text: '     $lt° ~ $ht°',style: const TextStyle(fontSize: 22)),
             ])),
           ],
+  );
+}
+
+//空白填充
+Widget paddingContainer(double insets){
+  return Container(
+    padding: EdgeInsets.only(top:insets),
   );
 }

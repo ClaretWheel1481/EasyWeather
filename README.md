@@ -11,7 +11,6 @@ The data is sourced from the Gaode Open Platform.
 ## ⚠️Warning
 ❗️Only suitable for use in Chinese Mainland, Hong Kong, Macao and Taiwan.<br>
 ❗️Only suitable for running on Android 9.0 and above.<br>
-❗️Requires Google Location Services to quickly obtain your location.
 
 ## ➡️Getting Started
 Some of the features have already been implemented.
@@ -36,13 +35,7 @@ Dark Mode
 Dangerous weather warning
 <br>
 🔲
-Variable weather background
-<br>
-🔲
-i18n support
-<br>
-🔲
-Multinational weather service support
+Custom background
 <br>
 ................
 
