@@ -79,7 +79,7 @@ void requestLocationPermission() async {    //启用定位权限并检查
   if (status.isGranted) {
     try {     //获取经纬度转换为城市
       showSnackbar("⚠️通知","获取您的位置中，请稍后。");
-      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best,forceAndroidLocationManager: true);
       List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
       Placemark place = placemarks[0];
       controller.locality.value = place.locality!;
