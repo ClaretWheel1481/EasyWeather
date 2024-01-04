@@ -5,8 +5,10 @@ import 'package:easyweather/function.dart';
 import 'package:easyweather/controller.dart';
 import 'package:easyweather/widgets.dart';
 import 'package:easyweather/items.dart';
+import 'package:expandable_text/expandable_text.dart';
 
 List<String> cityList = []; //数据持久化天气列表
+bool darkModeBool = false;  //数据持久化深色模式
 
 //伟大的controller!
 weatherController controller = Get.put(weatherController());
@@ -69,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: _buildDrawer()
       ),
       body:const Center(
-        child: Text('点击右上角"搜索"，进行搜索城市。'),
+        child: Text('点击右上角"搜索"，进行搜索城市。\n或点击右上角“定位”，获取您所在的城市。'),
       ),
     )
         :
@@ -121,7 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Text('EasyWeather',style: TextStyle(fontSize:30,color: Color.fromRGBO(11, 129, 197, 1)))
       ),
       ExpansionTile(
-        leading: const Icon(Icons.apartment_outlined),
+        leading: const Icon(Icons.location_city_rounded),
         title: const Text('城市列表'),
         children: [
           ListView.builder(
@@ -159,6 +161,7 @@ class _MyHomePageState extends State<MyHomePage> {
             leading: const Icon(Icons.light_mode),
             onTap: (){
               Get.changeThemeMode(ThemeMode.light);
+              saveData();
             },
           ),
           ListTile(
@@ -166,13 +169,7 @@ class _MyHomePageState extends State<MyHomePage> {
             leading: const Icon(Icons.dark_mode),
             onTap: (){
               Get.changeThemeMode(ThemeMode.dark);
-            },
-          ),
-          ListTile(
-            title: const Text('跟随系统设置'),
-            leading: const Icon(Icons.brightness_4_rounded),
-            onTap: (){
-              Get.changeThemeMode(ThemeMode.system);
+              saveData();
             },
           ),
         ],
@@ -186,7 +183,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 builder:(context){
                   return const AboutDialog(
                     applicationIcon: Image(image: AssetImage('assets/images/easyweather.png'),width: 50,),
-                    applicationVersion: 'v1.0.4',
+                    applicationVersion: 'v1.0.5',
                     applicationName: 'EasyWeather',
                     children: <Widget>[
                       Text('EasyWeather数据来源高德开放平台、和风天气。')
@@ -228,8 +225,8 @@ class _MyHomePageState extends State<MyHomePage> {
         Center(
           child:Obx(()=>
           Text.rich(TextSpan(children: <InlineSpan>[
-            TextSpan(text:'${controller.tempera}',style: const TextStyle(fontSize: 108)),
-            const TextSpan(text:"°",style: TextStyle(fontSize: 118)),
+            TextSpan(text:'${controller.tempera}',style: const TextStyle(fontSize: 115)),
+            const TextSpan(text:"°",style: TextStyle(fontSize: 125)),
           ])),
           )
         ),
@@ -241,10 +238,10 @@ class _MyHomePageState extends State<MyHomePage> {
           )
         ),
         Container(
-          padding: const EdgeInsets.only(top:140),
+          padding: const EdgeInsets.only(top:130),
         ),
-        //TODO:危险天气预警
-        // _buildWarning(),
+        //危险天气预警
+        buildWarning(),
         Container(
           padding: const EdgeInsets.only(top:50),
         ),
@@ -308,65 +305,14 @@ class _MyHomePageState extends State<MyHomePage> {
               Container(  //空白填充
                 padding: const EdgeInsets.only(top:8),
               ),
-              Row(
-                children: <Widget>[
-                  Text.rich(TextSpan(children: <InlineSpan>[
-                    const TextSpan(text:"  ",style: TextStyle(fontSize: 24)),
-                    const WidgetSpan(child: SizedBox(width: 18,height: 22,child: Icon(Icons.date_range))),
-                    TextSpan(text:"  ${controller.day1date}  ${weeks[controller.day1week.value]}",style: const TextStyle(fontSize: 18)),
-                  ]))
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  Text.rich(TextSpan(children: <InlineSpan>[
-                    const TextSpan(text:"  ",style: TextStyle(fontSize: 24)),
-                    WidgetSpan(child: SizedBox(width: 16,height: 26,child: Icon(weatherIcons[controller.day1weather.value]))),
-                    WidgetSpan(child: ConstrainedBox(constraints: const BoxConstraints(minWidth: 95),child:Container(padding: const EdgeInsets.only(right:40),child: Text('   ${controller.day1weather}',style: const TextStyle(fontSize: 18))))),
-                    TextSpan(text: '     ${controller.day1lowtemp}° ~ ${controller.day1hightemp}°',style: const TextStyle(fontSize: 22)),
-                  ])),
-                ],
-              ),
+              buildRowDate(controller.day1date,controller.day1week.value),
+              buildRowWeather(controller.day1lowtemp, controller.day1hightemp,controller.day1weather.value),
               const Divider(),
-              Row(
-                children: <Widget>[
-                  Text.rich(TextSpan(children: <InlineSpan>[
-                    const TextSpan(text:"  ",style: TextStyle(fontSize: 24)),
-                    const WidgetSpan(child: SizedBox(width: 18,height: 22,child: Icon(Icons.date_range))),
-                    TextSpan(text:"  ${controller.day2date}  ${weeks[controller.day2week.value]}",style: const TextStyle(fontSize: 18)),
-                  ]))
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  Text.rich(TextSpan(children: <InlineSpan>[
-                    const TextSpan(text:"  ",style: TextStyle(fontSize: 24)),
-                    WidgetSpan(child: SizedBox(width: 16,height: 26,child: Icon(weatherIcons[controller.day2weather.value]))),
-                    WidgetSpan(child: ConstrainedBox(constraints: const BoxConstraints(minWidth: 95),child:Container(padding: const EdgeInsets.only(right:40),child: Text('   ${controller.day2weather}',style: const TextStyle(fontSize: 18))))),
-                    TextSpan(text: '     ${controller.day2lowtemp}° ~ ${controller.day2hightemp}°',style: const TextStyle(fontSize: 22)),
-                  ])),
-                ],
-              ),
+              buildRowDate(controller.day2date,controller.day2week.value),
+              buildRowWeather(controller.day2lowtemp, controller.day2hightemp,controller.day2weather.value),
               const Divider(),
-              Row(
-                children: <Widget>[
-                  Text.rich(TextSpan(children: <InlineSpan>[
-                    const TextSpan(text:"  ",style: TextStyle(fontSize: 24)),
-                    const WidgetSpan(child: SizedBox(width: 18,height: 22,child: Icon(Icons.date_range))),
-                    TextSpan(text:"  ${controller.day3date}  ${weeks[controller.day3week.value]}",style: const TextStyle(fontSize: 18)),
-                  ])),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  Text.rich(TextSpan(children: <InlineSpan>[
-                    const TextSpan(text:"  ",style: TextStyle(fontSize: 24)),
-                    WidgetSpan(child: SizedBox(width: 16,height: 26,child: Icon(weatherIcons[controller.day3weather.value]))),
-                    WidgetSpan(child: ConstrainedBox(constraints: const BoxConstraints(minWidth: 95),child:Container(padding: const EdgeInsets.only(right:40),child: Text('   ${controller.day3weather}',style: const TextStyle(fontSize: 18))))),
-                    TextSpan(text: '     ${controller.day3lowtemp}° ~ ${controller.day3hightemp}°',style: const TextStyle(fontSize: 22)),
-                  ])),
-                ],
-              ),
+              buildRowDate(controller.day3date,controller.day3week.value),
+              buildRowWeather(controller.day3lowtemp, controller.day3hightemp,controller.day3weather.value),
               Container(  //空白填充
                 padding: const EdgeInsets.only(top:5),
               ),
@@ -381,27 +327,38 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   //预警判断
-  // Widget _buildWarning(){
-  //   return Container(
-  //     margin: EdgeInsets.only(
-  //       left: MediaQuery.of(context).size.width*0.05,
-  //       right: MediaQuery.of(context).size.width*0.05
-  //     ),
-  //     decoration: BoxDecoration(
-  //       color: themeColor(),
-  //       borderRadius: const BorderRadius.all(Radius.circular(15)),
-  //       boxShadow: [boxShadows()]
-  //     ),
-  //     child:Container(
-  //       padding: const EdgeInsets.all(8),
-  //       child: Column(
-  //         children: <Widget>[
-  //           Text.rich(TextSpan(children: <InlineSpan>[
-  //             TextSpan(text: "泉州市气象台2023年12月15日21时22分发布大风黄色预警信号：受冷空气影响，预计未来12小时我市沿海有8～9级东北大风。请注意防范！")
-  //           ])),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
+  Widget buildWarning(){
+    if(controller.weatherWarning.value == "无" || controller.weatherWarning.value == ""){
+      return Container(padding: const EdgeInsets.all(10));
+    }
+    return Container(
+      margin: EdgeInsets.only(
+        left: MediaQuery.of(context).size.width*0.05,
+        right: MediaQuery.of(context).size.width*0.05
+      ),
+      decoration: BoxDecoration(
+        color: themeColor(),
+        borderRadius: const BorderRadius.all(Radius.circular(15)),
+        boxShadow: [boxShadows()]
+      ),
+      child:Container(
+        padding: const EdgeInsets.all(9),
+        child: Column(
+          children: <Widget>[
+            ExpandableText(
+              controller.weatherWarning.value,
+              maxLines: 1, 
+              expanded: false, 
+              expandOnTextTap: true, 
+              collapseOnTextTap: true, 
+              linkColor: Colors.blueAccent, 
+              expandText: '展开',
+              collapseText: '收起',
+              animation: true,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }

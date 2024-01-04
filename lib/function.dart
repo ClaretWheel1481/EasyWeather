@@ -30,24 +30,40 @@ void getNowWeatherAll() async{    //获取所有天气信息
   controller.day1weather.value = temper2['forecasts'][0]['casts'][1]['dayweather'];
   controller.day1hightemp.value = temper2['forecasts'][0]['casts'][1]['daytemp'];
   controller.day1lowtemp.value = temper2['forecasts'][0]['casts'][1]['nighttemp'];
-  controller.day1date.value =formatDate(DateTime.parse(temper2['forecasts'][0]['casts'][1]['date']), [mm,'-',dd]);
+  controller.day1date.value =formatDate(DateTime.parse(temper2['forecasts'][0]['casts'][1]['date']), [mm,'/',dd]);
 
   controller.day2weather.value = temper2['forecasts'][0]['casts'][2]['dayweather'];
   controller.day2hightemp.value = temper2['forecasts'][0]['casts'][2]['daytemp'];
   controller.day2lowtemp.value = temper2['forecasts'][0]['casts'][2]['nighttemp'];
-  controller.day2date.value =formatDate(DateTime.parse(temper2['forecasts'][0]['casts'][2]['date']), [mm,'-',dd]);
+  controller.day2date.value =formatDate(DateTime.parse(temper2['forecasts'][0]['casts'][2]['date']), [mm,'/',dd]);
 
   controller.day3weather.value = temper2['forecasts'][0]['casts'][3]['dayweather'];
   controller.day3hightemp.value = temper2['forecasts'][0]['casts'][3]['daytemp'];
   controller.day3lowtemp.value = temper2['forecasts'][0]['casts'][3]['nighttemp'];
-  controller.day3date.value =formatDate(DateTime.parse(temper2['forecasts'][0]['casts'][3]['date']), [mm,'-',dd]);
+  controller.day3date.value =formatDate(DateTime.parse(temper2['forecasts'][0]['casts'][3]['date']), [mm,'/',dd]);
 
   controller.day1week.value = temper2['forecasts'][0]['casts'][1]['week'];
   controller.day2week.value = temper2['forecasts'][0]['casts'][2]['week'];
   controller.day3week.value = temper2['forecasts'][0]['casts'][3]['week'];
 }
 
-Future<bool> getLocationWeather() async {   //根据定位或保存的城市信息获取天气情况
+void getQweatherCityId() async{   //通过高德开放平台的adcode转换为彩云平台的cityid获取当前城市天气预警
+  var url = Uri.parse('http://43.138.219.71/v1/data/getCityId/${controller.cityid}');
+  var response = await http.get(url);
+  Map<String,dynamic> temper3 = jsonDecode(response.body);
+  controller.qWeatherId.value = temper3['location'][0]['id'];
+  url = Uri.parse('http://43.138.219.71/v1/data/getCityWarning/${controller.qWeatherId}');
+  response = await http.get(url);
+  Map<String,dynamic> temper4 = jsonDecode(response.body);
+  if(temper4['warning'] != null && temper4['warning'].isNotEmpty){
+    controller.weatherWarning.value = temper4['warning'][0]['text'];
+  }else{
+    controller.weatherWarning.value = "无";
+  }
+}
+
+
+void getLocationWeather() async {   //根据定位或保存的城市信息获取天气情况
   var url = Uri.parse('http://43.138.219.71/v1/data/baseCityInfo/${controller.locality}');
   var response = await http.get(url);
   final Map<String,dynamic>jsonData = json.decode(response.body);
@@ -55,7 +71,7 @@ Future<bool> getLocationWeather() async {   //根据定位或保存的城市信�
   controller.cityid = jsonData['districts'][0]['adcode'];
   getNowWeather();
   getNowWeatherAll();
-  return true;
+  getQweatherCityId();
 }
 
 void requestLocationPermission() async {    //启用定位权限并检查
@@ -63,7 +79,7 @@ void requestLocationPermission() async {    //启用定位权限并检查
   if (status.isGranted) {
     try {     //获取经纬度转换为城市
       showSnackbar("⚠️通知","获取您的位置中，请稍后。");
-      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best,forceAndroidLocationManager: true);
+      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
       List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
       Placemark place = placemarks[0];
       controller.locality.value = place.locality!;
@@ -102,6 +118,7 @@ Future<String> getCityName() async {
   final prefs = await SharedPreferences.getInstance();
   return prefs.getString('cityname') ?? "";
 }
+
 
 //List数据查重添加
 void addCityToList(List<String> list, String element) {

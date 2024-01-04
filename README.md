@@ -32,11 +32,11 @@ Variable weather icons
 ☑️
 Dark Mode
 <br>
-🔲
-Variable weather background
+☑️
+Dangerous weather warning
 <br>
 🔲
-Dangerous weather warning
+Variable weather background
 <br>
 🔲
 i18n support
@@ -47,5 +47,7 @@ Multinational weather service support
 ................
 
 ## 📷Screenshot
-<img src="./assets/images/example_light.png" width="30%">
-<img src="./assets/images/example_dark.png" width="30%">
+<div class="half">
+<img src="./assets/images/example_dark_105.png" width=30%/>
+<img src="./assets/images/example_light_105.png" width=30%/>
+</div>

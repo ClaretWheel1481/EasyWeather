@@ -12,8 +12,8 @@ class Search extends StatefulWidget{
 }
 
 class SearchState extends State<Search>{
-  // 防抖节流，暂缓0.2s
-  final debouncer = Debouncer(milliseconds: 200);
+  // 防抖节流，暂缓0.5s
+  final debouncer = Debouncer(milliseconds: 500);
 
   @override
   Widget build(BuildContext context) {

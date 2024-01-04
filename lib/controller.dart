@@ -38,6 +38,9 @@ class weatherController extends GetxController{
   var day1date = ''.obs;  //明日日期
   var day2date = ''.obs;  //后日日期
   var day3date = ''.obs;  //大后日日期
+
+  var weatherWarning = ''.obs;  //天气预警
+  var qWeatherId = '0'.obs;   //彩云天气城市id
 }
 
 class animateController extends GetxController {
@@ -76,6 +79,7 @@ class animateController extends GetxController {
 class CityController extends GetxController {
   final cityQueryList = <CityInfo>[].obs;
   List<CityInfo> get cityList2 => cityQueryList.toList();
+  
   Future<void> getData(String query) async {
     final response = await http.get(Uri.parse('http://43.138.219.71/v1/data/baseCityInfo/${query}'));
     final data = jsonDecode(response.body);
