@@ -210,7 +210,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Hero(
       tag: 'weather', 
       child: AnimatedSwitcher( 
-              duration: const Duration(milliseconds: 1500), 
+              duration: const Duration(milliseconds: 800), 
               child: Container( 
                       key: ValueKey(weatherBackground[controller.weather.value]),
                       decoration: BoxDecoration(
@@ -222,7 +222,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       child: RefreshIndicator(  //下拉刷新
                         onRefresh:() async{
-                          await Future.delayed(const Duration(milliseconds: 1500));
+                          await Future.delayed(const Duration(milliseconds: 1300));
                           await getLocationWeather();
                           showSnackbar("通知", "更新天气成功！");
                         },

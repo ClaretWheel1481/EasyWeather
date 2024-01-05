@@ -56,7 +56,6 @@ class SearchState extends State<Search>{
                       addCityToList(cityList, controller.cityname.value);
                       saveData();
                       scrollAppbarController.scrollToTop();
-                      showSnackbar("通知", "已将${controller.cityname}添加到城市列表中。");
                     },
                   );
                 },

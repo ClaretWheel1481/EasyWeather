@@ -126,6 +126,7 @@ Future<String> getCityName() async {
 void addCityToList(List<String> list, String element) {
   if (!list.contains(element)) {
     list.add(element);
+    showSnackbar("通知", "已将${controller.cityname}添加到城市列表中。");
   } else{
     showSnackbar("通知", "$element已在列表内，若删除请长按城市。");
   }
