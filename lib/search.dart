@@ -19,7 +19,7 @@ class SearchState extends State<Search>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary.withOpacity(0.1),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary.withOpacity(0.2),
         leading: IconButton(
           icon:const Icon(Icons.arrow_back),
           onPressed: (){
@@ -53,10 +53,10 @@ class SearchState extends State<Search>{
                       controller.locality.value = city.name;
                       Get.back();
                       getLocationWeather();
-                      scrollAppbarController.scrollToTop();
                       addCityToList(cityList, controller.cityname.value);
                       saveData();
-                      showSnackbar("⚠️通知", "已将${controller.cityname}添加到城市列表中。");
+                      scrollAppbarController.scrollToTop();
+                      showSnackbar("通知", "已将${controller.cityname}添加到城市列表中。");
                     },
                   );
                 },

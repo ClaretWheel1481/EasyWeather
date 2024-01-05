@@ -13,7 +13,6 @@ void main() async{
   Future<List<String>> futureCityList = getList();
   cityList = await futureCityList;
 
-
   // 优化第一次启动与正常启动
   if(controller.locality.value != ''){
     getLocationWeather();

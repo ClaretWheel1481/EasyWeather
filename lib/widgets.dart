@@ -5,7 +5,7 @@ import 'package:easyweather/items.dart';
 // Container阴影
 BoxShadow boxShadows(){
   return const BoxShadow(
-    color: Color.fromARGB(206, 24, 24, 24),
+    color: Color.fromARGB(148, 24, 24, 24),
     blurRadius: 10,
     spreadRadius: 1,
     offset: Offset(1, 2)
@@ -15,9 +15,9 @@ BoxShadow boxShadows(){
 // 根据状态改变部分组件的颜色
 Color themeColor(){
   if(Get.isDarkMode){
-    return const Color.fromARGB(255, 56, 56, 56);
+    return const Color.fromARGB(255, 41, 37, 53);
   }
-  return const Color.fromARGB(255, 255, 255, 255);
+  return const Color.fromARGB(255, 255, 235, 238);
 }
 
 //未来时间复用代码

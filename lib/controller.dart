@@ -5,6 +5,7 @@ import 'package:easyweather/classes.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+//天气变量Controller
 class WeatherController extends GetxController{
   var tempera = ''.obs; //当前温度
   var weather = ''.obs; //天气情况
@@ -43,6 +44,7 @@ class WeatherController extends GetxController{
   var qWeatherId = '0'.obs;   //彩云天气城市id
 }
 
+//Appbar城市名与应用标题切换Controller
 class AnimateController extends GetxController {
 
   var appBarTitle = 'EasyWeather'.obs;
@@ -76,12 +78,13 @@ class AnimateController extends GetxController {
   }
 }
 
+//城市搜索页Controller
 class CityController extends GetxController {
   final cityQueryList = <CityInfo>[].obs;
   List<CityInfo> get cityList2 => cityQueryList.toList();
   
   Future<void> getData(String query) async {
-    final response = await http.get(Uri.parse('http://43.138.219.71/v1/data/baseCityInfo/$query'));
+    final response = await http.get(Uri.parse('http://easyweather.claret.space:37878/v1/data/baseCityInfo/$query'));
     final data = jsonDecode(response.body);
     final districts = data['districts'] as List;
     cityQueryList.assignAll(districts.map((district) => CityInfo.fromJson(district)).toList());

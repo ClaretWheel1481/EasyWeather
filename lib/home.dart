@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.pink.shade50,
+          seedColor: Colors.red.shade50,
           brightness: Brightness.light,
         ),
       ),
@@ -148,7 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                   onLongPress: (){
                     setState(() {
-                      showSnackbar("⚠️通知", "已删除${cityList[index]}！");
+                      showSnackbar("通知", "已删除${cityList[index]}！");
                       cityList.remove(cityList[index]);
                       saveData();
                     });
@@ -166,16 +166,18 @@ class _MyHomePageState extends State<MyHomePage> {
               title: const Text('浅色'),
               leading: const Icon(Icons.light_mode),
               onTap: (){
-                Get.changeThemeMode(ThemeMode.light);
-                saveData();
+                setState(() {
+                  Get.changeThemeMode(ThemeMode.light);
+                });
               },
             ),
             ListTile(
               title: const Text('深色'),
               leading: const Icon(Icons.dark_mode),
               onTap: (){
-                Get.changeThemeMode(ThemeMode.dark);
-                saveData();
+                setState(() {
+                  Get.changeThemeMode(ThemeMode.dark);
+                });
               },
             ),
           ],
@@ -189,7 +191,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   builder:(context){
                     return const AboutDialog(
                       applicationIcon: Image(image: AssetImage('assets/images/easyweather.png'),width: 50,),
-                      applicationVersion: 'v1.0.5',
+                      applicationVersion: 'v1.0.6',
                       applicationName: 'EasyWeather',
                       children: <Widget>[
                         Text('EasyWeather数据来源高德开放平台、和风天气。')
@@ -204,131 +206,145 @@ class _MyHomePageState extends State<MyHomePage> {
   } 
 
   Widget _getWeatherBody(){ //获取天气后改变的主页面
-    //天气背景变化
-    return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage(weatherBackground[controller.weather.value]!),
-          fit: BoxFit.cover,
-          opacity: Get.isDarkMode ? 0.5 : 0.6
+    //天气背景变化+过渡动画
+    return Hero(
+      tag: 'weather', 
+      child: AnimatedSwitcher( 
+              duration: const Duration(milliseconds: 1500), 
+              child: Container( 
+                      key: ValueKey(weatherBackground[controller.weather.value]),
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(weatherBackground[controller.weather.value] ?? "assets/images/cloudy.png"), 
+                          fit: BoxFit.cover,
+                          opacity: 0.7
+                        )
+                      ),
+                      child: RefreshIndicator(  //下拉刷新
+                        onRefresh:() async{
+                          await Future.delayed(const Duration(milliseconds: 1500));
+                          await getLocationWeather();
+                          showSnackbar("通知", "更新天气成功！");
+                        },
+                        child: ListView(
+                        controller: scrollAppbarController.scrollController,
+                        children: <Widget>[
+                          paddingContainer(20),
+                          Center(
+                            child:Obx(()=>
+                            Text.rich(TextSpan(children: <InlineSpan>[
+                              const WidgetSpan(child: SizedBox(width: 18,height: 30,child: Icon(Icons.location_on),)),
+                              TextSpan(text:" ${controller.cityname}",style: const TextStyle(fontSize: 28)),
+                            ])),
+                            )
+                          ),
+                          Center(
+                            child:Obx(()=>
+                            Text.rich(TextSpan(children: <InlineSpan>[
+                              WidgetSpan(child: SizedBox(child: Icon(weatherIcons[controller.weather.value]))),
+                              TextSpan(text:" ${controller.weather}",style: const TextStyle(fontSize: 20)),
+                            ])),
+                            )
+                          ),
+                          paddingContainer(140),
+                          Center(
+                            child:Obx(()=>
+                            Text.rich(TextSpan(children: <InlineSpan>[
+                              TextSpan(text:'${controller.tempera}',style: const TextStyle(fontSize: 115)),
+                              const TextSpan(text:"°",style: TextStyle(fontSize: 125)),
+                            ])),
+                            )
+                          ),
+                          Center(
+                            child:Obx(()=>
+                            Text.rich(TextSpan(children: <InlineSpan>[
+                                  TextSpan(text:'${controller.lowtemp}° / ${controller.hightemp}°',style: const TextStyle(fontSize: 24)),
+                            ])),
+                            )
+                          ),
+                          paddingContainer(130),
+                          //危险天气预警组件
+                          buildWarning(),
+                          paddingContainer(50),
+                          Container(
+                            margin: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width*0.05,
+                              right: MediaQuery.of(context).size.width*0.05
+                            ),
+                            decoration: BoxDecoration(
+                              color: themeColor(),
+                              borderRadius: const BorderRadius.all(Radius.circular(15)),
+                              boxShadow: [boxShadows()]
+                            ),
+                            child: Column(
+                              children: <Widget>[
+                                paddingContainer(8),
+                                const Row(
+                                  crossAxisAlignment:CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text('   风力等级',style: TextStyle(fontSize: 18)),
+                                    Spacer(flex: 1),
+                                    Text('当前风向',style: TextStyle(fontSize: 18)),
+                                    Spacer(flex: 1),
+                                    Text('空气湿度   ',style: TextStyle(fontSize: 18)),
+                                  ],
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    const Text('    ',style: TextStyle(fontSize: 21)),
+                                    Text('  ${controller.windpower}级',style: const TextStyle(fontSize: 16)),
+                                    const Spacer(flex: 1),
+                                    Text('${controller.winddirection}',style: const TextStyle(fontSize: 16)),
+                                    const Spacer(flex: 1),
+                                    Text('${controller.humidity}%  ',style: const TextStyle(fontSize: 16)),
+                                    const Text('    ',style: TextStyle(fontSize: 21)),
+                                  ],
+                                ),
+                                Container(  //空白填充
+                                  padding:const EdgeInsets.only(bottom:5),
+                                ),
+                              ],
+                            ),
+                          ),
+                          paddingContainer(50),
+                          Container(  //未来天气
+                            margin: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width*0.05,
+                              right: MediaQuery.of(context).size.width*0.05
+                            ),
+                            decoration: BoxDecoration(
+                              color: themeColor(),
+                              borderRadius: const BorderRadius.all(Radius.circular(15)),
+                              boxShadow: [boxShadows()]
+                            ),
+                            child: Column(
+                              children: <Widget>[
+                                paddingContainer(8),
+                                buildRowDate(controller.day1date,controller.day1week.value),
+                                buildRowWeather(controller.day1lowtemp, controller.day1hightemp,controller.day1weather.value),
+                                const Divider(),
+                                buildRowDate(controller.day2date,controller.day2week.value),
+                                buildRowWeather(controller.day2lowtemp, controller.day2hightemp,controller.day2weather.value),
+                                const Divider(),
+                                buildRowDate(controller.day3date,controller.day3week.value),
+                                buildRowWeather(controller.day3lowtemp, controller.day3hightemp,controller.day3weather.value),
+                                paddingContainer(5)
+                              ],
+                            ),
+                          ),
+                          paddingContainer(30),
+                        ],
+                      ),
+                      ),
         )
-      ),
-      child: ListView(
-              controller: scrollAppbarController.scrollController,
-              children: <Widget>[
-                paddingContainer(20),
-                Center(
-                  child:Obx(()=>
-                  Text.rich(TextSpan(children: <InlineSpan>[
-                    const WidgetSpan(child: SizedBox(width: 18,height: 30,child: Icon(Icons.location_on),)),
-                    TextSpan(text:" ${controller.cityname}",style: const TextStyle(fontSize: 28)),
-                  ])),
-                  )
-                ),
-                Center(
-                  child:Obx(()=>
-                  Text.rich(TextSpan(children: <InlineSpan>[
-                    WidgetSpan(child: SizedBox(child: Icon(weatherIcons[controller.weather.value]))),
-                    TextSpan(text:" ${controller.weather}",style: const TextStyle(fontSize: 20)),
-                  ])),
-                  )
-                ),
-                paddingContainer(140),
-                Center(
-                  child:Obx(()=>
-                  Text.rich(TextSpan(children: <InlineSpan>[
-                    TextSpan(text:'${controller.tempera}',style: const TextStyle(fontSize: 115)),
-                    const TextSpan(text:"°",style: TextStyle(fontSize: 125)),
-                  ])),
-                  )
-                ),
-                Center(
-                  child:Obx(()=>
-                  Text.rich(TextSpan(children: <InlineSpan>[
-                        TextSpan(text:'${controller.lowtemp}° / ${controller.hightemp}°',style: const TextStyle(fontSize: 24)),
-                  ])),
-                  )
-                ),
-                paddingContainer(130),
-                //危险天气预警组件
-                buildWarning(),
-                paddingContainer(50),
-                Container(
-                  margin: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width*0.05,
-                    right: MediaQuery.of(context).size.width*0.05
-                  ),
-                  decoration: BoxDecoration(
-                    color: themeColor(),
-                    borderRadius: const BorderRadius.all(Radius.circular(15)),
-                    boxShadow: [boxShadows()]
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      paddingContainer(8),
-                      const Row(
-                        crossAxisAlignment:CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Text('   风力等级',style: TextStyle(fontSize: 18)),
-                          Spacer(flex: 1),
-                          Text('当前风向',style: TextStyle(fontSize: 18)),
-                          Spacer(flex: 1),
-                          Text('空气湿度   ',style: TextStyle(fontSize: 18)),
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          const Text('    ',style: TextStyle(fontSize: 21)),
-                          Text('  ${controller.windpower}级',style: const TextStyle(fontSize: 16)),
-                          const Spacer(flex: 1),
-                          Text('${controller.winddirection}',style: const TextStyle(fontSize: 16)),
-                          const Spacer(flex: 1),
-                          Text('${controller.humidity}%  ',style: const TextStyle(fontSize: 16)),
-                          const Text('    ',style: TextStyle(fontSize: 21)),
-                        ],
-                      ),
-                      Container(  //空白填充
-                        padding:const EdgeInsets.only(bottom:5),
-                      ),
-                    ],
-                  ),
-                ),
-                paddingContainer(50),
-                Container(  //未来天气
-                  margin: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width*0.05,
-                    right: MediaQuery.of(context).size.width*0.05
-                  ),
-                  decoration: BoxDecoration(
-                    color: themeColor(),
-                    borderRadius: const BorderRadius.all(Radius.circular(15)),
-                    boxShadow: [boxShadows()]
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      paddingContainer(8),
-                      buildRowDate(controller.day1date,controller.day1week.value),
-                      buildRowWeather(controller.day1lowtemp, controller.day1hightemp,controller.day1weather.value),
-                      const Divider(),
-                      buildRowDate(controller.day2date,controller.day2week.value),
-                      buildRowWeather(controller.day2lowtemp, controller.day2hightemp,controller.day2weather.value),
-                      const Divider(),
-                      buildRowDate(controller.day3date,controller.day3week.value),
-                      buildRowWeather(controller.day3lowtemp, controller.day3hightemp,controller.day3weather.value),
-                      paddingContainer(5)
-                    ],
-                  ),
-                ),
-                paddingContainer(30),
-              ],
-            ),
+      )
     );
   }
 
   //预警判断
   Widget buildWarning(){
     if(controller.weatherWarning.value == "无" || controller.weatherWarning.value == ""){
-      return paddingContainer(20);
+      return paddingContainer(25);
     }
     return Container(
       margin: EdgeInsets.only(

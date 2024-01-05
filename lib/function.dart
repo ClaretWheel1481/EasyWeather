@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
@@ -10,7 +12,7 @@ import 'dart:async';
 import 'package:date_format/date_format.dart';
 
 void getNowWeather() async{    //获取当前天气
-  var url = Uri.parse('http://43.138.219.71/v1/data/baseWeatherInfo/${controller.cityid}');
+  var url = Uri.parse('http://easyweather.claret.space:37878/v1/data/baseWeatherInfo/${controller.cityid}');
   var response = await http.get(url);
   Map<String,dynamic> temper = json.decode(response.body);
   controller.tempera.value = temper['lives'][0]['temperature'];
@@ -21,7 +23,7 @@ void getNowWeather() async{    //获取当前天气
 }
 
 void getNowWeatherAll() async{    //获取所有天气信息
-  var url = Uri.parse('http://43.138.219.71/v1/data/allWeatherInfo/${controller.cityid}');
+  var url = Uri.parse('http://easyweather.claret.space:37878/v1/data/allWeatherInfo/${controller.cityid}');
   var response = await http.get(url);
   Map<String,dynamic> temper2 = json.decode(response.body);
   controller.hightemp.value = temper2['forecasts'][0]['casts'][0]['daytemp'];
@@ -48,11 +50,11 @@ void getNowWeatherAll() async{    //获取所有天气信息
 }
 
 void getQweatherCityId() async{   //通过高德开放平台的adcode转换为彩云平台的cityid获取当前城市天气预警
-  var url = Uri.parse('http://43.138.219.71/v1/data/getCityId/${controller.cityid}');
+  var url = Uri.parse('http://easyweather.claret.space:37878/v1/data/getCityId/${controller.cityid}');
   var response = await http.get(url);
   Map<String,dynamic> temper3 = jsonDecode(response.body);
   controller.qWeatherId.value = temper3['location'][0]['id'];
-  url = Uri.parse('http://43.138.219.71/v1/data/getCityWarning/${controller.qWeatherId}');
+  url = Uri.parse('http://easyweather.claret.space:37878/v1/data/getCityWarning/${controller.qWeatherId}');
   response = await http.get(url);
   Map<String,dynamic> temper4 = jsonDecode(response.body);
   if(temper4['warning'] != null && temper4['warning'].isNotEmpty){
@@ -63,8 +65,8 @@ void getQweatherCityId() async{   //通过高德开放平台的adcode转换为�
 }
 
 
-void getLocationWeather() async {   //根据定位或保存的城市信息获取天气情况
-  var url = Uri.parse('http://43.138.219.71/v1/data/baseCityInfo/${controller.locality}');
+Future getLocationWeather() async {   //根据定位或保存的城市信息获取天气情况
+  var url = Uri.parse('http://easyweather.claret.space:37878/v1/data/baseCityInfo/${controller.locality}');
   var response = await http.get(url);
   final Map<String,dynamic>jsonData = json.decode(response.body);
   controller.cityname.value = jsonData['districts'][0]['name'];
@@ -78,7 +80,7 @@ void requestLocationPermission() async {    //启用定位权限并检查
   var status = await Permission.location.request();
   if (status.isGranted) {
     try {     //获取经纬度转换为城市
-      showSnackbar("⚠️通知","获取您的位置中，请稍后。");
+      showSnackbar("通知","获取您的位置中，请稍后。");
       Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best,forceAndroidLocationManager: true);
       List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
       Placemark place = placemarks[0];
@@ -88,15 +90,15 @@ void requestLocationPermission() async {    //启用定位权限并检查
       saveData();
     } catch (e) {
       if (e is LocationServiceDisabledException) {
-        showSnackbar("⚠️错误", "失败，没有启用设备的定位服务。");
+        showSnackbar("错误", "失败，没有启用设备的定位服务。");
       }else{
-        showSnackbar("⚠️错误", "位置获取失败。");
+        showSnackbar("错误", "位置获取失败。");
       }
     }
   } else if (status.isDenied) {
-    showSnackbar("⚠️错误", "您拒绝了EasyWeather的定位权限！");
+    showSnackbar("错误", "您拒绝了EasyWeather的定位权限！");
   } else if (status.isPermanentlyDenied) {
-    showSnackbar("⚠️错误", "您拒绝了EasyWeather的定位权限！");
+    showSnackbar("错误", "您拒绝了EasyWeather的定位权限！");
   }
 }
 
@@ -125,11 +127,19 @@ void addCityToList(List<String> list, String element) {
   if (!list.contains(element)) {
     list.add(element);
   } else{
-    showSnackbar("⚠️通知", "$element已在列表内，若删除请长按城市。");
+    showSnackbar("通知", "$element已在列表内，若删除请长按城市。");
   }
 }
 
 //减少工作量、提升可读性的Snackbar
 void showSnackbar(String title,String content){
-  Get.snackbar(title, content,duration: const Duration(milliseconds: 1500),snackPosition: SnackPosition.TOP);
+  Get.snackbar(
+    title, 
+    content,
+    duration: const Duration(milliseconds: 1500),
+    snackPosition: SnackPosition.BOTTOM,
+    margin: const EdgeInsets.only(left: 0,right: 0),
+    barBlur: 200,
+    borderRadius: 0
+  );
 }

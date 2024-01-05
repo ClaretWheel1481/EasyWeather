@@ -14,7 +14,7 @@ The background image is taken from Minecraft 1.20.2 With Nostalgia v4.0.
 I have read the EULA and if there is any infringement, please contact me to delete it.
 ## ⚠️Warning
 ❗️Only suitable for use in Chinese Mainland, Hong Kong, Macao and Taiwan.<br>
-❗️Only suitable for running on Android 9.0 and above.<br>
+❗️Only suitable for running on Android 9.0 and Mobile Phone.<br>
 
 ## ➡️Getting Started
 Some of the features have already been implemented.
