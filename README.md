@@ -8,6 +8,10 @@
 EasyWeather by ClaretWheel1481
 <br>
 The data is sourced from the Gaode Open Platform.
+<br>
+The background image is taken from Minecraft 1.20.2 With Nostalgia v4.0. 
+<br>
+I have read the EULA and if there is any infringement, please contact me to delete it.
 ## ⚠️Warning
 ❗️Only suitable for use in Chinese Mainland, Hong Kong, Macao and Taiwan.<br>
 ❗️Only suitable for running on Android 9.0 and above.<br>
@@ -34,13 +38,13 @@ Dark Mode
 ☑️
 Dangerous weather warning
 <br>
-🔲
-Custom background
+☑️
+Variable weather background
 <br>
 ................
 
 ## 📷Screenshot
 <div class="half">
-<img src="./assets/images/example_dark_105.png" width=30%/>
-<img src="./assets/images/example_light_105.png" width=30%/>
+<img src="./assets/images/Sample_105_Light.jpg" width=40%/>
+<img src="./assets/images/Sample_105_Dark.jpg" width=40%/>
 </div>

@@ -8,7 +8,6 @@ import 'package:easyweather/items.dart';
 import 'package:expandable_text/expandable_text.dart';
 
 List<String> cityList = []; //数据持久化天气列表
-bool darkModeBool = false;  //数据持久化深色模式
 
 //伟大的controller!初始化！
 WeatherController controller = Get.put(WeatherController());
@@ -31,7 +30,7 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData.dark(
         useMaterial3: true,
       ),
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.dark,
       home: const MyHomePage(),
     );
   }
@@ -49,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => controller.cityname.value == '' ? //三目运算判断是否已经获取了城市
+    return Obx(() => controller.cityname.value == '' && controller.weather.value == ''? //三目运算判断是否已经获取了城市
     Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary.withOpacity(0.2),
@@ -116,94 +115,103 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget _buildDrawer() => ListView(    //侧边栏
-    padding: EdgeInsets.zero,
-    children:  <Widget>[
-      const DrawerHeader(
-          decoration: BoxDecoration(
-            image: DecorationImage(image: AssetImage('assets/images/1.jpg'),
-                fit: BoxFit.cover),
-          ),
-          child: Text('EasyWeather',style: TextStyle(fontSize:30,color: Color.fromRGBO(11, 129, 197, 1)))
-      ),
-      ExpansionTile(
-        leading: const Icon(Icons.location_city_rounded),
-        title: const Text('城市列表'),
-        children: [
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: cityList.length,
-            itemBuilder: (context,index){
-              return ListTile(
-                leading: const Icon(Icons.location_on),
-                title: Text(cityList[index]),
-                onTap: (){
-                  controller.locality.value = cityList[index];
-                  Get.back();
-                  getLocationWeather();
-                  scrollAppbarController.scrollToTop();
-                  saveData();
-                },
-                onLongPress: (){
-                  setState(() {
-                    showSnackbar("⚠️通知", "已删除${cityList[index]}！");
-                    cityList.remove(cityList[index]);
+  Widget _buildDrawer() {
+    return ListView(    //侧边栏
+      padding: EdgeInsets.zero,
+      children:  <Widget>[
+        const DrawerHeader(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/1.jpg'),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Text('EasyWeather',style: TextStyle(fontSize:30,color: Color.fromRGBO(11, 129, 197, 1)))
+        ),
+        ExpansionTile(
+          leading: const Icon(Icons.location_city_rounded),
+          title: const Text('城市列表'),
+          children: [
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: cityList.length,
+              itemBuilder: (context,index){
+                return ListTile(
+                  leading: const Icon(Icons.location_on),
+                  title: Text(cityList[index]),
+                  onTap: (){
+                    controller.locality.value = cityList[index];
+                    Get.back();
+                    getLocationWeather();
+                    scrollAppbarController.scrollToTop();
                     saveData();
-                  });
-                },
+                  },
+                  onLongPress: (){
+                    setState(() {
+                      showSnackbar("⚠️通知", "已删除${cityList[index]}！");
+                      cityList.remove(cityList[index]);
+                      saveData();
+                    });
+                  },
+                );
+              }
+            )
+          ],
+        ),
+        ExpansionTile(
+          leading: const Icon(Icons.brightness_4),
+          title: const Text('主题'),
+          children: [
+            ListTile(
+              title: const Text('浅色'),
+              leading: const Icon(Icons.light_mode),
+              onTap: (){
+                Get.changeThemeMode(ThemeMode.light);
+                saveData();
+              },
+            ),
+            ListTile(
+              title: const Text('深色'),
+              leading: const Icon(Icons.dark_mode),
+              onTap: (){
+                Get.changeThemeMode(ThemeMode.dark);
+                saveData();
+              },
+            ),
+          ],
+        ),
+        ListTile(
+            leading: const Icon(Icons.help),
+            title: const Text("关于"),
+            onTap: (){
+              showDialog(
+                  context: context,
+                  builder:(context){
+                    return const AboutDialog(
+                      applicationIcon: Image(image: AssetImage('assets/images/easyweather.png'),width: 50,),
+                      applicationVersion: 'v1.0.5',
+                      applicationName: 'EasyWeather',
+                      children: <Widget>[
+                        Text('EasyWeather数据来源高德开放平台、和风天气。')
+                      ],
+                    );
+                  }
               );
             }
-          )
-        ],
-      ),
-      ExpansionTile(
-        leading: const Icon(Icons.brightness_4),
-        title: const Text('主题'),
-        children: [
-          ListTile(
-            title: const Text('浅色'),
-            leading: const Icon(Icons.light_mode),
-            onTap: (){
-              Get.changeThemeMode(ThemeMode.light);
-              saveData();
-            },
-          ),
-          ListTile(
-            title: const Text('深色'),
-            leading: const Icon(Icons.dark_mode),
-            onTap: (){
-              Get.changeThemeMode(ThemeMode.dark);
-              saveData();
-            },
-          ),
-        ],
-      ),
-      ListTile(
-          leading: const Icon(Icons.help),
-          title: const Text("关于"),
-          onTap: (){
-            showDialog(
-                context: context,
-                builder:(context){
-                  return const AboutDialog(
-                    applicationIcon: Image(image: AssetImage('assets/images/easyweather.png'),width: 50,),
-                    applicationVersion: 'v1.0.5',
-                    applicationName: 'EasyWeather',
-                    children: <Widget>[
-                      Text('EasyWeather数据来源高德开放平台、和风天气。')
-                    ],
-                  );
-                }
-            );
-          }
-      ),
-    ],
-  );
+        ),
+      ],
+    );
+  } 
 
   Widget _getWeatherBody(){ //获取天气后改变的主页面
+    //天气背景变化
     return Container(
       decoration: BoxDecoration(
-        
+        image: DecorationImage(
+          image: AssetImage(weatherBackground[controller.weather.value]!),
+          fit: BoxFit.cover,
+          opacity: Get.isDarkMode ? 0.5 : 0.6
+        )
       ),
       child: ListView(
               controller: scrollAppbarController.scrollController,
@@ -320,7 +328,7 @@ class _MyHomePageState extends State<MyHomePage> {
   //预警判断
   Widget buildWarning(){
     if(controller.weatherWarning.value == "无" || controller.weatherWarning.value == ""){
-      return paddingContainer(15);
+      return paddingContainer(20);
     }
     return Container(
       margin: EdgeInsets.only(
