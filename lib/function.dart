@@ -64,7 +64,6 @@ void getQweatherCityId() async{   //通过高德开放平台的adcode转换为�
   }
 }
 
-
 Future getLocationWeather() async {   //根据定位或保存的城市信息获取天气情况
   var url = Uri.parse('http://easyweather.claret.space:37878/v1/data/baseCityInfo/${controller.locality}');
   var response = await http.get(url);
@@ -102,7 +101,6 @@ void requestLocationPermission() async {    //启用定位权限并检查
   }
 }
 
-//TODO: 深色模式数据持久化
 //数据持久化保存
 void saveData() async {
   final prefs = await SharedPreferences.getInstance();
@@ -120,7 +118,6 @@ Future<String> getCityName() async {
   final prefs = await SharedPreferences.getInstance();
   return prefs.getString('cityname') ?? "";
 }
-
 
 //List数据查重添加
 void addCityToList(List<String> list, String element) {

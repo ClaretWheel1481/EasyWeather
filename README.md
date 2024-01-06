@@ -7,9 +7,9 @@
 # EasyWeather
 EasyWeather by ClaretWheel1481
 <br>
-The data is sourced from the Gaode Open Platform.
+The data is sourced from the Gaode Open Platform,QWeather Platform.
 <br>
-The background image is taken from Minecraft 1.20.2 With Nostalgia v4.0. 
+The background image is taken from Minecraft 1.19.3 With Nostalgia v5.0. 
 <br>
 I have read the EULA and if there is any infringement, please contact me to delete it.
 ## ⚠️Warning

@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData.dark(
         useMaterial3: true,
       ),
-      themeMode: ThemeMode.dark,
+      themeMode: ThemeMode.system,
       home: const MyHomePage(),
     );
   }
@@ -48,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => controller.cityname.value == '' && controller.weather.value == ''? //三目运算判断是否已经获取了城市
+    return Obx(() => controller.locality.value == '' ? //三目运算判断是否已经获取了城市
     Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary.withOpacity(0.2),
@@ -144,6 +144,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Get.back();
                     getLocationWeather();
                     scrollAppbarController.scrollToTop();
+                    showSnackbar("通知", "当前默认城市为${cityList[index]}！");
                     saveData();
                   },
                   onLongPress: (){
@@ -158,48 +159,14 @@ class _MyHomePageState extends State<MyHomePage> {
             )
           ],
         ),
-        ExpansionTile(
-          leading: const Icon(Icons.brightness_4),
-          title: const Text('主题'),
-          children: [
-            ListTile(
-              title: const Text('浅色'),
-              leading: const Icon(Icons.light_mode),
-              onTap: (){
-                setState(() {
-                  Get.changeThemeMode(ThemeMode.light);
-                });
-              },
-            ),
-            ListTile(
-              title: const Text('深色'),
-              leading: const Icon(Icons.dark_mode),
-              onTap: (){
-                setState(() {
-                  Get.changeThemeMode(ThemeMode.dark);
-                });
-              },
-            ),
+        const AboutListTile(
+          icon: Icon(Icons.info),
+          applicationIcon: Image(image: AssetImage('assets/images/easyweather.png'),width: 50,),
+          applicationVersion: 'v1.0.6',
+          applicationName: 'EasyWeather',
+          aboutBoxChildren: [
+            Text('EasyWeather数据来源高德开放平台、和风天气。')
           ],
-        ),
-        ListTile(
-            leading: const Icon(Icons.help),
-            title: const Text("关于"),
-            onTap: (){
-              showDialog(
-                  context: context,
-                  builder:(context){
-                    return const AboutDialog(
-                      applicationIcon: Image(image: AssetImage('assets/images/easyweather.png'),width: 50,),
-                      applicationVersion: 'v1.0.6',
-                      applicationName: 'EasyWeather',
-                      children: <Widget>[
-                        Text('EasyWeather数据来源高德开放平台、和风天气。')
-                      ],
-                    );
-                  }
-              );
-            }
         ),
       ],
     );
