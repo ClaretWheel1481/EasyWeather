@@ -12,8 +12,8 @@ class Search extends StatefulWidget{
 }
 
 class SearchState extends State<Search>{
-  // 防抖节流，暂缓0.5s
-  final debouncer = Debouncer(milliseconds: 500);
+  // 防抖节流，暂缓0.4s
+  final debouncer = Debouncer(milliseconds: 400);
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +51,8 @@ class SearchState extends State<Search>{
                       controller.cityname.value = city.name;
                       controller.cityid = city.adcode;
                       controller.locality.value = city.name;
-                      Get.back();
                       getLocationWeather();
+                      Get.back();
                       addCityToList(cityList, controller.cityname.value);
                       saveData();
                       scrollAppbarController.scrollToTop();

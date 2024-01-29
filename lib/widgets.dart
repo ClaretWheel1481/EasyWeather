@@ -1,23 +1,25 @@
+import 'package:easyweather/function.dart';
+import 'package:easyweather/search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:easyweather/items.dart';
+import 'package:easyweather/home.dart';
 
 // Container阴影
 BoxShadow boxShadows(){
   return const BoxShadow(
-    color: Color.fromARGB(148, 24, 24, 24),
-    blurRadius: 10,
-    spreadRadius: 1,
-    offset: Offset(1, 2)
+    color: Color.fromARGB(78, 0, 0, 0),
+    blurRadius: 2,
+    offset: Offset(0, 4)
   );
 }
 
 // 根据状态改变部分组件的颜色
 Color themeColor(){
   if(Get.isDarkMode){
-    return const Color.fromARGB(255, 41, 37, 53);
+    return const Color.fromARGB(255, 45, 49, 65);
   }
-  return const Color.fromARGB(255, 255, 235, 238);
+  return const Color.fromARGB(255, 253, 252, 255);
 }
 
 //未来时间复用代码

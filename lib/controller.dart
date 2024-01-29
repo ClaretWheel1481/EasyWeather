@@ -55,9 +55,11 @@ class AnimateController extends GetxController {
   void onInit() {
     super.onInit();
     scrollController.addListener(() {
-      if (scrollController.offset < 80) {
+      if(scrollController.offset < 30){
         appBarTitle.value = 'EasyWeather';
-      } else if (scrollController.offset < 200) {
+      }else if (scrollController.offset < 80) {
+        appBarTitle.value = '';
+      }else if (scrollController.offset < 200) {
         appBarTitle.value = controller.cityname.value;
       }
     });

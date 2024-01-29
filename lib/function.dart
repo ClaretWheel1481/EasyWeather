@@ -132,12 +132,12 @@ void addCityToList(List<String> list, String element) {
 //减少工作量、提升可读性的Snackbar
 void showSnackbar(String title,String content){
   Get.snackbar(
-    title, 
+    title,
     content,
-    duration: const Duration(milliseconds: 1500),
-    snackPosition: SnackPosition.BOTTOM,
-    margin: const EdgeInsets.only(left: 0,right: 0),
-    barBlur: 200,
-    borderRadius: 0
+    duration: const Duration(milliseconds: 1400),
+    snackPosition: SnackPosition.TOP,
+    margin: const EdgeInsets.only(left: 15,right: 15),
+    isDismissible: true,
+    borderRadius: 15
   );
 }
