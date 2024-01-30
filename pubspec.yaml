@@ -70,8 +70,6 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
-   - assets/images/1.jpg
-   - assets/images/easyweather.png
    - assets/images/cloudy.jpg
    - assets/images/foggy.jpg
    - assets/images/rainy.jpg

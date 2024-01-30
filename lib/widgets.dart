@@ -1,9 +1,6 @@
-import 'package:easyweather/function.dart';
-import 'package:easyweather/search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:easyweather/items.dart';
-import 'package:easyweather/home.dart';
 
 // Container阴影
 BoxShadow boxShadows(){
@@ -17,7 +14,7 @@ BoxShadow boxShadows(){
 // 根据状态改变部分组件的颜色
 Color themeColor(){
   if(Get.isDarkMode){
-    return const Color.fromARGB(255, 45, 49, 65);
+    return const Color.fromARGB(255, 53, 57, 65);
   }
   return const Color.fromARGB(255, 253, 252, 255);
 }
@@ -27,9 +24,9 @@ Widget buildRowDate(RxString date,String weekday){
   return Row(
           children: <Widget>[
             Text.rich(TextSpan(children: <InlineSpan>[
-              const TextSpan(text:"  ",style: TextStyle(fontSize: 24)),
+              const TextSpan(text:"  ",style: TextStyle(fontSize: 22)),
               const WidgetSpan(child: SizedBox(width: 18,height: 22,child: Icon(Icons.date_range))),
-              TextSpan(text:"  $date  ${weeks[weekday]}",style: const TextStyle(fontSize: 18)),
+              TextSpan(text:"  $date    ${weeks[weekday]}",style: const TextStyle(fontSize: 18)),
             ])),
           ],
   );
@@ -42,8 +39,8 @@ Widget buildRowWeather(RxString lt,RxString ht,String weather){
             Text.rich(TextSpan(children: <InlineSpan>[
               const TextSpan(text:"  ",style: TextStyle(fontSize: 24)),
               WidgetSpan(child: SizedBox(width: 16,height: 26,child: Icon(weatherIcons[weather]))),
-              WidgetSpan(child: ConstrainedBox(constraints: const BoxConstraints(minWidth: 95),child:Container(padding: const EdgeInsets.only(right:40),child: Text('   $weather',style: const TextStyle(fontSize: 18))))),
-              TextSpan(text: '     $lt° ~ $ht°',style: const TextStyle(fontSize: 22)),
+              WidgetSpan(child: ConstrainedBox(constraints: const BoxConstraints(minWidth: 120,maxHeight: 30),child:Container(padding: const EdgeInsets.only(right:50),child: Text('   $weather',style: const TextStyle(fontSize: 18))))),
+              WidgetSpan(child: ConstrainedBox(constraints: const BoxConstraints(maxHeight: 26),child:Container(padding: const EdgeInsets.only(right: 10),child: Text('$lt° ~ $ht°',style: const TextStyle(fontSize: 19)))),)
             ])),
           ],
   );

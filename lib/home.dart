@@ -63,11 +63,6 @@ class _MyHomePageState extends State<MyHomePage> {
               icon: const Icon(Icons.search)
             ),
           ],
-      ),
-        drawer: Drawer(
-          width: MediaQuery.of(context).size.width * 0.65,
-          elevation: 3,
-          child: _buildDrawer()
         ),
         body:const Center(
           child: Text('点击右上角"搜索"，进行搜索城市。\n或点击右上角“定位”，获取您所在的城市。'),
@@ -83,13 +78,39 @@ class _MyHomePageState extends State<MyHomePage> {
         title:AnimatedSwitcher(
           duration: const Duration(milliseconds: 150),
           transitionBuilder: (child, animation) => SizeTransition(
-            sizeFactor: animation,
-            child: child,
+              sizeFactor: animation,
+              child: child,
           ),
           child: Text(scrollAppbarController.appBarTitle.value,
           key: ValueKey(scrollAppbarController.appBarTitle.value),)
         ),
         actions: <Widget>[
+          PopupMenuButton(
+            icon: const Icon(Icons.location_city_sharp),
+            itemBuilder: (context) => cityList.map((e) => PopupMenuItem(value: e,
+                child: GestureDetector(
+                  onLongPress: () {
+                    setState(() {
+                      Get.back();
+                      cityList.remove(e); // 删除长按的元素
+                      showSnackbar("通知", "已删除$e！");
+                      saveData();
+                    });
+                  },
+                  child: Row(children: [const Icon(Icons.location_on), Text(e)]),
+                ))).toList(),
+            onSelected: (value){
+              controller.locality.value = value;
+              Get.back();
+              getLocationWeather();
+              scrollAppbarController.scrollToTop();
+              showSnackbar("通知", "当前默认城市为$value！");
+              saveData();
+            },
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15))
+            ),
+          ),
           IconButton(
             onPressed: () async {
               requestLocationPermission();
@@ -104,79 +125,17 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      drawer: Drawer(
-        width: MediaQuery.of(context).size.width * 0.65,
-        elevation: 3,
-        child: _buildDrawer(),
-      ),
       body: _getWeatherBody(),
       )
     );
   }
-
-  Widget _buildDrawer() {
-    return ListView(    //侧边栏
-      padding: EdgeInsets.zero,
-      children:  <Widget>[
-        const DrawerHeader(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/1.jpg'),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: Text('EasyWeather',style: TextStyle(fontSize:28,color: Colors.blueAccent))
-        ),
-        ExpansionTile(
-          leading: const Icon(Icons.location_city_rounded),
-          title: const Text('城市列表'),
-          children: [
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: cityList.length,
-              itemBuilder: (context,index){
-                return ListTile(
-                  leading: const Icon(Icons.location_on),
-                  title: Text(cityList[index]),
-                  onTap: (){
-                    controller.locality.value = cityList[index];
-                    Get.back();
-                    getLocationWeather();
-                    scrollAppbarController.scrollToTop();
-                    showSnackbar("通知", "当前默认城市为${cityList[index]}！");
-                    saveData();
-                  },
-                  onLongPress: (){
-                    setState(() {
-                      showSnackbar("通知", "已删除${cityList[index]}！");
-                      cityList.remove(cityList[index]);
-                      saveData();
-                    });
-                  },
-                );
-              }
-            )
-          ],
-        ),
-        const AboutListTile(
-          icon: Icon(Icons.info),
-          applicationIcon: Image(image: AssetImage('assets/images/easyweather.png'),width: 50,),
-          applicationVersion: 'v1.0.7',
-          applicationName: 'EasyWeather',
-          aboutBoxChildren: [
-            Text('EasyWeather数据来源高德开放平台、和风天气。')
-          ],
-        ),
-      ],
-    );
-  } 
 
   Widget _getWeatherBody(){ //获取天气后改变的主页面
     //天气背景变化+过渡动画
     return Hero(
       tag: 'weather',
       child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 800),
+            duration: const Duration(milliseconds: 900),
               child: Container(
                 key: ValueKey(weatherBackground[controller.weather.value]),
                 decoration: BoxDecoration(
@@ -192,6 +151,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     await getLocationWeather();
                     showSnackbar("通知", "更新天气成功！");
                   },
+                  displacement: 50.0,
                   child: ListView(
                     controller: scrollAppbarController.scrollController,
                     children: <Widget>[
@@ -212,7 +172,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               ])),
                           )
                       ),
-                      paddingContainer(120),
+                      paddingContainer(150),
                       Center(
                           child:Obx(()=>
                               Text.rich(TextSpan(children: <InlineSpan>[
@@ -228,7 +188,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               ])),
                           )
                       ),
-                      paddingContainer(120),
+                      paddingContainer(140),
                       //危险天气预警组件
                       buildWarning(),
                       paddingContainer(50),
@@ -244,7 +204,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         child: Column(
                           children: <Widget>[
-                            paddingContainer(8),
+                            paddingContainer(7),
                             const Row(
                               crossAxisAlignment:CrossAxisAlignment.center,
                               children: <Widget>[
@@ -258,11 +218,11 @@ class _MyHomePageState extends State<MyHomePage> {
                             Row(
                               children: <Widget>[
                                 const Text('    ',style: TextStyle(fontSize: 21)),
-                                Text('  ${controller.windpower}级',style: const TextStyle(fontSize: 16)),
+                                Text('  ${controller.windpower}级',style: const TextStyle(fontSize: 15)),
                                 const Spacer(flex: 1),
-                                Text('${controller.winddirection}',style: const TextStyle(fontSize: 16)),
+                                Text('${controller.winddirection}',style: const TextStyle(fontSize: 15)),
                                 const Spacer(flex: 1),
-                                Text('${controller.humidity}%  ',style: const TextStyle(fontSize: 16)),
+                                Text('${controller.humidity}%  ',style: const TextStyle(fontSize: 15)),
                                 const Text('    ',style: TextStyle(fontSize: 21)),
                               ],
                             ),
@@ -298,7 +258,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ],
                         ),
                       ),
-                      paddingContainer(30),
+                      paddingContainer(40),
                     ],
                   ),
                 ),

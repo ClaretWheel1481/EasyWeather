@@ -57,7 +57,7 @@ class AnimateController extends GetxController {
     scrollController.addListener(() {
       if(scrollController.offset < 30){
         appBarTitle.value = 'EasyWeather';
-      }else if (scrollController.offset < 80) {
+      }else if (scrollController.offset < 60) {
         appBarTitle.value = '';
       }else if (scrollController.offset < 200) {
         appBarTitle.value = controller.cityname.value;
@@ -68,7 +68,7 @@ class AnimateController extends GetxController {
   void scrollToTop() {
     scrollController.animateTo(
       0,
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
   }
