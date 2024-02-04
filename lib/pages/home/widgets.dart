@@ -5,9 +5,9 @@ import 'package:easyweather/items.dart';
 // Container阴影
 BoxShadow boxShadows(){
   return const BoxShadow(
-    color: Color.fromARGB(78, 0, 0, 0),
-    blurRadius: 2,
-    offset: Offset(0, 4)
+    color: Color.fromARGB(61, 0, 0, 0),
+    blurRadius: 5,
+    offset: Offset(0, 3)
   );
 }
 

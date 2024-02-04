@@ -19,7 +19,6 @@ class SearchState extends State<Search>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary.withOpacity(0.2),
         leading: IconButton(
           icon:const Icon(Icons.arrow_back),
           onPressed: (){

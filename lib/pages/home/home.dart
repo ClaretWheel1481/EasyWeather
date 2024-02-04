@@ -220,7 +220,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   paddingContainer(5),
                                   const Text('风力等级',style: TextStyle(fontSize: 18)),
                                   Text('${controller.windpower}级',style: const TextStyle(fontSize: 15)),
-                                  paddingContainer(7),
+                                  paddingContainer(5),
                                 ]
                               ),
                               const Spacer(flex: 1),
@@ -229,7 +229,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   paddingContainer(5),
                                   const Text('当前风向',style: TextStyle(fontSize: 18)),
                                   Text('${controller.winddirection}',style: const TextStyle(fontSize: 15)),
-                                  paddingContainer(7),
+                                  paddingContainer(5),
                                 ]
                               ),
                               const Spacer(flex: 1),
@@ -237,8 +237,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 children: [
                                   paddingContainer(5),
                                   const Text('空气湿度',style: TextStyle(fontSize: 18)),
-                                  Text('${controller.humidity}%',style: const TextStyle(fontSize: 15)),
-                                  paddingContainer(7),
+                                  Text('~${controller.humidity}%',style: const TextStyle(fontSize: 15)),
+                                  paddingContainer(5),
                                 ],
                               ),
                               Column(

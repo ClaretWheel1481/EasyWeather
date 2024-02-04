@@ -41,7 +41,7 @@ class WeatherController extends GetxController{
   var day3date = ''.obs;  //大后日日期
 
   var weatherWarning = ''.obs;  //天气预警
-  var qWeatherId = '0'.obs;   //彩云天气城市id
+  var qWeatherId = '0'.obs;   //和风天气城市id
 }
 
 //Appbar城市名与应用标题切换Controller
@@ -57,9 +57,9 @@ class AnimateController extends GetxController {
     scrollController.addListener(() {
       if(scrollController.offset < 30){
         appBarTitle.value = 'EasyWeather';
-      }else if (scrollController.offset < 60) {
-        appBarTitle.value = '';
-      }else if (scrollController.offset < 200) {
+      }else if(scrollController.offset < 100) {
+        appBarTitle.value = ' ';
+      }else if(scrollController.offset < 300) {
         appBarTitle.value = controller.cityname.value;
       }
     });
@@ -69,7 +69,7 @@ class AnimateController extends GetxController {
     scrollController.animateTo(
       0,
       duration: const Duration(milliseconds: 500),
-      curve: Curves.easeInOut,
+      curve: Curves.ease,
     );
   }
 
