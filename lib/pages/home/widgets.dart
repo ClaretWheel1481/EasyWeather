@@ -22,11 +22,11 @@ Color themeColor(){
 //未来时间复用代码
 Widget buildRowDate(RxString date,String weekday){
   return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text.rich(TextSpan(children: <InlineSpan>[
-              const TextSpan(text:"  ",style: TextStyle(fontSize: 21)),
-              const WidgetSpan(child: SizedBox(width: 18,height: 24,child: Icon(Icons.date_range))),
-              TextSpan(text:"  $date    ${weeks[weekday]}",style: const TextStyle(fontSize: 18)),
+              const WidgetSpan(child: SizedBox(width: 16,height: 23,child: Icon(Icons.date_range_rounded))),
+              TextSpan(text:"  $date   ${weeks[weekday]}",style: const TextStyle(fontSize: 16)),
             ])),
           ],
   );
@@ -35,20 +35,13 @@ Widget buildRowDate(RxString date,String weekday){
 //未来天气复用代码
 Widget buildRowWeather(RxString lt,RxString ht,String weather){
   return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text.rich(TextSpan(children: <InlineSpan>[
-              const TextSpan(text:"  ",style: TextStyle(fontSize: 26)),
               WidgetSpan(child: SizedBox(width: 16,height: 24,child: Icon(weatherIcons[weather]))),
-              WidgetSpan(child: ConstrainedBox(constraints: const BoxConstraints(minWidth: 120,maxHeight: 30),child:Container(padding: const EdgeInsets.only(right:50),child: Text('   $weather',style: const TextStyle(fontSize: 18))))),
-              WidgetSpan(child: ConstrainedBox(constraints: const BoxConstraints(maxHeight: 26),child:Container(padding: const EdgeInsets.only(right: 10),child: Text('$lt° ~ $ht°',style: const TextStyle(fontSize: 19))))),
+              WidgetSpan(child: ConstrainedBox(constraints: const BoxConstraints(maxHeight: 40,minWidth: 90),child:Container(padding: const EdgeInsets.only(right:10),child: Text('   $weather',style: const TextStyle(fontSize: 18))))),
+              WidgetSpan(child: ConstrainedBox(constraints: const BoxConstraints(minWidth: 80),child: Text('$lt° ~ $ht°',style: const TextStyle(fontSize: 18)))),
             ])),
           ],
-  );
-}
-
-//空白填充
-Widget paddingContainer(double insets){
-  return Container(
-    padding: EdgeInsets.only(top:insets),
   );
 }

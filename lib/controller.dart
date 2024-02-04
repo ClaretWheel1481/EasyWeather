@@ -23,18 +23,18 @@ class WeatherController extends GetxController{
   var day2weather = ''.obs; //后日天气
   var day3weather = ''.obs; //大后日天气
 
-  var day1week = ''.obs;  //明日日期（星期）
-  var day2week = ''.obs;  //后日日期（星期）
-  var day3week = ''.obs;  //大后日日期（星期）
+  var day1Week = ''.obs;  //明日日期（星期）
+  var day2Week = ''.obs;  //后日日期（星期）
+  var day3Week = ''.obs;  //大后日日期（星期）
 
-  var day1lowtemp = ''.obs; //明日最低温度
-  var day1hightemp = ''.obs;  //明日最高温度
+  var day1LowTemp = ''.obs; //明日最低温度
+  var day1HighTemp = ''.obs;  //明日最高温度
 
-  var day2lowtemp = ''.obs; //后日最低温度
-  var day2hightemp = ''.obs;  //后日最高温度
+  var day2LowTemp = ''.obs; //后日最低温度
+  var day2HighTemp = ''.obs;  //后日最高温度
 
-  var day3lowtemp = ''.obs; //大后日最低温度
-  var day3hightemp = ''.obs;  //大后日最高温度
+  var day3LowTemp = ''.obs; //大后日最低温度
+  var day3HighTemp = ''.obs;  //大后日最高温度
   
   var day1date = ''.obs;  //明日日期
   var day2date = ''.obs;  //后日日期
@@ -42,6 +42,11 @@ class WeatherController extends GetxController{
 
   var weatherWarning = ''.obs;  //天气预警
   var qWeatherId = '0'.obs;   //和风天气城市id
+
+  var airQuality = ''.obs;  //空气质量
+  var airQualityIndex = ''.obs;   //aqi
+  var carWashIndice = ''.obs;   //洗车指数
+  var sportIndice = ''.obs;   //运动指数
 }
 
 //Appbar城市名与应用标题切换Controller

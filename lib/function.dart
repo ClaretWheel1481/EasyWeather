@@ -30,26 +30,26 @@ void getNowWeatherAll() async{    //获取所有天气信息
   controller.lowtemp.value = temper2['forecasts'][0]['casts'][0]['nighttemp'];
 
   controller.day1weather.value = temper2['forecasts'][0]['casts'][1]['dayweather'];
-  controller.day1hightemp.value = temper2['forecasts'][0]['casts'][1]['daytemp'];
-  controller.day1lowtemp.value = temper2['forecasts'][0]['casts'][1]['nighttemp'];
+  controller.day1HighTemp.value = temper2['forecasts'][0]['casts'][1]['daytemp'];
+  controller.day1LowTemp.value = temper2['forecasts'][0]['casts'][1]['nighttemp'];
   controller.day1date.value = formatDate(DateTime.parse(temper2['forecasts'][0]['casts'][1]['date']), [mm,'/',dd]);
 
   controller.day2weather.value = temper2['forecasts'][0]['casts'][2]['dayweather'];
-  controller.day2hightemp.value = temper2['forecasts'][0]['casts'][2]['daytemp'];
-  controller.day2lowtemp.value = temper2['forecasts'][0]['casts'][2]['nighttemp'];
+  controller.day2HighTemp.value = temper2['forecasts'][0]['casts'][2]['daytemp'];
+  controller.day2LowTemp.value = temper2['forecasts'][0]['casts'][2]['nighttemp'];
   controller.day2date.value = formatDate(DateTime.parse(temper2['forecasts'][0]['casts'][2]['date']), [mm,'/',dd]);
 
   controller.day3weather.value = temper2['forecasts'][0]['casts'][3]['dayweather'];
-  controller.day3hightemp.value = temper2['forecasts'][0]['casts'][3]['daytemp'];
-  controller.day3lowtemp.value = temper2['forecasts'][0]['casts'][3]['nighttemp'];
+  controller.day3HighTemp.value = temper2['forecasts'][0]['casts'][3]['daytemp'];
+  controller.day3LowTemp.value = temper2['forecasts'][0]['casts'][3]['nighttemp'];
   controller.day3date.value = formatDate(DateTime.parse(temper2['forecasts'][0]['casts'][3]['date']), [mm,'/',dd]);
 
-  controller.day1week.value = temper2['forecasts'][0]['casts'][1]['week'];
-  controller.day2week.value = temper2['forecasts'][0]['casts'][2]['week'];
-  controller.day3week.value = temper2['forecasts'][0]['casts'][3]['week'];
+  controller.day1Week.value = temper2['forecasts'][0]['casts'][1]['week'];
+  controller.day2Week.value = temper2['forecasts'][0]['casts'][2]['week'];
+  controller.day3Week.value = temper2['forecasts'][0]['casts'][3]['week'];
 }
 
-void getQweatherCityId() async{   //通过高德开放平台的adcode转换为彩云平台的cityid获取当前城市天气预警
+Future getQweatherCityId() async{   //通过高德开放平台的adcode转换为彩云平台的cityid获取当前城市天气预警、空气质量、天气指数
   var url = Uri.parse('http://easyweather.claret.space:37878/v1/data/getCityId/${controller.cityid}');
   var response = await http.get(url);
   Map<String,dynamic> temper3 = jsonDecode(response.body);
@@ -64,6 +64,24 @@ void getQweatherCityId() async{   //通过高德开放平台的adcode转换为�
   }
 }
 
+//天气指数
+void getCityIndices() async {
+  var url = Uri.parse('http://easyweather.claret.space:37878/v1/data/getCityIndices/${controller.qWeatherId}');
+  var response = await http.get(url);
+  Map<String,dynamic> temper5 = jsonDecode(response.body);
+  controller.carWashIndice.value = temper5['daily'][0]['category'];
+  controller.sportIndice.value = temper5['daily'][1]['category'];
+}
+
+//天气指数
+void getCityAir() async {
+  var url = Uri.parse('http://easyweather.claret.space:37878/v1/data/getCityAir/${controller.qWeatherId}');
+  var response = await http.get(url);
+  Map<String,dynamic> temper6 = jsonDecode(response.body);
+  controller.airQuality.value = temper6['now']['category'];
+  controller.airQualityIndex.value = temper6['now']['aqi'];
+}
+
 Future getLocationWeather() async {   //根据定位或保存的城市信息获取天气情况
   var url = Uri.parse('http://easyweather.claret.space:37878/v1/data/baseCityInfo/${controller.locality}');
   var response = await http.get(url);
@@ -72,7 +90,9 @@ Future getLocationWeather() async {   //根据定位或保存的城市信息获�
   controller.cityid = jsonData['districts'][0]['adcode'];
   getNowWeather();
   getNowWeatherAll();
-  getQweatherCityId();
+  await getQweatherCityId();
+  getCityIndices();
+  getCityAir();
 }
 
 void requestLocationPermission() async {    //启用定位权限并检查

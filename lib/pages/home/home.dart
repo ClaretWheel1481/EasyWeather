@@ -51,7 +51,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return Obx(() => controller.locality.value == '' ? //三目运算判断是否已经获取了城市
       Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary.withOpacity(0.2),
           title: const Text("EasyWeather"),
           actions: [
             IconButton(
@@ -105,8 +104,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 ))).toList(),
             onSelected: (value){
               controller.locality.value = value;
-              Get.back();
               getLocationWeather();
+              Get.back();
               scrollAppbarController.scrollToTop();
               showSnackbar("通知", "当前默认城市为$value！");
               saveData();
@@ -158,7 +157,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: ListView(
                     controller: scrollAppbarController.scrollController,
                     children: <Widget>[
-                      paddingContainer(10),
                       Center(
                           child:Obx(()=>
                               Text.rich(TextSpan(children: <InlineSpan>[
@@ -175,7 +173,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               ])),
                           )
                       ),
-                      paddingContainer(140),
+                      const Padding(padding: EdgeInsets.only(top:140)),
                       Center(
                           child:Obx(()=>
                               Text.rich(TextSpan(children: <InlineSpan>[
@@ -191,10 +189,10 @@ class _MyHomePageState extends State<MyHomePage> {
                               ])),
                           )
                       ),
-                      paddingContainer(140),
+                      const Padding(padding: EdgeInsets.only(top:140)),
                       //危险天气预警组件
                       buildWarning(),
-                      paddingContainer(50),
+                      const Padding(padding: EdgeInsets.only(top:50)),
                       Container(
                         margin: EdgeInsets.only(
                             left: MediaQuery.of(context).size.width*0.05,
@@ -208,76 +206,147 @@ class _MyHomePageState extends State<MyHomePage> {
                         child:
                           Row(
                             children: [
+                              const SizedBox(width: 15),
                               Column(
                                 children: [
-                                  Container(
-                                    padding: const EdgeInsets.all(7),
-                                  )
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  paddingContainer(5),
+                                  const Padding(padding: EdgeInsets.only(top:8)),
                                   const Text('风力等级',style: TextStyle(fontSize: 18)),
-                                  Text('${controller.windpower}级',style: const TextStyle(fontSize: 15)),
-                                  paddingContainer(5),
+                                  Text('${controller.windpower}级',style: const TextStyle(fontSize: 16)),
+                                  const Padding(padding: EdgeInsets.only(top:11)),
                                 ]
                               ),
                               const Spacer(flex: 1),
                               Column(
                                 children: [
-                                  paddingContainer(5),
+                                  const Padding(padding: EdgeInsets.only(top:8)),
                                   const Text('当前风向',style: TextStyle(fontSize: 18)),
-                                  Text('${controller.winddirection}',style: const TextStyle(fontSize: 15)),
-                                  paddingContainer(5),
+                                  Text('${controller.winddirection}',style: const TextStyle(fontSize: 16)),
+                                  const Padding(padding: EdgeInsets.only(top:11)),
                                 ]
                               ),
                               const Spacer(flex: 1),
                               Column(
                                 children: [
-                                  paddingContainer(5),
+                                  const Padding(padding: EdgeInsets.only(top:8)),
                                   const Text('空气湿度',style: TextStyle(fontSize: 18)),
-                                  Text('~${controller.humidity}%',style: const TextStyle(fontSize: 15)),
-                                  paddingContainer(5),
+                                  Text('~${controller.humidity}%',style: const TextStyle(fontSize: 16)),
+                                  const Padding(padding: EdgeInsets.only(top:11)),
                                 ],
                               ),
-                              Column(
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.all(7),
-                                  )
-                                ],
-                              ),
+                              const SizedBox(width: 15),
                             ],
                           )
                       ),
-                      paddingContainer(50),
-                      Container(  //未来天气
-                        margin: EdgeInsets.only(
-                            left: MediaQuery.of(context).size.width*0.05,
-                            right: MediaQuery.of(context).size.width*0.05
-                        ),
-                        decoration: BoxDecoration(
-                            color: themeColor(),
-                            borderRadius: const BorderRadius.all(Radius.circular(15)),
-                            boxShadow: [boxShadows()]
-                        ),
-                        child: Column(
-                          children: <Widget>[
-                            paddingContainer(8),
-                            buildRowDate(controller.day1date,controller.day1week.value),
-                            buildRowWeather(controller.day1lowtemp, controller.day1hightemp,controller.day1weather.value),
-                            const Divider(),
-                            buildRowDate(controller.day2date,controller.day2week.value),
-                            buildRowWeather(controller.day2lowtemp, controller.day2hightemp,controller.day2weather.value),
-                            const Divider(),
-                            buildRowDate(controller.day3date,controller.day3week.value),
-                            buildRowWeather(controller.day3lowtemp, controller.day3hightemp,controller.day3weather.value),
-                            paddingContainer(5)
-                          ],
-                        ),
+                      const Padding(padding: EdgeInsets.only(top:50)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(  //未来天气
+                            constraints: BoxConstraints(
+                                minWidth: MediaQuery.of(context).size.width*0.43,
+                                maxWidth: MediaQuery.of(context).size.width*0.53,
+                            ),
+                            margin: EdgeInsets.only(
+                                left: MediaQuery.of(context).size.width*0.05,
+                                right: MediaQuery.of(context).size.width*0.05,
+                            ),
+                            decoration: BoxDecoration(
+                                color: themeColor(),
+                                borderRadius: const BorderRadius.all(Radius.circular(15)),
+                                boxShadow: [boxShadows()]
+                            ),
+                            child: Column(
+                              children: <Widget>[
+                                const SizedBox(height: 8),
+                                buildRowDate(controller.day1date,controller.day1Week.value),
+                                const SizedBox(height: 5),
+                                buildRowWeather(controller.day1LowTemp, controller.day1HighTemp,controller.day1weather.value),
+                                const Divider(),
+                                buildRowDate(controller.day2date,controller.day2Week.value),
+                                const SizedBox(height: 5),
+                                buildRowWeather(controller.day2LowTemp, controller.day2HighTemp,controller.day2weather.value),
+                                const Divider(),
+                                buildRowDate(controller.day3date,controller.day3Week.value),
+                                const SizedBox(height: 5),
+                                buildRowWeather(controller.day3LowTemp, controller.day3HighTemp,controller.day3weather.value),
+                                const SizedBox(height: 8),
+                              ],
+                            ),
+                          ),
+                          SizedBox(width: MediaQuery.of(context).size.width*0.02),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                children: <Widget>[
+                                  Container(
+                                    constraints: BoxConstraints(
+                                        minWidth: MediaQuery.of(context).size.width*0.30,
+                                        maxWidth: MediaQuery.of(context).size.width*0.30,
+                                    ),
+                                    margin: EdgeInsets.only(
+                                      right: MediaQuery.of(context).size.width*0.05,
+                                    ),
+                                    decoration: BoxDecoration(
+                                        color: themeColor(),
+                                        borderRadius: const BorderRadius.all(Radius.circular(15)),
+                                        boxShadow: [boxShadows()]
+                                    ),
+                                    child: Column(
+                                      children: <Widget>[
+                                        const SizedBox(height: 8),
+                                        const Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text.rich(TextSpan(children: <InlineSpan>[
+                                              WidgetSpan(child: SizedBox(width: 16,height: 23,child: Icon(Icons.air))),
+                                              TextSpan(text:"   空气质量",style: TextStyle(fontSize: 16)),
+                                            ])),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Center(
+                                          child: Text('${controller.airQualityIndex}  -  ${controller.airQuality}',style: const TextStyle(fontSize: 18)),
+                                        ),
+                                        const Divider(),
+                                        const Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text.rich(TextSpan(children: <InlineSpan>[
+                                              WidgetSpan(child: SizedBox(width: 16,height: 23,child: Icon(Icons.directions_run))),
+                                              TextSpan(text:"   运动指数",style: TextStyle(fontSize: 16)),
+                                            ])),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Center(
+                                          child: Text('${controller.sportIndice}',style: const TextStyle(fontSize: 18)),
+                                        ),
+                                        const Divider(),
+                                        const Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text.rich(TextSpan(children: <InlineSpan>[
+                                              WidgetSpan(child: SizedBox(width: 16,height: 23,child: Icon(Icons.car_crash))),
+                                              TextSpan(text:"   洗车指数",style: TextStyle(fontSize: 16)),
+                                            ])),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Center(
+                                          child: Text('${controller.carWashIndice}',style: const TextStyle(fontSize: 18)),
+                                        ),
+                                        const SizedBox(height: 8),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ]
+                          ),
+                        ],
                       ),
-                      paddingContainer(40),
+                      const Padding(padding: EdgeInsets.only(top:40)),
                     ],
                   ),
                 ),
@@ -289,9 +358,10 @@ class _MyHomePageState extends State<MyHomePage> {
   //预警判断
   Widget buildWarning(){
     if(controller.weatherWarning.value == "无" || controller.weatherWarning.value == ""){
-      return paddingContainer(25);
+      return const Padding(padding: EdgeInsets.only(top:25));
     }
     return Container(
+      constraints: BoxConstraints(minWidth: MediaQuery.of(context).size.width*0.9,maxWidth: MediaQuery.of(context).size.width*0.95),
       margin: EdgeInsets.only(
         left: MediaQuery.of(context).size.width*0.05,
         right: MediaQuery.of(context).size.width*0.05
