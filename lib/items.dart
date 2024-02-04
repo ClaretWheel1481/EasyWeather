@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 Map<String,IconData> weatherIcons = {
     '晴' : Icons.sunny,
-    '少云' : Icons.cloud,
+    '少云' : CupertinoIcons.cloud,
     '晴间多云' : CupertinoIcons.cloud_sun,
     '平静' : Icons.clear_all_rounded,
-    '多云' : Icons.cloud,
+    '多云' : CupertinoIcons.cloud,
     '有风' : CupertinoIcons.wind,
     '微风' : CupertinoIcons.wind,
     '和风' : CupertinoIcons.wind,
@@ -23,7 +23,7 @@ Map<String,IconData> weatherIcons = {
     '中度霾' : CupertinoIcons.infinite,
     '重度霾' : CupertinoIcons.infinite,
     '严重霾' : CupertinoIcons.infinite,
-    '阴' : CupertinoIcons.cloud,
+    '阴' : Icons.cloud,
     '阵雨' : CupertinoIcons.cloud_rain,
     '雷阵雨' : CupertinoIcons.cloud_bolt_rain_fill,
     '雷阵雨并伴有冰雹' : CupertinoIcons.cloud_hail_fill,

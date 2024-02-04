@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:easyweather/home.dart';
+import 'package:easyweather/pages/home/home.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -32,17 +32,17 @@ void getNowWeatherAll() async{    //获取所有天气信息
   controller.day1weather.value = temper2['forecasts'][0]['casts'][1]['dayweather'];
   controller.day1hightemp.value = temper2['forecasts'][0]['casts'][1]['daytemp'];
   controller.day1lowtemp.value = temper2['forecasts'][0]['casts'][1]['nighttemp'];
-  controller.day1date.value =formatDate(DateTime.parse(temper2['forecasts'][0]['casts'][1]['date']), [mm,'/',dd]);
+  controller.day1date.value = formatDate(DateTime.parse(temper2['forecasts'][0]['casts'][1]['date']), [mm,'/',dd]);
 
   controller.day2weather.value = temper2['forecasts'][0]['casts'][2]['dayweather'];
   controller.day2hightemp.value = temper2['forecasts'][0]['casts'][2]['daytemp'];
   controller.day2lowtemp.value = temper2['forecasts'][0]['casts'][2]['nighttemp'];
-  controller.day2date.value =formatDate(DateTime.parse(temper2['forecasts'][0]['casts'][2]['date']), [mm,'/',dd]);
+  controller.day2date.value = formatDate(DateTime.parse(temper2['forecasts'][0]['casts'][2]['date']), [mm,'/',dd]);
 
   controller.day3weather.value = temper2['forecasts'][0]['casts'][3]['dayweather'];
   controller.day3hightemp.value = temper2['forecasts'][0]['casts'][3]['daytemp'];
   controller.day3lowtemp.value = temper2['forecasts'][0]['casts'][3]['nighttemp'];
-  controller.day3date.value =formatDate(DateTime.parse(temper2['forecasts'][0]['casts'][3]['date']), [mm,'/',dd]);
+  controller.day3date.value = formatDate(DateTime.parse(temper2['forecasts'][0]['casts'][3]['date']), [mm,'/',dd]);
 
   controller.day1week.value = temper2['forecasts'][0]['casts'][1]['week'];
   controller.day2week.value = temper2['forecasts'][0]['casts'][2]['week'];
@@ -79,8 +79,8 @@ void requestLocationPermission() async {    //启用定位权限并检查
   var status = await Permission.location.request();
   if (status.isGranted) {
     try {     //获取经纬度转换为城市
-      showSnackbar("通知","获取您的位置中，请稍后。");
-      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best,forceAndroidLocationManager: true);
+      showSnackbar("通知","正在获取位置中，请稍后。");
+      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best,forceAndroidLocationManager: true,timeLimit: const Duration(seconds: 3));
       List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
       Placemark place = placemarks[0];
       controller.locality.value = place.locality!;
@@ -91,7 +91,7 @@ void requestLocationPermission() async {    //启用定位权限并检查
       if (e is LocationServiceDisabledException) {
         showSnackbar("错误", "失败，没有启用设备的定位服务。");
       }else{
-        showSnackbar("错误", "位置获取失败。");
+        showSnackbar("错误", "位置获取失败，请尝试手动搜索城市。");
       }
     }
   } else if (status.isDenied) {
@@ -138,6 +138,6 @@ void showSnackbar(String title,String content){
     snackPosition: SnackPosition.TOP,
     margin: const EdgeInsets.only(left: 15,right: 15),
     isDismissible: true,
-    borderRadius: 15
+    borderRadius: 15,
   );
 }

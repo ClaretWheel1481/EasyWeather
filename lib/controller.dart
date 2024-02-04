@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:easyweather/home.dart';
+import 'package:easyweather/pages/home/home.dart';
 import 'package:easyweather/classes.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';

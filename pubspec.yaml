@@ -77,6 +77,11 @@ flutter:
    - assets/images/snowy.gif
    - assets/images/windy.gif
    - assets/images/sunny.jpg
+
+  fonts:
+    - family: NotoSans
+      fonts:
+        - asset: assets/fonts/NotoSansSC.ttf
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

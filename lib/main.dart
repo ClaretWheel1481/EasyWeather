@@ -1,6 +1,6 @@
 import 'package:easyweather/function.dart';
 import 'package:flutter/material.dart';
-import 'package:easyweather/home.dart';
+import 'package:easyweather/pages/home/home.dart';
 
 void main() async{
   // EasyWeather！启动！
