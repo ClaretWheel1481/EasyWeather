@@ -1,7 +1,7 @@
 English | [简体中文](README_CN.md)
 <p align="center">
     <a href="https://github.com/ClaretWheel1481/easyweather">
-        <img src="./assets/images/easyweather.png" height="12%"/>
+        <img src="./assets/images/easyweather.png" height="200"/>
     </a>
 </p>
 
