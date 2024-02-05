@@ -44,7 +44,6 @@ class WeatherController extends GetxController{
   var qWeatherId = '0'.obs;   //和风天气城市id
 
   var airQuality = ''.obs;  //空气质量
-  var airQualityIndex = ''.obs;   //aqi
   var carWashIndice = ''.obs;   //洗车指数
   var sportIndice = ''.obs;   //运动指数
 }

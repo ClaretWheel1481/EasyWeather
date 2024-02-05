@@ -38,6 +38,7 @@ Widget buildRowWeather(RxString lt,RxString ht,String weather){
     mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text.rich(TextSpan(children: <InlineSpan>[
+              const TextSpan(text:" ",style: TextStyle(fontSize: 16)),
               WidgetSpan(child: SizedBox(width: 16,height: 24,child: Icon(weatherIcons[weather]))),
               WidgetSpan(child: ConstrainedBox(constraints: const BoxConstraints(maxHeight: 40,minWidth: 90),child:Container(padding: const EdgeInsets.only(right:10),child: Text('   $weather',style: const TextStyle(fontSize: 18))))),
               WidgetSpan(child: ConstrainedBox(constraints: const BoxConstraints(minWidth: 80),child: Text('$lt° ~ $ht°',style: const TextStyle(fontSize: 18)))),

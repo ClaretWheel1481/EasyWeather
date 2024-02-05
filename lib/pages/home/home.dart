@@ -206,7 +206,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         child:
                           Row(
                             children: [
-                              const SizedBox(width: 15),
+                              const SizedBox(width: 13),
                               Column(
                                 children: [
                                   const Padding(padding: EdgeInsets.only(top:8)),
@@ -233,7 +233,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   const Padding(padding: EdgeInsets.only(top:11)),
                                 ],
                               ),
-                              const SizedBox(width: 15),
+                              const SizedBox(width: 13),
                             ],
                           )
                       ),
@@ -306,7 +306,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         ),
                                         const SizedBox(height: 5),
                                         Center(
-                                          child: Text('${controller.airQualityIndex}  -  ${controller.airQuality}',style: const TextStyle(fontSize: 18)),
+                                          child: Text('${controller.airQuality}',style: const TextStyle(fontSize: 18)),
                                         ),
                                         const Divider(),
                                         const Row(
@@ -346,7 +346,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ],
                       ),
-                      const Padding(padding: EdgeInsets.only(top:40)),
+                      const Padding(padding: EdgeInsets.only(top:50)),
                     ],
                   ),
                 ),

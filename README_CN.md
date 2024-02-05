@@ -46,6 +46,12 @@ EasyWeather by ClaretWheel1481
 ☑️
 可跟随天气变化的天气背景
 <br>
+☑️
+空气质量
+<br>
+☑️
+天气指数
+<br>
 ................
 
 ## 🍜用法
@@ -56,8 +62,8 @@ EasyWeather by ClaretWheel1481
 
 ## 📷预览
 <div class="half">
-<img src="./assets/images/Sample_107_light.png" width=40%/>
-<img src="./assets/images/Sample_107_dark.png" width=40%/>
+<img src="./assets/images/Sample_108_light.png" width=40%/>
+<img src="./assets/images/Sample_108_dark.png" width=40%/>
 </div>
 
 ## 📥下载

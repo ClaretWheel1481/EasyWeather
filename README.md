@@ -38,13 +38,19 @@ Weather forecast for the next 3 days.
 Variable weather icons
 <br>
 ☑️
-Dark Mode
+Dark Mode(Follow the system settings)
 <br>
 ☑️
 Dangerous weather warning
 <br>
 ☑️
 Variable weather background
+<br>
+☑️
+Air Quality
+<br>
+☑️
+Weather Indices
 <br>
 ................
 ## 🍜Usage
@@ -55,8 +61,8 @@ Variable weather background
 
 ## 📷Screenshots
 <div class="half">
-<img src="./assets/images/Sample_107_light.png" width=40%/>
-<img src="./assets/images/Sample_107_dark.png" width=40%/>
+<img src="./assets/images/Sample_108_light.png" width=40%/>
+<img src="./assets/images/Sample_108_dark.png" width=40%/>
 </div>
 
 ## 📥Download

@@ -65,7 +65,7 @@ Future getQweatherCityId() async{   //通过高德开放平台的adcode转换为
 }
 
 //天气指数
-void getCityIndices() async {
+Future getCityIndices() async {
   var url = Uri.parse('http://easyweather.claret.space:37878/v1/data/getCityIndices/${controller.qWeatherId}');
   var response = await http.get(url);
   Map<String,dynamic> temper5 = jsonDecode(response.body);
@@ -74,12 +74,11 @@ void getCityIndices() async {
 }
 
 //天气指数
-void getCityAir() async {
+Future getCityAir() async {
   var url = Uri.parse('http://easyweather.claret.space:37878/v1/data/getCityAir/${controller.qWeatherId}');
   var response = await http.get(url);
   Map<String,dynamic> temper6 = jsonDecode(response.body);
   controller.airQuality.value = temper6['now']['category'];
-  controller.airQualityIndex.value = temper6['now']['aqi'];
 }
 
 Future getLocationWeather() async {   //根据定位或保存的城市信息获取天气情况
@@ -91,8 +90,8 @@ Future getLocationWeather() async {   //根据定位或保存的城市信息获�
   getNowWeather();
   getNowWeatherAll();
   await getQweatherCityId();
-  getCityIndices();
-  getCityAir();
+  await getCityIndices();
+  await getCityAir();
 }
 
 void requestLocationPermission() async {    //启用定位权限并检查
