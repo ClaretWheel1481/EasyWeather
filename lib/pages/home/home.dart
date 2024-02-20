@@ -23,12 +23,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.light,
-        fontFamily: "NotoSans"
+        fontFamily: "HMOS"
       ),
       darkTheme: ThemeData(
         useMaterial3: true,
           brightness: Brightness.dark,
-          fontFamily: "NotoSans"
+          fontFamily: "HMOS"
       ),
       themeMode: ThemeMode.system,
       home: const MyHomePage(),
@@ -209,8 +209,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               const SizedBox(width: 13),
                               Column(
                                 children: [
-                                  const Padding(padding: EdgeInsets.only(top:8)),
-                                  const Text('风力等级',style: TextStyle(fontSize: 18)),
+                                  const Padding(padding: EdgeInsets.only(top:11)),
+                                  const Text('风力等级',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
                                   Text('${controller.windpower}级',style: const TextStyle(fontSize: 16)),
                                   const Padding(padding: EdgeInsets.only(top:11)),
                                 ]
@@ -218,8 +218,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               const Spacer(flex: 1),
                               Column(
                                 children: [
-                                  const Padding(padding: EdgeInsets.only(top:8)),
-                                  const Text('当前风向',style: TextStyle(fontSize: 18)),
+                                  const Padding(padding: EdgeInsets.only(top:11)),
+                                  const Text('当前风向',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
                                   Text('${controller.winddirection}',style: const TextStyle(fontSize: 16)),
                                   const Padding(padding: EdgeInsets.only(top:11)),
                                 ]
@@ -227,8 +227,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               const Spacer(flex: 1),
                               Column(
                                 children: [
-                                  const Padding(padding: EdgeInsets.only(top:8)),
-                                  const Text('空气湿度',style: TextStyle(fontSize: 18)),
+                                  const Padding(padding: EdgeInsets.only(top:11)),
+                                  const Text('空气湿度',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
                                   Text('~${controller.humidity}%',style: const TextStyle(fontSize: 16)),
                                   const Padding(padding: EdgeInsets.only(top:11)),
                                 ],
@@ -257,19 +257,19 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                             child: Column(
                               children: <Widget>[
-                                const SizedBox(height: 8),
+                                const SizedBox(height: 7),
                                 buildRowDate(controller.day1date,controller.day1Week.value),
-                                const SizedBox(height: 5),
+                                const SizedBox(height: 3),
                                 buildRowWeather(controller.day1LowTemp, controller.day1HighTemp,controller.day1weather.value),
                                 const Divider(),
                                 buildRowDate(controller.day2date,controller.day2Week.value),
-                                const SizedBox(height: 5),
+                                const SizedBox(height: 3),
                                 buildRowWeather(controller.day2LowTemp, controller.day2HighTemp,controller.day2weather.value),
                                 const Divider(),
                                 buildRowDate(controller.day3date,controller.day3Week.value),
-                                const SizedBox(height: 5),
+                                const SizedBox(height: 3),
                                 buildRowWeather(controller.day3LowTemp, controller.day3HighTemp,controller.day3weather.value),
-                                const SizedBox(height: 8),
+                                const SizedBox(height: 4),
                               ],
                             ),
                           ),
@@ -300,7 +300,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           children: [
                                             Text.rich(TextSpan(children: <InlineSpan>[
                                               WidgetSpan(child: SizedBox(width: 16,height: 23,child: Icon(Icons.air))),
-                                              TextSpan(text:"   空气质量",style: TextStyle(fontSize: 16)),
+                                              TextSpan(text:"   空气质量",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),
                                             ])),
                                           ],
                                         ),
@@ -314,7 +314,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           children: [
                                             Text.rich(TextSpan(children: <InlineSpan>[
                                               WidgetSpan(child: SizedBox(width: 16,height: 23,child: Icon(Icons.directions_run))),
-                                              TextSpan(text:"   运动指数",style: TextStyle(fontSize: 16)),
+                                              TextSpan(text:"   运动指数",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),
                                             ])),
                                           ],
                                         ),
@@ -328,7 +328,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           children: [
                                             Text.rich(TextSpan(children: <InlineSpan>[
                                               WidgetSpan(child: SizedBox(width: 16,height: 23,child: Icon(Icons.car_crash))),
-                                              TextSpan(text:"   洗车指数",style: TextStyle(fontSize: 16)),
+                                              TextSpan(text:"   洗车指数",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),
                                             ])),
                                           ],
                                         ),

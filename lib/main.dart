@@ -15,6 +15,6 @@ void main() async{
 
   // 优化第一次启动与正常启动
   if(controller.locality.value != ''){
-    await getLocationWeather();
+    getLocationWeather();
   }
 }
