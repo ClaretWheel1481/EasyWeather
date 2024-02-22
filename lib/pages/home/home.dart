@@ -173,7 +173,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               ])),
                           )
                       ),
-                      const Padding(padding: EdgeInsets.only(top:140)),
+                      const SizedBox(height: 140),
                       Center(
                           child:Obx(()=>
                               Text.rich(TextSpan(children: <InlineSpan>[
@@ -189,10 +189,10 @@ class _MyHomePageState extends State<MyHomePage> {
                               ])),
                           )
                       ),
-                      const Padding(padding: EdgeInsets.only(top:140)),
+                      const SizedBox(height: 150),
                       //危险天气预警组件
                       buildWarning(),
-                      const Padding(padding: EdgeInsets.only(top:50)),
+                      const SizedBox(height: 50),
                       Container(
                         margin: EdgeInsets.only(
                             left: MediaQuery.of(context).size.width*0.05,
@@ -237,7 +237,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ],
                           )
                       ),
-                      const Padding(padding: EdgeInsets.only(top:50)),
+                      const SizedBox(height: 50),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
