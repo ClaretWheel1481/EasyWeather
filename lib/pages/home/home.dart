@@ -143,7 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 key: ValueKey(weatherBackground[controller.weather.value]),
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage(weatherBackground[controller.weather.value] ?? "assets/images/cloudy.jpg"),
+                    image: AssetImage(weatherBackground[controller.weather.value] ?? "assets/images/sunny.jpg"),
                     fit: BoxFit.cover,
                     opacity: Get.isDarkMode ? 0.5 : 0.7
                   )
@@ -294,49 +294,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ),
                                     child: Column(
                                       children: <Widget>[
-                                        const SizedBox(height: 8),
-                                        const Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Text.rich(TextSpan(children: <InlineSpan>[
-                                              WidgetSpan(child: SizedBox(width: 16,height: 23,child: Icon(Icons.air))),
-                                              TextSpan(text:"   空气质量",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),
-                                            ])),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Center(
-                                          child: Text('${controller.airQuality}',style: const TextStyle(fontSize: 18)),
-                                        ),
+                                        const SizedBox(height: 9),
+                                        buildIndices(controller.airQuality.value,"空气质量",Icons.air_outlined),
                                         const Divider(),
-                                        const Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Text.rich(TextSpan(children: <InlineSpan>[
-                                              WidgetSpan(child: SizedBox(width: 16,height: 23,child: Icon(Icons.directions_run))),
-                                              TextSpan(text:"   运动指数",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),
-                                            ])),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Center(
-                                          child: Text('${controller.sportIndice}',style: const TextStyle(fontSize: 18)),
-                                        ),
+                                        buildIndices(controller.sportIndice.value,"运动指数",Icons.sports_tennis),
                                         const Divider(),
-                                        const Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Text.rich(TextSpan(children: <InlineSpan>[
-                                              WidgetSpan(child: SizedBox(width: 16,height: 23,child: Icon(Icons.car_crash))),
-                                              TextSpan(text:"   洗车指数",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),
-                                            ])),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Center(
-                                          child: Text('${controller.carWashIndice}',style: const TextStyle(fontSize: 18)),
-                                        ),
-                                        const SizedBox(height: 8),
+                                        buildIndices(controller.carWashIndice.value,"洗车指数",Icons.car_crash_outlined),
+                                        const SizedBox(height: 9),
                                       ],
                                     ),
                                   ),
@@ -358,7 +322,7 @@ class _MyHomePageState extends State<MyHomePage> {
   //预警判断
   Widget buildWarning(){
     if(controller.weatherWarning.value == "无" || controller.weatherWarning.value == ""){
-      return const Padding(padding: EdgeInsets.only(top:25));
+      return const Padding(padding: EdgeInsets.only(top:28));
     }
     return Container(
       constraints: BoxConstraints(minWidth: MediaQuery.of(context).size.width*0.9,maxWidth: MediaQuery.of(context).size.width*0.95),

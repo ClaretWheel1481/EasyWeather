@@ -1,3 +1,4 @@
+import 'package:easyweather/pages/home/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -73,7 +74,7 @@ Future getCityIndices() async {
   controller.sportIndice.value = temper5['daily'][1]['category'];
 }
 
-//天气指数
+//空气指数
 Future getCityAir() async {
   var url = Uri.parse('http://easyweather.claret.space:37878/v1/data/getCityAir/${controller.qWeatherId}');
   var response = await http.get(url);
@@ -142,7 +143,7 @@ Future<String> getCityName() async {
 void addCityToList(List<String> list, String element) {
   if (!list.contains(element)) {
     list.add(element);
-    showSnackbar("通知", "已将${controller.cityname}添加到城市列表中。");
+    showSnackbar("通知", "已将${controller.locality}添加到城市列表中。");
   } else{
     showSnackbar("通知", "$element已在列表内，若删除请长按城市。");
   }
@@ -153,10 +154,9 @@ void showSnackbar(String title,String content){
   Get.snackbar(
     title,
     content,
-    duration: const Duration(milliseconds: 1400),
+    backgroundColor: themeColor(),
+    duration: const Duration(milliseconds: 1000),
     snackPosition: SnackPosition.TOP,
-    margin: const EdgeInsets.only(left: 15,right: 15),
-    isDismissible: true,
     borderRadius: 15,
   );
 }

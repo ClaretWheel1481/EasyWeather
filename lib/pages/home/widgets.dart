@@ -16,7 +16,7 @@ Color themeColor(){
   if(Get.isDarkMode){
     return const Color.fromARGB(255, 53, 57, 65);
   }
-  return const Color.fromARGB(255, 253, 252, 255);
+  return const Color.fromARGB(255, 220, 220, 221);
 }
 
 //未来时间复用代码
@@ -44,5 +44,25 @@ Widget buildRowWeather(RxString lt,RxString ht,String weather){
               WidgetSpan(child: ConstrainedBox(constraints: const BoxConstraints(minWidth: 80),child: Text('$lt° ~ $ht°',style: const TextStyle(fontSize: 18)))),
             ])),
           ],
+  );
+}
+
+Widget buildIndices(String Indice,String IndiceTitle,IconData IndiceIcon){
+  return Column(
+    children: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text.rich(TextSpan(children: <InlineSpan>[
+            WidgetSpan(child: SizedBox(width: 16,height: 23,child: Icon(IndiceIcon))),
+            TextSpan(text:'   $IndiceTitle',style: const TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),
+          ])),
+        ],
+      ),
+      const SizedBox(height: 5),
+      Center(
+        child: Text(Indice,style: const TextStyle(fontSize: 18)),
+      ),
+    ],
   );
 }

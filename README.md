@@ -22,6 +22,7 @@ The data is sourced from the Gaode Open Platform,QWeather Platform.
 
 ## ⚠️Warning
 ❗️Only suitable for use in Chinese Mainland, Hong Kong, Macao and Taiwan.<br>
+❗️Only suitable for system language is Simplify Chinese.<br>
 ❗️Only suitable for running on Android 9.0 and Mobile Phone.<br>
 
 ## ➡️Features
