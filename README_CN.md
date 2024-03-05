@@ -63,8 +63,8 @@ EasyWeather by ClaretWheel1481
 
 ## 📷预览
 <div class="half">
-<img src="./assets/images/Sample_108_light.png" width=40%/>
-<img src="./assets/images/Sample_108_dark.png" width=40%/>
+<img src="./assets/images/Sample_Light.png" width=40%/>
+<img src="./assets/images/Sample_Dark.png" width=40%/>
 </div>
 
 ## 📥下载
