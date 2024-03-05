@@ -1,9 +1,9 @@
 name: easyweather
 description: easyweather by claret
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: 'none' 
 
-version: 1.0.9+1
+version: 1.0.10+1
 
 environment:
   sdk: '>=3.0.3 <4.0.0'
@@ -20,7 +20,6 @@ dependencies:
   date_format:
   expandable_text:
   cupertino_icons:
-  
 
 dev_dependencies:
   flutter_test:

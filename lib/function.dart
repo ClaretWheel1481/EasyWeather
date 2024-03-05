@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'package:date_format/date_format.dart';
 
-void getNowWeather() async{    //获取当前天气
+Future getNowWeather() async{    //获取当前天气
   var url = Uri.parse('http://easyweather.claret.space:37878/v1/data/baseWeatherInfo/${controller.cityid}');
   var response = await http.get(url);
   Map<String,dynamic> temper = json.decode(response.body);
@@ -21,7 +21,7 @@ void getNowWeather() async{    //获取当前天气
   controller.humidity.value = temper['lives'][0]['humidity'];
 }
 
-void getNowWeatherAll() async{    //获取所有天气信息
+Future getNowWeatherAll() async{    //获取所有天气信息
   var url = Uri.parse('http://easyweather.claret.space:37878/v1/data/allWeatherInfo/${controller.cityid}');
   var response = await http.get(url);
   Map<String,dynamic> temper2 = json.decode(response.body);
@@ -86,11 +86,8 @@ Future getLocationWeather() async {   //根据定位或保存的城市信息获�
   final Map<String,dynamic>jsonData = json.decode(response.body);
   controller.cityname.value = jsonData['districts'][0]['name'];
   controller.cityid = jsonData['districts'][0]['adcode'];
-  getNowWeather();
-  getNowWeatherAll();
-  await getQweatherCityId();
-  await getCityIndices();
-  await getCityAir();
+  await Future.wait([getNowWeather(),getNowWeatherAll(),getQweatherCityId()]);
+  await Future.wait([getCityAir(),getCityIndices()]);
 }
 
 void requestLocationPermission() async {    //启用定位权限并检查
@@ -102,7 +99,7 @@ void requestLocationPermission() async {    //启用定位权限并检查
       List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
       Placemark place = placemarks[0];
       controller.locality.value = place.locality!;
-      getLocationWeather();
+      await getLocationWeather();
       addCityToList(cityList, controller.locality.value);
       saveData();
     } catch (e) {
@@ -153,8 +150,11 @@ void showSnackbar(String title,String content){
     title,
     content,
     backgroundColor: themeColor(),
-    duration: const Duration(milliseconds: 1000),
+    duration: const Duration(milliseconds: 1200),
     snackPosition: SnackPosition.TOP,
     borderRadius: 15,
+    boxShadows: [
+      boxShadows()
+    ]
   );
 }

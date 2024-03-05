@@ -27,8 +27,8 @@ class MyApp extends StatelessWidget {
       ),
       darkTheme: ThemeData(
         useMaterial3: true,
-          brightness: Brightness.dark,
-          fontFamily: "HMOS"
+        brightness: Brightness.dark,
+        fontFamily: "HMOS"
       ),
       themeMode: ThemeMode.system,
       home: const MyHomePage(),
@@ -94,8 +94,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: GestureDetector(
                   onLongPress: () {
                     setState(() {
-                      Get.back();
                       cityList.remove(e); // 删除长按的元素
+                      Get.back();
                       showSnackbar("通知", "已删除$e！");
                       saveData();
                     });
@@ -151,7 +151,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: RefreshIndicator(  //下拉刷新
                   onRefresh:() async{
                     await getLocationWeather();
-                    showSnackbar("通知", "更新天气成功！");
                   },
                   displacement: 50.0,
                   child: ListView(
@@ -189,10 +188,10 @@ class _MyHomePageState extends State<MyHomePage> {
                               ])),
                           )
                       ),
-                      const SizedBox(height: 150),
+                      const SizedBox(height: 140),
                       //危险天气预警组件
                       buildWarning(),
-                      const SizedBox(height: 50),
+                      const SizedBox(height: 65),
                       Container(
                         margin: EdgeInsets.only(
                             left: MediaQuery.of(context).size.width*0.05,

@@ -1,4 +1,4 @@
-[English](README) | 简体中文
+[English](README.md) | 简体中文
 <p align="center">
     <a href="https://github.com/ClaretWheel1481/easyweather">
         <img src="./assets/images/easyweather.png" height="200"/>
