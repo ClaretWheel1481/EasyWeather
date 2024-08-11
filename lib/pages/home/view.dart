@@ -9,7 +9,7 @@ import 'package:easyweather/utils/items.dart';
 
 List<String> cityList = []; //数据持久化天气列表
 
-WeatherController controller = Get.put(WeatherController());
+WeatherController wCtr = Get.put(WeatherController());
 CityController cityQueryController = Get.put(CityController());
 
 class MyHomePage extends StatefulWidget {
@@ -23,7 +23,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => controller.locality.value.isEmpty
+      () => wCtr.locality.value.isEmpty
           ? _buildInitialScaffold()
           : _buildWeatherScaffold(),
     );
@@ -36,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: [
           IconButton(
             onPressed: () async {
-              requestLocationPermission();
+              requestLocationPermission(context);
             },
             icon: const Icon(Icons.location_on_outlined),
           ),
@@ -65,14 +65,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 return FadeTransition(opacity: animation, child: child);
               },
               child: Container(
-                key: ValueKey<String>(
-                    weatherBackground[controller.weather.value] ??
-                        "assets/images/sunny.jpg"),
+                key: ValueKey<String>(weatherBackground[wCtr.weather.value] ??
+                    "assets/images/sunny.jpg"),
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage(
-                        weatherBackground[controller.weather.value] ??
-                            "assets/images/sunny.jpg"),
+                    image: AssetImage(weatherBackground[wCtr.weather.value] ??
+                        "assets/images/sunny.jpg"),
                     fit: BoxFit.cover,
                     colorFilter: ColorFilter.mode(
                       Colors.black.withOpacity(Get.isDarkMode ? 0.5 : 0.7),
@@ -113,15 +111,15 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Obx(() => Text(controller.cityname.value,
+            Obx(() => Text(wCtr.cityname.value,
                 style: const TextStyle(fontSize: 20))),
             Obx(
               () => Row(
                 children: [
-                  Icon(weatherIcons[controller.weather.value], size: 14),
+                  Icon(weatherIcons[wCtr.weather.value], size: 14),
                   const SizedBox(width: 4),
                   Text(
-                    "${controller.weather}",
+                    "${wCtr.weather}",
                     style: const TextStyle(fontSize: 14),
                   ),
                 ],
@@ -134,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
         _buildPopupMenuButton(),
         IconButton(
           onPressed: () async {
-            requestLocationPermission();
+            requestLocationPermission(context);
           },
           icon: const Icon(Icons.location_on_outlined),
         ),
@@ -159,7 +157,7 @@ class _MyHomePageState extends State<MyHomePage> {
               setState(() {
                 cityList.remove(e); // 删除长按的元素
                 Get.back();
-                showSnackbar("通知", "已删除$e！");
+                showNotification("通知", "已删除$e！");
                 saveData();
               });
             },
@@ -173,10 +171,10 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       }).toList(),
       onSelected: (value) {
-        controller.locality.value = value;
+        wCtr.locality.value = value;
         getLocationWeather();
         Get.back();
-        showSnackbar("通知", "当前默认城市为$value！");
+        showNotification("通知", "当前默认城市为$value！");
         saveData();
       },
       shape: const RoundedRectangleBorder(
@@ -189,28 +187,28 @@ class _MyHomePageState extends State<MyHomePage> {
     return SliverToBoxAdapter(
       child: Column(
         children: <Widget>[
-          const SizedBox(height: 120),
+          const SizedBox(height: 150),
           Center(
               child: Obx(
             () => Text.rich(TextSpan(children: <InlineSpan>[
               TextSpan(
-                  text: '${controller.tempera}',
-                  style: const TextStyle(fontSize: 115)),
-              const TextSpan(text: "°", style: TextStyle(fontSize: 125)),
+                  text: '${wCtr.tempera}',
+                  style: const TextStyle(fontSize: 125)),
+              const TextSpan(text: "°", style: TextStyle(fontSize: 115)),
             ])),
           )),
           Center(
               child: Obx(
             () => Text.rich(TextSpan(children: <InlineSpan>[
               TextSpan(
-                  text: '${controller.lowtemp}° / ${controller.hightemp}°',
+                  text: '${wCtr.lowtemp}° / ${wCtr.hightemp}°',
                   style: const TextStyle(fontSize: 22)),
             ])),
           )),
           const SizedBox(height: 140),
           //危险天气预警组件
-          buildWarning(),
-          const SizedBox(height: 65),
+          _buildWarning(),
+          const SizedBox(height: 55),
           Container(
               margin: EdgeInsets.only(
                   left: MediaQuery.of(context).size.width * 0.05,
@@ -234,7 +232,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     const Text('风力等级',
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold)),
-                    Text('${controller.windpower}级',
+                    Text('${wCtr.windpower}级',
                         style: const TextStyle(fontSize: 16)),
                     const Padding(padding: EdgeInsets.only(top: 11)),
                   ]),
@@ -244,7 +242,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     const Text('当前风向',
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold)),
-                    Text('${controller.winddirection}',
+                    Text('${wCtr.winddirection}',
                         style: const TextStyle(fontSize: 16)),
                     const Padding(padding: EdgeInsets.only(top: 11)),
                   ]),
@@ -255,7 +253,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       const Text('空气湿度',
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold)),
-                      Text('~${controller.humidity}%',
+                      Text('~${wCtr.humidity}%',
                           style: const TextStyle(fontSize: 16)),
                       const Padding(padding: EdgeInsets.only(top: 11)),
                     ],
@@ -291,23 +289,20 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Column(
                   children: <Widget>[
                     const SizedBox(height: 7),
-                    buildRowDate(
-                        controller.day1date, controller.day1Week.value),
+                    buildRowDate(wCtr.day1date, wCtr.day1Week.value),
                     const SizedBox(height: 3),
-                    buildRowWeather(controller.day1LowTemp,
-                        controller.day1HighTemp, controller.day1weather.value),
+                    buildRowWeather(wCtr.day1LowTemp, wCtr.day1HighTemp,
+                        wCtr.day1weather.value),
                     const Divider(),
-                    buildRowDate(
-                        controller.day2date, controller.day2Week.value),
+                    buildRowDate(wCtr.day2date, wCtr.day2Week.value),
                     const SizedBox(height: 3),
-                    buildRowWeather(controller.day2LowTemp,
-                        controller.day2HighTemp, controller.day2weather.value),
+                    buildRowWeather(wCtr.day2LowTemp, wCtr.day2HighTemp,
+                        wCtr.day2weather.value),
                     const Divider(),
-                    buildRowDate(
-                        controller.day3date, controller.day3Week.value),
+                    buildRowDate(wCtr.day3date, wCtr.day3Week.value),
                     const SizedBox(height: 3),
-                    buildRowWeather(controller.day3LowTemp,
-                        controller.day3HighTemp, controller.day3weather.value),
+                    buildRowWeather(wCtr.day3LowTemp, wCtr.day3HighTemp,
+                        wCtr.day3weather.value),
                     const SizedBox(height: 4),
                   ],
                 ),
@@ -339,13 +334,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Column(
                         children: <Widget>[
                           const SizedBox(height: 9),
-                          buildIndices(controller.airQuality.value, "空气质量",
+                          buildIndices(wCtr.airQuality.value, "空气质量",
                               Icons.air_outlined),
                           const Divider(),
-                          buildIndices(controller.sportIndice.value, "运动指数",
+                          buildIndices(wCtr.sportIndice.value, "运动指数",
                               Icons.sports_tennis),
                           const Divider(),
-                          buildIndices(controller.carWashIndice.value, "洗车指数",
+                          buildIndices(wCtr.carWashIndice.value, "洗车指数",
                               Icons.car_crash_outlined),
                           const SizedBox(height: 9),
                         ],
@@ -363,9 +358,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   //预警判断
-  Widget buildWarning() {
-    if (controller.weatherWarning.value == "无" ||
-        controller.weatherWarning.value == "") {
+  Widget _buildWarning() {
+    if (wCtr.weatherWarning.value == "无" || wCtr.weatherWarning.value == "") {
       return const Padding(padding: EdgeInsets.only(top: 28));
     }
     return Container(
@@ -391,7 +385,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: <Widget>[
             ExpandableText(
-              controller.weatherWarning.value,
+              wCtr.weatherWarning.value,
               maxLines: 1,
               expanded: false,
               expandOnTextTap: true,

@@ -10,13 +10,13 @@ void main() async {
 
   // 启动后数据读取处理
   Future<String> futureCityName = getCityName();
-  controller.locality.value = await futureCityName;
+  wCtr.locality.value = await futureCityName;
 
   Future<List<String>> futureCityList = getList();
   cityList = await futureCityList;
 
   // 优化第一次启动与正常启动
-  if (controller.locality.value != '') {
+  if (wCtr.locality.value != '') {
     await getLocationWeather();
   }
 }
@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
         }
 
         return GetMaterialApp(
+          scaffoldMessengerKey: scaffoldMessengerKey,
           theme: ThemeData(
             colorScheme: lightColorScheme,
             useMaterial3: true,

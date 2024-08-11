@@ -46,7 +46,7 @@ Widget buildRowWeather(RxString lt, RxString ht, String weather) {
   );
 }
 
-Widget buildIndices(String Indice, String IndiceTitle, IconData IndiceIcon) {
+Widget buildIndices(String indice, String indiceTitle, IconData indiceIcon) {
   return Column(
     children: [
       Row(
@@ -55,9 +55,9 @@ Widget buildIndices(String Indice, String IndiceTitle, IconData IndiceIcon) {
           Text.rich(TextSpan(children: <InlineSpan>[
             WidgetSpan(
                 child:
-                    SizedBox(width: 16, height: 23, child: Icon(IndiceIcon))),
+                    SizedBox(width: 16, height: 23, child: Icon(indiceIcon))),
             TextSpan(
-                text: '   $IndiceTitle',
+                text: '   $indiceTitle',
                 style:
                     const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           ])),
@@ -65,7 +65,7 @@ Widget buildIndices(String Indice, String IndiceTitle, IconData IndiceIcon) {
       ),
       const SizedBox(height: 5),
       Center(
-        child: Text(Indice, style: const TextStyle(fontSize: 18)),
+        child: Text(indice, style: const TextStyle(fontSize: 18)),
       ),
     ],
   );

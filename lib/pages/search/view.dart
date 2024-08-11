@@ -31,8 +31,8 @@ class SearchState extends State<Search> {
             onChanged: (text) {
               debouncer.run(() {
                 // 节流
-                controller.query.value = text;
-                cityQueryController.getData(controller.query.value);
+                wCtr.query.value = text;
+                cityQueryController.getData(wCtr.query.value);
               });
             }),
       ),
@@ -46,12 +46,12 @@ class SearchState extends State<Search> {
               leading: const Icon(Icons.location_on_outlined),
               title: Text(city.name),
               onTap: () {
-                controller.cityname.value = city.name;
-                controller.cityid = city.adcode;
-                controller.locality.value = city.name;
+                wCtr.cityname.value = city.name;
+                wCtr.cityid = city.adcode;
+                wCtr.locality.value = city.name;
                 getLocationWeather();
                 Get.back();
-                addCityToList(cityList, controller.cityname.value);
+                addCityToList(context, cityList, wCtr.cityname.value);
                 saveData();
               },
             );
