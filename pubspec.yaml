@@ -18,6 +18,7 @@ dependencies:
   geolocator: 
   geocoding: 
   date_format:
+  dynamic_color:
   expandable_text:
   cupertino_icons:
 
