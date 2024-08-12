@@ -109,3 +109,24 @@ Widget buildIndices(String indice, String indiceTitle, IconData indiceIcon) {
     ],
   );
 }
+
+// 天气详细组件
+Widget buildWeatherInfo(String label, value) {
+  return Column(
+    children: [
+      Row(
+        children: [
+          Text(
+            label,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+      const SizedBox(height: 2),
+      Text(
+        value,
+        style: const TextStyle(fontSize: 16),
+      ),
+    ],
+  );
+}

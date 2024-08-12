@@ -46,13 +46,11 @@ class MyApp extends StatelessWidget {
             colorScheme: lightColorScheme,
             useMaterial3: true,
             brightness: Brightness.light,
-            fontFamily: "HMOS",
           ),
           darkTheme: ThemeData(
             colorScheme: darkColorScheme,
             useMaterial3: true,
             brightness: Brightness.dark,
-            fontFamily: "HMOS",
           ),
           themeMode: ThemeMode.system,
           home: const MyHomePage(),

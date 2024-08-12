@@ -40,8 +40,3 @@ flutter:
    - assets/images/snowy.gif
    - assets/images/windy.gif
    - assets/images/sunny.jpg
-
-  fonts:
-    - family: HMOS
-      fonts:
-        - asset: assets/fonts/HarmonyOS_Sans_SC_Regular.ttf

@@ -216,8 +216,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           style: const TextStyle(fontSize: 125),
                         ),
                         const TextSpan(
-                          text: "°",
-                          style: TextStyle(fontSize: 115),
+                          text: "°c",
+                          style: TextStyle(fontSize: 25),
                         ),
                       ],
                     ),
@@ -258,69 +258,17 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 11.0, horizontal: 13.0),
-              child: Row(
-                children: [
-                  Column(
-                    children: [
-                      const Row(
-                        children: [
-                          SizedBox(width: 5),
-                          Text(
-                            '风力等级',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        '${wCtr.windpower}级',
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                    ],
-                  ),
-                  const Spacer(flex: 1),
-                  Column(
-                    children: [
-                      const Row(
-                        children: [
-                          SizedBox(width: 5),
-                          Text(
-                            '当前风向',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        '${wCtr.winddirection}',
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                    ],
-                  ),
-                  const Spacer(flex: 1),
-                  Column(
-                    children: [
-                      const Row(
-                        children: [
-                          SizedBox(width: 5),
-                          Text(
-                            '空气湿度',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        '~${wCtr.humidity}%',
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+                padding: const EdgeInsets.symmetric(
+                    vertical: 10.0, horizontal: 13.0),
+                child: Row(
+                  children: [
+                    buildWeatherInfo('风力等级', '${wCtr.windpower}级'),
+                    const Spacer(flex: 1),
+                    buildWeatherInfo('当前风向', '${wCtr.winddirection}'),
+                    const Spacer(flex: 1),
+                    buildWeatherInfo('空气湿度', '~${wCtr.humidity}%'),
+                  ],
+                )),
           ),
           const SizedBox(height: 50),
           IntrinsicHeight(
@@ -413,7 +361,7 @@ class _MyHomePageState extends State<MyHomePage> {
   //预警判断
   Widget _buildWarning() {
     if (wCtr.weatherWarning.value == "无" || wCtr.weatherWarning.value == "") {
-      return const Padding(padding: EdgeInsets.only(top: 28));
+      return const Padding(padding: EdgeInsets.only(top: 25));
     }
     return Container(
       constraints: BoxConstraints(
@@ -439,7 +387,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             ExpandableText(
               wCtr.weatherWarning.value,
-              maxLines: 1,
+              maxLines: 2,
               expanded: false,
               expandOnTextTap: true,
               collapseOnTextTap: true,
