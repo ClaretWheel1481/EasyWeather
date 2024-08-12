@@ -189,22 +189,40 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           const SizedBox(height: 150),
           Center(
-              child: Obx(
-            () => Text.rich(TextSpan(children: <InlineSpan>[
-              TextSpan(
-                  text: '${wCtr.tempera}',
-                  style: const TextStyle(fontSize: 125)),
-              const TextSpan(text: "°", style: TextStyle(fontSize: 115)),
-            ])),
-          )),
-          Center(
-              child: Obx(
-            () => Text.rich(TextSpan(children: <InlineSpan>[
-              TextSpan(
-                  text: '${wCtr.lowtemp}° / ${wCtr.hightemp}°',
-                  style: const TextStyle(fontSize: 22)),
-            ])),
-          )),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Obx(
+                  () => Text.rich(
+                    TextSpan(
+                      children: <InlineSpan>[
+                        TextSpan(
+                          text: '${wCtr.tempera}',
+                          style: const TextStyle(fontSize: 125),
+                        ),
+                        const TextSpan(
+                          text: "°",
+                          style: TextStyle(fontSize: 115),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Obx(
+                  () => Text.rich(
+                    TextSpan(
+                      children: <InlineSpan>[
+                        TextSpan(
+                          text: '${wCtr.lowtemp}° / ${wCtr.hightemp}°',
+                          style: const TextStyle(fontSize: 22),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
           const SizedBox(height: 140),
           //危险天气预警组件
           _buildWarning(),
@@ -227,129 +245,137 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Row(
                 children: [
                   const SizedBox(width: 13),
-                  Column(children: [
-                    const Padding(padding: EdgeInsets.only(top: 11)),
-                    const Text('风力等级',
+                  Column(
+                    children: [
+                      const SizedBox(height: 11),
+                      const Text(
+                        '风力等级',
                         style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold)),
-                    Text('${wCtr.windpower}级',
-                        style: const TextStyle(fontSize: 16)),
-                    const Padding(padding: EdgeInsets.only(top: 11)),
-                  ]),
-                  const Spacer(flex: 1),
-                  Column(children: [
-                    const Padding(padding: EdgeInsets.only(top: 11)),
-                    const Text('当前风向',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold)),
-                    Text('${wCtr.winddirection}',
-                        style: const TextStyle(fontSize: 16)),
-                    const Padding(padding: EdgeInsets.only(top: 11)),
-                  ]),
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        '${wCtr.windpower}级',
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                      const SizedBox(height: 11),
+                    ],
+                  ),
                   const Spacer(flex: 1),
                   Column(
                     children: [
-                      const Padding(padding: EdgeInsets.only(top: 11)),
-                      const Text('空气湿度',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold)),
-                      Text('~${wCtr.humidity}%',
-                          style: const TextStyle(fontSize: 16)),
-                      const Padding(padding: EdgeInsets.only(top: 11)),
+                      const SizedBox(height: 11),
+                      const Text(
+                        '当前风向',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        '${wCtr.winddirection}',
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                      const SizedBox(height: 11),
+                    ],
+                  ),
+                  const Spacer(flex: 1),
+                  Column(
+                    children: [
+                      const SizedBox(height: 11),
+                      const Text(
+                        '空气湿度',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        '~${wCtr.humidity}%',
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                      const SizedBox(height: 11),
                     ],
                   ),
                   const SizedBox(width: 13),
                 ],
               )),
           const SizedBox(height: 50),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                //未来天气
-                constraints: BoxConstraints(
-                  minWidth: MediaQuery.of(context).size.width * 0.43,
-                  maxWidth: MediaQuery.of(context).size.width * 0.53,
-                ),
-                margin: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.05,
-                  right: MediaQuery.of(context).size.width * 0.05,
-                ),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.onSecondary,
-                  borderRadius: const BorderRadius.all(Radius.circular(15)),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 4.0,
-                      offset: Offset(0, 2),
+          IntrinsicHeight(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  flex: 5,
+                  child: Container(
+                    margin: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.05,
                     ),
-                  ],
-                ),
-                child: Column(
-                  children: <Widget>[
-                    const SizedBox(height: 7),
-                    buildRowDate(wCtr.day1date, wCtr.day1Week.value),
-                    const SizedBox(height: 3),
-                    buildRowWeather(wCtr.day1LowTemp, wCtr.day1HighTemp,
-                        wCtr.day1weather.value),
-                    const Divider(),
-                    buildRowDate(wCtr.day2date, wCtr.day2Week.value),
-                    const SizedBox(height: 3),
-                    buildRowWeather(wCtr.day2LowTemp, wCtr.day2HighTemp,
-                        wCtr.day2weather.value),
-                    const Divider(),
-                    buildRowDate(wCtr.day3date, wCtr.day3Week.value),
-                    const SizedBox(height: 3),
-                    buildRowWeather(wCtr.day3LowTemp, wCtr.day3HighTemp,
-                        wCtr.day3weather.value),
-                    const SizedBox(height: 4),
-                  ],
-                ),
-              ),
-              SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-              Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Row(
-                  children: <Widget>[
-                    Container(
-                      constraints: BoxConstraints(
-                        minWidth: MediaQuery.of(context).size.width * 0.30,
-                        maxWidth: MediaQuery.of(context).size.width * 0.30,
-                      ),
-                      margin: EdgeInsets.only(
-                        right: MediaQuery.of(context).size.width * 0.05,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.onSecondary,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(15)),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 4.0,
-                            offset: Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        children: <Widget>[
-                          const SizedBox(height: 9),
-                          buildIndices(wCtr.airQuality.value, "空气质量",
-                              Icons.air_outlined),
-                          const Divider(),
-                          buildIndices(wCtr.sportIndice.value, "运动指数",
-                              Icons.sports_tennis),
-                          const Divider(),
-                          buildIndices(wCtr.carWashIndice.value, "洗车指数",
-                              Icons.car_crash_outlined),
-                          const SizedBox(height: 9),
-                        ],
-                      ),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.onSecondary,
+                      borderRadius: const BorderRadius.all(Radius.circular(15)),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 4.0,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
                     ),
-                  ],
+                    child: Column(
+                      children: <Widget>[
+                        const SizedBox(height: 9),
+                        buildRowDate(wCtr.day1date, wCtr.day1Week.value),
+                        const SizedBox(height: 3),
+                        buildRowWeather(wCtr.day1LowTemp, wCtr.day1HighTemp,
+                            wCtr.day1weather.value),
+                        const Divider(),
+                        buildRowDate(wCtr.day2date, wCtr.day2Week.value),
+                        const SizedBox(height: 3),
+                        buildRowWeather(wCtr.day2LowTemp, wCtr.day2HighTemp,
+                            wCtr.day2weather.value),
+                        const Divider(),
+                        buildRowDate(wCtr.day3date, wCtr.day3Week.value),
+                        const SizedBox(height: 3),
+                        buildRowWeather(wCtr.day3LowTemp, wCtr.day3HighTemp,
+                            wCtr.day3weather.value),
+                        const SizedBox(height: 5),
+                      ],
+                    ),
+                  ),
                 ),
-              ]),
-            ],
+                SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+                Expanded(
+                  flex: 3,
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      right: MediaQuery.of(context).size.width * 0.05,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.onSecondary,
+                      borderRadius: const BorderRadius.all(Radius.circular(15)),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 4.0,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        const SizedBox(height: 9),
+                        buildIndices(
+                            wCtr.airQuality.value, "空气质量", Icons.air_outlined),
+                        const SizedBox(height: 2),
+                        const Divider(),
+                        buildIndices(wCtr.sportIndice.value, "运动指数",
+                            Icons.sports_tennis),
+                        const SizedBox(height: 2),
+                        const Divider(),
+                        buildIndices(wCtr.carWashIndice.value, "洗车指数",
+                            Icons.car_crash_outlined),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
           const Padding(padding: EdgeInsets.only(top: 50)),
         ],

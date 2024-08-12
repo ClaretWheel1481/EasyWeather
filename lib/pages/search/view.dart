@@ -51,7 +51,7 @@ class SearchState extends State<Search> {
                 wCtr.locality.value = city.name;
                 getLocationWeather();
                 Get.back();
-                addCityToList(context, cityList, wCtr.cityname.value);
+                addCityToList(cityList, wCtr.cityname.value);
                 saveData();
               },
             );

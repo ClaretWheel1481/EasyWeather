@@ -9,10 +9,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'package:date_format/date_format.dart';
 
+var api = "http://easyweather.claret.space:37878/v1/data/";
+
 Future getNowWeather() async {
   // 获取当前天气
-  var url = Uri.parse(
-      'http://easyweather.claret.space:37878/v1/data/baseWeatherInfo/${wCtr.cityid}');
+  var url = Uri.parse('${api}baseWeatherInfo/${wCtr.cityid}');
   var response = await http.get(url);
   Map<String, dynamic> infos = json.decode(response.body);
 
@@ -27,8 +28,7 @@ Future getNowWeather() async {
 
 Future getNowWeatherAll() async {
   // 获取所有天气信息
-  var url = Uri.parse(
-      'http://easyweather.claret.space:37878/v1/data/allWeatherInfo/${wCtr.cityid}');
+  var url = Uri.parse('${api}allWeatherInfo/${wCtr.cityid}');
   var response = await http.get(url);
   Map<String, dynamic> infos = json.decode(response.body);
 
@@ -70,13 +70,11 @@ Future getNowWeatherAll() async {
 
 Future getQweatherCityId() async {
   //通过高德开放平台的adcode转换为彩云平台的cityid获取当前城市天气预警、空气质量、天气指数
-  var url = Uri.parse(
-      'http://easyweather.claret.space:37878/v1/data/CityId/${wCtr.cityid}');
+  var url = Uri.parse('${api}CityId/${wCtr.cityid}');
   var response = await http.get(url);
   Map<String, dynamic> infos = jsonDecode(response.body);
   wCtr.qWeatherId.value = infos['location'][0]['id'];
-  url = Uri.parse(
-      'http://easyweather.claret.space:37878/v1/data/CityWarning/${wCtr.qWeatherId}');
+  url = Uri.parse('${api}CityWarning/${wCtr.qWeatherId}');
   response = await http.get(url);
   Map<String, dynamic> temper4 = jsonDecode(response.body);
   if (temper4['warning'] != null && temper4['warning'].isNotEmpty) {
@@ -88,8 +86,7 @@ Future getQweatherCityId() async {
 
 //天气指数
 Future getCityIndices() async {
-  var url = Uri.parse(
-      'http://easyweather.claret.space:37878/v1/data/CityIndices/${wCtr.qWeatherId}');
+  var url = Uri.parse('${api}CityIndices/${wCtr.qWeatherId}');
   var response = await http.get(url);
   Map<String, dynamic> infos = jsonDecode(response.body);
   wCtr.carWashIndice.value = infos['daily'][0]['category'];
@@ -98,8 +95,7 @@ Future getCityIndices() async {
 
 //空气指数
 Future getCityAir() async {
-  var url = Uri.parse(
-      'http://easyweather.claret.space:37878/v1/data/CityAir/${wCtr.qWeatherId}');
+  var url = Uri.parse('${api}CityAir/${wCtr.qWeatherId}');
   var response = await http.get(url);
   Map<String, dynamic> infos = jsonDecode(response.body);
   wCtr.airQuality.value = infos['now']['category'];
@@ -107,8 +103,7 @@ Future getCityAir() async {
 
 Future getLocationWeather() async {
   //根据定位或保存的城市信息获取天气情况
-  var url = Uri.parse(
-      'http://easyweather.claret.space:37878/v1/data/baseCityInfo/${wCtr.locality}');
+  var url = Uri.parse('${api}baseCityInfo/${wCtr.locality}');
   var response = await http.get(url);
   final Map<String, dynamic> jsonData = json.decode(response.body);
   wCtr.cityname.value = jsonData['districts'][0]['name'];
@@ -133,7 +128,7 @@ void requestLocationPermission(BuildContext context) async {
       Placemark place = placemarks[0];
       wCtr.locality.value = place.locality!;
       await getLocationWeather();
-      addCityToList(context, cityList, wCtr.locality.value);
+      addCityToList(cityList, wCtr.locality.value);
       saveData();
     } catch (e) {
       if (e is LocationServiceDisabledException) {
@@ -168,7 +163,7 @@ Future<String> getCityName() async {
 }
 
 //List数据查重添加
-void addCityToList(BuildContext context, List<String> list, String element) {
+void addCityToList(List<String> list, String element) {
   if (!list.contains(element)) {
     list.add(element);
     showNotification("通知", "已将${wCtr.locality}添加到城市列表中。");
