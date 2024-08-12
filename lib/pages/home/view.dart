@@ -81,17 +81,32 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ),
-          RefreshIndicator(
-            displacement: 50,
-            onRefresh: () async {
-              await getLocationWeather();
+          FutureBuilder(
+            future: getLocationWeather(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (snapshot.hasError) {
+                return const Center(
+                  child: Text('加载错误，请重试！'),
+                );
+              } else {
+                return RefreshIndicator(
+                  displacement: 50,
+                  onRefresh: () async {
+                    await getLocationWeather();
+                  },
+                  child: CustomScrollView(
+                    slivers: [
+                      _buildSliverAppBar(),
+                      _getWeatherBody(),
+                    ],
+                  ),
+                );
+              }
             },
-            child: CustomScrollView(
-              slivers: [
-                _buildSliverAppBar(),
-                _getWeatherBody(),
-              ],
-            ),
           ),
         ],
       ),
@@ -228,73 +243,85 @@ class _MyHomePageState extends State<MyHomePage> {
           _buildWarning(),
           const SizedBox(height: 55),
           Container(
-              margin: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.05,
-                  right: MediaQuery.of(context).size.width * 0.05),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.onSecondary,
-                borderRadius: const BorderRadius.all(Radius.circular(15)),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 4.0,
-                    offset: Offset(0, 2),
-                  ),
-                ],
-              ),
+            margin: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.05,
+            ),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.onSecondary,
+              borderRadius: const BorderRadius.all(Radius.circular(15)),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 4.0,
+                  offset: Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 11.0, horizontal: 13.0),
               child: Row(
                 children: [
-                  const SizedBox(width: 13),
                   Column(
                     children: [
-                      const SizedBox(height: 11),
-                      const Text(
-                        '风力等级',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                      const Row(
+                        children: [
+                          SizedBox(width: 5),
+                          Text(
+                            '风力等级',
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       ),
                       Text(
                         '${wCtr.windpower}级',
                         style: const TextStyle(fontSize: 16),
                       ),
-                      const SizedBox(height: 11),
                     ],
                   ),
                   const Spacer(flex: 1),
                   Column(
                     children: [
-                      const SizedBox(height: 11),
-                      const Text(
-                        '当前风向',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                      const Row(
+                        children: [
+                          SizedBox(width: 5),
+                          Text(
+                            '当前风向',
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       ),
                       Text(
                         '${wCtr.winddirection}',
                         style: const TextStyle(fontSize: 16),
                       ),
-                      const SizedBox(height: 11),
                     ],
                   ),
                   const Spacer(flex: 1),
                   Column(
                     children: [
-                      const SizedBox(height: 11),
-                      const Text(
-                        '空气湿度',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                      const Row(
+                        children: [
+                          SizedBox(width: 5),
+                          Text(
+                            '空气湿度',
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       ),
                       Text(
                         '~${wCtr.humidity}%',
                         style: const TextStyle(fontSize: 16),
                       ),
-                      const SizedBox(height: 11),
                     ],
                   ),
-                  const SizedBox(width: 13),
                 ],
-              )),
+              ),
+            ),
+          ),
           const SizedBox(height: 50),
           IntrinsicHeight(
             child: Row(

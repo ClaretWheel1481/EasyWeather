@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:easyweather/utils/items.dart';
 
-//未来时间代码
 // 未来时间代码
 Widget buildRowDate(RxString date, String weekday) {
   return Row(
