@@ -71,12 +71,12 @@ Future getNowWeatherAll() async {
 Future getQweatherCityId() async {
   //通过高德开放平台的adcode转换为彩云平台的cityid获取当前城市天气预警、空气质量、天气指数
   var url = Uri.parse(
-      'http://easyweather.claret.space:37878/v1/data/getCityId/${wCtr.cityid}');
+      'http://easyweather.claret.space:37878/v1/data/CityId/${wCtr.cityid}');
   var response = await http.get(url);
   Map<String, dynamic> infos = jsonDecode(response.body);
   wCtr.qWeatherId.value = infos['location'][0]['id'];
   url = Uri.parse(
-      'http://easyweather.claret.space:37878/v1/data/getCityWarning/${wCtr.qWeatherId}');
+      'http://easyweather.claret.space:37878/v1/data/CityWarning/${wCtr.qWeatherId}');
   response = await http.get(url);
   Map<String, dynamic> temper4 = jsonDecode(response.body);
   if (temper4['warning'] != null && temper4['warning'].isNotEmpty) {
@@ -89,7 +89,7 @@ Future getQweatherCityId() async {
 //天气指数
 Future getCityIndices() async {
   var url = Uri.parse(
-      'http://easyweather.claret.space:37878/v1/data/getCityIndices/${wCtr.qWeatherId}');
+      'http://easyweather.claret.space:37878/v1/data/CityIndices/${wCtr.qWeatherId}');
   var response = await http.get(url);
   Map<String, dynamic> infos = jsonDecode(response.body);
   wCtr.carWashIndice.value = infos['daily'][0]['category'];
@@ -99,7 +99,7 @@ Future getCityIndices() async {
 //空气指数
 Future getCityAir() async {
   var url = Uri.parse(
-      'http://easyweather.claret.space:37878/v1/data/getCityAir/${wCtr.qWeatherId}');
+      'http://easyweather.claret.space:37878/v1/data/CityAir/${wCtr.qWeatherId}');
   var response = await http.get(url);
   Map<String, dynamic> infos = jsonDecode(response.body);
   wCtr.airQuality.value = infos['now']['category'];
