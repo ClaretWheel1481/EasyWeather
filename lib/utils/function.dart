@@ -1,4 +1,4 @@
-import 'package:easyweather/utils/secure.dart';
+import 'package:easyweather/services/auth.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
@@ -80,25 +80,14 @@ class WeatherService {
 
       switch (i) {
         case 1:
-          wCtr.day1weather.value = cast['dayweather'];
-          wCtr.day1HighTemp.value = cast['daytemp'];
-          wCtr.day1LowTemp.value = cast['nighttemp'];
-          wCtr.day1date.value = formattedDate;
-          wCtr.day1Week.value = cast['week'];
-          break;
         case 2:
-          wCtr.day2weather.value = cast['dayweather'];
-          wCtr.day2HighTemp.value = cast['daytemp'];
-          wCtr.day2LowTemp.value = cast['nighttemp'];
-          wCtr.day2date.value = formattedDate;
-          wCtr.day2Week.value = cast['week'];
-          break;
         case 3:
-          wCtr.day3weather.value = cast['dayweather'];
-          wCtr.day3HighTemp.value = cast['daytemp'];
-          wCtr.day3LowTemp.value = cast['nighttemp'];
-          wCtr.day3date.value = formattedDate;
-          wCtr.day3Week.value = cast['week'];
+          var weatherDay = wCtr.futureWeather[i - 1];
+          weatherDay.weather.value = cast['dayweather'];
+          weatherDay.highTemp.value = cast['daytemp'];
+          weatherDay.lowTemp.value = cast['nighttemp'];
+          weatherDay.date.value = formattedDate;
+          weatherDay.week.value = cast['week'];
           break;
       }
     }

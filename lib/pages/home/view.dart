@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:easyweather/utils/function.dart';
 import 'package:easyweather/pages/home/widgets.dart';
 import 'package:expandable_text/expandable_text.dart';
-import 'package:easyweather/utils/items.dart';
+import 'package:easyweather/constants/items.dart';
 
 List<String> cityList = []; //数据持久化天气列表
 
@@ -239,7 +239,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           const SizedBox(height: 140),
           //危险天气预警组件
-          _buildWarning(),
+          Obx(() => _buildWarning()),
           const SizedBox(height: 55),
           Container(
             margin: EdgeInsets.symmetric(
@@ -259,15 +259,15 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Padding(
                 padding: const EdgeInsets.symmetric(
                     vertical: 10.0, horizontal: 13.0),
-                child: Row(
-                  children: [
-                    buildWeatherInfo('风力等级', '${wCtr.windpower}级'),
-                    const Spacer(flex: 1),
-                    buildWeatherInfo('当前风向', '${wCtr.winddirection}'),
-                    const Spacer(flex: 1),
-                    buildWeatherInfo('空气湿度', '~${wCtr.humidity}%'),
-                  ],
-                )),
+                child: Obx(() => Row(
+                      children: [
+                        buildWeatherInfo('风力等级', '${wCtr.windpower}级'),
+                        const Spacer(flex: 1),
+                        buildWeatherInfo('当前风向', '${wCtr.winddirection}'),
+                        const Spacer(flex: 1),
+                        buildWeatherInfo('空气湿度', '~${wCtr.humidity}%'),
+                      ],
+                    ))),
           ),
           const SizedBox(height: 50),
           IntrinsicHeight(
@@ -294,20 +294,18 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Column(
                       children: <Widget>[
                         const SizedBox(height: 9),
-                        buildRowDate(wCtr.day1date, wCtr.day1Week.value),
-                        const SizedBox(height: 3),
-                        buildRowWeather(wCtr.day1LowTemp, wCtr.day1HighTemp,
-                            wCtr.day1weather.value),
-                        const Divider(),
-                        buildRowDate(wCtr.day2date, wCtr.day2Week.value),
-                        const SizedBox(height: 3),
-                        buildRowWeather(wCtr.day2LowTemp, wCtr.day2HighTemp,
-                            wCtr.day2weather.value),
-                        const Divider(),
-                        buildRowDate(wCtr.day3date, wCtr.day3Week.value),
-                        const SizedBox(height: 3),
-                        buildRowWeather(wCtr.day3LowTemp, wCtr.day3HighTemp,
-                            wCtr.day3weather.value),
+                        for (int i = 0; i < wCtr.futureWeather.length; i++) ...[
+                          buildRowDate(wCtr.futureWeather[i].date,
+                              wCtr.futureWeather[i].week.value),
+                          const SizedBox(height: 3),
+                          buildRowWeather(
+                            wCtr.futureWeather[i].lowTemp,
+                            wCtr.futureWeather[i].highTemp,
+                            wCtr.futureWeather[i].weather,
+                          ),
+                          if (i < wCtr.futureWeather.length - 1)
+                            const Divider(),
+                        ],
                         const SizedBox(height: 5),
                       ],
                     ),
@@ -337,14 +335,15 @@ class _MyHomePageState extends State<MyHomePage> {
                           const SizedBox(height: 9),
                           buildIndices(wCtr.airQuality.value, "空气质量",
                               Icons.air_outlined),
-                          const SizedBox(height: 2),
+                          const SizedBox(height: 4),
                           const Divider(),
                           buildIndices(wCtr.sportIndice.value, "运动指数",
                               Icons.sports_tennis),
-                          const SizedBox(height: 2),
+                          const SizedBox(height: 4),
                           const Divider(),
                           buildIndices(wCtr.carWashIndice.value, "洗车指数",
                               Icons.car_crash_outlined),
+                          const SizedBox(height: 5),
                         ],
                       ),
                     ),
