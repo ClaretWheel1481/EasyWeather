@@ -3,7 +3,7 @@ description: easyweather by claret
 
 publish_to: 'none' 
 
-version: 1.1.2+1
+version: 1.1.3+1
 
 environment:
   sdk: '>=3.0.3 <4.0.0'

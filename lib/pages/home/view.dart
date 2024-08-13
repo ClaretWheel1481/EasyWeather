@@ -20,6 +20,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final WeatherService weatherService = WeatherService();
+
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -82,21 +84,21 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           FutureBuilder(
-            future: getLocationWeather(),
+            future: weatherService.getLocationWeather(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
               } else if (snapshot.hasError) {
-                return const Center(
-                  child: Text('加载错误，请重试！'),
+                return Center(
+                  child: Text('Error: ${snapshot.error}'),
                 );
               } else {
                 return RefreshIndicator(
                   displacement: 50,
                   onRefresh: () async {
-                    await getLocationWeather();
+                    await weatherService.getLocationWeather();
                   },
                   child: CustomScrollView(
                     slivers: [
@@ -187,7 +189,8 @@ class _MyHomePageState extends State<MyHomePage> {
       }).toList(),
       onSelected: (value) {
         wCtr.locality.value = value;
-        getLocationWeather();
+        weatherService.clearCache();
+        weatherService.getLocationWeather();
         Get.back();
         showNotification("通知", "当前默认城市为$value！");
         saveData();

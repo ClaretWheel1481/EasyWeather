@@ -49,7 +49,7 @@ class SearchState extends State<Search> {
                 wCtr.cityname.value = city.name;
                 wCtr.cityid = city.adcode;
                 wCtr.locality.value = city.name;
-                getLocationWeather();
+                WeatherService().getLocationWeather();
                 Get.back();
                 addCityToList(cityList, wCtr.cityname.value);
                 saveData();
