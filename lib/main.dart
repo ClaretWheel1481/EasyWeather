@@ -1,4 +1,5 @@
 import 'package:easyweather/utils/function.dart';
+import 'package:easyweather/utils/secure.dart';
 import 'package:flutter/material.dart';
 import 'package:easyweather/pages/home/view.dart';
 import 'package:get/get.dart';
@@ -6,6 +7,7 @@ import 'package:dynamic_color/dynamic_color.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await getTokenAndSave();
   runApp(const MyApp());
 
   // 启动后数据读取处理

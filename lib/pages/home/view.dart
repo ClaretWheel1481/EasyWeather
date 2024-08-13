@@ -90,15 +90,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text('Error: ${snapshot.error}'),
-                );
               } else {
                 return RefreshIndicator(
                   displacement: 50,
                   onRefresh: () async {
-                    await weatherService.getLocationWeather();
+                    weatherService.clearCache();
+                    weatherService.getLocationWeather();
                   },
                   child: CustomScrollView(
                     slivers: [
@@ -190,7 +187,6 @@ class _MyHomePageState extends State<MyHomePage> {
       onSelected: (value) {
         wCtr.locality.value = value;
         weatherService.clearCache();
-        weatherService.getLocationWeather();
         Get.back();
         showNotification("通知", "当前默认城市为$value！");
         saveData();
@@ -335,20 +331,22 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ],
                     ),
-                    child: Column(
-                      children: <Widget>[
-                        const SizedBox(height: 9),
-                        buildIndices(
-                            wCtr.airQuality.value, "空气质量", Icons.air_outlined),
-                        const SizedBox(height: 2),
-                        const Divider(),
-                        buildIndices(wCtr.sportIndice.value, "运动指数",
-                            Icons.sports_tennis),
-                        const SizedBox(height: 2),
-                        const Divider(),
-                        buildIndices(wCtr.carWashIndice.value, "洗车指数",
-                            Icons.car_crash_outlined),
-                      ],
+                    child: Obx(
+                      () => Column(
+                        children: <Widget>[
+                          const SizedBox(height: 9),
+                          buildIndices(wCtr.airQuality.value, "空气质量",
+                              Icons.air_outlined),
+                          const SizedBox(height: 2),
+                          const Divider(),
+                          buildIndices(wCtr.sportIndice.value, "运动指数",
+                              Icons.sports_tennis),
+                          const SizedBox(height: 2),
+                          const Divider(),
+                          buildIndices(wCtr.carWashIndice.value, "洗车指数",
+                              Icons.car_crash_outlined),
+                        ],
+                      ),
                     ),
                   ),
                 ),

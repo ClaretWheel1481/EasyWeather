@@ -1,3 +1,4 @@
+import 'package:easyweather/utils/secure.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
@@ -9,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'package:date_format/date_format.dart';
 
-var api = "http://easyweather.claret.space:37878/v1/data/";
+var api = "http://easyweather.claret.space:37878";
 
 class WeatherService {
   DateTime _lastFetchTime = DateTime.fromMillisecondsSinceEpoch(0);
@@ -26,8 +27,11 @@ class WeatherService {
       return _cachedWeatherData;
     }
 
-    var url = Uri.parse('${api}baseCityInfo/${wCtr.locality}');
-    var response = await http.get(url);
+    String? token = await getToken();
+    var url = Uri.parse('$api/v1/data/baseCityInfo/${wCtr.locality}');
+    var response = await http.get(url, headers: {
+      'Authorization': token ?? '',
+    });
     final Map<String, dynamic> jsonData = json.decode(response.body);
 
     _cachedWeatherData = jsonData;
@@ -43,8 +47,11 @@ class WeatherService {
   }
 
   Future getNowWeather() async {
-    var url = Uri.parse('${api}baseWeatherInfo/${wCtr.cityid}');
-    var response = await http.get(url);
+    String? token = await getToken();
+    var url = Uri.parse('$api/v1/data/baseWeatherInfo/${wCtr.cityid}');
+    var response = await http.get(url, headers: {
+      'Authorization': token ?? '',
+    });
     Map<String, dynamic> infos = json.decode(response.body);
 
     var liveData = infos['lives'][0];
@@ -56,8 +63,11 @@ class WeatherService {
   }
 
   Future getNowWeatherAll() async {
-    var url = Uri.parse('${api}allWeatherInfo/${wCtr.cityid}');
-    var response = await http.get(url);
+    String? token = await getToken();
+    var url = Uri.parse('$api/v1/data/allWeatherInfo/${wCtr.cityid}');
+    var response = await http.get(url, headers: {
+      'Authorization': token ?? '',
+    });
     Map<String, dynamic> infos = json.decode(response.body);
 
     wCtr.hightemp.value = infos['forecasts'][0]['casts'][0]['daytemp'];
@@ -95,12 +105,17 @@ class WeatherService {
   }
 
   Future getQweatherCityId() async {
-    var url = Uri.parse('${api}CityId/${wCtr.cityid}');
-    var response = await http.get(url);
+    String? token = await getToken();
+    var url = Uri.parse('$api/v1/data/CityId/${wCtr.cityid}');
+    var response = await http.get(url, headers: {
+      'Authorization': token ?? '',
+    });
     Map<String, dynamic> infos = jsonDecode(response.body);
     wCtr.qWeatherId.value = infos['location'][0]['id'];
-    url = Uri.parse('${api}CityWarning/${wCtr.qWeatherId}');
-    response = await http.get(url);
+    url = Uri.parse('$api/v1/data/CityWarning/${wCtr.qWeatherId}');
+    response = await http.get(url, headers: {
+      'Authorization': token ?? '',
+    });
     Map<String, dynamic> temper4 = jsonDecode(response.body);
     wCtr.weatherWarning.value = temper4['warning']?.isNotEmpty ?? false
         ? temper4['warning'][0]['text']
@@ -108,16 +123,22 @@ class WeatherService {
   }
 
   Future getCityIndices() async {
-    var url = Uri.parse('${api}CityIndices/${wCtr.qWeatherId}');
-    var response = await http.get(url);
+    String? token = await getToken();
+    var url = Uri.parse('$api/v1/data/CityIndices/${wCtr.qWeatherId}');
+    var response = await http.get(url, headers: {
+      'Authorization': token ?? '',
+    });
     Map<String, dynamic> infos = jsonDecode(response.body);
     wCtr.carWashIndice.value = infos['daily'][0]['category'];
     wCtr.sportIndice.value = infos['daily'][1]['category'];
   }
 
   Future getCityAir() async {
-    var url = Uri.parse('${api}CityAir/${wCtr.qWeatherId}');
-    var response = await http.get(url);
+    String? token = await getToken();
+    var url = Uri.parse('$api/v1/data/CityAir/${wCtr.qWeatherId}');
+    var response = await http.get(url, headers: {
+      'Authorization': token ?? '',
+    });
     Map<String, dynamic> infos = jsonDecode(response.body);
     wCtr.airQuality.value = infos['now']['category'];
   }

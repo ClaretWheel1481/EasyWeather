@@ -11,6 +11,7 @@ class Search extends StatefulWidget {
 }
 
 class SearchState extends State<Search> {
+  final WeatherService weatherService = WeatherService();
   // 防抖节流，暂缓0.2s
   final debouncer = Debouncer(milliseconds: 200);
 
@@ -49,7 +50,7 @@ class SearchState extends State<Search> {
                 wCtr.cityname.value = city.name;
                 wCtr.cityid = city.adcode;
                 wCtr.locality.value = city.name;
-                WeatherService().getLocationWeather();
+                weatherService.getLocationWeather();
                 Get.back();
                 addCityToList(cityList, wCtr.cityname.value);
                 saveData();

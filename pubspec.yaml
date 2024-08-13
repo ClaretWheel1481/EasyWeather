@@ -21,7 +21,8 @@ dependencies:
   dynamic_color:
   expandable_text:
   cupertino_icons:
-
+  flutter_secure_storage:
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

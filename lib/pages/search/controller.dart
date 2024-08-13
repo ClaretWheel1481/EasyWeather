@@ -1,4 +1,5 @@
 import 'package:easyweather/utils/function.dart';
+import 'package:easyweather/utils/secure.dart';
 import 'package:get/get.dart';
 import 'package:easyweather/utils/classes.dart';
 
@@ -11,7 +12,11 @@ class CityController extends GetxController {
   List<CityInfo> get cityList2 => cityQueryList.toList();
 
   Future<void> getData(String query) async {
-    final response = await http.get(Uri.parse('${api}baseCityInfo/$query'));
+    String? token = await getToken();
+    var url = Uri.parse('$api/v1/data/baseCityInfo/$query');
+    var response = await http.get(url, headers: {
+      'Authorization': token ?? '',
+    });
     final data = jsonDecode(response.body);
     final districts = data['districts'] as List;
     cityQueryList.assignAll(
