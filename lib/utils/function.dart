@@ -1,9 +1,6 @@
 import 'package:easyweather/services/auth.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:easyweather/pages/home/view.dart';
-import 'package:flutter/material.dart';
+import 'package:easyweather/services/notify.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -39,9 +36,12 @@ class WeatherService {
 
     wCtr.cityname.value = jsonData['districts'][0]['name'];
     wCtr.cityid = jsonData['districts'][0]['adcode'];
-    await Future.wait(
-        [getNowWeather(), getNowWeatherAll(), getQweatherCityId()]);
-    await Future.wait([getCityAir(), getCityIndices()]);
+    await Future.wait([
+      getNowWeather(),
+      getNowWeatherAll(),
+      getQweatherCityId(),
+    ]);
+    await Future.wait([getCityIndices(), getCityAir()]);
 
     return _cachedWeatherData;
   }
@@ -105,9 +105,10 @@ class WeatherService {
     response = await http.get(url, headers: {
       'Authorization': token ?? '',
     });
-    Map<String, dynamic> temper4 = jsonDecode(response.body);
-    wCtr.weatherWarning.value = temper4['warning']?.isNotEmpty ?? false
-        ? temper4['warning'][0]['text']
+    print("worked1");
+    Map<String, dynamic> infos_1 = jsonDecode(response.body);
+    wCtr.weatherWarning.value = infos_1['warning']?.isNotEmpty ?? false
+        ? infos_1['warning'][0]['text']
         : "无";
   }
 
@@ -120,6 +121,7 @@ class WeatherService {
     Map<String, dynamic> infos = jsonDecode(response.body);
     wCtr.carWashIndice.value = infos['daily'][0]['category'];
     wCtr.sportIndice.value = infos['daily'][1]['category'];
+    print("worked3");
   }
 
   Future getCityAir() async {
@@ -130,34 +132,7 @@ class WeatherService {
     });
     Map<String, dynamic> infos = jsonDecode(response.body);
     wCtr.airQuality.value = infos['now']['category'];
-  }
-}
-
-void requestLocationPermission(BuildContext context) async {
-  var status = await Permission.location.request();
-  if (status.isGranted) {
-    try {
-      showNotification("通知", "正在获取位置中，请稍后。");
-      Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.best,
-          forceAndroidLocationManager: true,
-          timeLimit: const Duration(seconds: 5));
-      List<Placemark> placemarks =
-          await placemarkFromCoordinates(position.latitude, position.longitude);
-      Placemark place = placemarks[0];
-      wCtr.locality.value = place.locality!;
-      await WeatherService().getLocationWeather();
-      addCityToList(cityList, wCtr.locality.value);
-      saveData();
-    } catch (e) {
-      if (e is LocationServiceDisabledException) {
-        showNotification("错误", "失败，没有启用设备的定位服务。");
-      } else {
-        showNotification("错误", "位置获取失败，请尝试手动搜索城市。");
-      }
-    }
-  } else {
-    showNotification("错误", "您拒绝了EasyWeather的定位权限！");
+    print("worked2");
   }
 }
 
@@ -194,27 +169,4 @@ Future<String> loadThemeMode() async {
 Future<void> saveThemeMode(String themeMode) async {
   final prefs = await SharedPreferences.getInstance();
   await prefs.setString('themeMode', themeMode);
-}
-
-final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
-    GlobalKey<ScaffoldMessengerState>();
-
-void showNotification(String title, String content) {
-  final snackBar = SnackBar(
-    content: Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        Text(content),
-      ],
-    ),
-    duration: const Duration(milliseconds: 1800),
-    behavior: SnackBarBehavior.fixed,
-  );
-
-  scaffoldMessengerKey.currentState?.showSnackBar(snackBar);
 }

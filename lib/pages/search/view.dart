@@ -12,20 +12,14 @@ class Search extends StatefulWidget {
 
 class SearchState extends State<Search> {
   final WeatherService weatherService = WeatherService();
-  // 防抖节流，暂缓0.2s
-  final debouncer = Debouncer(milliseconds: 200);
+  // 防抖节流，暂缓0.5s
+  final debouncer = Debouncer(milliseconds: 500);
   bool isFetchingWeather = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Get.back();
-          },
-        ),
         title: TextField(
             autofocus: true,
             decoration: const InputDecoration(hintText: '输入城市'),

@@ -1,6 +1,8 @@
 import 'package:easyweather/pages/search/controller.dart';
 import 'package:easyweather/pages/search/view.dart';
 import 'package:easyweather/pages/settings/view.dart';
+import 'package:easyweather/services/location.dart';
+import 'package:easyweather/services/notify.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:easyweather/utils/function.dart';
@@ -58,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: const Center(
-        child: Text('点击右上角"搜索"，进行搜索城市。\n或点击右上角“定位”，获取您所在的城市。'),
+        child: Text('右上角"搜索"可搜索城市。\n或“定位”，获取您所在的城市。'),
       ),
     );
   }
@@ -102,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   displacement: 50,
                   onRefresh: () async {
                     weatherService.clearCache();
-                    weatherService.getLocationWeather();
+                    await weatherService.getLocationWeather();
                   },
                   child: CustomScrollView(
                     slivers: [
@@ -288,42 +290,46 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
-                  flex: 5,
-                  child: Container(
-                    margin: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.05,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.onSecondary,
-                      borderRadius: const BorderRadius.all(Radius.circular(15)),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 4.0,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      children: <Widget>[
-                        const SizedBox(height: 9),
-                        for (int i = 0; i < wCtr.futureWeather.length; i++) ...[
-                          buildRowDate(wCtr.futureWeather[i].date,
-                              wCtr.futureWeather[i].week.value),
-                          const SizedBox(height: 3),
-                          buildRowWeather(
-                            wCtr.futureWeather[i].lowTemp,
-                            wCtr.futureWeather[i].highTemp,
-                            wCtr.futureWeather[i].weather,
+                    flex: 5,
+                    child: Container(
+                      margin: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.05,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.onSecondary,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(15)),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 4.0,
+                            offset: Offset(0, 2),
                           ),
-                          if (i < wCtr.futureWeather.length - 1)
-                            const Divider(),
                         ],
-                        const SizedBox(height: 5),
-                      ],
-                    ),
-                  ),
-                ),
+                      ),
+                      child: Obx(
+                        () => Column(
+                          children: <Widget>[
+                            const SizedBox(height: 9),
+                            for (int i = 0;
+                                i < wCtr.futureWeather.length;
+                                i++) ...[
+                              buildRowDate(wCtr.futureWeather[i].date,
+                                  wCtr.futureWeather[i].week.value),
+                              const SizedBox(height: 3),
+                              buildRowWeather(
+                                wCtr.futureWeather[i].lowTemp,
+                                wCtr.futureWeather[i].highTemp,
+                                wCtr.futureWeather[i].weather,
+                              ),
+                              if (i < wCtr.futureWeather.length - 1)
+                                const Divider(),
+                            ],
+                            const SizedBox(height: 5),
+                          ],
+                        ),
+                      ),
+                    )),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.02),
                 Expanded(
                   flex: 3,
