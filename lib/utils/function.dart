@@ -186,6 +186,16 @@ void addCityToList(List<String> list, String element) {
   }
 }
 
+Future<String> loadThemeMode() async {
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getString('themeMode') ?? 'system';
+}
+
+Future<void> saveThemeMode(String themeMode) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setString('themeMode', themeMode);
+}
+
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
 

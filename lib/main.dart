@@ -9,7 +9,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // 获取Token并保存
   await getTokenAndSave();
-  runApp(const MyApp());
 
   // 启动后数据读取处理
   Future<String> futureCityName = getCityName();
@@ -17,10 +16,17 @@ void main() async {
 
   Future<List<String>> futureCityList = getList();
   cityList = await futureCityList;
+
+  // 读取并应用主题模式
+  String themeMode = await loadThemeMode();
+
+  runApp(MyApp(initialThemeMode: themeMode));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final String initialThemeMode;
+
+  const MyApp({super.key, required this.initialThemeMode});
 
   @override
   Widget build(BuildContext context) {
@@ -38,19 +44,26 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.blue, brightness: Brightness.dark);
         }
 
+        ThemeMode themeMode;
+        if (initialThemeMode == 'light') {
+          themeMode = ThemeMode.light;
+        } else if (initialThemeMode == 'dark') {
+          themeMode = ThemeMode.dark;
+        } else {
+          themeMode = ThemeMode.system;
+        }
+
         return GetMaterialApp(
           scaffoldMessengerKey: scaffoldMessengerKey,
           theme: ThemeData(
             colorScheme: lightColorScheme,
-            useMaterial3: true,
             brightness: Brightness.light,
           ),
           darkTheme: ThemeData(
             colorScheme: darkColorScheme,
-            useMaterial3: true,
             brightness: Brightness.dark,
           ),
-          themeMode: ThemeMode.system,
+          themeMode: themeMode,
           home: const MyHomePage(),
         );
       },

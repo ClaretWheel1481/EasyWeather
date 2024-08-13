@@ -1,5 +1,6 @@
 import 'package:easyweather/pages/search/controller.dart';
 import 'package:easyweather/pages/search/view.dart';
+import 'package:easyweather/pages/settings/view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:easyweather/utils/function.dart';
@@ -37,6 +38,12 @@ class _MyHomePageState extends State<MyHomePage> {
         title: const Text("EasyWeather"),
         actions: [
           IconButton(
+            onPressed: () {
+              Get.to(() => const Settings());
+            },
+            icon: const Icon(Icons.settings),
+          ),
+          IconButton(
             onPressed: () async {
               requestLocationPermission(context);
             },
@@ -44,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           IconButton(
             onPressed: () {
-              Get.to(() => const Search(), transition: Transition.cupertino);
+              Get.to(() => const Search());
             },
             icon: const Icon(Icons.search),
           ),
@@ -143,6 +150,12 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       actions: <Widget>[
+        IconButton(
+          onPressed: () {
+            Get.to(() => const Settings());
+          },
+          icon: const Icon(Icons.settings),
+        ),
         _buildPopupMenuButton(),
         IconButton(
           onPressed: () async {
@@ -152,7 +165,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         IconButton(
           onPressed: () {
-            Get.to(() => const Search(), transition: Transition.cupertino);
+            Get.to(() => const Search());
           },
           icon: const Icon(Icons.search),
         ),
