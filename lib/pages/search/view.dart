@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:easyweather/pages/home/view.dart';
-import 'package:easyweather/utils/function.dart';
+import 'package:easyweather/services/weather.dart';
 import 'package:easyweather/modules/classes.dart';
 
 class Search extends StatefulWidget {

@@ -1,3 +1,4 @@
+import 'package:easyweather/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -95,6 +96,13 @@ class SettingsPageState extends State<Settings> {
                 },
               ),
             ],
+          ),
+          ListTile(
+            leading: const Icon(Icons.token_sharp),
+            title: const Text('重新获取Token'),
+            onTap: () async {
+              await getTokenAndSave();
+            },
           ),
           ListTile(
             leading: const Icon(Icons.info),

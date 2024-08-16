@@ -1,5 +1,5 @@
 import 'package:easyweather/services/notify.dart';
-import 'package:easyweather/utils/function.dart';
+import 'package:easyweather/services/weather.dart';
 import 'package:easyweather/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:easyweather/pages/home/view.dart';

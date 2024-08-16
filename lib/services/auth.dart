@@ -1,5 +1,5 @@
 import 'package:easyweather/services/notify.dart';
-import 'package:easyweather/utils/function.dart';
+import 'package:easyweather/services/weather.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -16,6 +16,7 @@ Future<void> getTokenAndSave() async {
     var jsonResponse = json.decode(response.body);
     String token = jsonResponse['token'];
     await storage.write(key: 'auth_token', value: token);
+    showNotification("通知", "Token获取并保存成功！");
   } else {
     showNotification("错误", "未能获取到Token，您或许需要重新启动应用，否则无法使用该应用。");
     return;

@@ -1,4 +1,4 @@
-import 'package:easyweather/utils/function.dart';
+import 'package:easyweather/services/weather.dart';
 import 'package:easyweather/services/auth.dart';
 import 'package:get/get.dart';
 import 'package:easyweather/modules/classes.dart';

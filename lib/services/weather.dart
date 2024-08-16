@@ -105,7 +105,6 @@ class WeatherService {
     response = await http.get(url, headers: {
       'Authorization': token ?? '',
     });
-    print("worked1");
     Map<String, dynamic> infos_1 = jsonDecode(response.body);
     wCtr.weatherWarning.value = infos_1['warning']?.isNotEmpty ?? false
         ? infos_1['warning'][0]['text']
@@ -121,7 +120,6 @@ class WeatherService {
     Map<String, dynamic> infos = jsonDecode(response.body);
     wCtr.carWashIndice.value = infos['daily'][0]['category'];
     wCtr.sportIndice.value = infos['daily'][1]['category'];
-    print("worked3");
   }
 
   Future getCityAir() async {
@@ -132,7 +130,6 @@ class WeatherService {
     });
     Map<String, dynamic> infos = jsonDecode(response.body);
     wCtr.airQuality.value = infos['now']['category'];
-    print("worked2");
   }
 }
 

@@ -5,7 +5,7 @@ import 'package:easyweather/services/location.dart';
 import 'package:easyweather/services/notify.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:easyweather/utils/function.dart';
+import 'package:easyweather/services/weather.dart';
 import 'package:easyweather/pages/home/widgets.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:easyweather/constants/items.dart';
