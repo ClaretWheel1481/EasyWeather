@@ -8,6 +8,12 @@ import 'package:dynamic_color/dynamic_color.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // 读取并应用主题模式
+  String themeMode = await loadThemeMode();
+
+  runApp(MyApp(initialThemeMode: themeMode));
+
   // 获取Token并保存
   await getTokenAndSave();
 
@@ -17,11 +23,6 @@ void main() async {
 
   Future<List<String>> futureCityList = getList();
   cityList = await futureCityList;
-
-  // 读取并应用主题模式
-  String themeMode = await loadThemeMode();
-
-  runApp(MyApp(initialThemeMode: themeMode));
 }
 
 class MyApp extends StatelessWidget {

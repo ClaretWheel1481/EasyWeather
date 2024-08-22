@@ -7,13 +7,15 @@ import 'dart:convert';
 const storage = FlutterSecureStorage();
 
 Future<void> getTokenAndSave() async {
-  var response = await http.get(Uri.parse('$api/generateToken'));
-  if (response.statusCode == 200) {
-    var jsonResponse = json.decode(response.body);
-    String token = jsonResponse['token'];
-    await storage.write(key: 'auth_token', value: token);
-  } else {
-    showNotification("错误", "未能获取到Token，您或许需要重新启动应用，否则无法使用该应用。");
+  try {
+    var response = await http.get(Uri.parse('$api/generateToken'));
+    if (response.statusCode == 200) {
+      var jsonResponse = json.decode(response.body);
+      String token = jsonResponse['token'];
+      await storage.write(key: 'auth_token', value: token);
+    }
+  } catch (e) {
+    showNotification("错误", "无法获取Token，请检查您的网络设置，并重新启动EasyWeather。");
     return;
   }
 }

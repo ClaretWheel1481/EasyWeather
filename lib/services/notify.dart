@@ -16,7 +16,7 @@ void showNotification(String title, String content) {
         Text(content),
       ],
     ),
-    duration: const Duration(milliseconds: 1800),
+    duration: const Duration(milliseconds: 3500),
     behavior: SnackBarBehavior.fixed,
   );
 
