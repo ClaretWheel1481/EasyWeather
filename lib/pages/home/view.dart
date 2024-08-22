@@ -135,7 +135,8 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Obx(() => Text(wCtr.cityname.value,
-                style: const TextStyle(fontSize: 20))),
+                style: const TextStyle(
+                    fontSize: 22, fontWeight: FontWeight.bold))),
             Obx(
               () => Row(
                 children: [

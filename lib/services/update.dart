@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:easyweather/services/notify.dart';
 
-String currentVersion = "v1.1.3";
+String currentVersion = "v1.1.4";
 
 Future<void> checkForUpdates() async {
   final response = await http.get(Uri.parse(
