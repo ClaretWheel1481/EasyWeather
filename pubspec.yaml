@@ -22,6 +22,7 @@ dependencies:
   expandable_text:
   cupertino_icons:
   flutter_secure_storage:
+  url_launcher:
   
 dev_dependencies:
   flutter_test:

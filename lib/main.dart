@@ -12,17 +12,17 @@ void main() async {
   // 读取并应用主题模式
   String themeMode = await loadThemeMode();
 
-  runApp(MyApp(initialThemeMode: themeMode));
-
-  // 获取Token并保存
-  await getTokenAndSave();
-
   // 启动后数据读取处理
   Future<String> futureCityName = getCityName();
   wCtr.locality.value = await futureCityName;
 
   Future<List<String>> futureCityList = getList();
   cityList = await futureCityList;
+
+  runApp(MyApp(initialThemeMode: themeMode));
+
+  // 获取Token并保存
+  await getTokenAndSave();
 }
 
 class MyApp extends StatelessWidget {

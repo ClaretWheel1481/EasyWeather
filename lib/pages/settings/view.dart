@@ -1,3 +1,5 @@
+import 'package:easyweather/pages/settings/widgets.dart';
+import 'package:easyweather/services/update.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -44,14 +46,6 @@ class SettingsPageState extends State<Settings> {
     }
   }
 
-  AboutDialog _buildAboutDialog() {
-    return const AboutDialog(
-      applicationVersion: 'v1.1.3',
-      applicationName: 'EasyWeather',
-      applicationLegalese: "Copyright© 2024 Lance Huang",
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,6 +90,11 @@ class SettingsPageState extends State<Settings> {
               ),
             ],
           ),
+          const ListTile(
+            leading: Icon(Icons.upgrade),
+            title: Text('检查更新'),
+            onTap: checkForUpdates,
+          ),
           ListTile(
             leading: const Icon(Icons.info),
             title: const Text('关于'),
@@ -103,7 +102,7 @@ class SettingsPageState extends State<Settings> {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return _buildAboutDialog();
+                  return buildAboutDialog();
                 },
               );
             },
