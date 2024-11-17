@@ -6,6 +6,7 @@ import 'package:easyweather/pages/home/view.dart';
 import 'package:get/get.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 
+// 启动入口
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 获取Material Design Color
     return DynamicColorBuilder(
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
         ColorScheme lightColorScheme;
@@ -55,6 +57,7 @@ class MyApp extends StatelessWidget {
           themeMode = ThemeMode.system;
         }
 
+        // 应用程序总入口
         return GetMaterialApp(
           scaffoldMessengerKey: scaffoldMessengerKey,
           theme: ThemeData(

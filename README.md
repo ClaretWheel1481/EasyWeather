@@ -10,6 +10,7 @@ English | [简体中文](README_CN.md)
 EasyWeather by ClaretWheel1481
 <br>
 The data is sourced from the Gaode Open Platform,QWeather Platform.
+back-end src: https://github.com/ClaretWheel1481/easyweather-backend
 <br>
 
 # Directory

@@ -34,6 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  // 若天气为空则显示该组件
   Scaffold _buildInitialScaffold() {
     return Scaffold(
       appBar: AppBar(
@@ -65,6 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  // 天气不为空显示该组件
   Scaffold _buildWeatherScaffold() {
     return Scaffold(
       body: Stack(
@@ -76,6 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 return FadeTransition(opacity: animation, child: child);
               },
               child: Container(
+                // 根据天气情况不同显示不同的背景
                 key: ValueKey<String>(weatherBackground[wCtr.weather.value] ??
                     "assets/images/sunny.jpg"),
                 decoration: BoxDecoration(
@@ -92,11 +95,13 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ),
+          // 异步构建View
           FutureBuilder(
             future: weatherService.getLocationWeather(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
+                  // 网络加载组件
                   child: CircularProgressIndicator(),
                 );
               } else {
@@ -106,6 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     weatherService.clearCache();
                     await weatherService.getLocationWeather();
                   },
+                  // 可滚动页面
                   child: CustomScrollView(
                     slivers: [
                       _buildSliverAppBar(),

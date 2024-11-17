@@ -21,6 +21,7 @@ class SearchState extends State<Search> {
     return Scaffold(
       appBar: AppBar(
         title: TextField(
+            // 搜索框
             autofocus: true,
             decoration: const InputDecoration(hintText: '输入城市'),
             textInputAction: TextInputAction.search,
@@ -31,6 +32,7 @@ class SearchState extends State<Search> {
               });
             }),
       ),
+      // 根据搜索框输入的内容获取搜索结果
       body: Obx(() {
         final cityQueryList = cityQueryController.cityQueryList;
         return ListView.builder(

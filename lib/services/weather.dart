@@ -46,6 +46,7 @@ class WeatherService {
     return _cachedWeatherData;
   }
 
+  // 获取当前天气
   Future getNowWeather() async {
     String? token = await getToken();
     var url = Uri.parse('$api/v1/data/baseWeatherInfo/${wCtr.cityid}');
@@ -62,6 +63,7 @@ class WeatherService {
     wCtr.humidity.value = liveData['humidity'];
   }
 
+  // 获取当前天气所有数据
   Future getNowWeatherAll() async {
     String? token = await getToken();
     var url = Uri.parse('$api/v1/data/allWeatherInfo/${wCtr.cityid}');
