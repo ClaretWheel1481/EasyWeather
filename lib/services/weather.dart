@@ -1,3 +1,4 @@
+import 'package:easyweather/modules/classes.dart';
 import 'package:easyweather/services/auth.dart';
 import 'package:easyweather/pages/home/view.dart';
 import 'package:easyweather/services/notify.dart';
@@ -55,12 +56,13 @@ class WeatherService {
     });
     Map<String, dynamic> infos = json.decode(response.body);
 
-    var liveData = infos['lives'][0];
-    wCtr.tempera.value = liveData['temperature'];
-    wCtr.weather.value = liveData['weather'];
-    wCtr.winddirection.value = liveData['winddirection'];
-    wCtr.windpower.value = liveData['windpower'];
-    wCtr.humidity.value = liveData['humidity'];
+    WeatherLive liveData = WeatherLive.fromJson(infos['lives'][0]);
+
+    wCtr.tempera.value = liveData.temperature;
+    wCtr.weather.value = liveData.weather;
+    wCtr.winddirection.value = liveData.windDirection;
+    wCtr.windpower.value = liveData.windPower;
+    wCtr.humidity.value = liveData.humidity;
   }
 
   // 获取当前天气所有数据
@@ -75,23 +77,18 @@ class WeatherService {
     wCtr.hightemp.value = infos['forecasts'][0]['casts'][0]['daytemp'];
     wCtr.lowtemp.value = infos['forecasts'][0]['casts'][0]['nighttemp'];
 
-    for (int i = 1; i <= 3; i++) {
-      var cast = infos['forecasts'][0]['casts'][i];
-      var date = DateTime.parse(cast['date']);
+    for (int i = 0; i < 3; i++) {
+      var castJson = infos['forecasts'][0]['casts'][i];
+      WeatherCast cast = WeatherCast.fromJson(castJson);
+      var date = DateTime.parse(cast.date);
       var formattedDate = formatDate(date, [mm, '/', dd]);
 
-      switch (i) {
-        case 1:
-        case 2:
-        case 3:
-          var weatherDay = wCtr.futureWeather[i - 1];
-          weatherDay.weather.value = cast['dayweather'];
-          weatherDay.highTemp.value = cast['daytemp'];
-          weatherDay.lowTemp.value = cast['nighttemp'];
-          weatherDay.date.value = formattedDate;
-          weatherDay.week.value = cast['week'];
-          break;
-      }
+      var weatherDay = wCtr.futureWeather[i];
+      weatherDay.weather.value = cast.dayWeather;
+      weatherDay.highTemp.value = cast.dayTemp;
+      weatherDay.lowTemp.value = cast.nightTemp;
+      weatherDay.date.value = formattedDate;
+      weatherDay.week.value = cast.week.toString();
     }
   }
 

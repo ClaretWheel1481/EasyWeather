@@ -23,7 +23,7 @@ class SearchState extends State<Search> {
         title: TextField(
             // 搜索框
             autofocus: true,
-            decoration: const InputDecoration(hintText: '输入城市'),
+            decoration: const InputDecoration(hintText: '输入城市/区等'),
             textInputAction: TextInputAction.search,
             onChanged: (text) {
               debouncer.run(() {

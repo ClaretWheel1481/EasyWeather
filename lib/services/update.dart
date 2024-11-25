@@ -6,11 +6,13 @@ import 'package:easyweather/services/notify.dart';
 String currentVersion = "v1.1.4";
 
 Future<void> checkForUpdates() async {
-  final response = await http.get(Uri.parse(
-      'https://api.github.com/repos/ClaretWheel1481/easyweather/releases/latest'));
-  if (response.statusCode == 200) {
+  showNotification('检查更新', '正在查找最新版本信息...');
+  try {
+    final response = await http.get(Uri.parse(
+        'https://api.github.com/repos/ClaretWheel1481/easyweather/releases/latest'));
     final latestRelease = json.decode(response.body);
     final latestVersion = latestRelease['tag_name'];
+
     if (latestVersion != currentVersion) {
       final releaseUrl = latestRelease['html_url'];
       final Uri releaseUri = Uri.parse(releaseUrl);
@@ -18,7 +20,7 @@ Future<void> checkForUpdates() async {
     } else {
       showNotification('检查更新', '当前已是最新版本！');
     }
-  } else {
-    showNotification('检查更新', '无法检查更新，请确保您可以正常访问Github！');
+  } catch (e) {
+    showNotification('检查更新', '检查更新错误，请确保您可以正常访问Github！');
   }
 }
