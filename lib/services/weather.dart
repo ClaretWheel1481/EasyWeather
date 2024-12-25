@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'package:date_format/date_format.dart';
 
-var api = "http://easyweather.claret.space:37878";
+var api = "http://43.136.78.208:37878";
 
 class WeatherService {
   DateTime _lastFetchTime = DateTime.fromMillisecondsSinceEpoch(0);

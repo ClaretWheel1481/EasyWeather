@@ -24,6 +24,9 @@ void main() async {
 
   // 获取Token并保存
   await getTokenAndSave();
+
+  // 获取天气
+  await WeatherService().getLocationWeather();
 }
 
 class MyApp extends StatelessWidget {
