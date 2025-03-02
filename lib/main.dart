@@ -1,6 +1,5 @@
 import 'package:easyweather/services/notify.dart';
 import 'package:easyweather/services/weather.dart';
-import 'package:easyweather/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:easyweather/pages/home/view.dart';
 import 'package:get/get.dart';
@@ -21,9 +20,6 @@ void main() async {
   cityList = await futureCityList;
 
   runApp(MyApp(initialThemeMode: themeMode));
-
-  // 获取Token并保存
-  await getTokenAndSave();
 
   // 获取天气
   await WeatherService().getLocationWeather();

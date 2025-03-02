@@ -1,5 +1,5 @@
+import 'package:easyweather/constants/app_constants.dart';
 import 'package:easyweather/modules/classes.dart';
-import 'package:easyweather/services/auth.dart';
 import 'package:easyweather/pages/home/view.dart';
 import 'package:easyweather/services/notify.dart';
 import 'package:http/http.dart' as http;
@@ -7,8 +7,6 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'package:date_format/date_format.dart';
-
-var api = "http://43.136.78.208:37878";
 
 class WeatherService {
   DateTime _lastFetchTime = DateTime.fromMillisecondsSinceEpoch(0);
@@ -25,11 +23,9 @@ class WeatherService {
       return _cachedWeatherData;
     }
 
-    String? token = await getToken();
-    var url = Uri.parse('$api/v1/data/baseCityInfo/${wCtr.locality}');
-    var response = await http.get(url, headers: {
-      'Authorization': token ?? '',
-    });
+    var url = Uri.parse(
+        '${AppConstants.gaoDeAPI}/config/district?keywords=${wCtr.locality}&subdistrict=0&key=${AppConstants.gaoDeAPIKey}&extensions=base');
+    var response = await http.get(url);
     final Map<String, dynamic> jsonData = json.decode(response.body);
 
     _cachedWeatherData = jsonData;
@@ -49,11 +45,9 @@ class WeatherService {
 
   // 获取当前天气
   Future getNowWeather() async {
-    String? token = await getToken();
-    var url = Uri.parse('$api/v1/data/baseWeatherInfo/${wCtr.cityid}');
-    var response = await http.get(url, headers: {
-      'Authorization': token ?? '',
-    });
+    var url = Uri.parse(
+        '${AppConstants.gaoDeAPI}/weather/weatherInfo?city=${wCtr.cityid}&key=${AppConstants.gaoDeAPIKey}&extensions=base');
+    var response = await http.get(url);
     Map<String, dynamic> infos = json.decode(response.body);
 
     WeatherLive liveData = WeatherLive.fromJson(infos['lives'][0]);
@@ -67,11 +61,9 @@ class WeatherService {
 
   // 获取当前天气所有数据
   Future getNowWeatherAll() async {
-    String? token = await getToken();
-    var url = Uri.parse('$api/v1/data/allWeatherInfo/${wCtr.cityid}');
-    var response = await http.get(url, headers: {
-      'Authorization': token ?? '',
-    });
+    var url = Uri.parse(
+        '${AppConstants.gaoDeAPI}/weather/weatherInfo?city=${wCtr.cityid}&key=${AppConstants.gaoDeAPIKey}&extensions=all');
+    var response = await http.get(url);
     Map<String, dynamic> infos = json.decode(response.body);
 
     wCtr.hightemp.value = infos['forecasts'][0]['casts'][0]['daytemp'];
@@ -93,17 +85,14 @@ class WeatherService {
   }
 
   Future getQweatherCityId() async {
-    String? token = await getToken();
-    var url = Uri.parse('$api/v1/data/CityId/${wCtr.cityid}');
-    var response = await http.get(url, headers: {
-      'Authorization': token ?? '',
-    });
+    var url = Uri.parse(
+        '${AppConstants.qWeatherAPI}/city/lookup?location=${wCtr.cityid}&key=${AppConstants.qWeatherAPIKey}');
+    var response = await http.get(url);
     Map<String, dynamic> infos = jsonDecode(response.body);
     wCtr.qWeatherId.value = infos['location'][0]['id'];
-    url = Uri.parse('$api/v1/data/CityWarning/${wCtr.qWeatherId}');
-    response = await http.get(url, headers: {
-      'Authorization': token ?? '',
-    });
+    url = Uri.parse(
+        '${AppConstants.qWeatherAPI_Dev}/warning/now?location=${wCtr.qWeatherId}&lang=cn&key=${AppConstants.qWeatherAPIKey_Dev}');
+    response = await http.get(url);
     Map<String, dynamic> infos_1 = jsonDecode(response.body);
     wCtr.weatherWarning.value = infos_1['warning']?.isNotEmpty ?? false
         ? infos_1['warning'][0]['text']
@@ -111,22 +100,18 @@ class WeatherService {
   }
 
   Future getCityIndices() async {
-    String? token = await getToken();
-    var url = Uri.parse('$api/v1/data/CityIndices/${wCtr.qWeatherId}');
-    var response = await http.get(url, headers: {
-      'Authorization': token ?? '',
-    });
+    var url = Uri.parse(
+        '${AppConstants.qWeatherAPI_Dev}/indices/1d?type=1,2&location=${wCtr.qWeatherId}&key=${AppConstants.qWeatherAPIKey_Dev}');
+    var response = await http.get(url);
     Map<String, dynamic> infos = jsonDecode(response.body);
     wCtr.carWashIndice.value = infos['daily'][0]['category'];
     wCtr.sportIndice.value = infos['daily'][1]['category'];
   }
 
   Future getCityAir() async {
-    String? token = await getToken();
-    var url = Uri.parse('$api/v1/data/CityAir/${wCtr.qWeatherId}');
-    var response = await http.get(url, headers: {
-      'Authorization': token ?? '',
-    });
+    var url = Uri.parse(
+        '${AppConstants.qWeatherAPI_Dev}/air/now?location=${wCtr.qWeatherId}&key=${AppConstants.qWeatherAPIKey_Dev}');
+    var response = await http.get(url);
     Map<String, dynamic> infos = jsonDecode(response.body);
     wCtr.airQuality.value = infos['now']['category'];
   }

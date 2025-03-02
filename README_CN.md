@@ -10,7 +10,6 @@
 EasyWeather by ClaretWheel1481
 <br>
 天气数据均来源于高德开放平台与和风天气开放平台。
-后端代码库：https://github.com/ClaretWheel1481/easyweather-backend
 <br>
 
 # 目录

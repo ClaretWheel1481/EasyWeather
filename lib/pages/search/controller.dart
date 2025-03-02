@@ -1,5 +1,4 @@
-import 'package:easyweather/services/weather.dart';
-import 'package:easyweather/services/auth.dart';
+import 'package:easyweather/constants/app_constants.dart';
 import 'package:get/get.dart';
 import 'package:easyweather/modules/classes.dart';
 
@@ -12,11 +11,9 @@ class CityController extends GetxController {
   List<CityInfo> get cityList2 => cityQueryList.toList();
 
   Future<void> getData(String query) async {
-    String? token = await getToken();
-    var url = Uri.parse('$api/v1/data/baseCityInfo/$query');
-    var response = await http.get(url, headers: {
-      'Authorization': token ?? '',
-    });
+    var url = Uri.parse(
+        '${AppConstants.gaoDeAPI}/config/district?keywords=$query&subdistrict=0&key=${AppConstants.gaoDeAPIKey}&extensions=base');
+    var response = await http.get(url);
     final data = jsonDecode(response.body);
     final districts = data['districts'] as List;
     cityQueryList.assignAll(

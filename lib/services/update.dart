@@ -1,9 +1,8 @@
+import 'package:easyweather/constants/app_constants.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:easyweather/services/notify.dart';
-
-String currentVersion = "v1.1.4";
 
 Future<void> checkForUpdates() async {
   showNotification('检查更新', '正在查找最新版本信息...');
@@ -13,7 +12,7 @@ Future<void> checkForUpdates() async {
     final latestRelease = json.decode(response.body);
     final latestVersion = latestRelease['tag_name'];
 
-    if (latestVersion != currentVersion) {
+    if (latestVersion != AppConstants.currentVersion) {
       final releaseUrl = latestRelease['html_url'];
       final Uri releaseUri = Uri.parse(releaseUrl);
       await launchUrl(releaseUri);

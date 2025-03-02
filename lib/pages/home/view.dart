@@ -87,7 +87,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         "assets/images/sunny.jpg"),
                     fit: BoxFit.cover,
                     colorFilter: ColorFilter.mode(
-                      Colors.black.withOpacity(Get.isDarkMode ? 0.5 : 0.7),
+                      Colors.black
+                          .withValues(alpha: Get.isDarkMode ? 0.5 : 0.7),
                       BlendMode.dstATop,
                     ),
                   ),
