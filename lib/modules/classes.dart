@@ -25,10 +25,7 @@ class Debouncer {
   Debouncer({required this.milliseconds});
 
   run(VoidCallback action) {
-    // ignore: unnecessary_null_comparison
-    if (_timer != null) {
-      _timer.cancel();
-    }
+    _timer.cancel();
     _timer = Timer(Duration(milliseconds: milliseconds), action);
   }
 }

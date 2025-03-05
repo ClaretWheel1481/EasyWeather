@@ -43,31 +43,6 @@ Widget buildRowWeather(RxString lt, RxString ht, RxString weather) {
   );
 }
 
-// 指数组件
-Widget buildIndices(String indice, String indiceTitle, IconData indiceIcon) {
-  return Column(
-    children: [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(indiceIcon, size: 22),
-          const SizedBox(width: 5),
-          Text(
-            indiceTitle,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-      const SizedBox(height: 4),
-      Text(
-        indice,
-        style: const TextStyle(fontSize: 18),
-        textAlign: TextAlign.center,
-      ),
-    ],
-  );
-}
-
 // 天气详细组件
 Widget buildWeatherInfo(String label, value) {
   return Column(
@@ -87,4 +62,31 @@ Widget buildWeatherInfo(String label, value) {
       ),
     ],
   );
+}
+
+class LinePainter extends CustomPainter {
+  final List<Offset> points;
+  final Color color;
+
+  LinePainter({required this.points, this.color = Colors.black});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (points.length < 2) return;
+
+    final paint = Paint()
+      ..color = color
+      ..strokeWidth = 2
+      ..style = PaintingStyle.stroke;
+
+    Path path = Path();
+    path.moveTo(points[0].dx, points[0].dy);
+    for (int i = 1; i < points.length; i++) {
+      path.lineTo(points[i].dx, points[i].dy);
+    }
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }

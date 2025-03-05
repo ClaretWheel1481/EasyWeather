@@ -21,8 +21,10 @@ void main() async {
 
   runApp(MyApp(initialThemeMode: themeMode));
 
-  // 获取天气
-  await WeatherService().getLocationWeather();
+  if (cityList.isNotEmpty) {
+    // 获取天气
+    await WeatherService().getLocationWeather();
+  }
 }
 
 class MyApp extends StatelessWidget {

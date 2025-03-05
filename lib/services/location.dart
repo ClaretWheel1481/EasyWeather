@@ -32,9 +32,10 @@ Future<void> _fetchLocationAndWeather() async {
 
 Future<Position> _getCurrentPosition() async {
   return await Geolocator.getCurrentPosition(
-    desiredAccuracy: LocationAccuracy.best,
-    forceAndroidLocationManager: true,
-    timeLimit: const Duration(seconds: 5),
+    locationSettings: AndroidSettings(
+        accuracy: LocationAccuracy.best,
+        timeLimit: const Duration(seconds: 5),
+        forceLocationManager: true),
   );
 }
 

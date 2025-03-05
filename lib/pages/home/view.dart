@@ -136,7 +136,6 @@ class _MyHomePageState extends State<MyHomePage> {
       pinned: true,
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: const EdgeInsets.only(left: 20, bottom: 5),
-        collapseMode: CollapseMode.parallax,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -186,6 +185,9 @@ class _MyHomePageState extends State<MyHomePage> {
   PopupMenuButton<String> _buildPopupMenuButton() {
     return PopupMenuButton<String>(
       icon: const Icon(Icons.location_city_rounded),
+      onOpened: () {
+        showNotification("通知", "长按城市可进行删除。");
+      },
       itemBuilder: (context) => cityList.map((e) {
         return PopupMenuItem<String>(
           value: e,
@@ -268,6 +270,10 @@ class _MyHomePageState extends State<MyHomePage> {
             margin: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width * 0.05,
             ),
+            padding: EdgeInsets.symmetric(
+              vertical: 10.0,
+              horizontal: MediaQuery.of(context).size.width * 0.05,
+            ),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.onSecondary,
               borderRadius: const BorderRadius.all(Radius.circular(15)),
@@ -279,107 +285,184 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             ),
-            child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 10.0, horizontal: 13.0),
-                child: Obx(() => Row(
+            child: Obx(() => Column(
+                  children: [
+                    Row(
                       children: [
                         buildWeatherInfo('风力等级', '${wCtr.windpower}级'),
                         const Spacer(flex: 1),
-                        buildWeatherInfo('当前风向', '${wCtr.winddirection}'),
+                        buildWeatherInfo('当前风向', wCtr.winddirection.value),
                         const Spacer(flex: 1),
                         buildWeatherInfo('空气湿度', '~${wCtr.humidity}%'),
                       ],
-                    ))),
-          ),
-          const SizedBox(height: 50),
-          IntrinsicHeight(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                    flex: 5,
-                    child: Container(
-                      margin: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.of(context).size.width * 0.05,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.onSecondary,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(15)),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 4.0,
-                            offset: Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: Obx(
-                        () => Column(
-                          children: <Widget>[
-                            const SizedBox(height: 9),
-                            for (int i = 0;
-                                i < wCtr.futureWeather.length;
-                                i++) ...[
-                              buildRowDate(wCtr.futureWeather[i].date,
-                                  wCtr.futureWeather[i].week.value),
-                              const SizedBox(height: 3),
-                              buildRowWeather(
-                                wCtr.futureWeather[i].lowTemp,
-                                wCtr.futureWeather[i].highTemp,
-                                wCtr.futureWeather[i].weather,
-                              ),
-                              if (i < wCtr.futureWeather.length - 1)
-                                const Divider(),
-                            ],
-                            const SizedBox(height: 5),
-                          ],
-                        ),
-                      ),
-                    )),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                Expanded(
-                  flex: 3,
-                  child: Container(
-                    margin: EdgeInsets.only(
-                      right: MediaQuery.of(context).size.width * 0.05,
                     ),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.onSecondary,
-                      borderRadius: const BorderRadius.all(Radius.circular(15)),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 4.0,
-                          offset: Offset(0, 2),
-                        ),
+                    const SizedBox(height: 15),
+                    Row(
+                      children: [
+                        buildWeatherInfo("空气质量", wCtr.airQuality.value),
+                        const Spacer(flex: 1),
+                        buildWeatherInfo("运动指数", wCtr.sportIndice.value),
+                        const Spacer(flex: 1),
+                        buildWeatherInfo("洗车指数", wCtr.carWashIndice.value),
                       ],
-                    ),
-                    child: Obx(
-                      () => Column(
-                        children: <Widget>[
-                          const SizedBox(height: 9),
-                          buildIndices(wCtr.airQuality.value, "空气质量",
-                              Icons.air_outlined),
-                          const SizedBox(height: 4),
-                          const Divider(),
-                          buildIndices(wCtr.sportIndice.value, "运动指数",
-                              Icons.sports_tennis),
-                          const SizedBox(height: 4),
-                          const Divider(),
-                          buildIndices(wCtr.carWashIndice.value, "洗车指数",
-                              Icons.car_crash_outlined),
-                          const SizedBox(height: 5),
-                        ],
-                      ),
-                    ),
-                  ),
+                    )
+                  ],
+                )),
+          ),
+          const SizedBox(height: 30),
+          Container(
+            margin: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.05,
+            ),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.onSecondary,
+              borderRadius: const BorderRadius.all(Radius.circular(15)),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 4.0,
+                  offset: Offset(0, 2),
                 ),
               ],
             ),
+            child: Obx(
+              () {
+                final futureWeather = wCtr.futureWeather.take(3).toList();
+                if (futureWeather.isEmpty) return Container();
+
+                double minLow = futureWeather
+                    .map((day) => double.parse(day.lowTemp.value))
+                    .reduce((a, b) => a < b ? a : b);
+                double maxHigh = futureWeather
+                    .map((day) => double.parse(day.highTemp.value))
+                    .reduce((a, b) => a > b ? a : b);
+
+                const double iconHeight = 30;
+                const double scaleHeight = 130;
+                const double textHeight = 20;
+                double minTemp = futureWeather
+                    .map((day) => double.parse(day.lowTemp.value))
+                    .reduce((a, b) => a < b ? a : b);
+                double maxTemp = futureWeather
+                    .map((day) => double.parse(day.highTemp.value))
+                    .reduce((a, b) => a > b ? a : b);
+                double tempRange = maxTemp - minTemp;
+                if (tempRange == 0) {
+                  tempRange = 1;
+                }
+                final double columnHeight = 300;
+                final double topArea = 50;
+                final double bottomArea = 60;
+                final double chartHeight = columnHeight - topArea - bottomArea;
+
+                double screenWidth = MediaQuery.of(context).size.width;
+                double margin = screenWidth * 0.05;
+                double availableWidth = screenWidth - 2 * margin;
+                double columnWidth = availableWidth / 3;
+
+                List<double> highTempPositions = [];
+                for (var day in futureWeather) {
+                  double tHigh = double.parse(day.highTemp.value);
+                  double t = (tHigh - minLow) / (maxHigh - minLow);
+                  double positionFromBottomScale = t * scaleHeight;
+                  double yColumn = 170 - positionFromBottomScale;
+
+                  double minYColumn = iconHeight + 4 + textHeight / 2;
+                  if (yColumn < minYColumn) {
+                    yColumn = minYColumn;
+                  }
+                  highTempPositions.add(yColumn);
+                }
+
+                List<Widget> columns = [];
+                for (int i = 0; i < futureWeather.length; i++) {
+                  var day = futureWeather[i];
+
+                  columns.add(
+                    SizedBox(
+                      width: columnWidth,
+                      height: columnHeight,
+                      child: Stack(
+                        children: [
+                          Positioned(
+                              top: -columnHeight + 50,
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
+                              child: Align(
+                                child: Text(
+                                  "  ${day.date.value}   ${weeks[day.week.value]}",
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              )),
+                          Positioned(
+                            top: 40,
+                            left: 0,
+                            right: 0,
+                            child: Icon(
+                              weatherIcons[day.weather.value],
+                              size: 22,
+                            ),
+                          ),
+                          Positioned(
+                            top: 65,
+                            left: 0,
+                            right: 0,
+                            child: Center(
+                              child: Text(
+                                '${day.highTemp.value}°',
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 25,
+                            left: 0,
+                            right: 0,
+                            child: Center(
+                              child: Text(
+                                '${day.lowTemp.value}°',
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+
+                return Stack(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: columns,
+                    ),
+                    CustomPaint(
+                      painter: LinePainter(
+                        color: Theme.of(context).colorScheme.primary,
+                        points: List.generate(futureWeather.length, (i) {
+                          double tHigh =
+                              double.parse(futureWeather[i].highTemp.value);
+                          return Offset(
+                              i * columnWidth + columnWidth / 2,
+                              topArea +
+                                  (maxTemp - tHigh) /
+                                      (maxTemp - minTemp) *
+                                      chartHeight +
+                                  80);
+                        }),
+                      ),
+                      size: Size(screenWidth, columnHeight),
+                    ),
+                  ],
+                );
+              },
+            ),
           ),
-          const Padding(padding: EdgeInsets.only(top: 50)),
+          const SizedBox(height: 40),
         ],
       ),
     );
