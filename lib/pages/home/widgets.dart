@@ -51,14 +51,14 @@ Widget buildWeatherInfo(String label, value) {
         children: [
           Text(
             label,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ],
       ),
       const SizedBox(height: 2),
       Text(
         value,
-        style: const TextStyle(fontSize: 16),
+        style: const TextStyle(fontSize: 15),
       ),
     ],
   );

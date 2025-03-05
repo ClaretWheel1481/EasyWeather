@@ -4,6 +4,7 @@ import 'package:easyweather/pages/settings/view.dart';
 import 'package:easyweather/services/location.dart';
 import 'package:easyweather/services/notify.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:easyweather/services/weather.dart';
 import 'package:easyweather/pages/home/widgets.dart';
@@ -128,57 +129,69 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  SliverAppBar _buildSliverAppBar() {
-    return SliverAppBar(
-      backgroundColor: Colors.transparent,
-      surfaceTintColor: Colors.transparent,
-      expandedHeight: 180.0,
-      pinned: true,
-      flexibleSpace: FlexibleSpaceBar(
-        titlePadding: const EdgeInsets.only(left: 20, bottom: 5),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Obx(() => Text(wCtr.cityname.value,
-                style: const TextStyle(
-                    fontSize: 22, fontWeight: FontWeight.bold))),
-            Obx(
-              () => Row(
-                children: [
-                  Icon(weatherIcons[wCtr.weather.value], size: 14),
-                  const SizedBox(width: 4),
-                  Text(
-                    "${wCtr.weather}",
-                    style: const TextStyle(fontSize: 14),
+  SliverLayoutBuilder _buildSliverAppBar() {
+    return SliverLayoutBuilder(
+      builder: (BuildContext context, SliverConstraints constraints) {
+        const double expandedHeight = 180.0;
+        double offset = constraints.scrollOffset;
+        double opacity = (offset / expandedHeight).clamp(0.0, 1.0);
+        Color backgroundColor = Color.lerp(Colors.transparent,
+            Theme.of(context).colorScheme.surfaceContainer, opacity)!;
+
+        return SliverAppBar(
+          backgroundColor: backgroundColor,
+          surfaceTintColor: Colors.transparent,
+          expandedHeight: expandedHeight,
+          pinned: true,
+          flexibleSpace: FlexibleSpaceBar(
+            titlePadding: const EdgeInsets.only(left: 20, bottom: 5),
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Obx(() => Text(
+                      wCtr.cityname.value,
+                      style: const TextStyle(
+                          fontSize: 22, fontWeight: FontWeight.bold),
+                    )),
+                Obx(
+                  () => Row(
+                    children: [
+                      Icon(weatherIcons[wCtr.weather.value], size: 14),
+                      const SizedBox(width: 4),
+                      Text(
+                        "${wCtr.weather}",
+                        style: const TextStyle(fontSize: 14),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            IconButton(
+              onPressed: () {
+                Get.to(() => const Settings());
+              },
+              icon: const Icon(Icons.settings),
+            ),
+            _buildPopupMenuButton(),
+            IconButton(
+              onPressed: () async {
+                requestLocationPermission(context);
+              },
+              icon: const Icon(Icons.location_on_outlined),
+            ),
+            IconButton(
+              onPressed: () {
+                Get.to(() => const Search());
+              },
+              icon: const Icon(Icons.search),
             ),
           ],
-        ),
-      ),
-      actions: <Widget>[
-        IconButton(
-          onPressed: () {
-            Get.to(() => const Settings());
-          },
-          icon: const Icon(Icons.settings),
-        ),
-        _buildPopupMenuButton(),
-        IconButton(
-          onPressed: () async {
-            requestLocationPermission(context);
-          },
-          icon: const Icon(Icons.location_on_outlined),
-        ),
-        IconButton(
-          onPressed: () {
-            Get.to(() => const Search());
-          },
-          icon: const Icon(Icons.search),
-        ),
-      ],
+        );
+      },
     );
   }
 
@@ -265,7 +278,7 @@ class _MyHomePageState extends State<MyHomePage> {
           const SizedBox(height: 140),
           //危险天气预警组件
           Obx(() => _buildWarning()),
-          const SizedBox(height: 55),
+          const SizedBox(height: 20),
           Container(
             margin: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width * 0.05,
@@ -275,13 +288,12 @@ class _MyHomePageState extends State<MyHomePage> {
               horizontal: MediaQuery.of(context).size.width * 0.05,
             ),
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.onSecondary,
+              color: Theme.of(context).colorScheme.surfaceContainer,
               borderRadius: const BorderRadius.all(Radius.circular(15)),
               boxShadow: const [
                 BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 4.0,
-                  offset: Offset(0, 2),
+                  color: Colors.black26,
+                  blurRadius: 8.0,
                 ),
               ],
             ),
@@ -309,19 +321,18 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 )),
           ),
-          const SizedBox(height: 30),
+          const SizedBox(height: 20),
           Container(
             margin: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width * 0.05,
             ),
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.onSecondary,
+              color: Theme.of(context).colorScheme.surfaceContainer,
               borderRadius: const BorderRadius.all(Radius.circular(15)),
               boxShadow: const [
                 BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 4.0,
-                  offset: Offset(0, 2),
+                  color: Colors.black26,
+                  blurRadius: 8.0,
                 ),
               ],
             ),
@@ -385,13 +396,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Stack(
                         children: [
                           Positioned(
-                              top: -columnHeight + 50,
+                              top: -columnHeight + 40,
                               bottom: 0,
                               left: 0,
                               right: 0,
                               child: Align(
                                 child: Text(
-                                  "  ${day.date.value}   ${weeks[day.week.value]}",
+                                  "${day.date.value}  ${weeks[day.week.value]}",
                                   style: const TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold),
@@ -412,18 +423,18 @@ class _MyHomePageState extends State<MyHomePage> {
                             right: 0,
                             child: Center(
                               child: Text(
-                                '${day.highTemp.value}°',
+                                '${day.highTemp.value}°c',
                                 style: const TextStyle(fontSize: 16),
                               ),
                             ),
                           ),
                           Positioned(
-                            bottom: 25,
+                            bottom: 20,
                             left: 0,
                             right: 0,
                             child: Center(
                               child: Text(
-                                '${day.lowTemp.value}°',
+                                '${day.lowTemp.value}°c',
                                 style: const TextStyle(fontSize: 16),
                               ),
                             ),
@@ -452,7 +463,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   (maxTemp - tHigh) /
                                       (maxTemp - minTemp) *
                                       chartHeight +
-                                  80);
+                                  55);
                         }),
                       ),
                       size: Size(screenWidth, columnHeight),
@@ -471,7 +482,7 @@ class _MyHomePageState extends State<MyHomePage> {
   //预警判断
   Widget _buildWarning() {
     if (wCtr.weatherWarning.value == "无" || wCtr.weatherWarning.value == "") {
-      return const Padding(padding: EdgeInsets.only(top: 25));
+      return Container();
     }
     return Container(
       constraints: BoxConstraints(
@@ -485,9 +496,8 @@ class _MyHomePageState extends State<MyHomePage> {
         borderRadius: const BorderRadius.all(Radius.circular(15)),
         boxShadow: const [
           BoxShadow(
-            color: Colors.black12,
-            blurRadius: 4.0,
-            offset: Offset(0, 2),
+            color: Colors.black26,
+            blurRadius: 8.0,
           ),
         ],
       ),
