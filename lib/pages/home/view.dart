@@ -492,7 +492,7 @@ class _MyHomePageState extends State<MyHomePage> {
           left: MediaQuery.of(context).size.width * 0.05,
           right: MediaQuery.of(context).size.width * 0.05),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.onSecondary,
+        color: Theme.of(context).colorScheme.surfaceContainer,
         borderRadius: const BorderRadius.all(Radius.circular(15)),
         boxShadow: const [
           BoxShadow(
