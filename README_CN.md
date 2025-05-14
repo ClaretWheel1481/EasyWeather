@@ -9,6 +9,7 @@
 # EasyWeather
 EasyWeather by ClaretWheel1481
 <br>
+正在计划外观、功能的完全重构，敬请期待。
 天气数据均来源于高德开放平台与和风天气开放平台。
 <br>
 

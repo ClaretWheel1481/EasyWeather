@@ -9,6 +9,7 @@ English | [简体中文](README_CN.md)
 # EasyWeather
 EasyWeather by ClaretWheel1481
 <br>
+Planning for a complete overhaul of the appearance and functions, stay tuned.
 The data is sourced from the Gaode Open Platform,QWeather Platform.
 <br>
 
