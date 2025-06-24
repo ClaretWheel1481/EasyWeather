@@ -2,13 +2,13 @@ name: Build EasyWeather Apk
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
     paths:
       - '**/*'
       - '!README.md'
       - '!README_CN.md'
   pull_request:
-    branches: [ "main" ]
+    branches: [ "master" ]
     paths:
       - '**/*'
       - '!README.md'
