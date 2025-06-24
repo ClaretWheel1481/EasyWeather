@@ -7,12 +7,14 @@ on:
       - '**/*'
       - '!README.md'
       - '!README_CN.md'
+      - 'public/**'
   pull_request:
     branches: [ "master" ]
     paths:
       - '**/*'
       - '!README.md'
       - '!README_CN.md'
+      - 'public/**'
 
 jobs:
   build_android:

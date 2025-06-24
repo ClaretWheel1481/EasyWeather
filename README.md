@@ -9,24 +9,21 @@ English | [简体中文](README_CN.md)
 # EasyWeather
 EasyWeather by ClaretWheel1481
 <br>
-Planning for a complete overhaul of the appearance and functions, stay tuned.
-The data is sourced from the Gaode Open Platform,QWeather Platform.
+The data is sourced from the OpenMeteo API.
 <br>
 
 # Directory
-- [⚠️Warning](#Warning)
-- [➡️Features](#Features)
-- [🍜Usage](#Usage)
-- [📷Screenshots](#Screenshots)
-- [📥Download](#Download)
-- [📝License](#License)
+- [Warning](#Warning)
+- [Features](#Features)
+- [Usage](#Usage)
+- [Screenshots](#Screenshots)
+- [Download](#Download)
+- [License](#License)
 
-## ⚠️Warning
-❗️Only suitable for use in Chinese Mainland, Hong Kong, Macao and Taiwan.<br>
-❗️Only suitable for system language is Simplify Chinese.<br>
+## Warning
 ❗️Only suitable for running on Android 9.0 and Mobile Phone.<br>
 
-## ➡️Features
+## Features
 ☑️
 Current weather query
 <br>
@@ -34,7 +31,7 @@ Current weather query
 Store cities in the list
 <br>
 ☑️
-Weather forecast for the next 3 days.
+Weather forecast for the next 7 days.
 <br>
 ☑️
 Variable weather icons
@@ -43,32 +40,21 @@ Variable weather icons
 Dark Mode(Follow the system settings)
 <br>
 ☑️
-Dangerous weather warning
-<br>
-☑️
 Variable weather background
 <br>
-☑️
-Air Quality
-<br>
-☑️
-Weather Indices
-<br>
 ................
-## 🍜Usage
-- In the upper right corner, you can search for cities (limited to Chinese only). After a successful search, the corresponding results will be displayed. Select the desired city, click it to return to the main interface, display the weather situation, and save it to the city list.
-- In the upper right corner, allows for location (location permission is required). If the location is successful, the weather conditions of the city will be automatically displayed and saved to the city list.
-- In the upper right corner, you can select a saved city, click on the city to view its weather conditions, and long press to delete the city.
-- Pull down at the top to refresh the weather.
 
-## 📷Screenshots
+## Usage
+- You can search for cities in the top right corner. Upon successful search, the corresponding results will be displayed. Select the desired city and click it to return to the main interface, showing the weather conditions and saving it to the city list.
+- In the settings page, you can choose saved cities. You can set a designated city as the default city and delete cities that have been saved.
+
+## Screenshots
 <div class="half">
-<img src="./assets/images/Sample_Light.png" width=40%/>
-<img src="./assets/images/Sample_Dark.png" width=40%/>
+<img src="./public/sample.png" width=50%/>
 </div>
 
-## 📥Download
+## Download
 [Click Here](https://github.com/ClaretWheel1481/easyweather/releases/latest)
 
-## 📄License
+## License
 [MIT](LICENSE) © Huang LinXing
