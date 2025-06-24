@@ -12,17 +12,12 @@ dependencies:
   flutter:
     sdk: flutter
   shared_preferences:
-  get: 
   http: 
   permission_handler: 
-  geolocator: 
-  geocoding: 
+  # geolocator: 
+  # geocoding: 
   date_format:
   dynamic_color:
-  expandable_text:
-  cupertino_icons:
-  flutter_secure_storage:
-  url_launcher:
   
 dev_dependencies:
   flutter_test:
@@ -33,12 +28,3 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
-
-  assets:
-   - assets/images/cloudy.jpg
-   - assets/images/foggy.jpg
-   - assets/images/rainy.jpg
-   - assets/images/overcast.jpg
-   - assets/images/snowy.gif
-   - assets/images/windy.gif
-   - assets/images/sunny.jpg

@@ -1,76 +1,82 @@
-import 'package:easyweather/services/notify.dart';
-import 'package:easyweather/services/weather.dart';
+import 'package:easyweather/app_constants.dart';
 import 'package:flutter/material.dart';
-import 'package:easyweather/pages/home/view.dart';
-import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'pages/home/view.dart';
+import 'pages/search/view.dart';
+import 'pages/settings/view.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 
-// 启动入口
-void main() async {
+final themeModeNotifier = ValueNotifier<ThemeMode>(ThemeMode.system);
+final tempUnitNotifier = ValueNotifier<String>('C');
+final dynamicColorEnabledNotifier = ValueNotifier<bool>(false);
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // 读取并应用主题模式
-  String themeMode = await loadThemeMode();
-
-  // 启动后数据读取处理
-  Future<String> futureCityName = getCityName();
-  wCtr.locality.value = await futureCityName;
-
-  Future<List<String>> futureCityList = getList();
-  cityList = await futureCityList;
-
-  runApp(MyApp(initialThemeMode: themeMode));
-
-  if (cityList.isNotEmpty) {
-    // 获取天气
-    await WeatherService().getLocationWeather();
-  }
+  final prefs = await SharedPreferences.getInstance();
+  final mode = ThemeMode.values[prefs.getInt('theme_mode') ?? 2];
+  themeModeNotifier.value = mode;
+  tempUnitNotifier.value = prefs.getString('temp_unit') ?? 'C';
+  runApp(const EasyWeatherApp());
 }
 
-class MyApp extends StatelessWidget {
-  final String initialThemeMode;
-
-  const MyApp({super.key, required this.initialThemeMode});
+class EasyWeatherApp extends StatelessWidget {
+  const EasyWeatherApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // 获取Material Design Color
-    return DynamicColorBuilder(
-      builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
-        ColorScheme lightColorScheme;
-        ColorScheme darkColorScheme;
-
-        if (lightDynamic != null && darkDynamic != null) {
-          lightColorScheme = lightDynamic.harmonized();
-          darkColorScheme = darkDynamic.harmonized();
-        } else {
-          lightColorScheme = ColorScheme.fromSwatch(primarySwatch: Colors.blue);
-          darkColorScheme = ColorScheme.fromSwatch(
-              primarySwatch: Colors.blue, brightness: Brightness.dark);
-        }
-
-        ThemeMode themeMode;
-        if (initialThemeMode == 'light') {
-          themeMode = ThemeMode.light;
-        } else if (initialThemeMode == 'dark') {
-          themeMode = ThemeMode.dark;
-        } else {
-          themeMode = ThemeMode.system;
-        }
-
-        // 应用程序总入口
-        return GetMaterialApp(
-          scaffoldMessengerKey: scaffoldMessengerKey,
-          theme: ThemeData(
-            colorScheme: lightColorScheme,
-            brightness: Brightness.light,
-          ),
-          darkTheme: ThemeData(
-            colorScheme: darkColorScheme,
-            brightness: Brightness.dark,
-          ),
-          themeMode: themeMode,
-          home: const MyHomePage(),
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: themeModeNotifier,
+      builder: (context, mode, _) {
+        return ValueListenableBuilder<bool>(
+          valueListenable: dynamicColorEnabledNotifier,
+          builder: (context, dynamicColorEnabled, __) {
+            if (dynamicColorEnabled) {
+              return DynamicColorBuilder(
+                builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+                  return MaterialApp(
+                    title: AppConstants.appName,
+                    theme: ThemeData(
+                      colorScheme: lightDynamic ??
+                          ColorScheme.fromSeed(seedColor: Colors.blue),
+                      useMaterial3: true,
+                    ),
+                    darkTheme: ThemeData(
+                      colorScheme: darkDynamic ??
+                          ColorScheme.fromSeed(
+                              seedColor: Colors.blue,
+                              brightness: Brightness.dark),
+                      useMaterial3: true,
+                    ),
+                    themeMode: mode,
+                    home: const HomePage(),
+                    routes: {
+                      '/search': (_) => const SearchPage(),
+                      '/settings': (_) => const SettingsPage(),
+                    },
+                  );
+                },
+              );
+            } else {
+              return MaterialApp(
+                title: AppConstants.appName,
+                theme: ThemeData(
+                  colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+                  useMaterial3: true,
+                ),
+                darkTheme: ThemeData(
+                  colorScheme: ColorScheme.fromSeed(
+                      seedColor: Colors.blue, brightness: Brightness.dark),
+                  useMaterial3: true,
+                ),
+                themeMode: mode,
+                home: const HomePage(),
+                routes: {
+                  '/search': (_) => const SearchPage(),
+                  '/settings': (_) => const SettingsPage(),
+                },
+              );
+            }
+          },
         );
       },
     );
