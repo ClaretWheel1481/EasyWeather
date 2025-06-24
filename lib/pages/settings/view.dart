@@ -1,8 +1,8 @@
 import 'package:easyweather/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../main.dart';
 import '../../core/models/city.dart';
+import '../../core/notifiers.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -122,10 +122,16 @@ class _SettingsPageState extends State<SettingsPage> {
         body: const Center(child: CircularProgressIndicator()),
       );
     }
-    return WillPopScope(
-      onWillPop: () async {
-        Navigator.of(context).pop(_cityChanged);
-        return false;
+    return PopScope(
+      canPop: true,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop && result == null) {
+          Future.microtask(() {
+            if (Navigator.of(context).canPop()) {
+              Navigator.of(context).pop(_cityChanged);
+            }
+          });
+        }
       },
       child: Scaffold(
         appBar: AppBar(
@@ -156,7 +162,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       segments: const [
                         ButtonSegment(
                             value: ThemeMode.system,
-                            label: Text('跟随系统'),
+                            label: Text('系统'),
                             icon: Icon(Icons.phone_android)),
                         ButtonSegment(
                             value: ThemeMode.light,

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import '../core/models/city.dart';
 import '../core/models/weather.dart';
 import '../core/utils/weather_utils.dart';
-import '../main.dart' show tempUnitNotifier;
-import 'weather_bg.dart';
+import '../core/notifiers.dart';
 
 class WeatherView extends StatelessWidget {
   final City city;
@@ -47,171 +46,161 @@ class WeatherView extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     final now = DateTime.now();
-    return Stack(
-      children: [
-        WeatherBg(weatherCode: current?.weatherCode),
-        SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // 顶部天气卡片
-                if (current != null)
-                  Card(
-                    elevation: 3,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24)),
-                    color: colorScheme.primaryContainer,
-                    child: Padding(
-                      padding: const EdgeInsets.all(24.0),
-                      child: Column(
-                        children: [
-                          Icon(weatherIcon(current.weatherCode),
-                              size: 72, color: colorScheme.primary),
-                          const SizedBox(height: 8),
-                          ValueListenableBuilder<String>(
-                            valueListenable: tempUnitNotifier,
-                            builder: (context, unit, _) => Text(
-                              '${current.temperature}°$unit',
-                              style: textTheme.displayLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: colorScheme.onPrimaryContainer,
-                              ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // 顶部天气卡片
+          if (current != null)
+            Card(
+              elevation: 3,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24)),
+              color: colorScheme.primaryContainer,
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  children: [
+                    Icon(weatherIcon(current.weatherCode),
+                        size: 72, color: colorScheme.primary),
+                    const SizedBox(height: 8),
+                    ValueListenableBuilder<String>(
+                      valueListenable: tempUnitNotifier,
+                      builder: (context, unit, _) => Text(
+                        '${current.temperature}°$unit',
+                        style: textTheme.displayLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: colorScheme.onPrimaryContainer,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(weatherDesc(current.weatherCode),
+                        style: textTheme.titleMedium?.copyWith(
+                          color: colorScheme.onPrimaryContainer,
+                        )),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        WeatherInfoTile(
+                          icon: Icons.thermostat,
+                          label: '体感',
+                          value: getApparentTemperature(),
+                          unit: '°${tempUnitNotifier.value}',
+                        ),
+                        WeatherInfoTile(
+                          icon: Icons.air,
+                          label: '风速',
+                          value: current.windSpeed.toStringAsFixed(1),
+                          unit: 'm/s',
+                        ),
+                        WeatherInfoTile(
+                          icon: Icons.navigation,
+                          label: '风向',
+                          value: current.windDirection != null
+                              ? windDirectionText(current.windDirection!)
+                              : '-',
+                          unit: '',
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          const SizedBox(height: 20),
+          // 24小时天气
+          SectionTitle('24小时天气'),
+          const SizedBox(height: 8),
+          if (weather.hourly.isNotEmpty)
+            SizedBox(
+              height: 120,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 24,
+                itemBuilder: (context, i) {
+                  if (i >= weather.hourly.length) return const SizedBox();
+                  final h = weather.hourly[i];
+                  final t = DateTime.tryParse(h.time);
+                  final hourStr = t != null
+                      ? '${t.hour.toString().padLeft(2, '0')}:00'
+                      : '';
+                  final isNow = t != null &&
+                      t.year == now.year &&
+                      t.month == now.month &&
+                      t.day == now.day &&
+                      t.hour == now.hour;
+                  return Container(
+                    width: 80,
+                    margin: const EdgeInsets.symmetric(horizontal: 4),
+                    decoration: BoxDecoration(
+                      color: isNow ? colorScheme.primary : colorScheme.surface,
+                      borderRadius: BorderRadius.circular(16),
+                      border: isNow
+                          ? Border.all(color: colorScheme.primary, width: 2)
+                          : null,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(hourStr,
+                            style: textTheme.bodyMedium?.copyWith(
+                                color: isNow
+                                    ? colorScheme.onPrimary
+                                    : colorScheme.onSurfaceVariant)),
+                        const SizedBox(height: 4),
+                        Icon(weatherIcon(h.weatherCode),
+                            color: isNow
+                                ? colorScheme.onPrimary
+                                : colorScheme.primary,
+                            size: 28),
+                        const SizedBox(height: 4),
+                        ValueListenableBuilder<String>(
+                          valueListenable: tempUnitNotifier,
+                          builder: (context, unit, _) => Text(
+                            h.temperature != null
+                                ? '${h.temperature!.toStringAsFixed(1)}°$unit'
+                                : '-',
+                            style: textTheme.titleMedium?.copyWith(
+                              color: isNow
+                                  ? colorScheme.onPrimary
+                                  : colorScheme.onSurfaceVariant,
                             ),
                           ),
-                          const SizedBox(height: 8),
-                          Text(weatherDesc(current.weatherCode),
-                              style: textTheme.titleMedium?.copyWith(
-                                color: colorScheme.onPrimaryContainer,
-                              )),
-                          const SizedBox(height: 20),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              WeatherInfoTile(
-                                icon: Icons.thermostat,
-                                label: '体感',
-                                value: getApparentTemperature(),
-                                unit: '°${tempUnitNotifier.value}',
-                              ),
-                              WeatherInfoTile(
-                                icon: Icons.air,
-                                label: '风速',
-                                value: current.windSpeed.toStringAsFixed(1),
-                                unit: 'm/s',
-                              ),
-                              WeatherInfoTile(
-                                icon: Icons.navigation,
-                                label: '风向',
-                                value: current.windDirection != null
-                                    ? windDirectionText(current.windDirection!)
-                                    : '-',
-                                unit: '',
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ),
-                const SizedBox(height: 20),
-                // 24小时天气
-                SectionTitle('24小时天气'),
-                const SizedBox(height: 8),
-                if (weather.hourly.isNotEmpty)
-                  SizedBox(
-                    height: 120,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 24,
-                      itemBuilder: (context, i) {
-                        if (i >= weather.hourly.length) return const SizedBox();
-                        final h = weather.hourly[i];
-                        final t = DateTime.tryParse(h.time);
-                        final hourStr = t != null
-                            ? '${t.hour.toString().padLeft(2, '0')}:00'
-                            : '';
-                        final isNow = t != null &&
-                            t.year == now.year &&
-                            t.month == now.month &&
-                            t.day == now.day &&
-                            t.hour == now.hour;
-                        return Container(
-                          width: 80,
-                          margin: const EdgeInsets.symmetric(horizontal: 4),
-                          decoration: BoxDecoration(
-                            color: isNow
-                                ? colorScheme.primary
-                                : colorScheme.surface,
-                            borderRadius: BorderRadius.circular(16),
-                            border: isNow
-                                ? Border.all(
-                                    color: colorScheme.primary, width: 2)
-                                : null,
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(hourStr,
-                                  style: textTheme.bodyMedium?.copyWith(
-                                      color: isNow
-                                          ? colorScheme.onPrimary
-                                          : colorScheme.onSurfaceVariant)),
-                              const SizedBox(height: 4),
-                              Icon(weatherIcon(h.weatherCode),
-                                  color: isNow
-                                      ? colorScheme.onPrimary
-                                      : colorScheme.primary,
-                                  size: 28),
-                              const SizedBox(height: 4),
-                              ValueListenableBuilder<String>(
-                                valueListenable: tempUnitNotifier,
-                                builder: (context, unit, _) => Text(
-                                  h.temperature != null
-                                      ? '${h.temperature!.toStringAsFixed(1)}°$unit'
-                                      : '-',
-                                  style: textTheme.titleMedium?.copyWith(
-                                    color: isNow
-                                        ? colorScheme.onPrimary
-                                        : colorScheme.onSurfaceVariant,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                const SizedBox(height: 24),
-                // 未来天气
-                SectionTitle('未来天气'),
-                const SizedBox(height: 8),
-                if (daily.isNotEmpty)
-                  Card(
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24)),
-                    color: colorScheme.surface,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 12, horizontal: 4),
-                      child: SizedBox(
-                        height: 230,
-                        child: _FutureWeatherBand(
-                            daily: daily,
-                            colorScheme: colorScheme,
-                            textTheme: textTheme),
-                      ),
-                    ),
-                  ),
-                const SizedBox(height: 24),
-              ],
+                  );
+                },
+              ),
             ),
-          ),
-        ),
-      ],
+          const SizedBox(height: 24),
+          // 未来天气
+          SectionTitle('未来天气'),
+          const SizedBox(height: 8),
+          if (daily.isNotEmpty)
+            Card(
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24)),
+              color: colorScheme.surface,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
+                child: SizedBox(
+                  height: 230,
+                  child: _FutureWeatherBand(
+                      daily: daily,
+                      colorScheme: colorScheme,
+                      textTheme: textTheme),
+                ),
+              ),
+            ),
+          const SizedBox(height: 24),
+        ],
+      ),
     );
   }
 }

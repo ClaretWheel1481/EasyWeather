@@ -6,7 +6,8 @@ import '../../core/api/open_meteo_api.dart';
 import '../../widgets/empty_city_tip.dart';
 import '../../widgets/weather_view.dart';
 import '../../core/services/weather_cache.dart';
-import '../../main.dart' show tempUnitNotifier;
+import '../../core/notifiers.dart';
+import '../../widgets/weather_bg.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -147,7 +148,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _onOpenSettings() async {
     final result = await Navigator.pushNamed(context, '/settings');
-    if (result == true) {
+    if (result == true || result == null) {
       await _loadCities();
       setState(() {
         pageIndex = 0;
@@ -190,9 +191,20 @@ class _HomePageState extends State<HomePage> {
                       child: Text('天气数据加载失败',
                           style: TextStyle(color: Colors.white)));
                 } else {
-                  return WeatherView(
-                    city: city,
-                    weather: weather,
+                  return Stack(
+                    children: [
+                      WeatherBg(weatherCode: weather.current?.weatherCode),
+                      RefreshIndicator(
+                        onRefresh: () => _refreshWeather(city),
+                        child: SingleChildScrollView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          child: WeatherView(
+                            city: city,
+                            weather: weather,
+                          ),
+                        ),
+                      ),
+                    ],
                   );
                 }
               },
