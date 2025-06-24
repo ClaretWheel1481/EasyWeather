@@ -17,17 +17,16 @@ class WeatherView extends StatelessWidget {
       return current!.apparentTemperature!.toStringAsFixed(1);
     }
     // 查找当前小时的体感温度
-    final now = DateTime.now();
-    // open-meteo 的 hourly.time 是 ISO8601 字符串，需与当前时间小时对齐
+    final nowUtc = DateTime.now().toUtc(); // 用UTC时间
     final hourly = weather.hourly;
     if (hourly.isNotEmpty) {
-      // 找到最接近当前时间的小时
+      // 找到最接近当前UTC时间的小时
       HourlyWeather? closest;
       int minDiff = 999999;
       for (final h in hourly) {
-        final t = DateTime.tryParse(h.time);
+        final t = DateTime.tryParse(h.time)?.toUtc();
         if (t != null) {
-          final diff = (t.difference(now).inMinutes).abs();
+          final diff = (t.difference(nowUtc).inMinutes).abs();
           if (diff < minDiff) {
             minDiff = diff;
             closest = h;

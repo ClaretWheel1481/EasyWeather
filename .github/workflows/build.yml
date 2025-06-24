@@ -1,0 +1,42 @@
+name: Build EasyWeather Apk
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - '**/*'
+      - '!README.md'
+      - '!README_CN.md'
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - '**/*'
+      - '!README.md'
+      - '!README_CN.md'
+
+jobs:
+  build_android:
+    name: Build APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.32.4'
+          channel: stable
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build APK
+        run: flutter build apk
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: VerifyMe-Android
+          path: build/app/outputs/flutter-apk/*.apk

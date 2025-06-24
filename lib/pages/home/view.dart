@@ -146,14 +146,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _onOpenSettings() async {
-    await Navigator.pushNamed(context, '/settings');
-    await _loadCities();
-    setState(() {
-      pageIndex = 0;
-    });
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _pageController?.jumpToPage(0);
-    });
+    final result = await Navigator.pushNamed(context, '/settings');
+    if (result == true) {
+      await _loadCities();
+      setState(() {
+        pageIndex = 0;
+      });
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _pageController?.jumpToPage(0);
+      });
+    }
   }
 
   @override

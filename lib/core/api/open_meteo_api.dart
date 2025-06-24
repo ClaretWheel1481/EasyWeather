@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import '../models/weather.dart';
 
@@ -16,6 +17,7 @@ class OpenMeteoApi {
         '$baseUrl?latitude=$latitude&longitude=$longitude&current_weather=true&hourly=temperature_2m,weathercode,apparent_temperature,precipitation,cloudcover,windspeed_10m,winddirection_10m,relative_humidity_2m&daily=temperature_2m_max,temperature_2m_min,weathercode,precipitation_sum,windspeed_10m_max,winddirection_10m_dominant&timezone=auto&lang=$lang&temperature_unit=${units == 'imperial' ? 'fahrenheit' : 'celsius'}');
     final response = await http.get(url);
     if (response.statusCode == 200) {
+      kDebugMode ? debugPrint(response.body) : null;
       return WeatherData.fromJson(json.decode(response.body));
     }
     return null;
