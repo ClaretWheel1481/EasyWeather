@@ -9,36 +9,6 @@ class WeatherView extends StatelessWidget {
   final WeatherData weather;
   const WeatherView({super.key, required this.city, required this.weather});
 
-  /// 获取当前体感温度，优先 current，否则查找 hourly
-  String getApparentTemperature() {
-    final current = weather.current;
-    if (current?.apparentTemperature != null) {
-      return current!.apparentTemperature!.toStringAsFixed(1);
-    }
-    // 查找当前小时的体感温度
-    final nowUtc = DateTime.now().toUtc(); // 用UTC时间
-    final hourly = weather.hourly;
-    if (hourly.isNotEmpty) {
-      // 找到最接近当前UTC时间的小时
-      HourlyWeather? closest;
-      int minDiff = 999999;
-      for (final h in hourly) {
-        final t = DateTime.tryParse(h.time)?.toUtc();
-        if (t != null) {
-          final diff = (t.difference(nowUtc).inMinutes).abs();
-          if (diff < minDiff) {
-            minDiff = diff;
-            closest = h;
-          }
-        }
-      }
-      if (closest?.apparentTemperature != null) {
-        return closest!.apparentTemperature!.toStringAsFixed(1);
-      }
-    }
-    return '-';
-  }
-
   @override
   Widget build(BuildContext context) {
     final current = weather.current;
@@ -46,6 +16,7 @@ class WeatherView extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     final now = DateTime.now();
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
       child: Column(
@@ -87,8 +58,18 @@ class WeatherView extends StatelessWidget {
                         WeatherInfoTile(
                           icon: Icons.thermostat,
                           label: '体感',
-                          value: getApparentTemperature(),
+                          value: current.apparentTemperature != null
+                              ? current.apparentTemperature!.toStringAsFixed(1)
+                              : '-',
                           unit: '°${tempUnitNotifier.value}',
+                        ),
+                        WeatherInfoTile(
+                          icon: Icons.water_drop,
+                          label: '湿度',
+                          value: current.humidity != null
+                              ? current.humidity!.toStringAsFixed(0)
+                              : '-',
+                          unit: '%',
                         ),
                         WeatherInfoTile(
                           icon: Icons.air,
@@ -103,6 +84,14 @@ class WeatherView extends StatelessWidget {
                               ? windDirectionText(current.windDirection!)
                               : '-',
                           unit: '',
+                        ),
+                        WeatherInfoTile(
+                          icon: Icons.remove_red_eye,
+                          label: '能见度',
+                          value: current.visibility != null
+                              ? (current.visibility! / 1000).toStringAsFixed(1)
+                              : '-',
+                          unit: 'km',
                         ),
                       ],
                     ),

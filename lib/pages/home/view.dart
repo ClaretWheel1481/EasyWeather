@@ -8,6 +8,7 @@ import '../../widgets/weather_view.dart';
 import '../../core/services/weather_cache.dart';
 import '../../core/notifiers.dart';
 import '../../widgets/weather_bg.dart';
+import 'dart:ui';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -165,14 +166,26 @@ class _HomePageState extends State<HomePage> {
         ? cities[pageIndex]
         : null;
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        title: Text(currentCity?.name ?? 'EasyWeather'),
-        actions: [
-          IconButton(icon: const Icon(Icons.search), onPressed: _onAddCity),
-          IconButton(
-              icon: const Icon(Icons.settings), onPressed: _onOpenSettings),
-        ],
+      extendBodyBehindAppBar: true,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(kToolbarHeight),
+        child: ClipRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            child: AppBar(
+              elevation: 0,
+              backgroundColor: Colors.white.withValues(alpha: 0.2),
+              title: Text(currentCity?.name ?? 'EasyWeather'),
+              actions: [
+                IconButton(
+                    icon: const Icon(Icons.search), onPressed: _onAddCity),
+                IconButton(
+                    icon: const Icon(Icons.settings),
+                    onPressed: _onOpenSettings),
+              ],
+            ),
+          ),
+        ),
       ),
       body: cities.isEmpty
           ? const EmptyCityTip()
@@ -195,12 +208,18 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       WeatherBg(weatherCode: weather.current?.weatherCode),
                       RefreshIndicator(
+                        displacement: kToolbarHeight + 35,
                         onRefresh: () => _refreshWeather(city),
                         child: SingleChildScrollView(
                           physics: const AlwaysScrollableScrollPhysics(),
-                          child: WeatherView(
-                            city: city,
-                            weather: weather,
+                          child: Column(
+                            children: [
+                              SizedBox(height: kToolbarHeight + 35),
+                              WeatherView(
+                                city: city,
+                                weather: weather,
+                              ),
+                            ],
                           ),
                         ),
                       ),

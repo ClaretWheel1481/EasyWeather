@@ -6,8 +6,9 @@ class WeatherData {
   WeatherData({this.current, required this.hourly, required this.daily});
 
   factory WeatherData.fromJson(Map<String, dynamic> json) {
-    final current = json['current_weather'] != null
-        ? CurrentWeather.fromJson(json['current_weather'])
+    final current = json['current'] != null
+        ? CurrentWeather.fromJson(
+            json['current'], json['hourly']?['visibility']?[0])
         : null;
     final hourlyList = <HourlyWeather>[];
     if (json['hourly'] != null && json['hourly']['time'] != null) {
@@ -17,13 +18,11 @@ class WeatherData {
           time: times[i],
           temperature: (json['hourly']['temperature_2m']?[i])?.toDouble(),
           weatherCode: json['hourly']['weathercode']?[i],
-          apparentTemperature:
-              (json['hourly']['apparent_temperature']?[i])?.toDouble(),
           precipitation: (json['hourly']['precipitation']?[i])?.toDouble(),
           cloudCover: (json['hourly']['cloudcover']?[i])?.toDouble(),
           windSpeed: (json['hourly']['windspeed_10m']?[i])?.toDouble(),
           windDirection: (json['hourly']['winddirection_10m']?[i])?.toDouble(),
-          humidity: (json['hourly']['relative_humidity_2m']?[i])?.toDouble(),
+          visibility: (json['hourly']['visibility']?[i])?.toDouble(),
         ));
       }
     }
@@ -47,18 +46,17 @@ class WeatherData {
   }
 
   Map<String, dynamic> toJson() => {
-        'current_weather': current?.toJson(),
+        'current': current?.toJson(),
         'hourly': {
           'time': hourly.map((e) => e.time).toList(),
           'temperature_2m': hourly.map((e) => e.temperature).toList(),
           'weathercode': hourly.map((e) => e.weatherCode).toList(),
-          'apparent_temperature':
-              hourly.map((e) => e.apparentTemperature).toList(),
           'precipitation': hourly.map((e) => e.precipitation).toList(),
           'cloudcover': hourly.map((e) => e.cloudCover).toList(),
           'windspeed_10m': hourly.map((e) => e.windSpeed).toList(),
           'winddirection_10m': hourly.map((e) => e.windDirection).toList(),
           'relative_humidity_2m': hourly.map((e) => e.humidity).toList(),
+          'visibility': hourly.map((e) => e.visibility).toList(),
         },
         'daily': {
           'time': daily.map((e) => e.date).toList(),
@@ -79,6 +77,8 @@ class CurrentWeather {
   final double windSpeed;
   final double? windDirection;
   final double? apparentTemperature;
+  final double? visibility;
+  final double? humidity;
 
   CurrentWeather({
     required this.temperature,
@@ -86,26 +86,33 @@ class CurrentWeather {
     required this.windSpeed,
     this.windDirection,
     this.apparentTemperature,
+    this.visibility,
+    this.humidity,
   });
 
-  factory CurrentWeather.fromJson(Map<String, dynamic> json) {
+  factory CurrentWeather.fromJson(
+      Map<String, dynamic> json, double? visibility) {
     return CurrentWeather(
-      temperature: (json['temperature'] ?? 0).toDouble(),
+      temperature: (json['temperature_2m'] ?? 0).toDouble(),
       weatherCode: json['weathercode'] ?? 0,
-      windSpeed: (json['windspeed'] ?? 0).toDouble(),
+      windSpeed: (json['wind_speed_10m'] ?? 0).toDouble(),
       windDirection: (json['winddirection'] ?? 0).toDouble(),
       apparentTemperature: json['apparent_temperature'] != null
           ? (json['apparent_temperature']).toDouble()
           : null,
+      visibility: visibility,
+      humidity: (json['relative_humidity_2m'] ?? 0).toDouble(),
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'temperature': temperature,
+        'temperature_2m': temperature,
         'weathercode': weatherCode,
-        'windspeed': windSpeed,
+        'wind_speed_10m': windSpeed,
         'winddirection': windDirection,
         'apparent_temperature': apparentTemperature,
+        'visibility': visibility,
+        'relative_humidity_2m': humidity,
       };
 }
 
@@ -119,6 +126,7 @@ class HourlyWeather {
   final double? windSpeed;
   final double? windDirection;
   final double? humidity;
+  final double? visibility;
 
   HourlyWeather({
     required this.time,
@@ -130,6 +138,7 @@ class HourlyWeather {
     this.windSpeed,
     this.windDirection,
     this.humidity,
+    this.visibility,
   });
 
   Map<String, dynamic> toJson() => {
@@ -142,6 +151,7 @@ class HourlyWeather {
         'windSpeed': windSpeed,
         'windDirection': windDirection,
         'humidity': humidity,
+        'visibility': visibility,
       };
 }
 
