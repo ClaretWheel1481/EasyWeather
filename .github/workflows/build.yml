@@ -38,5 +38,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: VerifyMe-Android
+          name: EasyWeather-Android
           path: build/app/outputs/flutter-apk/*.apk
