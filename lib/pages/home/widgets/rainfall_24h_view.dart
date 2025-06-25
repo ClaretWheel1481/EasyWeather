@@ -167,32 +167,12 @@ class RainfallCurvePainter extends CustomPainter {
               (1 - (rainfall[i] - minRain) / range);
       points.add(Offset(x, y));
     }
-    // Catmull-Rom样条插值
+    // 线性插值：直接连接各点
     final path = Path();
     if (points.isNotEmpty) {
       path.moveTo(points[0].dx, points[0].dy);
-      for (int i = 0; i < points.length - 1; i++) {
-        final p0 = i == 0 ? points[0] : points[i - 1];
-        final p1 = points[i];
-        final p2 = points[i + 1];
-        final p3 =
-            i + 2 < points.length ? points[i + 2] : points[points.length - 1];
-        for (double t = 0; t < 1; t += 0.02) {
-          final tt = t * t;
-          final ttt = tt * t;
-          final x = 0.5 *
-              ((2 * p1.dx) +
-                  (-p0.dx + p2.dx) * t +
-                  (2 * p0.dx - 5 * p1.dx + 4 * p2.dx - p3.dx) * tt +
-                  (-p0.dx + 3 * p1.dx - 3 * p2.dx + p3.dx) * ttt);
-          final y = 0.5 *
-              ((2 * p1.dy) +
-                  (-p0.dy + p2.dy) * t +
-                  (2 * p0.dy - 5 * p1.dy + 4 * p2.dy - p3.dy) * tt +
-                  (-p0.dy + 3 * p1.dy - 3 * p2.dy + p3.dy) * ttt);
-          path.lineTo(x, y);
-        }
-        path.lineTo(p2.dx, p2.dy);
+      for (int i = 1; i < points.length; i++) {
+        path.lineTo(points[i].dx, points[i].dy);
       }
     }
     canvas.drawPath(path, paint);
@@ -228,28 +208,8 @@ class _RainfallCurveShadowPainter extends CustomPainter {
     final path = Path();
     if (points.isNotEmpty) {
       path.moveTo(points[0].dx, points[0].dy);
-      for (int i = 0; i < points.length - 1; i++) {
-        final p0 = i == 0 ? points[0] : points[i - 1];
-        final p1 = points[i];
-        final p2 = points[i + 1];
-        final p3 =
-            i + 2 < points.length ? points[i + 2] : points[points.length - 1];
-        for (double t = 0; t < 1; t += 0.2) {
-          final tt = t * t;
-          final ttt = tt * t;
-          final x = 0.5 *
-              ((2 * p1.dx) +
-                  (-p0.dx + p2.dx) * t +
-                  (2 * p0.dx - 5 * p1.dx + 4 * p2.dx - p3.dx) * tt +
-                  (-p0.dx + 3 * p1.dx - 3 * p2.dx + p3.dx) * ttt);
-          final y = 0.5 *
-              ((2 * p1.dy) +
-                  (-p0.dy + p2.dy) * t +
-                  (2 * p0.dy - 5 * p1.dy + 4 * p2.dy - p3.dy) * tt +
-                  (-p0.dy + 3 * p1.dy - 3 * p2.dy + p3.dy) * ttt);
-          path.lineTo(x, y);
-        }
-        path.lineTo(p2.dx, p2.dy);
+      for (int i = 1; i < points.length; i++) {
+        path.lineTo(points[i].dx, points[i].dy);
       }
       // 阴影填充
       final shadowPath = Path.from(path)

@@ -90,7 +90,7 @@ class DetailedDataWidget extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 20),
+      padding: const EdgeInsets.symmetric(vertical: 12),
       decoration: BoxDecoration(
         color: colorScheme.onInverseSurface,
         borderRadius: BorderRadius.circular(24),

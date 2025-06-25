@@ -9,7 +9,7 @@
   "celsius": "摄氏度 (°C)",
   "fahrenheit": "华氏度 (°F)",
   "cityManager": "城市管理",
-  "noCitiesAdded": "暂无已添加城市",
+  "noCitiesAdded": "暂无已添加的城市",
   "confirm": "确认",
   "deleteCityMessage": "确定要删除 \"{cityName}\" 吗？",
   "@deleteCityMessage": {

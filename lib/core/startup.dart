@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'notifiers.dart';
 import 'package:flutter/material.dart';
@@ -9,4 +10,21 @@ Future<void> initAppSettings() async {
   tempUnitNotifier.value = prefs.getString('temp_unit') ?? 'C';
   dynamicColorEnabledNotifier.value =
       prefs.getBool('dynamic_color_enabled') ?? false;
+
+  final systemLocale = PlatformDispatcher.instance.locale;
+  if (kDebugMode) {
+    debugPrint('systemLocale: $systemLocale');
+  }
+  if (prefs.containsKey('locale_index')) {
+    // 用户已手动设置过语言
+    localeIndexNotifier.value = prefs.getInt('locale_index') ?? 0;
+  } else {
+    if (systemLocale.languageCode == 'zh') {
+      localeIndexNotifier.value = 0; // 简体中文
+    } else if (systemLocale.languageCode == 'en') {
+      localeIndexNotifier.value = 1; // 英文
+    } else {
+      localeIndexNotifier.value = 1; // 其他默认英文
+    }
+  }
 }

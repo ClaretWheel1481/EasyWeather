@@ -36,7 +36,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get cityManager => '城市管理';
 
   @override
-  String get noCitiesAdded => '暂无已添加城市';
+  String get noCitiesAdded => '暂无已添加的城市';
 
   @override
   String get confirm => '确认';
@@ -164,5 +164,5 @@ class AppLocalizationsZh extends AppLocalizations {
   String get uvIndex => '紫外线指数';
 
   @override
-  String get addCity => 'Add City';
+  String get addCity => '添加城市';
 }
