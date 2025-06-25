@@ -113,8 +113,6 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       pageIndex = idx;
     });
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('main_city_index', idx);
   }
 
   Future<void> _onAddCity() async {
@@ -125,24 +123,22 @@ class _HomePageState extends State<HomePage> {
       final citiesStr = prefs.getString('cities');
       List<City> list = citiesStr != null ? City.listFromJson(citiesStr) : [];
       // 判断是否已存在
-      int idx;
       if (!list.any((c) => c.lat == result.lat && c.lon == result.lon)) {
         list.add(result);
-        idx = list.length - 1;
         await prefs.setString('cities', City.listToJson(list));
-        await prefs.setInt('main_city_index', idx);
-      } else {
-        // 已存在则切换到该城市
-        idx =
-            list.indexWhere((c) => c.lat == result.lat && c.lon == result.lon);
-        await prefs.setInt('main_city_index', idx);
       }
       await _loadCities();
+      // 重新查找新城市的下标
+      final citiesStr2 = prefs.getString('cities');
+      List<City> list2 =
+          citiesStr2 != null ? City.listFromJson(citiesStr2) : [];
+      int newIdx =
+          list2.indexWhere((c) => c.lat == result.lat && c.lon == result.lon);
       setState(() {
-        pageIndex = 0;
+        pageIndex = newIdx;
       });
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        _pageController?.jumpToPage(0);
+        _pageController?.jumpToPage(newIdx);
       });
     }
   }
@@ -174,8 +170,41 @@ class _HomePageState extends State<HomePage> {
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
             child: AppBar(
               elevation: 0,
-              backgroundColor: Colors.white.withValues(alpha: 0.2),
-              title: Text(currentCity?.name ?? 'EasyWeather'),
+              backgroundColor: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.black.withValues(alpha: 0.2)
+                  : Colors.white.withValues(alpha: 0.2),
+              title: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(currentCity?.name ?? 'EasyWeather'),
+                  if (cities.length > 1)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: List.generate(cities.length, (i) {
+                          final isActive = i == pageIndex;
+                          return AnimatedContainer(
+                            duration: const Duration(milliseconds: 200),
+                            margin: const EdgeInsets.symmetric(horizontal: 3),
+                            width: isActive ? 10 : 6,
+                            height: isActive ? 10 : 6,
+                            decoration: BoxDecoration(
+                              color: isActive
+                                  ? Theme.of(context).colorScheme.primary
+                                  : Theme.of(context)
+                                      .colorScheme
+                                      .primary
+                                      .withValues(alpha: 0.3),
+                              shape: BoxShape.circle,
+                            ),
+                          );
+                        }),
+                      ),
+                    ),
+                ],
+              ),
               actions: [
                 IconButton(
                     icon: const Icon(Icons.search), onPressed: _onAddCity),
@@ -207,6 +236,16 @@ class _HomePageState extends State<HomePage> {
                   return Stack(
                     children: [
                       WeatherBg(weatherCode: weather.current?.weatherCode),
+                      if (Theme.of(context).brightness == Brightness.dark)
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          child: Container(
+                            color: Colors.black.withValues(alpha: 0.3),
+                          ),
+                        ),
                       RefreshIndicator(
                         displacement: kToolbarHeight + 35,
                         onRefresh: () => _refreshWeather(city),

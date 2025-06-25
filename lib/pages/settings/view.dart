@@ -125,7 +125,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return PopScope(
       canPop: true,
       onPopInvokedWithResult: (didPop, result) {
-        if (didPop && result == null) {
+        if (didPop) {
           Future.microtask(() {
             if (Navigator.of(context).canPop()) {
               Navigator.of(context).pop(_cityChanged);
@@ -143,108 +143,108 @@ class _SettingsPageState extends State<SettingsPage> {
             },
           ),
         ),
+        backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
         body: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16)),
-              elevation: 2,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('主题模式', style: textTheme.titleMedium),
-                    const SizedBox(height: 12),
-                    SegmentedButton<ThemeMode>(
-                      segments: const [
-                        ButtonSegment(
-                            value: ThemeMode.system,
-                            label: Text('系统'),
-                            icon: Icon(Icons.phone_android)),
-                        ButtonSegment(
-                            value: ThemeMode.light,
-                            label: Text('明亮'),
-                            icon: Icon(Icons.light_mode)),
-                        ButtonSegment(
-                            value: ThemeMode.dark,
-                            label: Text('暗色'),
-                            icon: Icon(Icons.dark_mode)),
-                      ],
-                      selected: {_themeMode ?? ThemeMode.system},
-                      onSelectionChanged: (modes) {
-                        if (modes.isNotEmpty) _saveThemeMode(modes.first);
-                      },
-                      showSelectedIcon: false,
-                    ),
-                  ],
-                ),
+            // 主题模式
+            Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('主题模式', style: textTheme.titleMedium),
+                  const SizedBox(height: 12),
+                  SegmentedButton<ThemeMode>(
+                    segments: const [
+                      ButtonSegment(
+                          value: ThemeMode.system,
+                          label: Text('系统'),
+                          icon: Icon(Icons.phone_android)),
+                      ButtonSegment(
+                          value: ThemeMode.light,
+                          label: Text('明亮'),
+                          icon: Icon(Icons.light_mode)),
+                      ButtonSegment(
+                          value: ThemeMode.dark,
+                          label: Text('暗色'),
+                          icon: Icon(Icons.dark_mode)),
+                    ],
+                    selected: {_themeMode ?? ThemeMode.system},
+                    onSelectionChanged: (modes) {
+                      if (modes.isNotEmpty) _saveThemeMode(modes.first);
+                    },
+                    showSelectedIcon: false,
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 16),
-            Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16)),
-              elevation: 2,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                child: Row(
-                  children: [
-                    Icon(Icons.palette_outlined,
-                        color: Theme.of(context).colorScheme.primary),
-                    const SizedBox(width: 8),
-                    Expanded(
-                        child: Text('Monet取色', style: textTheme.titleMedium)),
-                    Switch(
-                      value: _dynamicColorEnabled,
-                      onChanged: (v) => _saveDynamicColorEnabled(v),
-                    ),
-                  ],
-                ),
+            // Monet取色
+            Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+              child: Row(
+                children: [
+                  Icon(Icons.palette_outlined,
+                      color: Theme.of(context).colorScheme.primary),
+                  const SizedBox(width: 8),
+                  Expanded(
+                      child: Text('Monet取色', style: textTheme.titleMedium)),
+                  Switch(
+                    value: _dynamicColorEnabled,
+                    onChanged: (v) => _saveDynamicColorEnabled(v),
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 16),
-            Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16)),
-              elevation: 2,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('温度单位', style: textTheme.titleMedium),
-                    const SizedBox(height: 12),
-                    SegmentedButton<String>(
-                      segments: const [
-                        ButtonSegment(
-                            value: 'C',
-                            label: Text('摄氏度 (°C)'),
-                            icon: Icon(Icons.thermostat)),
-                        ButtonSegment(
-                            value: 'F',
-                            label: Text('华氏度 (°F)'),
-                            icon: Icon(Icons.device_thermostat)),
-                      ],
-                      selected: {_tempUnit ?? 'C'},
-                      onSelectionChanged: (units) {
-                        if (units.isNotEmpty) _saveTempUnit(units.first);
-                      },
-                      showSelectedIcon: false,
-                    ),
-                  ],
-                ),
+            // 温度单位
+            Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('温度单位', style: textTheme.titleMedium),
+                  const SizedBox(height: 12),
+                  SegmentedButton<String>(
+                    segments: const [
+                      ButtonSegment(
+                          value: 'C',
+                          label: Text('摄氏度 (°C)'),
+                          icon: Icon(Icons.thermostat)),
+                      ButtonSegment(
+                          value: 'F',
+                          label: Text('华氏度 (°F)'),
+                          icon: Icon(Icons.device_thermostat)),
+                    ],
+                    selected: {_tempUnit ?? 'C'},
+                    onSelectionChanged: (units) {
+                      if (units.isNotEmpty) _saveTempUnit(units.first);
+                    },
+                    showSelectedIcon: false,
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 16),
-            Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16)),
-              elevation: 2,
+            // 城市管理
+            Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: BorderRadius.circular(16),
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -391,10 +391,12 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
             const SizedBox(height: 16),
-            Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16)),
-              elevation: 2,
+            // 关于
+            Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: BorderRadius.circular(16),
+              ),
               child: InkWell(
                 borderRadius: BorderRadius.circular(16),
                 onTap: () {

@@ -19,7 +19,7 @@ class WeatherBg extends StatelessWidget {
     } else if ([1, 2, 3].contains(code)) {
       // 多云
       gradient = const LinearGradient(
-        colors: [Color(0xFF90A4AE), Color(0xFFECEFF1)],
+        colors: [Color.fromARGB(255, 175, 222, 243), Color(0xFFECEFF1)],
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
       );

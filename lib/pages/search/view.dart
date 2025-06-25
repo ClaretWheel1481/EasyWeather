@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'city_search_service.dart';
 import 'dart:async';
 import '../../core/models/city.dart';
+import '../../core/api/city_search_api.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -12,7 +12,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   final TextEditingController _controller = TextEditingController();
-  List<CitySearchResult> _results = [];
+  List<City> _results = [];
   bool _loading = false;
   String _error = '';
   Timer? _debounce;
@@ -52,7 +52,7 @@ class _SearchPageState extends State<SearchPage> {
       _error = '';
     });
     try {
-      final results = await CitySearchService.searchCity(query);
+      final results = await CitySearchApi.searchCity(query);
       setState(() {
         _results = results;
         _loading = false;
@@ -68,72 +68,143 @@ class _SearchPageState extends State<SearchPage> {
     }
   }
 
-  void _onCityTap(CitySearchResult city, BuildContext context) async {
-    // 解析 admin 和 country
-    final parts = city.name.split(',').map((e) => e.trim()).toList();
-    String cityName = _extractCityName(city.name);
-    String? admin;
-    String country = '';
-    if (parts.length >= 3) {
-      admin = parts[parts.length - 2];
-      country = parts.last;
-    } else if (parts.length == 2) {
-      admin = null;
-      country = parts.last;
-    } else {
-      admin = null;
-      country = '';
-    }
-    final cityObj = City(
-      name: cityName,
-      admin: admin,
-      country: country,
-      lat: city.lat,
-      lon: city.lon,
-    );
-    Navigator.pop(context, cityObj);
+  void _onCityTap(City city, BuildContext context) async {
+    Navigator.pop(context, city);
   }
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(
-        title: TextField(
-          controller: _controller,
-          autofocus: true,
-          decoration: InputDecoration(
-            hintText: '输入城市名，如"北京"',
-            border: InputBorder.none,
+        backgroundColor: colorScheme.surface,
+        elevation: 0,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 8),
+          child: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () => Navigator.of(context).pop(),
+            tooltip: '返回',
           ),
-          textInputAction: TextInputAction.search,
+        ),
+        titleSpacing: 0,
+        title: Container(
+          height: 44,
+          decoration: BoxDecoration(
+            color: colorScheme.onInverseSurface,
+            borderRadius: BorderRadius.circular(24),
+          ),
+          alignment: Alignment.centerLeft,
+          child: TextField(
+            controller: _controller,
+            autofocus: true,
+            style: textTheme.titleMedium,
+            decoration: InputDecoration(
+              hintText: '输入城市名，如"北京"',
+              hintStyle: textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.onSurfaceVariant.withValues(alpha: 0.7)),
+              border: InputBorder.none,
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+              isDense: true,
+            ),
+            textInputAction: TextInputAction.search,
+          ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            if (_loading) const LinearProgressIndicator(),
-            if (_error.isNotEmpty) ...[
-              const SizedBox(height: 16),
-              Text(_error, style: const TextStyle(color: Colors.red)),
-            ],
-            Expanded(
-              child: ListView.builder(
-                itemCount: _results.length,
-                itemBuilder: (context, index) {
-                  final city = _results[index];
-                  return ListTile(
-                    leading: const Icon(Icons.location_city),
-                    title: Text(_extractCityName(city.name),
-                        maxLines: 1, overflow: TextOverflow.ellipsis),
-                    subtitle: Text(_extractRegionName(city.name)),
-                    onTap: () => _onCityTap(city, context),
-                  );
-                },
+      backgroundColor: colorScheme.onInverseSurface,
+      body: Column(
+        children: [
+          if (_loading)
+            LinearProgressIndicator(
+              color: colorScheme.primary,
+              backgroundColor: colorScheme.onInverseSurface,
+              minHeight: 3,
+            ),
+          if (_error.isNotEmpty) ...[
+            const SizedBox(height: 24),
+            FilledButton.tonalIcon(
+              onPressed: () => _onSearch(_controller.text.trim()),
+              icon: const Icon(Icons.refresh),
+              label: Text(_error, style: textTheme.bodyMedium),
+              style: FilledButton.styleFrom(
+                backgroundColor: colorScheme.errorContainer,
+                foregroundColor: colorScheme.onErrorContainer,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16)),
               ),
             ),
           ],
-        ),
+          Expanded(
+              child: _results.isEmpty && !_loading && _error.isEmpty
+                  ? Center(
+                      child: Text('请输入城市名进行搜索',
+                          style: textTheme.bodyMedium
+                              ?.copyWith(color: colorScheme.onSurfaceVariant)),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: ListView.separated(
+                        itemCount: _results.length,
+                        separatorBuilder: (_, __) => const SizedBox(height: 10),
+                        itemBuilder: (context, index) {
+                          final city = _results[index];
+                          return Material(
+                            color: Theme.of(context).colorScheme.surface,
+                            borderRadius: BorderRadius.circular(16),
+                            elevation: 1,
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(20),
+                              onTap: () => _onCityTap(city, context),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 10),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: colorScheme.primary
+                                            .withValues(alpha: 0.08),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      padding: const EdgeInsets.all(8),
+                                      child: Icon(Icons.location_city,
+                                          color: colorScheme.primary, size: 28),
+                                    ),
+                                    const SizedBox(width: 16),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(_extractCityName(city.name),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: textTheme.titleMedium
+                                                  ?.copyWith(
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                          const SizedBox(height: 2),
+                                          Text(_extractRegionName(city.name),
+                                              style: textTheme.bodySmall
+                                                  ?.copyWith(
+                                                      color: colorScheme
+                                                          .onSurfaceVariant)),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    )),
+        ],
       ),
     );
   }

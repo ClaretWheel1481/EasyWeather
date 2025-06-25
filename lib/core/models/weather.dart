@@ -94,7 +94,7 @@ class CurrentWeather {
       Map<String, dynamic> json, double? visibility) {
     return CurrentWeather(
       temperature: (json['temperature_2m'] ?? 0).toDouble(),
-      weatherCode: json['weathercode'] ?? 0,
+      weatherCode: json['weather_code'] ?? 0,
       windSpeed: (json['wind_speed_10m'] ?? 0).toDouble(),
       windDirection: (json['winddirection'] ?? 0).toDouble(),
       apparentTemperature: json['apparent_temperature'] != null
@@ -107,7 +107,7 @@ class CurrentWeather {
 
   Map<String, dynamic> toJson() => {
         'temperature_2m': temperature,
-        'weathercode': weatherCode,
+        'weather_code': weatherCode,
         'wind_speed_10m': windSpeed,
         'winddirection': windDirection,
         'apparent_temperature': apparentTemperature,
