@@ -31,16 +31,22 @@ Current weather query
 Store cities in the list
 <br>
 ☑️
-Weather forecast for the next 7 days.
+Weather forecast for the next 7 days
 <br>
 ☑️
 Variable weather icons
 <br>
 ☑️
-Dark Mode(Follow the system settings)
+Theme settings (Dynamic Color avaliable)
 <br>
 ☑️
 Variable weather background
+<br>
+☑️
+Temperature unit modification
+<br>
+☑️
+l10n support
 <br>
 ................
 
