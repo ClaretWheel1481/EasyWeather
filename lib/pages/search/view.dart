@@ -1,7 +1,7 @@
+import 'package:easyweather/core/api/city_search_api.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import '../../core/models/city.dart';
-import '../../core/api/city_search_api.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -12,7 +12,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   final TextEditingController _controller = TextEditingController();
-  List<City> _results = [];
+  List<CitySearchResult> _results = [];
   bool _loading = false;
   String _error = '';
   Timer? _debounce;
@@ -68,8 +68,30 @@ class _SearchPageState extends State<SearchPage> {
     }
   }
 
-  void _onCityTap(City city, BuildContext context) async {
-    Navigator.pop(context, city);
+  void _onCityTap(CitySearchResult city, BuildContext context) async {
+    // 解析 admin 和 country
+    final parts = city.name.split(',').map((e) => e.trim()).toList();
+    String cityName = _extractCityName(city.name);
+    String? admin;
+    String country = '';
+    if (parts.length >= 3) {
+      admin = parts[parts.length - 2];
+      country = parts.last;
+    } else if (parts.length == 2) {
+      admin = null;
+      country = parts.last;
+    } else {
+      admin = null;
+      country = '';
+    }
+    final cityObj = City(
+      name: cityName,
+      admin: admin,
+      country: country,
+      lat: city.lat,
+      lon: city.lon,
+    );
+    Navigator.pop(context, cityObj);
   }
 
   @override
