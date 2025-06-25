@@ -47,12 +47,14 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void _onSearch(String query) async {
+    if (!mounted) return;
     setState(() {
       _loading = true;
       _error = '';
     });
     try {
       final results = await CitySearchApi.searchCity(query);
+      if (!mounted) return;
       setState(() {
         _results = results;
         _loading = false;
@@ -61,6 +63,7 @@ class _SearchPageState extends State<SearchPage> {
         }
       });
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         _loading = false;
         _error = '搜索失败，请检查网络';
@@ -69,7 +72,28 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void _onCityTap(City city, BuildContext context) async {
-    Navigator.pop(context, city);
+    final parts = city.name.split(',').map((e) => e.trim()).toList();
+    String cityName = _extractCityName(city.name);
+    String? admin;
+    String country = '';
+    if (parts.length >= 3) {
+      admin = parts[parts.length - 2];
+      country = parts.last;
+    } else if (parts.length == 2) {
+      admin = null;
+      country = parts.last;
+    } else {
+      admin = null;
+      country = '';
+    }
+    final cityObj = City(
+      name: cityName,
+      admin: admin,
+      country: country,
+      lat: city.lat,
+      lon: city.lon,
+    );
+    Navigator.pop(context, cityObj);
   }
 
   @override
