@@ -5,5 +5,6 @@ class AppConstants {
       'https://github.com/ClaretWheel1481/easyweather';
   static const String appAuthor = 'ClaretWheel1481';
   static const String appAuthorEmail = 'LanceHuang245@outlook.com';
-  static const String appDescription = 'A simple weather app.';
+  static const String appDescription =
+      'Simple and fast real-time weather forecast software.';
 }

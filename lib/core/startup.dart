@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 Future<void> initAppSettings() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
-  themeModeNotifier.value = ThemeMode.values[prefs.getInt('theme_mode') ?? 2];
+  themeModeNotifier.value = ThemeMode.values[prefs.getInt('theme_mode') ?? 0];
   tempUnitNotifier.value = prefs.getString('temp_unit') ?? 'C';
   dynamicColorEnabledNotifier.value =
       prefs.getBool('dynamic_color_enabled') ?? false;

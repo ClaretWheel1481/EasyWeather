@@ -3,12 +3,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../core/models/city.dart';
 import '../../core/models/weather.dart';
 import '../../core/api/open_meteo_api.dart';
-import '../../widgets/empty_city_tip.dart';
-import '../../widgets/weather_view.dart';
+import 'widgets/empty_city_tip.dart';
 import '../../core/services/weather_cache.dart';
 import '../../core/notifiers.dart';
-import '../../widgets/weather_bg.dart';
-import 'dart:ui';
+import 'widgets/home_app_bar_widget.dart';
+import 'widgets/home_page_content_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -61,11 +60,21 @@ class _HomePageState extends State<HomePage> {
       }
     }
     if (!mounted) return;
+
+    // 确保pageIndex在有效范围内
+    if (list.isNotEmpty && idx >= list.length) {
+      idx = 0;
+    }
+
     setState(() {
       cities = list;
       pageIndex = idx;
-      _pageController = PageController(initialPage: idx);
+      // 只有在PageController不存在或城市列表发生变化时才重新创建
+      if (_pageController == null || _pageController!.hasClients == false) {
+        _pageController = PageController(initialPage: idx);
+      }
     });
+
     if (cities.isNotEmpty) {
       for (var city in cities) {
         _loadWeather(city);
@@ -110,9 +119,11 @@ class _HomePageState extends State<HomePage> {
 
   void _onPageChanged(int idx) async {
     if (!mounted) return;
-    setState(() {
-      pageIndex = idx;
-    });
+    if (idx >= 0 && idx < cities.length) {
+      setState(() {
+        pageIndex = idx;
+      });
+    }
   }
 
   Future<void> _onAddCity() async {
@@ -127,19 +138,33 @@ class _HomePageState extends State<HomePage> {
         list.add(result);
         await prefs.setString('cities', City.listToJson(list));
       }
+
+      // 重新加载城市列表
       await _loadCities();
-      // 重新查找新城市的下标
+
+      // 重新查找新城市的下标（包括已存在的情况）
       final citiesStr2 = prefs.getString('cities');
       List<City> list2 =
           citiesStr2 != null ? City.listFromJson(citiesStr2) : [];
       int newIdx =
           list2.indexWhere((c) => c.lat == result.lat && c.lon == result.lon);
-      setState(() {
-        pageIndex = newIdx;
-      });
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _pageController?.jumpToPage(newIdx);
-      });
+
+      if (newIdx >= 0 && newIdx < cities.length) {
+        setState(() {
+          pageIndex = newIdx;
+        });
+
+        // 确保PageController已经创建并且页面已经构建完成后再跳转
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (_pageController != null && _pageController!.hasClients) {
+            _pageController!.animateToPage(
+              newIdx,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+          }
+        });
+      }
     }
   }
 
@@ -163,58 +188,12 @@ class _HomePageState extends State<HomePage> {
         : null;
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight),
-        child: ClipRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: AppBar(
-              elevation: 0,
-              backgroundColor: Theme.of(context).brightness == Brightness.dark
-                  ? Colors.black.withValues(alpha: 0.2)
-                  : Colors.white.withValues(alpha: 0.2),
-              title: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(currentCity?.name ?? 'EasyWeather'),
-                  if (cities.length > 1)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4.0),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: List.generate(cities.length, (i) {
-                          final isActive = i == pageIndex;
-                          return AnimatedContainer(
-                            duration: const Duration(milliseconds: 200),
-                            margin: const EdgeInsets.symmetric(horizontal: 3),
-                            width: isActive ? 10 : 6,
-                            height: isActive ? 10 : 6,
-                            decoration: BoxDecoration(
-                              color: isActive
-                                  ? Theme.of(context).colorScheme.primary
-                                  : Theme.of(context)
-                                      .colorScheme
-                                      .primary
-                                      .withValues(alpha: 0.3),
-                              shape: BoxShape.circle,
-                            ),
-                          );
-                        }),
-                      ),
-                    ),
-                ],
-              ),
-              actions: [
-                IconButton(
-                    icon: const Icon(Icons.search), onPressed: _onAddCity),
-                IconButton(
-                    icon: const Icon(Icons.settings),
-                    onPressed: _onOpenSettings),
-              ],
-            ),
-          ),
-        ),
+      appBar: HomeAppBarWidget(
+        currentCityName: currentCity?.name,
+        citiesLength: cities.length,
+        pageIndex: pageIndex,
+        onAddCity: _onAddCity,
+        onOpenSettings: _onOpenSettings,
       ),
       body: cities.isEmpty
           ? const EmptyCityTip()
@@ -226,45 +205,12 @@ class _HomePageState extends State<HomePage> {
                 final city = cities[idx];
                 final weather = weatherMap[city.cacheKey];
                 final loading = loadingMap[city.cacheKey] ?? false;
-                if (loading) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (weather == null) {
-                  return const Center(
-                      child: Text('天气数据加载失败',
-                          style: TextStyle(color: Colors.white)));
-                } else {
-                  return Stack(
-                    children: [
-                      WeatherBg(weatherCode: weather.current?.weatherCode),
-                      if (Theme.of(context).brightness == Brightness.dark)
-                        Positioned(
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          bottom: 0,
-                          child: Container(
-                            color: Colors.black.withValues(alpha: 0.3),
-                          ),
-                        ),
-                      RefreshIndicator(
-                        displacement: kToolbarHeight + 35,
-                        onRefresh: () => _refreshWeather(city),
-                        child: SingleChildScrollView(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          child: Column(
-                            children: [
-                              SizedBox(height: kToolbarHeight + 35),
-                              WeatherView(
-                                city: city,
-                                weather: weather,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                }
+                return HomePageContentWidget(
+                  city: city,
+                  weather: weather,
+                  loading: loading,
+                  onRefresh: () => _refreshWeather(city),
+                );
               },
             ),
     );

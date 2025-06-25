@@ -1,3 +1,4 @@
+import 'package:easyweather/l10n/generated/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class EmptyCityTip extends StatelessWidget {
@@ -11,14 +12,14 @@ class EmptyCityTip extends StatelessWidget {
         children: [
           Icon(Icons.location_off, size: 64, color: Colors.grey),
           const SizedBox(height: 16),
-          const Text(
-            '请添加一个城市',
+          Text(
+            AppLocalizations.of(context).noCitiesAdded,
             style: TextStyle(fontSize: 20, color: Colors.grey),
           ),
           const SizedBox(height: 24),
           FilledButton.icon(
             icon: const Icon(Icons.add_location_alt),
-            label: const Text('添加城市'),
+            label: Text(AppLocalizations.of(context).addCity),
             onPressed: () {
               Navigator.pushNamed(context, '/search');
             },

@@ -13,8 +13,15 @@ class OpenMeteoApi {
     String lang = 'zh',
     String units = 'metric',
   }) async {
-    final url = Uri.parse(
-        '$baseUrl?latitude=$latitude&longitude=$longitude&current=apparent_temperature,temperature_2m,weather_code,relative_humidity_2m,wind_speed_10m&hourly=weathercode,temperature_2m,precipitation,cloudcover,windspeed_10m,winddirection_10m,relative_humidity_2m,visibility&daily=temperature_2m_max,temperature_2m_min,weathercode,precipitation_sum,windspeed_10m_max,winddirection_10m_dominant&timezone=auto&lang=$lang&temperature_unit=${units == 'imperial' ? 'fahrenheit' : 'celsius'}');
+    final url = Uri.parse('$baseUrl'
+        '?latitude=$latitude'
+        '&longitude=$longitude'
+        '&current=apparent_temperature,temperature_2m,weather_code,relative_humidity_2m,wind_speed_10m,winddirection_10m,surface_pressure'
+        '&hourly=weather_code,temperature_2m,precipitation,visibility'
+        '&daily=temperature_2m_max,temperature_2m_min,weather_code,uv_index_max'
+        '&timezone=auto'
+        '&lang=$lang'
+        '&temperature_unit=${units == 'imperial' ? 'fahrenheit' : 'celsius'}');
     final response = await http.get(url);
     if (response.statusCode == 200) {
       kDebugMode ? debugPrint(response.body) : null;
