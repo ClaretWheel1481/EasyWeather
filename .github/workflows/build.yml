@@ -1,4 +1,4 @@
-name: Build EasyWeather Apk
+name: Build EasyWeather Apk & IPA
 
 on:
   push:
@@ -42,3 +42,42 @@ jobs:
         with:
           name: EasyWeather-Android
           path: build/app/outputs/flutter-apk/*.apk
+
+  build_ios:
+    name: Build IPA
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.32.4'
+          channel: stable
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build iOS (No Code Signing)
+        run: |
+          flutter build ios --release --no-codesign
+          ln -sf ./build/ios/iphoneos Payload
+          rm -rf build/ios/iphoneos/Runner.app/Frameworks/libswift*.dylib
+          ls -lh build/ios/iphoneos/Runner.app/Frameworks/
+          zip -r9 app.ipa Payload/runner.app
+
+      - name: Rename IPA
+        run: |
+          version_name=$(yq e .version pubspec.yaml | cut -d "+" -f 1)
+          for file in app.ipa; do
+            new_file_name="build/VerifyMe-${version_name}.ipa"
+            mv "$file" "$new_file_name"
+          done
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: VerifyMe-iOS
+          path: build/VerifyMe-*.ipa
