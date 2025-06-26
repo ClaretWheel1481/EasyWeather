@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../core/models/city.dart';
@@ -200,6 +201,7 @@ class _HomePageState extends State<HomePage> {
       );
       return;
     } else {
+      kDebugMode ? debugPrint(pos.latitude.toString()) : null;
       if (!mounted) return;
       NotificationUtils.showSnackBar(
         context,
@@ -207,6 +209,7 @@ class _HomePageState extends State<HomePage> {
       );
     }
     final city = await LocationService.getCityFromPosition(pos);
+    kDebugMode ? debugPrint(city.name) : null;
     final prefs = await SharedPreferences.getInstance();
     if (city.name.isEmpty) {
       if (!mounted) return;

@@ -1,8 +1,6 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import '../models/city.dart';
-import '../notifiers.dart';
-import '../../app.dart';
 
 class LocationService {
   static Future<Position?> getCurrentPosition() async {
@@ -20,13 +18,10 @@ class LocationService {
   }
 
   static Future<City> getCityFromPosition(Position position) async {
-    final locale = supportedLocales[localeIndexNotifier.value];
-    String localeId = locale.toString();
     try {
       List<Placemark> placemarks = await placemarkFromCoordinates(
         position.latitude,
         position.longitude,
-        localeIdentifier: localeId,
       );
       if (placemarks.isNotEmpty) {
         final p = placemarks.first;
