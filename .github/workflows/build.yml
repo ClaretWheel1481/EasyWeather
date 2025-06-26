@@ -72,12 +72,12 @@ jobs:
         run: |
           version_name=$(yq e .version pubspec.yaml | cut -d "+" -f 1)
           for file in app.ipa; do
-            new_file_name="build/VerifyMe-${version_name}.ipa"
+            new_file_name="build/EasyWeather-${version_name}.ipa"
             mv "$file" "$new_file_name"
           done
 
       - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:
-          name: VerifyMe-iOS
-          path: build/VerifyMe-*.ipa
+          name: EasyWeather-iOS
+          path: build/EasyWeather-*.ipa
