@@ -165,4 +165,16 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get addCity => '添加城市';
+
+  @override
+  String get addByLocation => '定位添加';
+
+  @override
+  String get locating => '正在定位...';
+
+  @override
+  String get locationPermissionDenied => '无法获取定位权限或定位服务未开启';
+
+  @override
+  String get locationNotRecognized => '无法识别当前位置城市名';
 }

@@ -8,6 +8,8 @@ import '../../core/services/weather_cache.dart';
 import '../../core/notifiers.dart';
 import 'widgets/home_app_bar_widget.dart';
 import 'widgets/home_page_content_widget.dart';
+import '../../core/services/location_service.dart';
+import 'package:easyweather/l10n/generated/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -183,6 +185,54 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Future<void> _onLocate() async {
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+    await scaffoldMessenger.showSnackBar(
+      SnackBar(
+          content: Text(AppLocalizations.of(context).locating),
+          duration: Duration(seconds: 3)),
+    );
+    final pos = await LocationService.getCurrentPosition();
+    if (pos == null) {
+      if (!mounted) return;
+      await scaffoldMessenger.showSnackBar(
+        SnackBar(
+            content:
+                Text(AppLocalizations.of(context).locationPermissionDenied),
+            duration: Duration(seconds: 3)),
+      );
+      return;
+    }
+    final city = await LocationService.getCityFromPosition(pos);
+    final prefs = await SharedPreferences.getInstance();
+    final citiesStr = prefs.getString('cities');
+    List<City> list = citiesStr != null ? City.listFromJson(citiesStr) : [];
+    if (!list.any((c) => c.lat == city.lat && c.lon == city.lon)) {
+      list.add(city);
+      await prefs.setString('cities', City.listToJson(list));
+      await _loadCities();
+      final citiesStr2 = prefs.getString('cities');
+      List<City> list2 =
+          citiesStr2 != null ? City.listFromJson(citiesStr2) : [];
+      int newIdx =
+          list2.indexWhere((c) => c.lat == city.lat && c.lon == city.lon);
+      if (newIdx >= 0 && newIdx < cities.length) {
+        setState(() {
+          pageIndex = newIdx;
+        });
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (_pageController != null && _pageController!.hasClients) {
+            _pageController!.animateToPage(
+              newIdx,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+          }
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final currentCity = cities.isNotEmpty && pageIndex < cities.length
@@ -196,9 +246,10 @@ class _HomePageState extends State<HomePage> {
         pageIndex: pageIndex,
         onAddCity: _onAddCity,
         onOpenSettings: _onOpenSettings,
+        onLocate: _onLocate,
       ),
       body: cities.isEmpty
-          ? const EmptyCityTip()
+          ? EmptyCityTip(onLocate: _onLocate)
           : PageView.builder(
               controller: _pageController,
               itemCount: cities.length,

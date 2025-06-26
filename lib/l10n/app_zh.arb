@@ -58,5 +58,9 @@
   "weatherDataError": "天气数据加载失败",
   "surfacePressure": "气压",
   "uvIndex": "紫外线指数",
-  "addCity": "添加城市"
+  "addCity": "添加城市",
+  "addByLocation": "定位添加",
+  "locating": "正在定位...",
+  "locationPermissionDenied": "无法获取定位权限或定位服务未开启",
+  "locationNotRecognized": "无法识别当前位置城市名"
 } 

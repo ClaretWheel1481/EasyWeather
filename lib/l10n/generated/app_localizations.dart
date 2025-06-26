@@ -406,6 +406,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add City'**
   String get addCity;
+
+  /// No description provided for @addByLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Add by Location'**
+  String get addByLocation;
+
+  /// No description provided for @locating.
+  ///
+  /// In en, this message translates to:
+  /// **'Locating...'**
+  String get locating;
+
+  /// No description provided for @locationPermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to get location permission or location service is disabled'**
+  String get locationPermissionDenied;
+
+  /// No description provided for @locationNotRecognized.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to recognize the city name of the current location'**
+  String get locationNotRecognized;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

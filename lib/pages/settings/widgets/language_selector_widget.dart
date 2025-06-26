@@ -2,6 +2,7 @@ import 'package:easyweather/app.dart';
 import 'package:flutter/material.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../../core/notifiers.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LanguageSelectorWidget extends StatefulWidget {
   const LanguageSelectorWidget({super.key});
@@ -74,9 +75,12 @@ class _LanguageSelectorWidgetState extends State<LanguageSelectorWidget> {
                                   ? Icon(Icons.check,
                                       color: colorScheme.primary)
                                   : null,
-                              onTap: () {
+                              onTap: () async {
                                 if (!isSelected) {
                                   localeIndexNotifier.value = index;
+                                  final prefs =
+                                      await SharedPreferences.getInstance();
+                                  await prefs.setInt('locale_index', index);
                                 }
                               },
                             );

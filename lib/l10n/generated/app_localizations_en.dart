@@ -165,4 +165,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get addCity => 'Add City';
+
+  @override
+  String get addByLocation => 'Add by Location';
+
+  @override
+  String get locating => 'Locating...';
+
+  @override
+  String get locationPermissionDenied => 'Unable to get location permission or location service is disabled';
+
+  @override
+  String get locationNotRecognized => 'Unable to recognize the city name of the current location';
 }

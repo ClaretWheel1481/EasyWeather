@@ -8,6 +8,7 @@ class HomeAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final int pageIndex;
   final VoidCallback onAddCity;
   final VoidCallback onOpenSettings;
+  final VoidCallback onLocate;
 
   const HomeAppBarWidget({
     super.key,
@@ -16,6 +17,7 @@ class HomeAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
     required this.pageIndex,
     required this.onAddCity,
     required this.onOpenSettings,
+    required this.onLocate,
   });
 
   @override
@@ -65,6 +67,8 @@ class HomeAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
             ),
             actions: [
               IconButton(icon: const Icon(Icons.search), onPressed: onAddCity),
+              IconButton(
+                  icon: const Icon(Icons.location_on), onPressed: onLocate),
               IconButton(
                   icon: const Icon(Icons.settings), onPressed: onOpenSettings),
             ],

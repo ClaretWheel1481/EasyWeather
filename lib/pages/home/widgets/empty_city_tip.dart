@@ -2,7 +2,8 @@ import 'package:easyweather/l10n/generated/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class EmptyCityTip extends StatelessWidget {
-  const EmptyCityTip({super.key});
+  final VoidCallback? onLocate;
+  const EmptyCityTip({super.key, this.onLocate});
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +24,12 @@ class EmptyCityTip extends StatelessWidget {
             onPressed: () {
               Navigator.pushNamed(context, '/search');
             },
+          ),
+          const SizedBox(height: 12),
+          FilledButton.icon(
+            icon: const Icon(Icons.my_location),
+            label: Text(AppLocalizations.of(context).addByLocation),
+            onPressed: onLocate,
           ),
         ],
       ),
