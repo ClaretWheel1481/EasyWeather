@@ -37,10 +37,10 @@ EasyWeather by ClaretWheel1481
 可跟随天气变化的天气图标
 <br>
 ☑️
-主题设置（支持Monet取色）
+可跟随天气变化的背景
 <br>
 ☑️
-可跟随天气变化的天气背景
+主题设置（支持Monet取色）
 <br>
 ☑️
 温度单位调整
@@ -55,9 +55,16 @@ EasyWeather by ClaretWheel1481
 - 设置页可选择已保存的城市，可将指定城市设置为默认城市，并能够删除已保存的城市。
 
 ## 预览
-<div class="half">
-<img src="./public/sample.png" width=50%/>
-</div>
+<table>
+  <tr>
+    <td><img src="./public/sample_main.png" width="200"/></td>
+    <td><img src="./public/sample_main2.png" width="200"/></td>
+  </tr>
+  <tr>
+    <td><img src="./public/sample_search.png" width="200"/></td>
+    <td><img src="./public/sample_settings.png" width="200"/></td>
+  </tr>
+</table>
 
 ## 下载
 [点击此处](https://github.com/ClaretWheel1481/easyweather/releases/latest)

@@ -9,7 +9,7 @@ English | [简体中文](README_CN.md)
 # EasyWeather
 EasyWeather by ClaretWheel1481
 <br>
-The data is sourced from the OpenMeteo API.
+The weather data is sourced from the OpenMeteo API.
 <br>
 
 # Directory
@@ -55,9 +55,16 @@ l10n support
 - In the settings page, you can choose saved cities. You can set a designated city as the default city and delete cities that have been saved.
 
 ## Screenshots
-<div class="half">
-<img src="./public/sample.png" width=50%/>
-</div>
+<table>
+  <tr>
+    <td><img src="./public/sample_main.png" width="200"/></td>
+    <td><img src="./public/sample_main2.png" width="200"/></td>
+  </tr>
+  <tr>
+    <td><img src="./public/sample_search.png" width="200"/></td>
+    <td><img src="./public/sample_settings.png" width="200"/></td>
+  </tr>
+</table>
 
 ## Download
 [Click Here](https://github.com/ClaretWheel1481/easyweather/releases/latest)
