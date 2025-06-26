@@ -149,31 +149,45 @@ class RainfallCurvePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     if (rainfall.isEmpty) return;
+    final extendedRainfall = [0.0, ...rainfall, 0.0];
     final paint = Paint()
       ..color = color
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2;
-    final maxRain = rainfall.reduce((a, b) => a > b ? a : b);
-    final minRain = rainfall.reduce((a, b) => a < b ? a : b);
+    final maxRain = extendedRainfall.reduce((a, b) => a > b ? a : b);
+    final minRain = extendedRainfall.reduce((a, b) => a < b ? a : b);
     final range = (maxRain - minRain).abs() < 1e-3 ? 1.0 : (maxRain - minRain);
-    // 增大曲线的上下padding，避免碰到顶部数值和底部时间
     final topPadding = size.height * 0.22;
     final bottomPadding = size.height * 0.18;
     List<Offset> points = [];
-    for (int i = 0; i < rainfall.length; i++) {
-      final x = i * size.width / (rainfall.length - 1);
+    for (int i = 0; i < extendedRainfall.length; i++) {
+      final x = (i - 0.5) * size.width / rainfall.length;
       final y = topPadding +
           (size.height - topPadding - bottomPadding) *
-              (1 - (rainfall[i] - minRain) / range);
+              (1 - (extendedRainfall[i] - minRain) / range);
       points.add(Offset(x, y));
     }
-    // 线性插值：直接连接各点
     final path = Path();
     if (points.isNotEmpty) {
       path.moveTo(points[0].dx, points[0].dy);
-      for (int i = 1; i < points.length; i++) {
-        path.lineTo(points[i].dx, points[i].dy);
+      for (int i = 1; i < points.length - 1; i++) {
+        final curr = points[i];
+        final next = points[i + 1];
+        // 控制点为当前点，终点为当前点和下一个点的中点
+        final controlPoint = curr;
+        final endPoint = Offset(
+          (curr.dx + next.dx) / 2,
+          (curr.dy + next.dy) / 2,
+        );
+        path.quadraticBezierTo(
+          controlPoint.dx,
+          controlPoint.dy,
+          endPoint.dx,
+          endPoint.dy,
+        );
       }
+      // 最后一段直接连到最后一个点
+      path.lineTo(points.last.dx, points.last.dy);
     }
     canvas.drawPath(path, paint);
   }
@@ -192,42 +206,55 @@ class _RainfallCurveShadowPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     if (rainfall.isEmpty) return;
-    final maxRain = rainfall.reduce((a, b) => a > b ? a : b);
-    final minRain = rainfall.reduce((a, b) => a < b ? a : b);
+    final extendedRainfall = [0.0, ...rainfall, 0.0];
+    final maxRain = extendedRainfall.reduce((a, b) => a > b ? a : b);
+    final minRain = extendedRainfall.reduce((a, b) => a < b ? a : b);
     final range = (maxRain - minRain).abs() < 1e-3 ? 1.0 : (maxRain - minRain);
     final topPadding = size.height * 0.22;
     final bottomPadding = size.height * 0.18;
     List<Offset> points = [];
-    for (int i = 0; i < rainfall.length; i++) {
-      final x = i * size.width / (rainfall.length - 1);
+    for (int i = 0; i < extendedRainfall.length; i++) {
+      final x = (i - 0.5) * size.width / rainfall.length;
       final y = topPadding +
           (size.height - topPadding - bottomPadding) *
-              (1 - (rainfall[i] - minRain) / range);
+              (1 - (extendedRainfall[i] - minRain) / range);
       points.add(Offset(x, y));
     }
     final path = Path();
     if (points.isNotEmpty) {
       path.moveTo(points[0].dx, points[0].dy);
-      for (int i = 1; i < points.length; i++) {
-        path.lineTo(points[i].dx, points[i].dy);
+      for (int i = 1; i < points.length - 1; i++) {
+        final curr = points[i];
+        final next = points[i + 1];
+        // 控制点为当前点，终点为当前点和下一个点的中点
+        final controlPoint = curr;
+        final endPoint = Offset(
+          (curr.dx + next.dx) / 2,
+          (curr.dy + next.dy) / 2,
+        );
+        path.quadraticBezierTo(
+          controlPoint.dx,
+          controlPoint.dy,
+          endPoint.dx,
+          endPoint.dy,
+        );
       }
-      // 阴影填充
-      final shadowPath = Path.from(path)
-        ..lineTo(points.last.dx, size.height - bottomPadding)
-        ..lineTo(points.first.dx, size.height - bottomPadding)
-        ..close();
-      final shadowPaint = Paint()
-        ..shader = LinearGradient(
-          colors: [
-            color.withValues(alpha: 0.18),
-            color.withValues(alpha: 0.02)
-          ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ).createShader(Rect.fromLTWH(0, 0, size.width, size.height))
-        ..style = PaintingStyle.fill;
-      canvas.drawPath(shadowPath, shadowPaint);
+      // 最后一段直接连到最后一个点
+      path.lineTo(points.last.dx, points.last.dy);
     }
+    // 阴影填充
+    final shadowPath = Path.from(path)
+      ..lineTo(points.last.dx, size.height - bottomPadding)
+      ..lineTo(points.first.dx, size.height - bottomPadding)
+      ..close();
+    final shadowPaint = Paint()
+      ..shader = LinearGradient(
+        colors: [color.withValues(alpha: 0.18), color.withValues(alpha: 0.02)],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ).createShader(Rect.fromLTWH(0, 0, size.width, size.height))
+      ..style = PaintingStyle.fill;
+    canvas.drawPath(shadowPath, shadowPaint);
   }
 
   @override

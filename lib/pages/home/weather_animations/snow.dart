@@ -98,7 +98,7 @@ class _SnowPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final Paint paint = Paint();
     for (var flake in flakes) {
-      paint.color = Colors.white.withOpacity(flake.opacity);
+      paint.color = Colors.white.withValues(alpha: flake.opacity);
       final double dx = flake.x * size.width;
       final double dy = flake.y * size.height;
       canvas.drawCircle(Offset(dx, dy), flake.radius, paint);
