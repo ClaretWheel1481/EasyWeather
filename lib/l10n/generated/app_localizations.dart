@@ -149,6 +149,18 @@ abstract class AppLocalizations {
   /// **'City Manager'**
   String get cityManager;
 
+  /// No description provided for @cities.
+  ///
+  /// In en, this message translates to:
+  /// **'cities'**
+  String get cities;
+
+  /// No description provided for @main.
+  ///
+  /// In en, this message translates to:
+  /// **'Main'**
+  String get main;
+
   /// No description provided for @noCitiesAdded.
   ///
   /// In en, this message translates to:

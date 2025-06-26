@@ -36,6 +36,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cityManager => 'City Manager';
 
   @override
+  String get cities => 'cities';
+
+  @override
+  String get main => 'Main';
+
+  @override
   String get noCitiesAdded => 'No cities added';
 
   @override

@@ -9,6 +9,8 @@
   "celsius": "Celsius (°C)",
   "fahrenheit": "Fahrenheit (°F)",
   "cityManager": "City Manager",
+  "cities": "cities",
+  "main": "Main",
   "noCitiesAdded": "No cities added",
   "confirm": "Confirm",
   "deleteCityMessage": "Are you sure you want to delete \"{cityName}\"?",

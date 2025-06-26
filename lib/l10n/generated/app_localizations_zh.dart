@@ -36,6 +36,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get cityManager => '城市管理';
 
   @override
+  String get cities => '个城市';
+
+  @override
+  String get main => '主城市';
+
+  @override
   String get noCitiesAdded => '暂无已添加的城市';
 
   @override

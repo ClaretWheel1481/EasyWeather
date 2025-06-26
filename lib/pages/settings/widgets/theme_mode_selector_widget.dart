@@ -85,20 +85,33 @@ class ThemeModeSelectorWidget extends StatelessWidget {
             ),
           ),
           Divider(),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-            child: Row(
-              children: [
-                Icon(Icons.palette_outlined,
-                    color: Theme.of(context).colorScheme.primary),
-                const SizedBox(width: 8),
-                Expanded(
-                    child: Text(l10n.monetColor, style: textTheme.titleMedium)),
-                Switch(
-                  value: dynamicColorEnabled,
-                  onChanged: Platform.isIOS ? null : onDynamicColorChanged,
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(24),
+                bottomRight: Radius.circular(24),
+              ),
+              onTap: Platform.isIOS
+                  ? null
+                  : () => onDynamicColorChanged(!dynamicColorEnabled),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+                child: Row(
+                  children: [
+                    Icon(Icons.palette_outlined,
+                        color: Theme.of(context).colorScheme.primary),
+                    const SizedBox(width: 8),
+                    Expanded(
+                        child: Text(l10n.monetColor,
+                            style: textTheme.titleMedium)),
+                    Switch(
+                      value: dynamicColorEnabled,
+                      onChanged: Platform.isIOS ? null : onDynamicColorChanged,
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ],

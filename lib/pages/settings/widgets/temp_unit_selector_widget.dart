@@ -21,53 +21,57 @@ class TempUnitSelectorWidget extends StatelessWidget {
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(24),
       ),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(Icons.thermostat,
-                    color: Theme.of(context).colorScheme.primary),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(l10n.temperatureUnit, style: textTheme.titleMedium),
-                      const SizedBox(height: 12),
-                      SizedBox(
-                        width: double.infinity,
-                        child: SegmentedButton<String>(
-                          segments: [
-                            ButtonSegment(
-                              value: 'C',
-                              label: Text(l10n.celsius),
-                              icon: const Icon(Icons.thermostat),
-                            ),
-                            ButtonSegment(
-                              value: 'F',
-                              label: Text(l10n.fahrenheit),
-                              icon: const Icon(Icons.device_thermostat),
-                            ),
-                          ],
-                          selected: {tempUnit ?? 'C'},
-                          onSelectionChanged: (units) {
-                            if (units.isNotEmpty) {
-                              onTempUnitChanged(units.first);
-                            }
-                          },
-                          showSelectedIcon: false,
+      child: Material(
+        color: Colors.transparent,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(Icons.thermostat,
+                      color: Theme.of(context).colorScheme.primary),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(l10n.temperatureUnit,
+                            style: textTheme.titleMedium),
+                        const SizedBox(height: 12),
+                        SizedBox(
+                          width: double.infinity,
+                          child: SegmentedButton<String>(
+                            segments: [
+                              ButtonSegment(
+                                value: 'C',
+                                label: Text(l10n.celsius),
+                                icon: const Icon(Icons.thermostat),
+                              ),
+                              ButtonSegment(
+                                value: 'F',
+                                label: Text(l10n.fahrenheit),
+                                icon: const Icon(Icons.device_thermostat),
+                              ),
+                            ],
+                            selected: {tempUnit ?? 'C'},
+                            onSelectionChanged: (units) {
+                              if (units.isNotEmpty) {
+                                onTempUnitChanged(units.first);
+                              }
+                            },
+                            showSelectedIcon: false,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

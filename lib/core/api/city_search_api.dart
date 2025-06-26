@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:easyweather/app_constants.dart';
 import 'package:http/http.dart' as http;
 import '../models/city.dart';
 import '../notifiers.dart';
@@ -12,15 +13,16 @@ class CitySearchApi {
     String acceptLanguage = 'en-US'; // 默认英语
     final locale = supportedLocales[localeIndexNotifier.value];
     if (locale.languageCode == 'zh') {
-      acceptLanguage = 'zh-CN';
+      acceptLanguage = 'zh-Hans';
     } else if (locale.languageCode == 'en') {
-      acceptLanguage = 'en-US';
+      acceptLanguage = 'en';
     }
 
     final url = Uri.parse(
-        '$baseUrl?format=json&q=$query&accept-language=$acceptLanguage&limit=10&addressdetails=1');
-    final response =
-        await http.get(url, headers: {'User-Agent': 'EasyWeatherApp/2.0'});
+        '$baseUrl?format=json&q=$query&accept-language=$acceptLanguage&limit=30&addressdetails=1');
+    final response = await http.get(url, headers: {
+      'User-Agent': '${AppConstants.appName}/${AppConstants.appVersion}'
+    });
     if (response.statusCode == 200) {
       final List data = json.decode(response.body);
       return data
