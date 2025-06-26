@@ -1,14 +1,26 @@
+import 'package:easyweather/pages/home/weather_animations/rain.dart';
+import 'package:easyweather/pages/home/weather_animations/snow.dart';
+import 'package:easyweather/pages/home/weather_animations/thunder_flash.dart';
 import 'package:flutter/material.dart';
 
 // 天气渐变背景组件
-class WeatherBg extends StatelessWidget {
+class WeatherBg extends StatefulWidget {
   final int? weatherCode;
   const WeatherBg({super.key, this.weatherCode});
 
   @override
+  State<WeatherBg> createState() => _WeatherBgState();
+}
+
+class _WeatherBgState extends State<WeatherBg> {
+  @override
   Widget build(BuildContext context) {
-    final code = weatherCode;
+    final code = widget.weatherCode;
     LinearGradient gradient;
+    final isRain =
+        [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].contains(code);
+    final isThunder = [95, 96, 99].contains(code);
+    final isSnow = [71, 73, 75, 77, 85, 86].contains(code);
     if (code == 0) {
       // 晴天
       gradient = const LinearGradient(
@@ -30,22 +42,21 @@ class WeatherBg extends StatelessWidget {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
       );
-    } else if ([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82]
-        .contains(code)) {
+    } else if (isRain) {
       // 雨天
       gradient = const LinearGradient(
         colors: [Color(0xFF1976D2), Color(0xFF90A4AE)],
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
       );
-    } else if ([71, 73, 75, 77, 85, 86].contains(code)) {
+    } else if (isSnow) {
       // 雪天
       gradient = const LinearGradient(
         colors: [Color(0xFFB3E5FC), Color(0xFFE1F5FE)],
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
       );
-    } else if ([95, 96, 99].contains(code)) {
+    } else if (isThunder) {
       // 雷暴
       gradient = const LinearGradient(
         colors: [Color(0xFF263238), Color(0xFF607D8B)],
@@ -60,10 +71,35 @@ class WeatherBg extends StatelessWidget {
         end: Alignment.bottomCenter,
       );
     }
-    return Container(
-      decoration: BoxDecoration(
-        gradient: gradient,
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                gradient: gradient,
+              ),
+            ),
+            if (isRain)
+              RainAnimation(
+                maxHeight: constraints.maxHeight,
+              ),
+            if (isThunder)
+              Stack(
+                children: [
+                  RainAnimation(
+                    maxHeight: constraints.maxHeight,
+                  ),
+                  ThunderFlashAnimation(),
+                ],
+              ),
+            if (isSnow)
+              SnowAnimation(
+                maxHeight: constraints.maxHeight,
+              ),
+          ],
+        );
+      },
     );
   }
 }

@@ -26,7 +26,7 @@ class _SettingsPageState extends State<SettingsPage> {
   int _mainCityIndex = 0;
   bool _cityLoading = true;
   bool _cityManagerExpanded = false;
-  bool _cityChanged = false;
+  String? _changeType;
 
   @override
   void initState() {
@@ -94,7 +94,7 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
     );
 
-    if (!mounted) return; // 检查widget是否仍然挂载
+    if (!mounted) return;
 
     if (confirm == true) {
       setState(() {
@@ -102,7 +102,7 @@ class _SettingsPageState extends State<SettingsPage> {
         if (_mainCityIndex >= _cities.length) {
           _mainCityIndex = 0;
         }
-        _cityChanged = true;
+        _changeType = 'cityListChanged';
       });
       await _saveCities();
     }
@@ -111,7 +111,7 @@ class _SettingsPageState extends State<SettingsPage> {
   void _setMainCity(int index) async {
     setState(() {
       _mainCityIndex = index;
-      _cityChanged = true;
+      _changeType = 'mainCityChanged';
     });
     await _saveCities();
   }
@@ -153,16 +153,12 @@ class _SettingsPageState extends State<SettingsPage> {
         body: const Center(child: CircularProgressIndicator()),
       );
     }
-    return PopScope(
-      canPop: true,
-      onPopInvokedWithResult: (didPop, result) {
-        if (didPop) {
-          Future.microtask(() {
-            if (Navigator.of(context).canPop()) {
-              Navigator.of(context).pop(_cityChanged);
-            }
-          });
+    return WillPopScope(
+      onWillPop: () async {
+        if (_changeType != null) {
+          Navigator.of(context).pop(_changeType);
         }
+        return true;
       },
       child: Scaffold(
         appBar: AppBar(
@@ -170,7 +166,7 @@ class _SettingsPageState extends State<SettingsPage> {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.of(context).pop(_cityChanged);
+              Navigator.of(context).pop(_changeType);
             },
           ),
         ),

@@ -18,10 +18,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get system => '系统';
 
   @override
-  String get light => '明亮';
+  String get light => '浅色';
 
   @override
-  String get dark => '暗色';
+  String get dark => '深色';
 
   @override
   String get temperatureUnit => '温度单位';

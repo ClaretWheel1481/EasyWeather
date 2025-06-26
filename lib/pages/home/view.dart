@@ -170,7 +170,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _onOpenSettings() async {
     final result = await Navigator.pushNamed(context, '/settings');
-    if (result == true || result == null) {
+    if (result == 'mainCityChanged' || result == 'cityListChanged') {
       await _loadCities();
       setState(() {
         pageIndex = 0;

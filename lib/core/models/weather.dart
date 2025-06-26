@@ -96,6 +96,7 @@ class CurrentWeather {
         'temperature_2m': temperature,
         'weather_code': weatherCode,
         'wind_speed_10m': windSpeed,
+        'winddirection_10m': windDirection,
         'apparent_temperature': apparentTemperature,
         'relative_humidity_2m': humidity,
         'surface_pressure': surfacePressure,
