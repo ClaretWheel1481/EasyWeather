@@ -27,9 +27,7 @@ class HomeAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: AppBar(
             elevation: 0,
-            backgroundColor: Theme.of(context).brightness == Brightness.dark
-                ? Colors.black.withValues(alpha: 0.2)
-                : Colors.white.withValues(alpha: 0.2),
+            backgroundColor: Colors.transparent,
             title: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,

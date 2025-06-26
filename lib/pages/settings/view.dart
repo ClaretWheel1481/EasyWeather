@@ -130,6 +130,7 @@ class _SettingsPageState extends State<SettingsPage> {
     await prefs.setString('temp_unit', unit);
     setState(() {
       _tempUnit = unit;
+      _changeType = 'tempUnitChanged';
     });
     tempUnitNotifier.value = unit;
   }
