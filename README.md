@@ -1,73 +1,62 @@
 English | [简体中文](README_CN.md)
+
 <p align="center">
-    <a href="https://github.com/ClaretWheel1481/easyweather">
-        <img src="./public/easyweather.png" height="200"/>
-    </a>
+  <a href="https://github.com/ClaretWheel1481/easyweather">
+    <img src="./public/easyweather.png" height="200"/>
+  </a>
 </p>
 
-
 # EasyWeather
-EasyWeather by ClaretWheel1481
-<br>
-The weather data is sourced from the OpenMeteo API.
-<br>
 
-# Directory
-- [Warning](#Warning)
-- [Features](#Features)
-- [Usage](#Usage)
-- [Screenshots](#Screenshots)
-- [Download](#Download)
-- [License](#License)
+A simple and beautiful weather app built with Flutter, powered by the OpenMeteo API.
+
+---
+
+## Table of Contents
+- [Warning](#warning)
+- [Features](#features)
+- [Usage](#usage)
+- [Tech Stack](#tech-stack)
+- [Screenshots](#screenshots)
+- [Download](#download)
+- [License](#license)
 
 ## Warning
-❗️Only suitable for running on Android 9.0 and Mobile Phone.<br>
+> ⚠️ Only suitable for Android 9.0 or iOS 14 and above mobile devices.
 
 ## Features
-☑️
-Current weather query
-<br>
-☑️
-Store cities in the list
-<br>
-☑️
-Weather forecast for the next 7 days
-<br>
-☑️
-Variable weather icons
-<br>
-☑️
-Theme settings (Dynamic Color avaliable)
-<br>
-☑️
-Variable weather background
-<br>
-☑️
-Temperature unit modification
-<br>
-☑️
-l10n support
-<br>
-................
+- Real-time weather query for multiple cities
+- City management: add, delete, set default
+- 7-day weather forecast
+- Dynamic weather icons and backgrounds
+- Theme settings with dynamic color support
+- Temperature unit switch (°C/°F)
+- Localization (l10n) support
 
 ## Usage
-- You can search for cities in the top right corner. Upon successful search, the corresponding results will be displayed. Select the desired city and click it to return to the main interface, showing the weather conditions and saving it to the city list.
-- In the settings page, you can choose saved cities. You can set a designated city as the default city and delete cities that have been saved.
+1. Tap the search button in the top right corner to search for a city. Select a city to return to the main screen and save it to city list, or tap the location button to get weather data of your local city.
+2. Manage saved cities in the settings page: set default or delete.
+3. Switch theme, language, and temperature unit in settings.
+
+## Tech Stack
+- Flutter 3.32.4
+- OpenMeteo API
+- OpenStreetMap API
 
 ## Screenshots
 <table>
   <tr>
-    <td><img src="./public/sample_main.png" width="200"/></td>
-    <td><img src="./public/sample_main2.png" width="200"/></td>
+    <td><img src="./public/sample_main_light.png" width="200"/></td>
+    <td><img src="./public/sample_main_dark.png" width="200"/></td>
   </tr>
   <tr>
-    <td><img src="./public/sample_search.png" width="200"/></td>
-    <td><img src="./public/sample_settings.png" width="200"/></td>
+    <td><img src="./public/sample_settings_light.png" width="200"/></td>
+    <td><img src="./public/sample_settings_dark.png" width="200"/></td>
   </tr>
 </table>
 
 ## Download
-[Click Here](https://github.com/ClaretWheel1481/easyweather/releases/latest)
+[Click here to download the latest version of EasyWeather](https://github.com/ClaretWheel1481/easyweather/releases/latest)
 
 ## License
-[MIT](LICENSE) © Huang LinXing
+[MIT License](LICENSE) © Huang LinXing

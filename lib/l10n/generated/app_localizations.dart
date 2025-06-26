@@ -416,7 +416,7 @@ abstract class AppLocalizations {
   /// No description provided for @locating.
   ///
   /// In en, this message translates to:
-  /// **'Locating...'**
+  /// **'Getting location information...'**
   String get locating;
 
   /// No description provided for @locationPermissionDenied.
@@ -428,8 +428,14 @@ abstract class AppLocalizations {
   /// No description provided for @locationNotRecognized.
   ///
   /// In en, this message translates to:
-  /// **'Unable to recognize the city name of the current location'**
+  /// **'Unable to recognize the current location'**
   String get locationNotRecognized;
+
+  /// No description provided for @locatingSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Location obtained successfully, please wait...'**
+  String get locatingSuccess;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

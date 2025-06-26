@@ -56,11 +56,12 @@
   "monetColor": "Monet取色",
   "retry": "重试",
   "weatherDataError": "天气数据加载失败",
-  "surfacePressure": "气压",
+  "surfacePressure": "地面气压",
   "uvIndex": "紫外线指数",
   "addCity": "添加城市",
   "addByLocation": "定位添加",
-  "locating": "正在定位...",
+  "locating": "正在获取位置信息...",
   "locationPermissionDenied": "无法获取定位权限或定位服务未开启",
-  "locationNotRecognized": "无法识别当前位置城市名"
+  "locationNotRecognized": "无法识别当前位置",
+  "locatingSuccess": "获取位置信息成功，请稍后..."
 } 

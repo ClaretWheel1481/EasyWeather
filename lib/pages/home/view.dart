@@ -10,6 +10,7 @@ import 'widgets/home_app_bar_widget.dart';
 import 'widgets/home_page_content_widget.dart';
 import '../../core/services/location_service.dart';
 import 'package:easyweather/l10n/generated/app_localizations.dart';
+import '../../core/utils/notification_utils.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -186,25 +187,35 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _onLocate() async {
-    final scaffoldMessenger = ScaffoldMessenger.of(context);
-    await scaffoldMessenger.showSnackBar(
-      SnackBar(
-          content: Text(AppLocalizations.of(context).locating),
-          duration: Duration(seconds: 3)),
+    NotificationUtils.showSnackBar(
+      context,
+      AppLocalizations.of(context).locating,
     );
     final pos = await LocationService.getCurrentPosition();
     if (pos == null) {
       if (!mounted) return;
-      await scaffoldMessenger.showSnackBar(
-        SnackBar(
-            content:
-                Text(AppLocalizations.of(context).locationPermissionDenied),
-            duration: Duration(seconds: 3)),
+      NotificationUtils.showSnackBar(
+        context,
+        AppLocalizations.of(context).locationPermissionDenied,
       );
       return;
+    } else {
+      if (!mounted) return;
+      NotificationUtils.showSnackBar(
+        context,
+        AppLocalizations.of(context).locatingSuccess,
+      );
     }
     final city = await LocationService.getCityFromPosition(pos);
     final prefs = await SharedPreferences.getInstance();
+    if (city.name.isEmpty) {
+      if (!mounted) return;
+      NotificationUtils.showSnackBar(
+        context,
+        AppLocalizations.of(context).locationNotRecognized,
+      );
+      return;
+    }
     final citiesStr = prefs.getString('cities');
     List<City> list = citiesStr != null ? City.listFromJson(citiesStr) : [];
     if (!list.any((c) => c.lat == city.lat && c.lon == city.lon)) {
@@ -224,6 +235,24 @@ class _HomePageState extends State<HomePage> {
           if (_pageController != null && _pageController!.hasClients) {
             _pageController!.animateToPage(
               newIdx,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+          }
+        });
+      }
+    } else {
+      // 城市已存在，直接跳转到该城市
+      int existIdx =
+          list.indexWhere((c) => c.lat == city.lat && c.lon == city.lon);
+      if (existIdx >= 0 && existIdx < cities.length) {
+        setState(() {
+          pageIndex = existIdx;
+        });
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (_pageController != null && _pageController!.hasClients) {
+            _pageController!.animateToPage(
+              existIdx,
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
             );

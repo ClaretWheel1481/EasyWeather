@@ -16,8 +16,8 @@ dependencies:
   shared_preferences:
   http: 
   dynamic_color:
-  geolocator: ^10.0.0
-  geocoding: ^2.1.0
+  geolocator: 
+  geocoding: 
   
 dev_dependencies:
   flutter_test:

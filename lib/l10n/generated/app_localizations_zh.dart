@@ -158,7 +158,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get weatherDataError => '天气数据加载失败';
 
   @override
-  String get surfacePressure => '气压';
+  String get surfacePressure => '地面气压';
 
   @override
   String get uvIndex => '紫外线指数';
@@ -170,11 +170,14 @@ class AppLocalizationsZh extends AppLocalizations {
   String get addByLocation => '定位添加';
 
   @override
-  String get locating => '正在定位...';
+  String get locating => '正在获取位置信息...';
 
   @override
   String get locationPermissionDenied => '无法获取定位权限或定位服务未开启';
 
   @override
-  String get locationNotRecognized => '无法识别当前位置城市名';
+  String get locationNotRecognized => '无法识别当前位置';
+
+  @override
+  String get locatingSuccess => '获取位置信息成功，请稍后...';
 }

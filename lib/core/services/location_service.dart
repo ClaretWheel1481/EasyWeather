@@ -21,7 +21,7 @@ class LocationService {
 
   static Future<City> getCityFromPosition(Position position) async {
     final locale = supportedLocales[localeIndexNotifier.value];
-    String localeId = locale.languageCode;
+    String localeId = locale.toString();
     try {
       List<Placemark> placemarks = await placemarkFromCoordinates(
         position.latitude,

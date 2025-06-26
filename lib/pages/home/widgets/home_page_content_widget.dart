@@ -43,13 +43,13 @@ class HomePageContentWidget extends StatelessWidget {
               ),
             ),
           RefreshIndicator(
-            displacement: kToolbarHeight + 45,
+            displacement: kToolbarHeight + 75,
             onRefresh: onRefresh,
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               child: Column(
                 children: [
-                  SizedBox(height: kToolbarHeight + 35),
+                  SizedBox(height: kToolbarHeight + 55),
                   WeatherView(
                     city: city,
                     weather: weather!,
