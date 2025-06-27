@@ -186,6 +186,27 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get locatingSuccess => '获取位置信息成功，请稍后...';
+
+  @override
+  String get airQuality => '空气质量';
+
+  @override
+  String get airQualityGood => '优';
+
+  @override
+  String get airQualityModerate => '良';
+
+  @override
+  String get airQualityUnhealthyForSensitive => '一般';
+
+  @override
+  String get airQualityUnhealthy => '较差';
+
+  @override
+  String get airQualityVeryUnhealthy => '极差';
+
+  @override
+  String get airQualityHazardous => '危险';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
@@ -370,4 +391,25 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get locatingSuccess => '獲取位置信息成功，請稍後...';
+
+  @override
+  String get airQuality => '空氣質量';
+
+  @override
+  String get airQualityGood => '優';
+
+  @override
+  String get airQualityModerate => '良';
+
+  @override
+  String get airQualityUnhealthyForSensitive => '一般';
+
+  @override
+  String get airQualityUnhealthy => '較差';
+
+  @override
+  String get airQualityVeryUnhealthy => '極差';
+
+  @override
+  String get airQualityHazardous => '危險';
 }

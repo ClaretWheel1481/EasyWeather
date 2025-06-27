@@ -65,5 +65,12 @@
   "locating": "Getting location information...",
   "locationPermissionDenied": "Unable to get location permission or location service is disabled",
   "locationNotRecognized": "Unable to recognize the current location",
-  "locatingSuccess": "Location obtained successfully, please wait..."
+  "locatingSuccess": "Location obtained successfully, please wait...",
+  "airQuality": "Air Quality",
+  "airQualityGood": "Good",
+  "airQualityModerate": "Moderate",
+  "airQualityUnhealthyForSensitive": "Fair",
+  "airQualityUnhealthy": "Poor",
+  "airQualityVeryUnhealthy": "Very Poor",
+  "airQualityHazardous": "Hazardous"
 } 

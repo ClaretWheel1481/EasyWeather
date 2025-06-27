@@ -186,4 +186,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get locatingSuccess => 'Location obtained successfully, please wait...';
+
+  @override
+  String get airQuality => 'Air Quality';
+
+  @override
+  String get airQualityGood => 'Good';
+
+  @override
+  String get airQualityModerate => 'Moderate';
+
+  @override
+  String get airQualityUnhealthyForSensitive => 'Fair';
+
+  @override
+  String get airQualityUnhealthy => 'Poor';
+
+  @override
+  String get airQualityVeryUnhealthy => 'Very Poor';
+
+  @override
+  String get airQualityHazardous => 'Hazardous';
 }

@@ -5,11 +5,13 @@ import '../../../core/models/weather.dart';
 class DetailedDataWidget extends StatelessWidget {
   final CurrentWeather? current;
   final DailyWeather? daily;
+  final HourlyWeather? hourly;
 
   const DetailedDataWidget({
     super.key,
     required this.current,
     required this.daily,
+    required this.hourly,
   });
 
   @override
@@ -31,29 +33,29 @@ class DetailedDataWidget extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    // 风速
+                    // PM2.5
                     Expanded(
                       child: _buildDataTile(
                         context,
                         icon: Icons.air,
-                        label: AppLocalizations.of(context).windSpeed,
-                        value: current?.windSpeed != null
-                            ? current!.windSpeed.toStringAsFixed(1)
+                        label: "PM2.5",
+                        value: current?.pm25 != null
+                            ? current!.pm25!.toStringAsFixed(1)
                             : '-',
-                        unit: 'm/s',
+                        unit: 'μg/m³',
                       ),
                     ),
                     const SizedBox(width: 12),
-                    // 气压
+                    // PM10
                     Expanded(
                       child: _buildDataTile(
                         context,
-                        icon: Icons.insights,
-                        label: AppLocalizations.of(context).surfacePressure,
-                        value: current?.surfacePressure != null
-                            ? current!.surfacePressure!.toStringAsFixed(1)
+                        icon: Icons.air,
+                        label: "PM10",
+                        value: current?.pm10 != null
+                            ? current!.pm10!.toStringAsFixed(1)
                             : '-',
-                        unit: 'hPa',
+                        unit: 'μg/m³',
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -67,6 +69,49 @@ class DetailedDataWidget extends StatelessWidget {
                             ? daily!.uvIndexMax!.toStringAsFixed(1)
                             : '-',
                         unit: 'UV',
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    // 风速
+                    Expanded(
+                      child: _buildDataTile(
+                        context,
+                        icon: Icons.waves,
+                        label: AppLocalizations.of(context).windSpeed,
+                        value: current?.windSpeed != null
+                            ? current!.windSpeed.toStringAsFixed(1)
+                            : '-',
+                        unit: 'm/s',
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    // 能见度
+                    Expanded(
+                      child: _buildDataTile(
+                        context,
+                        icon: Icons.remove_red_eye,
+                        label: AppLocalizations.of(context).visibility,
+                        value: hourly?.visibility != null
+                            ? (hourly!.visibility! / 1000).toStringAsFixed(1)
+                            : '-',
+                        unit: 'km',
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    // 气压
+                    Expanded(
+                      child: _buildDataTile(
+                        context,
+                        icon: Icons.insights,
+                        label: AppLocalizations.of(context).surfacePressure,
+                        value: current?.surfacePressure != null
+                            ? current!.surfacePressure!.toStringAsFixed(1)
+                            : '-',
+                        unit: 'hPa',
                       ),
                     ),
                   ],
@@ -93,7 +138,7 @@ class DetailedDataWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 12),
       decoration: BoxDecoration(
         color: colorScheme.onInverseSurface,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

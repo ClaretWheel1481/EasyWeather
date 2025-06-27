@@ -449,6 +449,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Location obtained successfully, please wait...'**
   String get locatingSuccess;
+
+  /// No description provided for @airQuality.
+  ///
+  /// In en, this message translates to:
+  /// **'Air Quality'**
+  String get airQuality;
+
+  /// No description provided for @airQualityGood.
+  ///
+  /// In en, this message translates to:
+  /// **'Good'**
+  String get airQualityGood;
+
+  /// No description provided for @airQualityModerate.
+  ///
+  /// In en, this message translates to:
+  /// **'Moderate'**
+  String get airQualityModerate;
+
+  /// No description provided for @airQualityUnhealthyForSensitive.
+  ///
+  /// In en, this message translates to:
+  /// **'Fair'**
+  String get airQualityUnhealthyForSensitive;
+
+  /// No description provided for @airQualityUnhealthy.
+  ///
+  /// In en, this message translates to:
+  /// **'Poor'**
+  String get airQualityUnhealthy;
+
+  /// No description provided for @airQualityVeryUnhealthy.
+  ///
+  /// In en, this message translates to:
+  /// **'Very Poor'**
+  String get airQualityVeryUnhealthy;
+
+  /// No description provided for @airQualityHazardous.
+  ///
+  /// In en, this message translates to:
+  /// **'Hazardous'**
+  String get airQualityHazardous;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

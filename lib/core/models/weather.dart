@@ -66,6 +66,8 @@ class CurrentWeather {
   final double? apparentTemperature;
   final double? humidity;
   final double? surfacePressure;
+  final double? pm25;
+  final double? pm10;
 
   CurrentWeather({
     required this.temperature,
@@ -75,6 +77,8 @@ class CurrentWeather {
     this.apparentTemperature,
     this.humidity,
     this.surfacePressure,
+    this.pm25,
+    this.pm10,
   });
 
   factory CurrentWeather.fromJson(
@@ -89,6 +93,8 @@ class CurrentWeather {
           : null,
       humidity: (json['relative_humidity_2m'] ?? 0).toDouble(),
       surfacePressure: (json['surface_pressure'] ?? 0).toDouble(),
+      pm25: json['pm25'] != null ? (json['pm25']).toDouble() : null,
+      pm10: json['pm10'] != null ? (json['pm10']).toDouble() : null,
     );
   }
 
@@ -100,6 +106,8 @@ class CurrentWeather {
         'apparent_temperature': apparentTemperature,
         'relative_humidity_2m': humidity,
         'surface_pressure': surfacePressure,
+        'pm25': pm25,
+        'pm10': pm10,
       };
 }
 

@@ -29,11 +29,6 @@
 2. 在设置页面可管理已保存城市，支持设为默认和删除操作。
 3. 可在设置中切换主题、语言和温度单位。
 
-## 技术栈
-- Flutter 3.32.4
-- OpenMeteo API
-- OpenStreetMap API
-
 ## 贡献
 欢迎社区用户参与贡献！您可以自由 Fork 本仓库，提交 Pull Request，或通过 Issue 提出建议和报告 Bug。
 
@@ -49,10 +44,12 @@
 <table>
   <tr>
     <td><img src="./public/sample_main_light.png" width="200"/></td>
-    <td><img src="./public/sample_main_dark.png" width="200"/></td>
+    <td><img src="./public/sample_main2_light.png" width="200"/></td>
+    <td><img src="./public/sample_settings_light.png" width="200"/></td>
   </tr>
   <tr>
-    <td><img src="./public/sample_settings_light.png" width="200"/></td>
+    <td><img src="./public/sample_main_dark.png" width="200"/></td>
+    <td><img src="./public/sample_main2_dark.png" width="200"/></td>
     <td><img src="./public/sample_settings_dark.png" width="200"/></td>
   </tr>
 </table>

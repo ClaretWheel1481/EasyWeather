@@ -29,12 +29,6 @@ A simple and beautiful weather app built with Flutter, powered by the OpenMeteo 
 2. Manage saved cities in the settings page: set default or delete.
 3. Switch theme, language, and temperature unit in settings.
 
-## Tech Stack
-- Flutter 3.32.4
-- OpenMeteo API
-- OpenStreetMap API
-
-
 ## Contributing
 We welcome community users to contribute! Feel free to fork this repository, submit Pull Requests, and make suggestions and report bugs through Issues.
 
@@ -49,10 +43,12 @@ We welcome community users to contribute! Feel free to fork this repository, sub
 <table>
   <tr>
     <td><img src="./public/sample_main_light.png" width="200"/></td>
-    <td><img src="./public/sample_main_dark.png" width="200"/></td>
+    <td><img src="./public/sample_main2_light.png" width="200"/></td>
+    <td><img src="./public/sample_settings_light.png" width="200"/></td>
   </tr>
   <tr>
-    <td><img src="./public/sample_settings_light.png" width="200"/></td>
+    <td><img src="./public/sample_main_dark.png" width="200"/></td>
+    <td><img src="./public/sample_main2_dark.png" width="200"/></td>
     <td><img src="./public/sample_settings_dark.png" width="200"/></td>
   </tr>
 </table>

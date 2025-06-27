@@ -5,6 +5,8 @@ import '../models/weather.dart';
 
 class OpenMeteoApi {
   static const String baseUrl = 'https://api.open-meteo.com/v1/forecast';
+  static const String airQualityUrl =
+      'https://air-quality-api.open-meteo.com/v1/air-quality';
 
   /// 获取天气数据
   static Future<WeatherData?> fetchWeather({
@@ -13,6 +15,36 @@ class OpenMeteoApi {
     String lang = 'zh',
     String units = 'metric',
   }) async {
+    try {
+      // 并行获取天气数据和空气质量数据
+      final weatherFuture = _fetchWeatherData(latitude, longitude, lang, units);
+      final airQualityFuture = _fetchAirQualityData(latitude, longitude);
+
+      final results = await Future.wait([weatherFuture, airQualityFuture]);
+      final weatherJson = results[0];
+      final airQualityJson = results[1];
+
+      if (weatherJson != null) {
+        // 将空气质量数据合并到天气数据中
+        if (airQualityJson != null && airQualityJson['current'] != null) {
+          weatherJson['current']['pm25'] = airQualityJson['current']['pm2_5'];
+          weatherJson['current']['pm10'] = airQualityJson['current']['pm10'];
+        }
+        return WeatherData.fromJson(weatherJson);
+      }
+    } catch (e) {
+      kDebugMode ? debugPrint('Error fetching weather data: $e') : null;
+    }
+    return null;
+  }
+
+  /// 获取天气数据
+  static Future<Map<String, dynamic>?> _fetchWeatherData(
+    double latitude,
+    double longitude,
+    String lang,
+    String units,
+  ) async {
     final url = Uri.parse('$baseUrl'
         '?latitude=$latitude'
         '&longitude=$longitude'
@@ -22,10 +54,31 @@ class OpenMeteoApi {
         '&timezone=auto'
         '&lang=$lang'
         '&temperature_unit=${units == 'imperial' ? 'fahrenheit' : 'celsius'}');
+
     final response = await http.get(url);
     if (response.statusCode == 200) {
-      kDebugMode ? debugPrint(response.body) : null;
-      return WeatherData.fromJson(json.decode(response.body));
+      kDebugMode ? debugPrint('Weather API response: ${response.body}') : null;
+      return json.decode(response.body);
+    }
+    return null;
+  }
+
+  /// 获取空气质量数据
+  static Future<Map<String, dynamic>?> _fetchAirQualityData(
+    double latitude,
+    double longitude,
+  ) async {
+    final url = Uri.parse('$airQualityUrl'
+        '?latitude=$latitude'
+        '&longitude=$longitude'
+        '&current=pm2_5,pm10');
+
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      kDebugMode
+          ? debugPrint('Air Quality API response: ${response.body}')
+          : null;
+      return json.decode(response.body);
     }
     return null;
   }

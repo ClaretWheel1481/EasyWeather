@@ -33,20 +33,23 @@ class _LanguageSelectorWidgetState extends State<LanguageSelectorWidget> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              InkWell(
-                borderRadius: BorderRadius.circular(24),
-                onTap: () => setState(() => _expanded = !_expanded),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
-                  child: Row(
-                    children: [
-                      Icon(Icons.language, color: colorScheme.primary),
-                      const SizedBox(width: 8),
-                      Text(l10n.language, style: textTheme.titleMedium),
-                      const Spacer(),
-                      Icon(_expanded ? Icons.expand_less : Icons.expand_more),
-                    ],
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(24),
+                  onTap: () => setState(() => _expanded = !_expanded),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 20, horizontal: 16),
+                    child: Row(
+                      children: [
+                        Icon(Icons.language, color: colorScheme.primary),
+                        const SizedBox(width: 8),
+                        Text(l10n.language, style: textTheme.titleMedium),
+                        const Spacer(),
+                        Icon(_expanded ? Icons.expand_less : Icons.expand_more),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -61,29 +64,34 @@ class _LanguageSelectorWidgetState extends State<LanguageSelectorWidget> {
                           children:
                               List.generate(supportedLocales.length, (index) {
                             final isSelected = index == currentIndex;
-                            return ListTile(
-                              title: Text(
-                                supportedLanguageNames[index],
-                                style: isSelected
-                                    ? textTheme.bodyLarge?.copyWith(
-                                        color: colorScheme.primary,
-                                        fontWeight: FontWeight.bold,
-                                      )
-                                    : textTheme.bodyLarge,
-                              ),
-                              trailing: isSelected
-                                  ? Icon(Icons.check,
-                                      color: colorScheme.primary)
-                                  : null,
-                              onTap: () async {
-                                if (!isSelected) {
-                                  localeIndexNotifier.value = index;
-                                  final prefs =
-                                      await SharedPreferences.getInstance();
-                                  await prefs.setInt('locale_index', index);
-                                }
-                              },
-                            );
+                            return Material(
+                                color: Colors.transparent,
+                                child: ListTile(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  title: Text(
+                                    supportedLanguageNames[index],
+                                    style: isSelected
+                                        ? textTheme.bodyLarge?.copyWith(
+                                            color: colorScheme.primary,
+                                            fontWeight: FontWeight.bold,
+                                          )
+                                        : textTheme.bodyLarge,
+                                  ),
+                                  trailing: isSelected
+                                      ? Icon(Icons.check,
+                                          color: colorScheme.primary)
+                                      : null,
+                                  onTap: () async {
+                                    if (!isSelected) {
+                                      localeIndexNotifier.value = index;
+                                      final prefs =
+                                          await SharedPreferences.getInstance();
+                                      await prefs.setInt('locale_index', index);
+                                    }
+                                  },
+                                ));
                           }),
                         ),
                       )

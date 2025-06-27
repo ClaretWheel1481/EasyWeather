@@ -76,6 +76,7 @@ class WeatherView extends StatelessWidget {
                               : '-',
                           unit: '%',
                         ),
+
                         WeatherInfoTile(
                           icon: Icons.navigation,
                           label: AppLocalizations.of(context).windDirection,
@@ -86,14 +87,28 @@ class WeatherView extends StatelessWidget {
                           unit: '',
                         ),
                         WeatherInfoTile(
-                          icon: Icons.remove_red_eye,
-                          label: AppLocalizations.of(context).visibility,
-                          value: weather.hourly.isNotEmpty
-                              ? (weather.hourly.first.visibility! / 1000)
-                                  .toStringAsFixed(1)
+                          icon: current.pm25 != null
+                              ? getAirQualityIcon(getAirQualityLevel(
+                                  pm25: current.pm25, pm10: current.pm10))
+                              : Icons.air,
+                          label: AppLocalizations.of(context).airQuality,
+                          value: current.pm25 != null
+                              ? getLocalizedAirQualityDesc(
+                                  context,
+                                  getAirQualityLevel(
+                                      pm25: current.pm25, pm10: current.pm10))
                               : '-',
-                          unit: 'km',
+                          unit: '',
                         ),
+                        // WeatherInfoTile(
+                        //   icon: Icons.remove_red_eye,
+                        //   label: AppLocalizations.of(context).visibility,
+                        //   value: weather.hourly.isNotEmpty
+                        //       ? (weather.hourly.first.visibility! / 1000)
+                        //           .toStringAsFixed(1)
+                        //       : '-',
+                        //   unit: 'km',
+                        // ),
                       ],
                     ),
                   ],
@@ -213,7 +228,10 @@ class WeatherView extends StatelessWidget {
           SectionTitle(AppLocalizations.of(context).detailedData),
           const SizedBox(height: 8),
           // 详细数据
-          DetailedDataWidget(current: current, daily: daily.first),
+          DetailedDataWidget(
+              current: current,
+              daily: daily.first,
+              hourly: weather.hourly.first),
           const SizedBox(height: 24),
         ],
       ),
