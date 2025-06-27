@@ -14,16 +14,17 @@ class CitySearchApi {
     String acceptLanguage = 'en-US'; // 默认英语
     final locale = supportedLocales[localeIndexNotifier.value];
     kDebugMode ? debugPrint('locale: $locale') : null;
-    if (locale.languageCode == 'zh_CN') {
+    if (locale.toString() == 'zh_CN') {
       acceptLanguage = 'zh-Hans';
-    } else if (locale.languageCode == 'zh_TW') {
+    } else if (locale.toString() == 'zh_TW') {
       acceptLanguage = 'zh_Hant';
-    } else if (locale.languageCode == 'en_US' || locale.languageCode == 'en') {
+    } else if (locale.toString() == 'en_US' || locale.toString() == 'en') {
       acceptLanguage = 'en';
     }
 
     final url = Uri.parse(
-        '$baseUrl?format=json&q=$query&accept-language=$acceptLanguage&limit=30&addressdetails=1');
+        '$baseUrl?format=json&q=$query&accept-language=$acceptLanguage&limit=30&addressdetails=1&featureType=city');
+    kDebugMode ? debugPrint('search url: $url') : null;
     final response = await http.get(url, headers: {
       'User-Agent': '${AppConstants.appName}/${AppConstants.appVersion}'
     });
