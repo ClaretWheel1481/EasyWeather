@@ -19,12 +19,14 @@ Future<void> initAppSettings() async {
     // 用户已手动设置过语言
     localeIndexNotifier.value = prefs.getInt('locale_index') ?? 0;
   } else {
-    if (systemLocale.languageCode == 'zh') {
-      localeIndexNotifier.value = 0; // 简体中文
-    } else if (systemLocale.languageCode == 'en') {
-      localeIndexNotifier.value = 1; // 英文
+    if (systemLocale.languageCode == 'en') {
+      localeIndexNotifier.value = 0; // 英文
+    } else if (systemLocale.toString() == 'zh_CN') {
+      localeIndexNotifier.value = 1; // 简体中文
+    } else if (systemLocale.toString() == 'zh_TW') {
+      localeIndexNotifier.value = 2; // 繁体中文
     } else {
-      localeIndexNotifier.value = 1; // 其他默认英文
+      localeIndexNotifier.value = 0; // 其他默认英文
     }
   }
 }

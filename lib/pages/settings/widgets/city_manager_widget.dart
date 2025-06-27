@@ -80,7 +80,7 @@ class CityManagerWidget extends StatelessWidget {
           ),
           AnimatedSize(
             duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
+            curve: Curves.linearToEaseOut,
             child: cityManagerExpanded
                 ? Padding(
                     padding: const EdgeInsets.fromLTRB(12, 6, 12, 2),
@@ -95,23 +95,27 @@ class CityManagerWidget extends StatelessWidget {
                                 ),
                               )
                             : cities.isEmpty
-                                ? Container(
+                                ? Padding(
                                     padding: const EdgeInsets.all(32),
-                                    child: Column(
-                                      children: [
-                                        Icon(
-                                          Icons.location_off_outlined,
-                                          size: 48,
-                                          color: colorScheme.onSurfaceVariant,
-                                        ),
-                                        const SizedBox(height: 16),
-                                        Text(
-                                          l10n.noCitiesAdded,
-                                          style: textTheme.bodyLarge?.copyWith(
+                                    child: Align(
+                                      child: Column(
+                                        children: [
+                                          Icon(
+                                            Icons.location_off_outlined,
+                                            size: 48,
                                             color: colorScheme.onSurfaceVariant,
                                           ),
-                                        ),
-                                      ],
+                                          const SizedBox(height: 16),
+                                          Text(
+                                            l10n.noCitiesAdded,
+                                            style:
+                                                textTheme.bodyLarge?.copyWith(
+                                              color:
+                                                  colorScheme.onSurfaceVariant,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   )
                                 : Column(

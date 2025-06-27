@@ -1,6 +1,6 @@
 {
   "@@locale": "zh",
-  "about": "关于",
+    "about": "关于",
   "themeMode": "主题模式",
   "system": "系统",
   "light": "浅色",
@@ -8,9 +8,9 @@
   "temperatureUnit": "温度单位",
   "celsius": "摄氏度 (°C)",
   "fahrenheit": "华氏度 (°F)",
-  "cityManager": "城市管理",
-  "cities": "个城市",
+  "cityManager": "城市管理",  "cities": "个城市",
   "main": "主城市",
+
   "noCitiesAdded": "暂无已添加的城市",
   "confirm": "确认",
   "deleteCityMessage": "确定要删除 \"{cityName}\" 吗？",
@@ -66,4 +66,4 @@
   "locationPermissionDenied": "无法获取定位权限或定位服务未开启",
   "locationNotRecognized": "无法识别当前位置",
   "locatingSuccess": "获取位置信息成功，请稍后..."
-} 
+}

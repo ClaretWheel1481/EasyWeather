@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:easyweather/app_constants.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import '../models/city.dart';
 import '../notifiers.dart';
@@ -12,9 +13,12 @@ class CitySearchApi {
     // 根据当前语言设置API请求的语言参数
     String acceptLanguage = 'en-US'; // 默认英语
     final locale = supportedLocales[localeIndexNotifier.value];
-    if (locale.languageCode == 'zh') {
+    kDebugMode ? debugPrint('locale: $locale') : null;
+    if (locale.languageCode == 'zh_CN') {
       acceptLanguage = 'zh-Hans';
-    } else if (locale.languageCode == 'en') {
+    } else if (locale.languageCode == 'zh_TW') {
+      acceptLanguage = 'zh_Hant';
+    } else if (locale.languageCode == 'en_US' || locale.languageCode == 'en') {
       acceptLanguage = 'en';
     }
 

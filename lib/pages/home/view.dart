@@ -195,6 +195,7 @@ class _HomePageState extends State<HomePage> {
     final pos = await LocationService.getCurrentPosition();
     if (pos == null) {
       if (!mounted) return;
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
       NotificationUtils.showSnackBar(
         context,
         AppLocalizations.of(context).locationPermissionDenied,
@@ -203,6 +204,7 @@ class _HomePageState extends State<HomePage> {
     } else {
       kDebugMode ? debugPrint(pos.latitude.toString()) : null;
       if (!mounted) return;
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
       NotificationUtils.showSnackBar(
         context,
         AppLocalizations.of(context).locatingSuccess,
@@ -213,6 +215,7 @@ class _HomePageState extends State<HomePage> {
     final prefs = await SharedPreferences.getInstance();
     if (city.name.isEmpty) {
       if (!mounted) return;
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
       NotificationUtils.showSnackBar(
         context,
         AppLocalizations.of(context).locationNotRecognized,
@@ -234,6 +237,8 @@ class _HomePageState extends State<HomePage> {
         setState(() {
           pageIndex = newIdx;
         });
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (_pageController != null && _pageController!.hasClients) {
             _pageController!.animateToPage(
@@ -252,6 +257,8 @@ class _HomePageState extends State<HomePage> {
         setState(() {
           pageIndex = existIdx;
         });
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (_pageController != null && _pageController!.hasClients) {
             _pageController!.animateToPage(

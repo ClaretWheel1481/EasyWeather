@@ -187,3 +187,187 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String get locatingSuccess => '获取位置信息成功，请稍后...';
 }
+
+/// The translations for Chinese, as used in Taiwan (`zh_TW`).
+class AppLocalizationsZhTw extends AppLocalizationsZh {
+  AppLocalizationsZhTw(): super('zh_TW');
+
+  @override
+  String get about => '關於';
+
+  @override
+  String get themeMode => '主題模式';
+
+  @override
+  String get system => '系統';
+
+  @override
+  String get light => '淺色';
+
+  @override
+  String get dark => '深色';
+
+  @override
+  String get temperatureUnit => '溫度單位';
+
+  @override
+  String get celsius => '攝氏度 (°C)';
+
+  @override
+  String get fahrenheit => '華氏度 (°F)';
+
+  @override
+  String get cityManager => '城市管理';
+
+  @override
+  String get cities => '个城市';
+
+  @override
+  String get main => '主城市';
+
+  @override
+  String get noCitiesAdded => '暫無已添加的城市';
+
+  @override
+  String get confirm => '確認';
+
+  @override
+  String deleteCityMessage(String cityName) {
+    return '確定要刪除 \"$cityName\" 嗎？';
+  }
+
+  @override
+  String get cancel => '取消';
+
+  @override
+  String get delete => '刪除';
+
+  @override
+  String get search => '搜索';
+
+  @override
+  String get searchHint => '輸入城市名稱...';
+
+  @override
+  String get searchHintOnSurface => '輸入城市名稱以開始搜索';
+
+  @override
+  String get noResults => '未找到結果';
+
+  @override
+  String get searchError => '搜索錯誤';
+
+  @override
+  String get weatherUnknown => '未知';
+
+  @override
+  String get weatherClear => '晴';
+
+  @override
+  String get weatherCloudy => '多雲';
+
+  @override
+  String get weatherFoggy => '有霧';
+
+  @override
+  String get weatherRainy => '雨';
+
+  @override
+  String get weatherSnowy => '雪';
+
+  @override
+  String get weatherThunderstorm => '雷暴';
+
+  @override
+  String get windDirectionNorth => '北';
+
+  @override
+  String get windDirectionNortheast => '東北';
+
+  @override
+  String get windDirectionEast => '東';
+
+  @override
+  String get windDirectionSoutheast => '東南';
+
+  @override
+  String get windDirectionSouth => '南';
+
+  @override
+  String get windDirectionSouthwest => '西南';
+
+  @override
+  String get windDirectionWest => '西';
+
+  @override
+  String get windDirectionNorthwest => '西北';
+
+  @override
+  String get humidity => '濕度';
+
+  @override
+  String get pressure => '氣壓';
+
+  @override
+  String get visibility => '能見度';
+
+  @override
+  String get feelsLike => '體感';
+
+  @override
+  String get windSpeed => '風速';
+
+  @override
+  String get windDirection => '風向';
+
+  @override
+  String get precipitation => '降水量';
+
+  @override
+  String get hourlyForecast => '逐小時預報';
+
+  @override
+  String get next7Days => '未來7天';
+
+  @override
+  String get detailedData => '詳細數據';
+
+  @override
+  String get settings => '設置';
+
+  @override
+  String get language => '語言';
+
+  @override
+  String get monetColor => 'Monet取色';
+
+  @override
+  String get retry => '重試';
+
+  @override
+  String get weatherDataError => '天氣數據加載失敗';
+
+  @override
+  String get surfacePressure => '地面氣壓';
+
+  @override
+  String get uvIndex => '紫外線指數';
+
+  @override
+  String get addCity => '添加城市';
+
+  @override
+  String get addByLocation => '定位添加';
+
+  @override
+  String get locating => '正在獲取位置信息...';
+
+  @override
+  String get locationPermissionDenied => '無法獲取定位權限或定位服務未開啟';
+
+  @override
+  String get locationNotRecognized => '無法識別當前位置';
+
+  @override
+  String get locatingSuccess => '獲取位置信息成功，請稍後...';
+}

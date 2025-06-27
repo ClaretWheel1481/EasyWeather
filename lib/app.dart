@@ -9,8 +9,9 @@ import 'pages/settings/view.dart';
 
 // 支持的语言列表
 final List<Locale> supportedLocales = [
-  const Locale('zh', 'CN'),
   const Locale('en', 'US'),
+  const Locale('zh', 'CN'),
+  const Locale('zh', 'TW'),
 ];
 
 class EasyWeatherApp extends StatelessWidget {
