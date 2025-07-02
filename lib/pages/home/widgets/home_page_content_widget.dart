@@ -25,8 +25,18 @@ class HomePageContentWidget extends StatelessWidget {
       return const Center(child: CircularProgressIndicator());
     } else if (weather == null) {
       return Center(
-        child: Text(AppLocalizations.of(context).weatherDataError,
-            style: TextStyle(color: Colors.white)),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              AppLocalizations.of(context).weatherDataError,
+            ),
+            FilledButton(
+              onPressed: onRefresh,
+              child: Text(AppLocalizations.of(context).retry),
+            ),
+          ],
+        ),
       );
     } else {
       return Stack(
