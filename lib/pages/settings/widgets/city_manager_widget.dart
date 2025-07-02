@@ -341,8 +341,9 @@ class CityManagerWidget extends StatelessWidget {
                                                                           1
                                                                   ? colorScheme
                                                                       .surfaceVariant
-                                                                      .withOpacity(
-                                                                          0.5)
+                                                                      .withValues(
+                                                                          alpha:
+                                                                              0.5)
                                                                   : colorScheme
                                                                       .surface,
                                                               borderRadius:
@@ -356,12 +357,14 @@ class CityManagerWidget extends StatelessWidget {
                                                                             1
                                                                     ? colorScheme
                                                                         .outline
-                                                                        .withOpacity(
-                                                                            0.2)
+                                                                        .withValues(
+                                                                            alpha:
+                                                                                0.2)
                                                                     : colorScheme
                                                                         .outline
-                                                                        .withOpacity(
-                                                                            0.3),
+                                                                        .withValues(
+                                                                            alpha:
+                                                                                0.3),
                                                                 width: 1,
                                                               ),
                                                             ),
@@ -373,8 +376,9 @@ class CityManagerWidget extends StatelessWidget {
                                                                           1
                                                                   ? colorScheme
                                                                       .onSurface
-                                                                      .withOpacity(
-                                                                          0.38)
+                                                                      .withValues(
+                                                                          alpha:
+                                                                              0.38)
                                                                   : colorScheme
                                                                       .error,
                                                               size: 18,

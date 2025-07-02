@@ -2,6 +2,7 @@ arb-dir: lib/l10n
 template-arb-file: app_en.arb
 output-localization-file: app_localizations.dart
 output-dir: lib/l10n/generated
+untranslated-messages-file: lib/l10n/untranslated.json
 synthetic-package: false
 nullable-getter: false
 format: false

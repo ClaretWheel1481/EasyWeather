@@ -11,10 +11,6 @@ English | [简体中文](README_CN.md)
 A simple and beautiful weather app built with Flutter, powered by the OpenMeteo API and the search functionality is provided by the OpenStreetMap API.
 
 ---
-
-## Warning
-> ⚠️ Only suitable for Android 9.0 or iOS 14 and above mobile devices.
-
 ## Features
 - Real-time weather query for multiple cities
 - City management: add, delete, set default
@@ -33,11 +29,11 @@ A simple and beautiful weather app built with Flutter, powered by the OpenMeteo 
 We welcome community users to contribute! Feel free to fork this repository, submit Pull Requests, and make suggestions and report bugs through Issues.
 
 ### Translation
-1. The language files are located in the `/lib/l10n` directory.
-2. You need to duplicate the `app_en.arb` file, then change the file name to the language you want to translate, for example, `app_fr.arb`.
-3. Complete the translation of the language files.
-4. Run `flutter gen-l10n` in the terminal at the root of your project.
-5. Push your code and submit a [Pull Request](https://github.com/ClaretWheel1481/EasyWeather/pulls).
+1. The language files are located in the /lib/l10n directory.
+2. You need to make a copy of `app_en.arb` and change the name of the file to the language you want to translate, e.g. `app_fr.arb`.
+3. Complete the translation of the language file
+4. (Mandatory) run `flutter gen-l10n` in the project root directory in a terminal and check if there are any untranslated fields in the terminal output (if there are then check `untranslated.json` and change it)
+5. Push your code and commit [Pull Request](https://github.com/ClaretWheel1481/EasyWeather/pulls)
 
 ## Screenshots
 <table>
