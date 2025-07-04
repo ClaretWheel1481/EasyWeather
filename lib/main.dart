@@ -4,5 +4,5 @@ import 'app.dart';
 
 Future<void> main() async {
   await initAppSettings();
-  runApp(const EasyWeatherApp());
+  runApp(const ZephyrApp());
 }

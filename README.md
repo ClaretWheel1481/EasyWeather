@@ -1,12 +1,12 @@
 English | [简体中文](README_CN.md)
 
 <p align="center">
-  <a href="https://github.com/ClaretWheel1481/easyweather">
-    <img src="./public/easyweather.png" height="200"/>
+  <a href="https://github.com/ClaretWheel1481/Zephyr">
+    <img src="./public/zephyr.png" height="200"/>
   </a>
 </p>
 
-# EasyWeather
+# Zephyr
 
 A simple and beautiful weather app built with Flutter, powered by the OpenMeteo API and the search functionality is provided by the OpenStreetMap API.
 
@@ -33,7 +33,7 @@ We welcome community users to contribute! Feel free to fork this repository, sub
 2. You need to make a copy of `app_en.arb` and change the name of the file to the language you want to translate, e.g. `app_fr.arb`.
 3. Complete the translation of the language file
 4. (Mandatory) run `flutter gen-l10n` in the project root directory in a terminal and check if there are any untranslated fields in the terminal output (if there are then check `untranslated.json` and change it)
-5. Push your code and commit [Pull Request](https://github.com/ClaretWheel1481/EasyWeather/pulls)
+5. Push your code and commit [Pull Request](https://github.com/ClaretWheel1481/Zephyr/pulls)
 
 ## Screenshots
 <table>
@@ -50,7 +50,7 @@ We welcome community users to contribute! Feel free to fork this repository, sub
 </table>
 
 ## Download
-[Click here to download the latest version of EasyWeather](https://github.com/ClaretWheel1481/easyweather/releases/latest)
+[Click here to download the latest version of Zephyr](https://github.com/ClaretWheel1481/Zephyr/releases/latest)
 
 ## Acknowledgments
 This project is built with the help of these amazing open-source projects and APIs:

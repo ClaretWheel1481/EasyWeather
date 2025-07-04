@@ -1,3 +1,4 @@
+import 'package:zephyr/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'animated_title_switcher.dart';
@@ -35,7 +36,7 @@ class HomeAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AnimatedTextSwitcher(
-                  text: currentCityName ?? 'EasyWeather',
+                  text: currentCityName ?? AppConstants.appName,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 if (citiesLength > 1)

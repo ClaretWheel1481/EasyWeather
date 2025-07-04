@@ -1,14 +1,11 @@
 import 'dart:convert';
+import 'package:zephyr/app_constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import '../models/weather.dart';
 
 class OpenMeteoApi {
-  static const String baseUrl = 'https://api.open-meteo.com/v1/forecast';
-  static const String airQualityUrl =
-      'https://air-quality-api.open-meteo.com/v1/air-quality';
-
-  /// 获取天气数据
+  // 获取天气数据
   static Future<WeatherData?> fetchWeather({
     required double latitude,
     required double longitude,
@@ -38,14 +35,14 @@ class OpenMeteoApi {
     return null;
   }
 
-  /// 获取天气数据
+  // 获取天气数据
   static Future<Map<String, dynamic>?> _fetchWeatherData(
     double latitude,
     double longitude,
     String lang,
     String units,
   ) async {
-    final url = Uri.parse('$baseUrl'
+    final url = Uri.parse('${AppConstants.omForecastUrl}'
         '?latitude=$latitude'
         '&longitude=$longitude'
         '&current=apparent_temperature,temperature_2m,weather_code,relative_humidity_2m,wind_speed_10m,winddirection_10m,surface_pressure'
@@ -63,12 +60,12 @@ class OpenMeteoApi {
     return null;
   }
 
-  /// 获取空气质量数据
+  // 获取空气质量数据
   static Future<Map<String, dynamic>?> _fetchAirQualityData(
     double latitude,
     double longitude,
   ) async {
-    final url = Uri.parse('$airQualityUrl'
+    final url = Uri.parse('${AppConstants.omAirQualityUrl}'
         '?latitude=$latitude'
         '&longitude=$longitude'
         '&current=pm2_5,pm10');

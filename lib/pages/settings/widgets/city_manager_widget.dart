@@ -167,7 +167,7 @@ class CityManagerWidget extends StatelessWidget {
                                                       color: isMain
                                                           ? colorScheme.primary
                                                           : colorScheme
-                                                              .surfaceVariant,
+                                                              .onInverseSurface,
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               12),
@@ -340,7 +340,7 @@ class CityManagerWidget extends StatelessWidget {
                                                                       cities.length ==
                                                                           1
                                                                   ? colorScheme
-                                                                      .surfaceVariant
+                                                                      .onInverseSurface
                                                                       .withValues(
                                                                           alpha:
                                                                               0.5)

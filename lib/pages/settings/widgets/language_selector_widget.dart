@@ -1,4 +1,4 @@
-import 'package:easyweather/app.dart';
+import 'package:zephyr/app.dart';
 import 'package:flutter/material.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../../core/notifiers.dart';

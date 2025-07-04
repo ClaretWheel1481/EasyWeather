@@ -10,7 +10,7 @@ import '../../core/notifiers.dart';
 import 'widgets/home_app_bar_widget.dart';
 import 'widgets/home_page_content_widget.dart';
 import '../../core/services/location_service.dart';
-import 'package:easyweather/l10n/generated/app_localizations.dart';
+import 'package:zephyr/l10n/generated/app_localizations.dart';
 import '../../core/utils/notification_utils.dart';
 
 class HomePage extends StatefulWidget {
@@ -202,7 +202,10 @@ class _HomePageState extends State<HomePage> {
       );
       return;
     } else {
-      kDebugMode ? debugPrint(pos.latitude.toString()) : null;
+      kDebugMode
+          ? debugPrint(
+              "获取经纬度：${pos.latitude.toString()},${pos.longitude.toString()}")
+          : null;
       if (!mounted) return;
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       NotificationUtils.showSnackBar(

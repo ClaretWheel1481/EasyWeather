@@ -1,14 +1,12 @@
 import 'dart:convert';
-import 'package:easyweather/app_constants.dart';
+import 'package:zephyr/app_constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import '../models/city.dart';
 import '../notifiers.dart';
-import '../../app.dart'; // 确保引入了 supportedLocales
+import '../../app.dart';
 
 class CitySearchApi {
-  static const String baseUrl = 'https://nominatim.openstreetmap.org/search';
-
   static Future<List<City>> searchCity(String query) async {
     // 根据当前语言设置API请求的语言参数
     String acceptLanguage = 'en-US'; // 默认英语
@@ -23,7 +21,7 @@ class CitySearchApi {
     }
 
     final url = Uri.parse(
-        '$baseUrl?format=json&q=$query&accept-language=$acceptLanguage&limit=30&addressdetails=1&featureType=city');
+        '${AppConstants.osmUrl}?format=json&q=$query&accept-language=$acceptLanguage&limit=30&addressdetails=1&featureType=city');
     kDebugMode ? debugPrint('search url: $url') : null;
     final response = await http.get(url, headers: {
       'User-Agent': '${AppConstants.appName}/${AppConstants.appVersion}'

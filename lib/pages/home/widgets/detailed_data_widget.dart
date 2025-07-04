@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:easyweather/l10n/generated/app_localizations.dart';
+import 'package:zephyr/l10n/generated/app_localizations.dart';
 import '../../../core/models/weather.dart';
 
 class DetailedDataWidget extends StatelessWidget {

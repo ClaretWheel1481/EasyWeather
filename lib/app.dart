@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:easyweather/app_constants.dart';
+import 'package:zephyr/app_constants.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'l10n/generated/app_localizations.dart';
 import 'core/notifiers.dart';
@@ -14,8 +14,8 @@ final List<Locale> supportedLocales = [
   const Locale('zh', 'TW'),
 ];
 
-class EasyWeatherApp extends StatelessWidget {
-  const EasyWeatherApp({super.key});
+class ZephyrApp extends StatelessWidget {
+  const ZephyrApp({super.key});
 
   @override
   Widget build(BuildContext context) {

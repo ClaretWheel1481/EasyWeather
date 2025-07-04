@@ -1,12 +1,12 @@
 [English](README.md) | 简体中文
 
 <p align="center">
-  <a href="https://github.com/ClaretWheel1481/easyweather">
-    <img src="./public/easyweather.png" height="200"/>
+  <a href="https://github.com/ClaretWheel1481/Zephyr">
+    <img src="./public/zephyr.png" height="200"/>
   </a>
 </p>
 
-# EasyWeather
+# Zephyr
 
 一款简洁美观的天气应用，基于 Flutter 开发，数据来源于 OpenMeteo API，搜索功能由 OpenStreetMap API 提供。
 
@@ -33,7 +33,7 @@
 2. 您需要复制一份`app_en.arb`后修改文件名称为您所想翻译的语言，例如`app_fr.arb`
 3. 完善语言文件的翻译
 4. (必须)在终端中在项目根目录中执行`flutter gen-l10n`，检查终端输出是否有未翻译的字段（若有则可查看`untranslated.json`，然后进行修改）
-5. 推送你的代码并提交 [Pull Request](https://github.com/ClaretWheel1481/EasyWeather/pulls)
+5. 推送你的代码并提交 [Pull Request](https://github.com/ClaretWheel1481/Zephyr/pulls)
 
 ## 截图
 <table>
@@ -50,7 +50,7 @@
 </table>
 
 ## 下载
-[点击前往 Releases 页面下载最新版本](https://github.com/ClaretWheel1481/easyweather/releases/latest)
+[点击前往下载最新版本](https://github.com/ClaretWheel1481/Zephyr/releases/latest)
 
 ## 致谢
 本项目得益于以下优秀的开源项目和API的支持：
