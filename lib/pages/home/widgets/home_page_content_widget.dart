@@ -2,7 +2,6 @@ import 'package:zephyr/l10n/generated/app_localizations.dart';
 import 'package:flutter/material.dart';
 import '../../../core/models/city.dart';
 import '../../../core/models/weather.dart';
-import 'weather_bg.dart';
 import 'weather_view.dart';
 
 class HomePageContentWidget extends StatelessWidget {
@@ -41,7 +40,6 @@ class HomePageContentWidget extends StatelessWidget {
     } else {
       return Stack(
         children: [
-          WeatherBg(weatherCode: weather!.current?.weatherCode),
           if (Theme.of(context).brightness == Brightness.dark)
             Positioned(
               top: 0,

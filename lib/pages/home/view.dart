@@ -13,6 +13,7 @@ import '../../core/services/location_service.dart';
 import 'package:zephyr/l10n/generated/app_localizations.dart';
 import '../../core/utils/notification_utils.dart';
 import '../../core/services/widget_service.dart';
+import 'widgets/weather_bg.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -297,6 +298,9 @@ class _HomePageState extends State<HomePage> {
     final currentCity = cities.isNotEmpty && pageIndex < cities.length
         ? cities[pageIndex]
         : null;
+    final currentWeather =
+        currentCity != null ? weatherMap[currentCity.cacheKey] : null;
+    final weatherCode = currentWeather?.current?.weatherCode;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: HomeAppBarWidget(
@@ -307,24 +311,37 @@ class _HomePageState extends State<HomePage> {
         onOpenSettings: _onOpenSettings,
         onLocate: _onLocate,
       ),
-      body: cities.isEmpty
-          ? EmptyCityTip(onLocate: _onLocate)
-          : PageView.builder(
-              controller: _pageController,
-              itemCount: cities.length,
-              onPageChanged: _onPageChanged,
-              itemBuilder: (context, idx) {
-                final city = cities[idx];
-                final weather = weatherMap[city.cacheKey];
-                final loading = loadingMap[city.cacheKey] ?? false;
-                return HomePageContentWidget(
-                  city: city,
-                  weather: weather,
-                  loading: loading,
-                  onRefresh: () => _refreshWeather(city),
-                );
-              },
-            ),
+      body: Stack(
+        children: [
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 600),
+            child: cities.isEmpty
+                ? const SizedBox.shrink()
+                : WeatherBg(
+                    key: ValueKey(weatherCode),
+                    weatherCode: weatherCode,
+                  ),
+          ),
+          cities.isEmpty
+              ? EmptyCityTip(onLocate: _onLocate)
+              : PageView.builder(
+                  controller: _pageController,
+                  itemCount: cities.length,
+                  onPageChanged: _onPageChanged,
+                  itemBuilder: (context, idx) {
+                    final city = cities[idx];
+                    final weather = weatherMap[city.cacheKey];
+                    final loading = loadingMap[city.cacheKey] ?? false;
+                    return HomePageContentWidget(
+                      city: city,
+                      weather: weather,
+                      loading: loading,
+                      onRefresh: () => _refreshWeather(city),
+                    );
+                  },
+                ),
+        ],
+      ),
     );
   }
 }
