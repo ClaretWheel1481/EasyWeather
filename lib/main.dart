@@ -56,6 +56,8 @@ class ZephyrAppWithForegroundTask extends StatelessWidget {
 }
 
 class ZephyrAppLauncher extends StatefulWidget {
+  const ZephyrAppLauncher({super.key});
+
   @override
   State<ZephyrAppLauncher> createState() => _ZephyrAppLauncherState();
 }

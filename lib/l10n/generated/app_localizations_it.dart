@@ -204,4 +204,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get airQualityHazardous => 'Pericolosa';
+
+  @override
+  String get addHomeWidget => 'Aggiungi widget per il desktop';
 }

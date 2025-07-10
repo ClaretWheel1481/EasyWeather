@@ -19,7 +19,7 @@ dependencies:
   geolocator: 
   geocoding: 
   home_widget:
-  flutter_foreground_task: ^9.1.0
+  flutter_foreground_task: 
   
 dev_dependencies:
   flutter_test:

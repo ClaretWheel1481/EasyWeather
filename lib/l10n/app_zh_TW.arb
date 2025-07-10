@@ -71,5 +71,6 @@
   "airQualityUnhealthyForSensitive": "一般",
   "airQualityUnhealthy": "較差",
   "airQualityVeryUnhealthy": "極差",
-  "airQualityHazardous": "危險"
+  "airQualityHazardous": "危險",
+  "addHomeWidget": "添加小部件至桌面"
 }

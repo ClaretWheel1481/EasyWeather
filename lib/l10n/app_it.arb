@@ -71,5 +71,6 @@
   "airQualityUnhealthyForSensitive": "Discreta",
   "airQualityUnhealthy": "Scarsa",
   "airQualityVeryUnhealthy": "Molto Scarsa",
-  "airQualityHazardous": "Pericolosa"
+  "airQualityHazardous": "Pericolosa",
+  "addHomeWidget": "Aggiungi widget per il desktop"
 } 

@@ -204,6 +204,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get airQualityHazardous => '危险';
+
+  @override
+  String get addHomeWidget => '添加桌面小部件';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
@@ -406,4 +409,7 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get airQualityHazardous => '危險';
+
+  @override
+  String get addHomeWidget => '添加小部件至桌面';
 }

@@ -487,6 +487,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Hazardous'**
   String get airQualityHazardous;
+
+  /// No description provided for @addHomeWidget.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Desktop Widget'**
+  String get addHomeWidget;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

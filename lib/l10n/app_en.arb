@@ -71,5 +71,6 @@
   "airQualityUnhealthyForSensitive": "Fair",
   "airQualityUnhealthy": "Poor",
   "airQualityVeryUnhealthy": "Very Poor",
-  "airQualityHazardous": "Hazardous"
+  "airQualityHazardous": "Hazardous",
+  "addHomeWidget": "Add Desktop Widget"
 }
