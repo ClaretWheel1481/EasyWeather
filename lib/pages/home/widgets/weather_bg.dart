@@ -97,6 +97,16 @@ class _WeatherBgState extends State<WeatherBg> {
               SnowAnimation(
                 maxHeight: constraints.maxHeight,
               ),
+            if (Theme.of(context).brightness == Brightness.dark)
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: Container(
+                  color: Colors.black.withValues(alpha: 0.3),
+                ),
+              ),
           ],
         );
       },

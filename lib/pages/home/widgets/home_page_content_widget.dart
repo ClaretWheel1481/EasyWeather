@@ -40,16 +40,6 @@ class HomePageContentWidget extends StatelessWidget {
     } else {
       return Stack(
         children: [
-          if (Theme.of(context).brightness == Brightness.dark)
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: Container(
-                color: Colors.black.withValues(alpha: 0.3),
-              ),
-            ),
           RefreshIndicator(
             displacement: kToolbarHeight + 75,
             onRefresh: onRefresh,
