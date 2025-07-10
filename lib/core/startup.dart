@@ -2,6 +2,15 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'notifiers.dart';
 import 'package:flutter/material.dart';
+import 'services/weather_fetch_timer_service.dart';
+
+const Map<String, int> _systemLocaleToAppLocaleIndex = {
+  'en': 0,
+  'it': 1,
+  'zh': 2,
+  'zh_CN': 2,
+  'zh_TW': 3,
+};
 
 Future<void> initAppSettings() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,18 +24,23 @@ Future<void> initAppSettings() async {
   if (kDebugMode) {
     debugPrint('systemLocale: $systemLocale');
   }
+
   if (prefs.containsKey('locale_index')) {
     // 用户已手动设置过语言
     localeIndexNotifier.value = prefs.getInt('locale_index') ?? 0;
   } else {
-    if (systemLocale.languageCode == 'en') {
-      localeIndexNotifier.value = 0; // 英文
-    } else if (systemLocale.toString() == 'zh_CN') {
-      localeIndexNotifier.value = 1; // 简体中文
-    } else if (systemLocale.toString() == 'zh_TW') {
-      localeIndexNotifier.value = 2; // 繁体中文
-    } else {
-      localeIndexNotifier.value = 0; // 其他默认英文
-    }
+    // 根据系统语言自动设置默认语言
+    final localeString = systemLocale.toString();
+    final languageCode = systemLocale.languageCode;
+
+    // 优先使用完整locale字符串匹配，然后回退到语言代码匹配
+    final localeIndex = _systemLocaleToAppLocaleIndex[localeString] ??
+        _systemLocaleToAppLocaleIndex[languageCode] ??
+        0; // 默认英文
+
+    localeIndexNotifier.value = localeIndex;
   }
+
+  // 启动天气定时拉取服务
+  WeatherFetchTimerService.start();
 }

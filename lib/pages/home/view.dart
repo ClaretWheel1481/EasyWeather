@@ -12,6 +12,7 @@ import 'widgets/home_page_content_widget.dart';
 import '../../core/services/location_service.dart';
 import 'package:zephyr/l10n/generated/app_localizations.dart';
 import '../../core/utils/notification_utils.dart';
+import '../../core/services/widget_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -73,15 +74,23 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       cities = list;
       pageIndex = idx;
-      // 只有在PageController不存在或城市列表发生变化时才重新创建
+      // 城市列表发生变化时重建
       if (_pageController == null || _pageController!.hasClients == false) {
         _pageController = PageController(initialPage: idx);
       }
     });
 
+    for (var city in cities) {
+      _loadWeather(city);
+    }
+
     if (cities.isNotEmpty) {
-      for (var city in cities) {
-        _loadWeather(city);
+      // 更新小部件数据
+      final mainCity = cities.first;
+      final weather = weatherMap[mainCity.cacheKey];
+      if (weather != null) {
+        await WidgetService.updateWidget(
+            context: context, city: mainCity, weatherData: weather);
       }
     }
   }
@@ -113,6 +122,14 @@ class _HomePageState extends State<HomePage> {
         latitude: city.lat, longitude: city.lon, units: unit);
     if (data != null) {
       await cacheWeather(city, data);
+
+      // 如果是主城市（第一个城市），更新小部件
+      if (cities.isNotEmpty &&
+          cities.first.lat == city.lat &&
+          cities.first.lon == city.lon) {
+        await WidgetService.updateWidget(
+            context: context, city: city, weatherData: data);
+      }
     }
     if (!mounted) return;
     setState(() {

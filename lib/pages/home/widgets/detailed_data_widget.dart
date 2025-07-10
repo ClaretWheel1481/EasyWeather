@@ -107,7 +107,7 @@ class DetailedDataWidget extends StatelessWidget {
                       child: _buildDataTile(
                         context,
                         icon: Icons.insights,
-                        label: AppLocalizations.of(context).surfacePressure,
+                        label: AppLocalizations.of(context).pressure,
                         value: current?.surfacePressure != null
                             ? current!.surfacePressure!.toStringAsFixed(1)
                             : '-',

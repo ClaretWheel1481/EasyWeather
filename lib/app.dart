@@ -10,6 +10,7 @@ import 'pages/settings/view.dart';
 // 支持的语言列表
 final List<Locale> supportedLocales = [
   const Locale('en', 'US'),
+  const Locale('it', 'IT'),
   const Locale('zh', 'CN'),
   const Locale('zh', 'TW'),
 ];
@@ -28,7 +29,8 @@ class ZephyrApp extends StatelessWidget {
             return ValueListenableBuilder<int>(
               valueListenable: localeIndexNotifier,
               builder: (context, localeIndex, _) {
-                final locale = supportedLocales[localeIndex];
+                final locale = supportedLocales[
+                    localeIndex.clamp(0, supportedLocales.length - 1)];
                 if (dynamicColorEnabled) {
                   return DynamicColorBuilder(
                     builder:

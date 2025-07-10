@@ -58,7 +58,6 @@
   "monetColor": "Monet Color",
   "retry": "Retry",
   "weatherDataError": "Weather data loading failed",
-  "surfacePressure": "Surface Pressure",
   "uvIndex": "UV Index",
   "addCity": "Add City",
   "addByLocation": "Add by Location",

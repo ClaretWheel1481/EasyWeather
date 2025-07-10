@@ -58,7 +58,6 @@
   "monetColor": "Monet取色",
   "retry": "重试",
   "weatherDataError": "天气数据加载失败",
-  "surfacePressure": "地面气压",
   "uvIndex": "紫外线指数",
   "addCity": "添加城市",
   "addByLocation": "定位添加",

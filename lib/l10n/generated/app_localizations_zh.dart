@@ -164,9 +164,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get weatherDataError => '天气数据加载失败';
 
   @override
-  String get surfacePressure => '地面气压';
-
-  @override
   String get uvIndex => '紫外线指数';
 
   @override
@@ -367,9 +364,6 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get weatherDataError => '天氣數據加載失敗';
-
-  @override
-  String get surfacePressure => '地面氣壓';
 
   @override
   String get uvIndex => '紫外線指數';

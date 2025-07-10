@@ -164,9 +164,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get weatherDataError => 'Weather data loading failed';
 
   @override
-  String get surfacePressure => 'Surface Pressure';
-
-  @override
   String get uvIndex => 'UV Index';
 
   @override

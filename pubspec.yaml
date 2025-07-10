@@ -18,6 +18,8 @@ dependencies:
   dynamic_color:
   geolocator: 
   geocoding: 
+  home_widget:
+  flutter_foreground_task: ^9.1.0
   
 dev_dependencies:
   flutter_test:

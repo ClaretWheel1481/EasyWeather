@@ -14,7 +14,12 @@ class LanguageSelectorWidget extends StatefulWidget {
 class _LanguageSelectorWidgetState extends State<LanguageSelectorWidget> {
   bool _expanded = false;
 
-  final List<String> supportedLanguageNames = ['English', '简体中文', '繁體中文'];
+  final List<String> supportedLanguageNames = [
+    'English',
+    'Italiano',
+    '简体中文',
+    '繁體中文',
+  ];
 
   @override
   Widget build(BuildContext context) {
