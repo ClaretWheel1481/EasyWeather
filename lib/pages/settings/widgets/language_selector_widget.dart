@@ -16,6 +16,7 @@ class _LanguageSelectorWidgetState extends State<LanguageSelectorWidget> {
 
   final List<String> supportedLanguageNames = [
     'English',
+    'Español',
     'Italiano',
     '简体中文',
     '繁體中文',

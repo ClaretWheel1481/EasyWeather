@@ -131,13 +131,13 @@ class AppLocalizationsIt extends AppLocalizations {
   String get feelsLike => 'Percepita';
 
   @override
-  String get windSpeed => 'Velocità Vento';
+  String get windSpeed => 'Vento';
 
   @override
-  String get windDirection => 'Direzione Vento';
+  String get windDirection => 'Direzione';
 
   @override
-  String get precipitation => 'Precipitazioni';
+  String get precipitation => 'Precip.';
 
   @override
   String get hourlyForecast => 'Previsioni Orarie';
@@ -155,7 +155,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get language => 'Lingua';
 
   @override
-  String get monetColor => 'Colore Monet';
+  String get monetColor => 'Colore Dynamico';
 
   @override
   String get retry => 'Riprova';

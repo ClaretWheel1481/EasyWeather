@@ -76,7 +76,6 @@ class WeatherView extends StatelessWidget {
                               : '-',
                           unit: '%',
                         ),
-
                         WeatherInfoTile(
                           icon: Icons.navigation,
                           label: AppLocalizations.of(context).windDirection,
@@ -100,15 +99,6 @@ class WeatherView extends StatelessWidget {
                               : '-',
                           unit: '',
                         ),
-                        // WeatherInfoTile(
-                        //   icon: Icons.remove_red_eye,
-                        //   label: AppLocalizations.of(context).visibility,
-                        //   value: weather.hourly.isNotEmpty
-                        //       ? (weather.hourly.first.visibility! / 1000)
-                        //           .toStringAsFixed(1)
-                        //       : '-',
-                        //   unit: 'km',
-                        // ),
                       ],
                     ),
                   ],
@@ -153,7 +143,7 @@ class WeatherView extends StatelessWidget {
                           : '';
                       final isNow = i == 0;
                       return Container(
-                        width: 80,
+                        width: 75,
                         margin: const EdgeInsets.symmetric(horizontal: 4),
                         decoration: BoxDecoration(
                           color:

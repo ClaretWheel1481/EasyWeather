@@ -79,7 +79,7 @@ class CityManagerWidget extends StatelessWidget {
             ),
           ),
           AnimatedSize(
-            duration: const Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 550),
             curve: Curves.linearToEaseOut,
             child: cityManagerExpanded
                 ? Padding(
@@ -138,9 +138,9 @@ class CityManagerWidget extends StatelessWidget {
                                                 : null,
                                             child: AnimatedContainer(
                                               duration: const Duration(
-                                                  milliseconds: 350),
+                                                  milliseconds: 550),
                                               curve: Curves.ease,
-                                              padding: const EdgeInsets.all(16),
+                                              padding: const EdgeInsets.all(12),
                                               decoration: BoxDecoration(
                                                 color: isMain
                                                     ? colorScheme
@@ -165,7 +165,7 @@ class CityManagerWidget extends StatelessWidget {
                                                   // 城市图标
                                                   AnimatedContainer(
                                                     duration: const Duration(
-                                                        milliseconds: 350),
+                                                        milliseconds: 550),
                                                     curve: Curves.ease,
                                                     padding:
                                                         const EdgeInsets.all(8),
@@ -206,10 +206,8 @@ class CityManagerWidget extends StatelessWidget {
                                                                 style: textTheme
                                                                     .bodyLarge
                                                                     ?.copyWith(
-                                                                  fontWeight: isMain
-                                                                      ? FontWeight
-                                                                          .w600
-                                                                      : FontWeight
+                                                                  fontWeight:
+                                                                      FontWeight
                                                                           .w500,
                                                                   color: isMain
                                                                       ? colorScheme
@@ -230,11 +228,14 @@ class CityManagerWidget extends StatelessWidget {
                                                               ? '${city.admin} · ${city.country}'
                                                               : city.country,
                                                           style: textTheme
-                                                              .bodyMedium
+                                                              .bodySmall
                                                               ?.copyWith(
                                                             color: colorScheme
                                                                 .onSurfaceVariant,
                                                           ),
+                                                          maxLines: 1,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
                                                         ),
                                                       ],
                                                     ),

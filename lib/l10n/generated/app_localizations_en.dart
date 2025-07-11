@@ -155,7 +155,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get language => 'Language';
 
   @override
-  String get monetColor => 'Monet Color';
+  String get monetColor => 'Dynamic Color';
 
   @override
   String get retry => 'Retry';

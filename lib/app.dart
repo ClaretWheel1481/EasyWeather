@@ -10,6 +10,7 @@ import 'pages/settings/view.dart';
 // 支持的语言列表
 final List<Locale> supportedLocales = [
   const Locale('en', 'US'),
+  const Locale('es', 'ES'),
   const Locale('it', 'IT'),
   const Locale('zh', 'CN'),
   const Locale('zh', 'TW'),

@@ -55,7 +55,7 @@
   "detailedData": "Detailed Data",
   "settings": "Settings",
   "language": "Language",
-  "monetColor": "Monet Color",
+  "monetColor": "Dynamic Color",
   "retry": "Retry",
   "weatherDataError": "Weather data loading failed",
   "uvIndex": "UV Index",
