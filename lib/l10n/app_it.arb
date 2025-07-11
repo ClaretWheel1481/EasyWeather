@@ -72,5 +72,6 @@
   "airQualityUnhealthy": "Scarsa",
   "airQualityVeryUnhealthy": "Molto Scarsa",
   "airQualityHazardous": "Pericolosa",
-  "addHomeWidget": "Aggiungi widget per il desktop"
+  "addHomeWidget": "Aggiungi widget per il desktop",
+  "starUs" : "Dateci una stella"
 } 

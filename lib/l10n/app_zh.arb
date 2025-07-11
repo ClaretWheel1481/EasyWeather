@@ -72,5 +72,6 @@
   "airQualityUnhealthy": "较差",
   "airQualityVeryUnhealthy": "极差",
   "airQualityHazardous": "危险",
-  "addHomeWidget": "添加桌面小部件"
+  "addHomeWidget": "添加桌面小部件",
+  "starUs" : "给我们点个Star"
 }

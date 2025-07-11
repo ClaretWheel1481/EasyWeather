@@ -86,7 +86,7 @@ class FutureWeatherBand extends StatelessWidget {
                           valueListenable: tempUnitNotifier,
                           builder: (context, unit, _) => Text(
                             '${bar.tmax.toStringAsFixed(1)}°$unit',
-                            style: textTheme.titleSmall
+                            style: textTheme.bodySmall
                                 ?.copyWith(color: colorScheme.error),
                           ),
                         ),

@@ -3,6 +3,7 @@ class AppConstants {
   static const String appVersion = 'v2.0.2';
   static const String appDescription =
       'Simple and fast real-time weather forecast software.';
+  static const String appUrl = 'https://github.com/ClaretWheel1481/Zephyr';
 
   // OpenStreetMap API Url 用于搜索城市
   static const String osmUrl = 'https://nominatim.openstreetmap.org/search';

@@ -207,4 +207,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get addHomeWidget => 'Aggiungi widget per il desktop';
+
+  @override
+  String get starUs => 'Dateci una stella';
 }

@@ -207,6 +207,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get addHomeWidget => '添加桌面小部件';
+
+  @override
+  String get starUs => '给我们点个Star';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
@@ -412,4 +415,7 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get addHomeWidget => '添加小部件至桌面';
+
+  @override
+  String get starUs => '給我们點個Star';
 }

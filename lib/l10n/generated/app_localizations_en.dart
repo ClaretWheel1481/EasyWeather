@@ -207,4 +207,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get addHomeWidget => 'Add Desktop Widget';
+
+  @override
+  String get starUs => 'Star us on GitHub';
 }

@@ -125,7 +125,7 @@ class CityManagerWidget extends StatelessWidget {
                                       final city = entry.value;
                                       final isMain = index == mainCityIndex;
 
-                                      return Padding(
+                                      Widget cityCard = Padding(
                                         padding:
                                             const EdgeInsets.only(bottom: 8),
                                         child: Material(
@@ -136,7 +136,10 @@ class CityManagerWidget extends StatelessWidget {
                                             onTap: !isMain
                                                 ? () => onSetMainCity(index)
                                                 : null,
-                                            child: Container(
+                                            child: AnimatedContainer(
+                                              duration: const Duration(
+                                                  milliseconds: 350),
+                                              curve: Curves.ease,
                                               padding: const EdgeInsets.all(16),
                                               decoration: BoxDecoration(
                                                 color: isMain
@@ -160,7 +163,10 @@ class CityManagerWidget extends StatelessWidget {
                                               child: Row(
                                                 children: [
                                                   // 城市图标
-                                                  Container(
+                                                  AnimatedContainer(
+                                                    duration: const Duration(
+                                                        milliseconds: 350),
+                                                    curve: Curves.ease,
                                                     padding:
                                                         const EdgeInsets.all(8),
                                                     decoration: BoxDecoration(
@@ -394,6 +400,7 @@ class CityManagerWidget extends StatelessWidget {
                                           ),
                                         ),
                                       );
+                                      return cityCard;
                                     }).toList(),
                                   ),
                         const SizedBox(height: 8),

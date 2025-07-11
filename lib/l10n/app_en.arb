@@ -72,5 +72,6 @@
   "airQualityUnhealthy": "Poor",
   "airQualityVeryUnhealthy": "Very Poor",
   "airQualityHazardous": "Hazardous",
-  "addHomeWidget": "Add Desktop Widget"
+  "addHomeWidget": "Add Desktop Widget",
+  "starUs": "Star us on GitHub"
 }

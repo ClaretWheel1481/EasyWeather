@@ -493,6 +493,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add Desktop Widget'**
   String get addHomeWidget;
+
+  /// No description provided for @starUs.
+  ///
+  /// In en, this message translates to:
+  /// **'Star us on GitHub'**
+  String get starUs;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

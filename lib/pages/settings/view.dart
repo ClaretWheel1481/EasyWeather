@@ -164,7 +164,10 @@ class _SettingsPageState extends State<SettingsPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(l10n.settings),
+          title: Align(
+            alignment: Alignment.topLeft,
+            child: Text(l10n.settings),
+          ),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {

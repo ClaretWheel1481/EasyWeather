@@ -20,6 +20,7 @@ dependencies:
   geocoding: 
   home_widget:
   flutter_foreground_task: 
+  url_launcher: 
   
 dev_dependencies:
   flutter_test:
@@ -30,3 +31,6 @@ dev_dependencies:
 flutter:
   generate: true
   uses-material-design: true
+
+  assets:
+    - assets/images/zephyr.png
