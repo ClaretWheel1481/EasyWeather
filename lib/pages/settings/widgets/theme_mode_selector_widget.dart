@@ -100,11 +100,23 @@ class ThemeModeSelectorWidget extends StatelessWidget {
                 child: Row(
                   children: [
                     Icon(Icons.palette_outlined,
-                        color: Theme.of(context).colorScheme.primary),
+                        color: Platform.isIOS
+                            ? Theme.of(context)
+                                .colorScheme
+                                .onSurface
+                                .withValues(alpha: 0.38)
+                            : Theme.of(context).colorScheme.primary),
                     const SizedBox(width: 8),
                     Expanded(
                         child: Text(l10n.monetColor,
-                            style: textTheme.titleMedium)),
+                            style: textTheme.titleMedium?.copyWith(
+                              color: Platform.isIOS
+                                  ? Theme.of(context)
+                                      .colorScheme
+                                      .onSurface
+                                      .withValues(alpha: 0.38)
+                                  : null,
+                            ))),
                     Switch(
                       value: dynamicColorEnabled,
                       onChanged: Platform.isIOS ? null : onDynamicColorChanged,

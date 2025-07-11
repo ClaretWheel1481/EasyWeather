@@ -47,5 +47,35 @@
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>You need to allow location access to get local weather</string>
+	<!-- 网络权限配置 -->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<false/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>api.open-meteo.com</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<false/>
+				<key>NSExceptionMinimumTLSVersion</key>
+				<string>TLSv1.2</string>
+				<key>NSExceptionRequiresForwardSecrecy</key>
+				<true/>
+			</dict>
+			<key>nominatim.openstreetmap.org</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<false/>
+				<key>NSExceptionMinimumTLSVersion</key>
+				<string>TLSv1.2</string>
+				<key>NSExceptionRequiresForwardSecrecy</key>
+				<true/>
+			</dict>
+		</dict>
+	</dict>
+	<!-- 网络使用权限描述 -->
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Zephyr needs network access to fetch weather data and search for cities</string>
 </dict>
 </plist>
