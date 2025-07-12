@@ -128,13 +128,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get visibility => 'Visibilidad';
 
   @override
-  String get feelsLike => 'Sensación Térmica';
+  String get feelsLike => 'Sens. Térmica';
 
   @override
-  String get windSpeed => 'Velocidad del Viento';
+  String get windSpeed => 'Vel. Viento';
 
   @override
-  String get windDirection => 'Dirección del Viento';
+  String get windDirection => 'Dir. Viento';
 
   @override
   String get precipitation => 'Precipitación';
@@ -185,7 +185,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get locatingSuccess => 'Ubicación obtenida, espere...';
 
   @override
-  String get airQuality => 'Calidad del Aire';
+  String get airQuality => 'CA';
 
   @override
   String get airQualityGood => 'Buena';

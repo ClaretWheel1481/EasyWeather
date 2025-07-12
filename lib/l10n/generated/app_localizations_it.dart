@@ -185,7 +185,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get locatingSuccess => 'Posizione ottenuta con successo, attendere...';
 
   @override
-  String get airQuality => 'Qualità dell\'Aria';
+  String get airQuality => 'QA';
 
   @override
   String get airQualityGood => 'Buona';

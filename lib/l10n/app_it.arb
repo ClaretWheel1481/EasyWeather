@@ -65,7 +65,7 @@
   "locationPermissionDenied": "Impossibile ottenere il permesso di posizione o il servizio di posizione è disabilitato",
   "locationNotRecognized": "Impossibile riconoscere la posizione corrente",
   "locatingSuccess": "Posizione ottenuta con successo, attendere...",
-  "airQuality": "Qualità dell'Aria",
+  "airQuality": "QA",
   "airQualityGood": "Buona",
   "airQualityModerate": "Moderata",
   "airQualityUnhealthyForSensitive": "Discreta",
