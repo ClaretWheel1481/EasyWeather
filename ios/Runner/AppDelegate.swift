@@ -28,11 +28,13 @@ import BackgroundTasks
   }
   
   private func setupChannels() {
-    let methodChannel = FlutterMethodChannel(name: "weather_service", binaryMessenger: self.binaryMessenger)
-    let eventChannel = FlutterEventChannel(name: "weather_service_events", binaryMessenger: self.binaryMessenger)
+    guard let controller = window?.rootViewController as? FlutterViewController else { return }
+    
+    let methodChannel = FlutterMethodChannel(name: "weather_service", binaryMessenger: controller.binaryMessenger)
+    let eventChannel = FlutterEventChannel(name: "weather_service_events", binaryMessenger: controller.binaryMessenger)
     
     // 设置方法通道处理器
-    methodChannel.setMethodCallHandler { [weak self] (call, result) in
+    methodChannel.setMethodCallHandler { [weak self] (call: FlutterMethodCall, result: @escaping FlutterResult) in
       switch call.method {
       case "startBackgroundService":
         self?.startBackgroundService()
@@ -141,6 +143,7 @@ import BackgroundTasks
   }
 }
 
+// 扩展AppDelegate实现FlutterStreamHandler
 extension AppDelegate: FlutterStreamHandler {
   public func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
     self.eventSink = events
