@@ -7,8 +7,7 @@ import BackgroundTasks
 @objc class AppDelegate: FlutterAppDelegate {
   private let networkMonitor = NWPathMonitor()
   private let networkQueue = DispatchQueue(label: "NetworkMonitor")
-  private let weatherService = WeatherBackgroundService.shared
-  private var methodChannel: FlutterMethodChannel?
+  private var eventSink: FlutterEventSink?
   
   override func application(
     _ application: UIApplication,
@@ -16,16 +15,89 @@ import BackgroundTasks
   ) -> Bool {
     GeneratedPluginRegistrant.register(with: self)
     
-    // 手动注册天气服务插件
-    WeatherServicePlugin.register(with: self.registrar(forPlugin: "WeatherServicePlugin")!)
+    // 设置方法通道和事件通道
+    setupChannels()
+    
+    // 注册后台任务
+    registerBackgroundTasks()
     
     // 启动网络监控
     startNetworkMonitoring()
     
-    // 启动后台天气服务
-    weatherService.startBackgroundService()
-    
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+  }
+  
+  private func setupChannels() {
+    let methodChannel = FlutterMethodChannel(name: "weather_service", binaryMessenger: self.binaryMessenger)
+    let eventChannel = FlutterEventChannel(name: "weather_service_events", binaryMessenger: self.binaryMessenger)
+    
+    // 设置方法通道处理器
+    methodChannel.setMethodCallHandler { [weak self] (call, result) in
+      switch call.method {
+      case "startBackgroundService":
+        self?.startBackgroundService()
+        result(true)
+      case "stopBackgroundService":
+        self?.stopBackgroundService()
+        result(true)
+      default:
+        result(FlutterMethodNotImplemented)
+      }
+    }
+    
+    // 设置事件通道处理器
+    eventChannel.setStreamHandler(self)
+  }
+  
+  private func registerBackgroundTasks() {
+    BGTaskScheduler.shared.register(
+      forTaskWithIdentifier: "com.zephyr.weather.refresh",
+      using: nil
+    ) { task in
+      self.handleWeatherRefresh(task: task as! BGAppRefreshTask)
+    }
+    print("iOS: 后台任务已注册")
+  }
+  
+  private func handleWeatherRefresh(task: BGAppRefreshTask) {
+    print("iOS: 开始处理天气刷新任务")
+    
+    task.expirationHandler = {
+      print("iOS: 天气刷新任务已过期")
+      task.setTaskCompleted(success: false)
+    }
+    
+    // 发送事件到Flutter端
+    DispatchQueue.main.async {
+      self.eventSink?("FETCH_WEATHER")
+      print("iOS: 已发送天气获取事件到Flutter端")
+    }
+    
+    // 调度下一次任务
+    scheduleWeatherRefresh()
+    task.setTaskCompleted(success: true)
+  }
+  
+  private func scheduleWeatherRefresh() {
+    let request = BGAppRefreshTaskRequest(identifier: "com.zephyr.weather.refresh")
+    request.earliestBeginDate = Date(timeIntervalSinceNow: 5 * 60)
+    
+    do {
+      try BGTaskScheduler.shared.submit(request)
+      print("iOS: 天气刷新任务已调度，将在5分钟后执行")
+    } catch {
+      print("iOS: 调度天气刷新任务失败: \(error)")
+    }
+  }
+  
+  private func startBackgroundService() {
+    print("iOS: 启动后台天气服务")
+    scheduleWeatherRefresh()
+  }
+  
+  private func stopBackgroundService() {
+    print("iOS: 停止后台天气服务")
+    BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: "com.zephyr.weather.refresh")
   }
   
   override func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
@@ -36,29 +108,11 @@ import BackgroundTasks
     super.application(application, didFailToRegisterForRemoteNotificationsWithError: error)
   }
   
-  // 设置方法通道
-  func setupMethodChannel(with messenger: FlutterBinaryMessenger) {
-    methodChannel = FlutterMethodChannel(name: "weather_service", binaryMessenger: messenger)
-    methodChannel?.setMethodCallHandler { [weak self] (call, result) in
-      switch call.method {
-      case "startBackgroundService":
-        self?.weatherService.startBackgroundService()
-        result(true)
-      case "stopBackgroundService":
-        self?.weatherService.stopBackgroundService()
-        result(true)
-      default:
-        result(FlutterMethodNotImplemented)
-      }
-    }
-  }
-  
   private func startNetworkMonitoring() {
     networkMonitor.pathUpdateHandler = { path in
       DispatchQueue.main.async {
         if path.status == .satisfied {
           print("网络连接可用")
-          // 网络可用时可以进行网络请求
         } else {
           print("网络连接不可用")
         }
@@ -67,28 +121,35 @@ import BackgroundTasks
     networkMonitor.start(queue: networkQueue)
   }
   
-  // 应用进入后台
   override func applicationDidEnterBackground(_ application: UIApplication) {
     super.applicationDidEnterBackground(application)
-    print("应用进入后台，启动后台天气服务")
-    weatherService.startBackgroundService()
+    print("应用进入后台")
   }
   
-  // 应用进入前台
   override func applicationWillEnterForeground(_ application: UIApplication) {
     super.applicationWillEnterForeground(application)
     print("应用进入前台")
   }
   
-  // 应用即将终止
   override func applicationWillTerminate(_ application: UIApplication) {
     super.applicationWillTerminate(application)
-    print("应用即将终止，停止后台天气服务")
-    weatherService.stopBackgroundService()
+    print("应用即将终止")
   }
   
   deinit {
     networkMonitor.cancel()
+  }
+}
+
+extension AppDelegate: FlutterStreamHandler {
+  public func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
+    self.eventSink = events
+    return nil
+  }
+  
+  public func onCancel(withArguments arguments: Any?) -> FlutterError? {
+    self.eventSink = nil
+    return nil
   }
 }
 
