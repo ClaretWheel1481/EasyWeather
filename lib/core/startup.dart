@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 
 const Map<String, int> _systemLocaleToAppLocaleIndex = {
   'en': 0,
-  'it': 1,
-  'zh': 2,
-  'zh_CN': 2,
-  'zh_TW': 3,
+  'es': 1,
+  'it': 2,
+  'zh': 3,
+  'zh_CN': 3,
+  'zh_TW': 4,
 };
 
 Future<void> initAppSettings() async {
