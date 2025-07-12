@@ -47,6 +47,12 @@
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>You need to allow location access to get local weather</string>
+	<!-- 后台模式配置 -->
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>background-app-refresh</string>
+		<string>background-processing</string>
+	</array>
 	<!-- 网络权限配置 -->
 	<key>NSAppTransportSecurity</key>
 	<dict>
