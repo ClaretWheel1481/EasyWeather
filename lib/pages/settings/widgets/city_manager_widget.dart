@@ -52,12 +52,7 @@ class CityManagerWidget extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            l10n.cityManager,
-                            style: textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+                          Text(l10n.cityManager, style: textTheme.titleMedium),
                           if (cities.isNotEmpty)
                             Text(
                               '${cities.length} ${l10n.cities}',

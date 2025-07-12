@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:home_widget/home_widget.dart';
 import 'package:zephyr/l10n/generated/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -37,10 +39,21 @@ class RequestHomewidgetWidget extends StatelessWidget {
                 child: Row(
                   children: [
                     Icon(Icons.widgets,
-                        color: Theme.of(context).colorScheme.primary),
+                        color: Platform.isIOS
+                            ? Theme.of(context)
+                                .colorScheme
+                                .onSurface
+                                .withValues(alpha: 0.38)
+                            : Theme.of(context).colorScheme.primary),
                     const SizedBox(width: 8),
                     Text(AppLocalizations.of(context).addHomeWidget,
-                        style: textTheme.titleMedium),
+                        style: textTheme.titleMedium?.copyWith(
+                            color: Platform.isIOS
+                                ? Theme.of(context)
+                                    .colorScheme
+                                    .onSurface
+                                    .withValues(alpha: 0.38)
+                                : null)),
                   ],
                 ),
               ),
