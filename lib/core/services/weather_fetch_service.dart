@@ -1,27 +1,14 @@
-import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/city.dart';
 import '../api/open_meteo_api.dart';
 import 'weather_cache.dart';
 import 'package:flutter/foundation.dart';
 
-class WeatherFetchTimerService {
-  static Timer? _timer;
-  static const Duration _interval = Duration(minutes: 5);
+class WeatherFetchService {
   static DateTime? _lastFetchTime;
 
-  static void start() {
-    stop();
-    _timer = Timer.periodic(_interval, (timer) {
-      fetchAndCacheWeather();
-    });
-  }
-
-  static void stop() {
-    _timer?.cancel();
-    _timer = null;
-  }
-
+  // 获取并缓存天气数据
+  // 由原生Android服务调用，每5分钟执行一次
   static Future<void> fetchAndCacheWeather() async {
     try {
       // 检查是否在短时间内重复调用
@@ -72,7 +59,7 @@ class WeatherFetchTimerService {
         if (kDebugMode) print('天气数据获取失败');
       }
     } catch (e) {
-      if (kDebugMode) print('定时获取天气失败: $e');
+      if (kDebugMode) print('获取天气失败: $e');
     }
   }
 

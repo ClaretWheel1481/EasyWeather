@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'notifiers.dart';
 import 'package:flutter/material.dart';
-import 'services/weather_fetch_timer_service.dart';
 
 const Map<String, int> _systemLocaleToAppLocaleIndex = {
   'en': 0,
@@ -40,7 +39,4 @@ Future<void> initAppSettings() async {
 
     localeIndexNotifier.value = localeIndex;
   }
-
-  // 启动天气定时拉取服务
-  WeatherFetchTimerService.start();
 }

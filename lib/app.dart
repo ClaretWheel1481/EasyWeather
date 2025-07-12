@@ -16,9 +16,14 @@ final List<Locale> supportedLocales = [
   const Locale('zh', 'TW'),
 ];
 
-class ZephyrApp extends StatelessWidget {
+class ZephyrApp extends StatefulWidget {
   const ZephyrApp({super.key});
 
+  @override
+  State<ZephyrApp> createState() => _ZephyrAppState();
+}
+
+class _ZephyrAppState extends State<ZephyrApp> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<ThemeMode>(

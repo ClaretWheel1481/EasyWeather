@@ -79,7 +79,7 @@ class CityManagerWidget extends StatelessWidget {
             ),
           ),
           AnimatedSize(
-            duration: const Duration(milliseconds: 550),
+            duration: const Duration(milliseconds: 250),
             curve: Curves.linearToEaseOut,
             child: cityManagerExpanded
                 ? Padding(

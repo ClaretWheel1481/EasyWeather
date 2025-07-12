@@ -50,6 +50,21 @@
         android:name="com.pravera.flutter_foreground_task.service.ForegroundService"
         android:exported="false"
         android:foregroundServiceType="dataSync" />
+        
+        <!-- 天气获取服务 -->
+        <service
+            android:name=".WeatherService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
+            
+        <!-- 全局天气广播接收器 -->
+        <receiver
+            android:name=".WeatherBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="WEATHER_FETCH_EVENT" />
+            </intent-filter>
+        </receiver>
     </application>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
