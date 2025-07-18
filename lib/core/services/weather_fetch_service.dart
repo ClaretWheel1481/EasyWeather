@@ -3,18 +3,19 @@ import '../models/city.dart';
 import '../api/open_meteo_api.dart';
 import 'weather_cache.dart';
 import 'package:flutter/foundation.dart';
+import '../api/qweather_api.dart';
 
 class WeatherFetchService {
   static DateTime? _lastFetchTime;
 
   // 获取并缓存天气数据
-  // 由原生Android服务调用，每5分钟执行一次
+  // 由原生Android服务调用，每15分钟执行一次
   static Future<void> fetchAndCacheWeather() async {
     try {
       // 检查是否在短时间内重复调用
       final now = DateTime.now();
       if (_lastFetchTime != null &&
-          now.difference(_lastFetchTime!) < const Duration(minutes: 2)) {
+          now.difference(_lastFetchTime!) < const Duration(minutes: 12)) {
         if (kDebugMode) print('天气获取过于频繁，跳过本次获取');
         return;
       }
@@ -51,6 +52,22 @@ class WeatherFetchService {
         lang: languageCode,
         units: units,
       );
+
+      // 拉取QWeather天气预警
+      final warnings = await QWeatherApi.fetchWarning(
+        lat: mainCity.lat,
+        lon: mainCity.lon,
+      );
+      if (warnings.isNotEmpty) {
+        for (final warning in warnings) {
+          if (kDebugMode) {
+            print(
+                'QWeather天气预警: \n${warning.title} - ${warning.level}\n${warning.text}');
+          }
+        }
+      } else {
+        if (kDebugMode) print('QWeather天气预警获取失败或无预警');
+      }
 
       if (weather != null) {
         await cacheWeather(mainCity, weather);

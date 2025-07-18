@@ -68,7 +68,7 @@ class WeatherService : Service() {
                 } catch (e: Exception) {
                     Log.e(TAG, "天气获取失败", e)
                 }
-            }, 0, 5, TimeUnit.MINUTES)
+            }, 0, 15, TimeUnit.MINUTES)
             
             Log.d(TAG, "天气获取服务已启动")
         } catch (e: Exception) {
@@ -82,7 +82,7 @@ class WeatherService : Service() {
             isRunning = false
             scheduler?.shutdown()
             scheduler = null
-            stopForeground(true)
+            stopForeground(Service.STOP_FOREGROUND_REMOVE)
             stopSelf()
             Log.d(TAG, "天气获取服务已停止")
         } catch (e: Exception) {
@@ -140,7 +140,7 @@ class WeatherService : Service() {
 
             return NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("天气服务运行中")
-                .setContentText("每5分钟自动获取天气数据")
+                .setContentText("每15分钟自动获取天气数据")
                 .setSmallIcon(android.R.drawable.ic_dialog_info)
                 .setContentIntent(pendingIntent)
                 .setOngoing(true)
@@ -150,7 +150,7 @@ class WeatherService : Service() {
             Log.e(TAG, "创建通知失败", e)
             return NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("天气服务运行中")
-                .setContentText("每5分钟自动获取天气数据")
+                .setContentText("每15分钟自动获取天气数据")
                 .setSmallIcon(android.R.drawable.ic_dialog_info)
                 .setOngoing(true)
                 .setAutoCancel(false)

@@ -2,6 +2,7 @@ import 'package:zephyr/l10n/generated/app_localizations.dart';
 import 'package:flutter/material.dart';
 import '../../../core/models/city.dart';
 import '../../../core/models/weather.dart';
+import '../../../core/models/weather_warning.dart';
 import 'weather_view.dart';
 
 class HomePageContentWidget extends StatelessWidget {
@@ -9,6 +10,7 @@ class HomePageContentWidget extends StatelessWidget {
   final WeatherData? weather;
   final bool loading;
   final Future<void> Function() onRefresh;
+  final List<WeatherWarning> warnings;
 
   const HomePageContentWidget({
     super.key,
@@ -16,6 +18,7 @@ class HomePageContentWidget extends StatelessWidget {
     required this.weather,
     required this.loading,
     required this.onRefresh,
+    this.warnings = const [],
   });
 
   @override
@@ -51,6 +54,7 @@ class HomePageContentWidget extends StatelessWidget {
                   WeatherView(
                     city: city,
                     weather: weather!,
+                    warnings: warnings,
                   ),
                 ],
               ),

@@ -14,6 +14,8 @@ import 'package:zephyr/l10n/generated/app_localizations.dart';
 import '../../core/utils/notification_utils.dart';
 import '../../core/services/widget_service.dart';
 import 'widgets/weather_bg.dart';
+import '../../core/models/weather_warning.dart';
+import '../../core/api/qweather_api.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -26,6 +28,7 @@ class _HomePageState extends State<HomePage> {
   List<City> cities = [];
   int pageIndex = 0;
   Map<String, WeatherData?> weatherMap = {};
+  Map<String, List<WeatherWarning>> warningsMap = {};
   Map<String, bool> loadingMap = {};
   PageController? _pageController;
 
@@ -121,6 +124,10 @@ class _HomePageState extends State<HomePage> {
     final unit = tempUnitNotifier.value == 'F' ? 'imperial' : 'metric';
     final data = await OpenMeteoApi.fetchWeather(
         latitude: city.lat, longitude: city.lon, units: unit);
+    List<WeatherWarning> warnings = [];
+    try {
+      warnings = await QWeatherApi.fetchWarning(lat: city.lat, lon: city.lon);
+    } catch (_) {}
     if (data != null) {
       await cacheWeather(city, data);
 
@@ -135,6 +142,7 @@ class _HomePageState extends State<HomePage> {
     if (!mounted) return;
     setState(() {
       weatherMap[city.cacheKey] = data;
+      warningsMap[city.cacheKey] = warnings;
       loadingMap[city.cacheKey] = false;
     });
   }
@@ -331,12 +339,19 @@ class _HomePageState extends State<HomePage> {
                   itemBuilder: (context, idx) {
                     final city = cities[idx];
                     final weather = weatherMap[city.cacheKey];
+                    final warnings = warningsMap[city.cacheKey];
                     final loading = loadingMap[city.cacheKey] ?? false;
+
+                    if (loading || weather == null || warnings == null) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+
                     return HomePageContentWidget(
                       city: city,
                       weather: weather,
-                      loading: loading,
+                      loading: false,
                       onRefresh: () => _refreshWeather(city),
+                      warnings: warnings,
                     );
                   },
                 ),

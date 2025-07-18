@@ -5,20 +5,18 @@ import 'package:http/http.dart' as http;
 import '../models/city.dart';
 import '../notifiers.dart';
 import '../../app.dart';
+import '../utils/locale_language_map.dart';
 
 class CitySearchApi {
   static Future<List<City>> searchCity(String query) async {
     // 根据当前语言设置API请求的语言参数
-    String acceptLanguage = 'en-US'; // 默认英语
+    String acceptLanguage = 'en-US';
     final locale = supportedLocales[localeIndexNotifier.value];
-    kDebugMode ? debugPrint('locale: $locale') : null;
-    if (locale.toString() == 'zh_CN') {
-      acceptLanguage = 'zh-Hans';
-    } else if (locale.toString() == 'zh_TW') {
-      acceptLanguage = 'zh_Hant';
-    } else if (locale.toString() == 'en_US' || locale.toString() == 'en') {
-      acceptLanguage = 'en';
-    }
+    final localeKey = locale.toString();
+    acceptLanguage = localeToApiLang[localeKey] ?? 'en-US';
+    kDebugMode
+        ? debugPrint('locale: $locale, acceptLanguage: $acceptLanguage')
+        : null;
 
     final url = Uri.parse(
         '${AppConstants.osmUrl}?format=json&q=$query&accept-language=$acceptLanguage&limit=30&addressdetails=1&featureType=city');

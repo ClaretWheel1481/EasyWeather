@@ -20,6 +20,7 @@ dependencies:
   geocoding: 
   home_widget:
   url_launcher: 
+  intl: 
   
 dev_dependencies:
   flutter_test:

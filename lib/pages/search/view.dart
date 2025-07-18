@@ -2,7 +2,7 @@ import 'package:zephyr/l10n/generated/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import '../../core/models/city.dart';
-import '../../core/api/city_search_api.dart';
+import '../../core/api/open_street_map_api.dart';
 import 'widgets/search_bar_widget.dart';
 import 'widgets/search_error_widget.dart';
 import 'widgets/search_results_widget.dart';

@@ -15,7 +15,6 @@ class MainActivity : FlutterActivity() {
         private const val METHOD_CHANNEL = "weather_service"
         private const val EVENT_CHANNEL = "weather_service_events"
         
-        // 静态引用，用于全局访问
         private var staticInstance: MainActivity? = null
         
         fun sendWeatherFetchEventStatic() {
@@ -49,10 +48,6 @@ class MainActivity : FlutterActivity() {
                         "stopService" -> {
                             stopWeatherService()
                             result.success(null)
-                        }
-                        "isServiceRunning" -> {
-                            val isRunning = isWeatherServiceRunning()
-                            result.success(isRunning)
                         }
 
                         else -> {
@@ -107,13 +102,6 @@ class MainActivity : FlutterActivity() {
             Log.e(TAG, "停止天气服务失败", e)
         }
     }
-
-    private fun isWeatherServiceRunning(): Boolean {
-        // 这里可以通过检查服务状态来判断是否运行
-        // 简化实现，实际项目中可能需要更复杂的检查
-        return false
-    }
-
     fun sendWeatherFetchEvent() {
         try {
             eventSink?.success("FETCH_WEATHER")
@@ -122,8 +110,6 @@ class MainActivity : FlutterActivity() {
             Log.e(TAG, "发送天气获取事件失败", e)
         }
     }
-
-
 
     override fun onDestroy() {
         super.onDestroy()

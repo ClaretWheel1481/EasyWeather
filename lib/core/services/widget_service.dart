@@ -14,6 +14,7 @@ class WidgetService {
   static const String _widgetDataKey = 'flutter.weather_widget_data';
 
   // 更新小部件数据
+  // TODO: 后台更新时同时更新小部件
   static Future<void> updateWidget({
     required BuildContext context,
     required City city,
