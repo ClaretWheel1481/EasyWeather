@@ -76,5 +76,6 @@
   "ignoreBatteryOptimization": "Ignorar Optimización de Batería",
   "iBODesc": "Permite a Zephyr actualizar los datos meteorológicos en segundo plano",
   "iBODisabled": "Optimización de batería desactivada",
-  "starUs": "Valóranos en GitHub"
+  "starUs": "Valóranos en GitHub",
+  "alert": "Alerta"
 }

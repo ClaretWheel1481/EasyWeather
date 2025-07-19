@@ -521,6 +521,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Star us on GitHub'**
   String get starUs;
+
+  /// No description provided for @alert.
+  ///
+  /// In en, this message translates to:
+  /// **'Alert'**
+  String get alert;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

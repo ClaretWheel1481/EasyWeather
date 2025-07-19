@@ -192,25 +192,31 @@ class _WeatherViewState extends State<WeatherView>
                         top: 12,
                         right: 12,
                         child: Material(
-                          color: Colors.transparent,
-                          child: GestureDetector(
+                          color: colorScheme.error,
+                          borderRadius: BorderRadius.circular(24),
+                          elevation: 3,
+                          shadowColor: colorScheme.error.withValues(alpha: 0.2),
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(24),
                             onTap: _toggleWarning,
                             child: Container(
-                              width: 40,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                color: colorScheme.error,
-                                shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: colorScheme.error
-                                        .withValues(alpha: 0.2),
-                                    blurRadius: 8,
+                              padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                              alignment: Alignment.center,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.error_outline,
+                                      color: colorScheme.onError),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    AppLocalizations.of(context).alert,
+                                    style: textTheme.titleMedium?.copyWith(
+                                      color: colorScheme.onError,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ],
                               ),
-                              child: Icon(Icons.error_outline,
-                                  color: colorScheme.onError, size: 28),
                             ),
                           ),
                         ),

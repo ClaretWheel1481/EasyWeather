@@ -1,7 +1,6 @@
 import 'dart:io';
-
+import 'package:battery_optimization_helper/battery_optimization_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:disable_battery_optimizations_latest/disable_battery_optimizations_latest.dart';
 import 'package:zephyr/core/utils/notification_utils.dart';
 import 'package:zephyr/l10n/generated/app_localizations.dart';
 
@@ -16,11 +15,10 @@ class IgnoreBatteryOptimizationWidget extends StatelessWidget {
   Future<void> _requestIgnoreBatteryOptimization(BuildContext context) async {
     if (Platform.isAndroid) {
       try {
-        final isDisabled = await DisableBatteryOptimizationLatest
-            .isBatteryOptimizationDisabled;
-        if (isDisabled == false) {
-          await DisableBatteryOptimizationLatest
-              .showDisableBatteryOptimizationSettings();
+        bool isEnabled =
+            await BatteryOptimizationHelper.isBatteryOptimizationEnabled();
+        if (isEnabled) {
+          await BatteryOptimizationHelper.openBatteryOptimizationSettings();
         } else {
           NotificationUtils.showSnackBar(
             context,

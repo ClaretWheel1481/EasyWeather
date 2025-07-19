@@ -76,5 +76,6 @@
   "ignoreBatteryOptimization": "忽略电池优化",
   "iBODesc": "使Zephyr在后台可自动更新天气",
   "iBODisabled": "电池优化已经关闭",
-  "starUs" : "给我们点个Star"
+  "starUs" : "给我们点个Star",
+  "alert" : "预警"
 }

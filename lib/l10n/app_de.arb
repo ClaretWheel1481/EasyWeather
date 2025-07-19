@@ -76,5 +76,6 @@
   "ignoreBatteryOptimization": "Batterieoptimierung ignorieren",
   "iBODesc": "Ermöglicht Zephyr die automatische Wetteraktualisierung im Hintergrund",
   "iBODisabled": "Batterieoptimierung ist bereits deaktiviert",
-  "starUs": "Bewerten Sie uns"
+  "starUs": "Einen Stern auf GitHub",
+  "alert": "Alarmieren"
 }

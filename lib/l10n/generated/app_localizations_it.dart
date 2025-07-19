@@ -219,4 +219,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get starUs => 'Dateci una stella';
+
+  @override
+  String get alert => 'Allarme';
 }

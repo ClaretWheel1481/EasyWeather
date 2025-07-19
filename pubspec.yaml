@@ -21,7 +21,7 @@ dependencies:
   home_widget:
   url_launcher: 
   intl: 
-  disable_battery_optimizations_latest: ^1.0.0
+  battery_optimization_helper: 
   
 dev_dependencies:
   flutter_test:

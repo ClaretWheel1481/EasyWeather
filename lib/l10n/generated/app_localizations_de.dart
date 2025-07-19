@@ -218,5 +218,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get iBODisabled => 'Batterieoptimierung ist bereits deaktiviert';
 
   @override
-  String get starUs => 'Bewerten Sie uns';
+  String get starUs => 'Einen Stern auf GitHub';
+
+  @override
+  String get alert => 'Alarmieren';
 }

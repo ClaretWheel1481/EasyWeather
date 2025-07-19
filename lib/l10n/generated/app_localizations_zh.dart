@@ -219,6 +219,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get starUs => '给我们点个Star';
+
+  @override
+  String get alert => '预警';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
@@ -436,4 +439,7 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get starUs => '給我们點個Star';
+
+  @override
+  String get alert => '預警';
 }

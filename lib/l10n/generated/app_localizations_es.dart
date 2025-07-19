@@ -219,4 +219,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get starUs => 'Valóranos en GitHub';
+
+  @override
+  String get alert => 'Alerta';
 }

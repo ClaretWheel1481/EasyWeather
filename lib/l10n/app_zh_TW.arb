@@ -76,5 +76,6 @@
   "ignoreBatteryOptimization": "忽略電池優化",
   "iBODesc": "允許 Zephyr 在後台自動更新天氣數據",
   "iBODisabled": "電池優化已禁用",
-  "starUs": "給我们點個Star"
+  "starUs": "給我们點個Star",
+  "alert" : "預警"
 }
