@@ -1,7 +1,7 @@
 [English](README.md) | 简体中文
 
 <p align="center">
-  <a href="https://github.com/ClaretWheel1481/Zephyr">
+  <a href="https://github.com/LanceHuang245/Zephyr">
     <img src="./public/zephyr.png" height="200"/>
   </a>
 </p>
