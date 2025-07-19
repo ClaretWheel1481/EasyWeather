@@ -1,6 +1,6 @@
 class AppConstants {
   static const String appName = 'Zephyr';
-  static const String appVersion = 'v2.0.2';
+  static const String appVersion = 'v2.1.0';
   static const String appDescription =
       'Simple and fast real-time weather forecast software.';
   static const String appUrl = 'https://github.com/LanceHuang245/Zephyr';
