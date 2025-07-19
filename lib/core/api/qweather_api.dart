@@ -4,8 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import '../models/weather_warning.dart';
 import '../notifiers.dart';
-import '../../app.dart';
 import '../utils/locale_language_map.dart';
+import '../languages.dart';
 
 class QWeatherApi {
   // 获取天气预警信息
@@ -15,8 +15,8 @@ class QWeatherApi {
   }) async {
     // 获取当前locale并映射为QWeather支持的lang
     String qweatherLang = 'en';
-    final locale = supportedLocales[localeIndexNotifier.value];
-    final localeKey = locale.toString();
+    final localeKey =
+        appLanguages.firstWhere((l) => l.code == localeCodeNotifier.value).code;
     qweatherLang = localeToApiLang[localeKey] ?? 'en';
     final url = Uri.parse(
       '${AppConstants.qWeatherWarningUrl}?location=$lon,$lat&lang=$qweatherLang',

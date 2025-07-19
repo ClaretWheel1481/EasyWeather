@@ -6,15 +6,11 @@ import 'core/notifiers.dart';
 import 'pages/home/view.dart';
 import 'pages/search/view.dart';
 import 'pages/settings/view.dart';
+import 'core/languages.dart';
 
 // 支持的语言列表
-final List<Locale> supportedLocales = [
-  const Locale('en', 'US'),
-  const Locale('es', 'ES'),
-  const Locale('it', 'IT'),
-  const Locale('zh', 'CN'),
-  const Locale('zh', 'TW'),
-];
+final List<Locale> supportedLocales =
+    appLanguages.map((e) => e.locale).toList();
 
 class ZephyrApp extends StatefulWidget {
   const ZephyrApp({super.key});
@@ -32,11 +28,11 @@ class _ZephyrAppState extends State<ZephyrApp> {
         return ValueListenableBuilder<bool>(
           valueListenable: dynamicColorEnabledNotifier,
           builder: (context, dynamicColorEnabled, __) {
-            return ValueListenableBuilder<int>(
-              valueListenable: localeIndexNotifier,
-              builder: (context, localeIndex, _) {
-                final locale = supportedLocales[
-                    localeIndex.clamp(0, supportedLocales.length - 1)];
+            return ValueListenableBuilder<String>(
+              valueListenable: localeCodeNotifier,
+              builder: (context, localeCode, __) {
+                final locale =
+                    appLanguages.firstWhere((l) => l.code == localeCode).locale;
                 if (dynamicColorEnabled) {
                   return DynamicColorBuilder(
                     builder:
@@ -51,6 +47,14 @@ class _ZephyrAppState extends State<ZephyrApp> {
                           colorScheme: lightDynamic ??
                               ColorScheme.fromSeed(seedColor: Colors.blue),
                           useMaterial3: true,
+                          pageTransitionsTheme: const PageTransitionsTheme(
+                            builders: {
+                              TargetPlatform.android:
+                                  CupertinoPageTransitionsBuilder(),
+                              TargetPlatform.iOS:
+                                  CupertinoPageTransitionsBuilder(),
+                            },
+                          ),
                         ),
                         darkTheme: ThemeData(
                           colorScheme: darkDynamic ??
@@ -58,6 +62,14 @@ class _ZephyrAppState extends State<ZephyrApp> {
                                   seedColor: Colors.blue,
                                   brightness: Brightness.dark),
                           useMaterial3: true,
+                          pageTransitionsTheme: const PageTransitionsTheme(
+                            builders: {
+                              TargetPlatform.android:
+                                  CupertinoPageTransitionsBuilder(),
+                              TargetPlatform.iOS:
+                                  CupertinoPageTransitionsBuilder(),
+                            },
+                          ),
                         ),
                         themeMode: mode,
                         home: const HomePage(),
@@ -78,11 +90,25 @@ class _ZephyrAppState extends State<ZephyrApp> {
                     theme: ThemeData(
                       colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
                       useMaterial3: true,
+                      pageTransitionsTheme: const PageTransitionsTheme(
+                        builders: {
+                          TargetPlatform.android:
+                              CupertinoPageTransitionsBuilder(),
+                          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+                        },
+                      ),
                     ),
                     darkTheme: ThemeData(
                       colorScheme: ColorScheme.fromSeed(
                           seedColor: Colors.blue, brightness: Brightness.dark),
                       useMaterial3: true,
+                      pageTransitionsTheme: const PageTransitionsTheme(
+                        builders: {
+                          TargetPlatform.android:
+                              CupertinoPageTransitionsBuilder(),
+                          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+                        },
+                      ),
                     ),
                     themeMode: mode,
                     home: const HomePage(),

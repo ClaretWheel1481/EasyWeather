@@ -2,15 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'notifiers.dart';
 import 'package:flutter/material.dart';
-
-const Map<String, int> _systemLocaleToAppLocaleIndex = {
-  'en': 0,
-  'es': 1,
-  'it': 2,
-  'zh': 3,
-  'zh_CN': 3,
-  'zh_TW': 4,
-};
+import 'languages.dart';
 
 Future<void> initAppSettings() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,19 +17,19 @@ Future<void> initAppSettings() async {
     debugPrint('systemLocale: $systemLocale');
   }
 
-  if (prefs.containsKey('locale_index')) {
+  if (prefs.containsKey('locale_code')) {
     // 用户已手动设置过语言
-    localeIndexNotifier.value = prefs.getInt('locale_index') ?? 0;
+    localeCodeNotifier.value = prefs.getString('locale_code') ?? 'en';
   } else {
     // 根据系统语言自动设置默认语言
     final localeString = systemLocale.toString();
     final languageCode = systemLocale.languageCode;
 
     // 优先使用完整locale字符串匹配，然后回退到语言代码匹配
-    final localeIndex = _systemLocaleToAppLocaleIndex[localeString] ??
-        _systemLocaleToAppLocaleIndex[languageCode] ??
-        0; // 默认英文
-
-    localeIndexNotifier.value = localeIndex;
+    final matched = appLanguages.firstWhere(
+      (l) => l.code == localeString || l.code == languageCode,
+      orElse: () => appLanguages.firstWhere((l) => l.code == 'en'),
+    );
+    localeCodeNotifier.value = matched.code;
   }
 }

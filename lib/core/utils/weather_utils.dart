@@ -59,26 +59,26 @@ String weatherDesc(int? code) {
 }
 
 // 仅中英文的天气描述
-String getWeatherDescForWidget(int code, int lang) {
+String getWeatherDescForWidget(int code, String lang) {
   final descKey = weatherDesc(code);
 
   switch (descKey) {
     case 'weatherUnknown':
-      return lang == 3 ? '未知' : 'Unknown';
+      return lang == 'zh_CN' ? '未知' : 'Unknown';
     case 'weatherClear':
-      return lang == 3 ? '晴天' : 'Clear';
+      return lang == 'zh_CN' ? '晴天' : 'Clear';
     case 'weatherCloudy':
-      return lang == 3 ? '多云' : 'Cloudy';
+      return lang == 'zh_CN' ? '多云' : 'Cloudy';
     case 'weatherFoggy':
-      return lang == 3 ? '雾' : 'Foggy';
+      return lang == 'zh_CN' ? '雾' : 'Foggy';
     case 'weatherRainy':
-      return lang == 3 ? '雨' : 'Rainy';
+      return lang == 'zh_CN' ? '雨' : 'Rainy';
     case 'weatherSnowy':
-      return lang == 3 ? '雪' : 'Snowy';
+      return lang == 'zh_CN' ? '雪' : 'Snowy';
     case 'weatherThunderstorm':
-      return lang == 3 ? '雷暴' : 'Thunderstorm';
+      return lang == 'zh_CN' ? '雷暴' : 'Thunderstorm';
     default:
-      return lang == 3 ? '未知' : 'Unknown';
+      return lang == 'zh_CN' ? '未知' : 'Unknown';
   }
 }
 

@@ -36,7 +36,8 @@
 2. 您需要复制一份`app_en.arb`后修改文件名称为您所想翻译的语言，例如`app_fr.arb`
 3. 完善语言文件的翻译
 4. (必须)在终端中在项目根目录中执行`flutter gen-l10n`，检查终端输出是否有未翻译的字段（若有则可查看`untranslated.json`，然后进行修改）
-5. 推送你的代码并提交 [Pull Request](https://github.com/ClaretWheel1481/Zephyr/pulls)
+5. (必须)在lib/core/languages.dart中按照格式添加语言
+6. 推送你的代码并提交 [Pull Request](https://github.com/ClaretWheel1481/Zephyr/pulls)
 
 ## 截图
 <table>

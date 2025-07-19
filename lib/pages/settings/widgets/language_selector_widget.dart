@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../../core/notifiers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../core/languages.dart';
 
 class LanguageSelectorWidget extends StatefulWidget {
   const LanguageSelectorWidget({super.key});
@@ -14,13 +15,8 @@ class LanguageSelectorWidget extends StatefulWidget {
 class _LanguageSelectorWidgetState extends State<LanguageSelectorWidget> {
   bool _expanded = false;
 
-  final List<String> supportedLanguageNames = [
-    'English',
-    'Español',
-    'Italiano',
-    '简体中文',
-    '繁體中文',
-  ];
+  final List<String> supportedLanguageNames =
+      appLanguages.map((e) => e.name).toList();
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +24,11 @@ class _LanguageSelectorWidgetState extends State<LanguageSelectorWidget> {
     final colorScheme = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context);
 
-    return ValueListenableBuilder<int>(
-      valueListenable: localeIndexNotifier,
-      builder: (context, currentIndex, _) {
+    return ValueListenableBuilder<String>(
+      valueListenable: localeCodeNotifier,
+      builder: (context, localeCode, _) {
+        final currentIndex =
+            appLanguages.indexWhere((l) => l.code == localeCode);
         return Container(
           decoration: BoxDecoration(
             color: colorScheme.surface,
@@ -91,10 +89,12 @@ class _LanguageSelectorWidgetState extends State<LanguageSelectorWidget> {
                                       : null,
                                   onTap: () async {
                                     if (!isSelected) {
-                                      localeIndexNotifier.value = index;
+                                      localeCodeNotifier.value =
+                                          appLanguages[index].code;
                                       final prefs =
                                           await SharedPreferences.getInstance();
-                                      await prefs.setInt('locale_index', index);
+                                      await prefs.setString('locale_code',
+                                          appLanguages[index].code);
                                     }
                                   },
                                 ));

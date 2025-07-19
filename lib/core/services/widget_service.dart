@@ -30,7 +30,7 @@ class WidgetService {
       final current = weatherData.current!;
 
       // 获取当前语言设置（限定中文和英文）
-      final lang = localeIndexNotifier.value;
+      final lang = localeCodeNotifier.value;
       kDebugMode ? debugPrint('Language: $lang') : null;
       final weatherDesc = getWeatherDescForWidget(current.weatherCode, lang);
 

@@ -4,15 +4,18 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import '../models/city.dart';
 import '../notifiers.dart';
-import '../../app.dart';
 import '../utils/locale_language_map.dart';
+import '../languages.dart';
 
 class CitySearchApi {
   static Future<List<City>> searchCity(String query) async {
     // 根据当前语言设置API请求的语言参数
     String acceptLanguage = 'en-US';
-    final locale = supportedLocales[localeIndexNotifier.value];
-    final localeKey = locale.toString();
+    final locale = appLanguages
+        .firstWhere((l) => l.code == localeCodeNotifier.value)
+        .locale;
+    final localeKey =
+        appLanguages.firstWhere((l) => l.code == localeCodeNotifier.value).code;
     acceptLanguage = localeToApiLang[localeKey] ?? 'en-US';
     kDebugMode
         ? debugPrint('locale: $locale, acceptLanguage: $acceptLanguage')

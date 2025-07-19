@@ -36,7 +36,8 @@ We welcome community users to contribute! Feel free to fork this repository, sub
 2. You need to make a copy of `app_en.arb` and change the name of the file to the language you want to translate, e.g. `app_fr.arb`.
 3. Complete the translation of the language file
 4. (Mandatory) run `flutter gen-l10n` in the project root directory in a terminal and check if there are any untranslated fields in the terminal output (if there are then check `untranslated.json` and change it)
-5. Push your code and commit [Pull Request](https://github.com/ClaretWheel1481/Zephyr/pulls)
+5. (Mandatory) add language in lib/core/languages.dart in the format
+6. Push your code and commit [Pull Request](https://github.com/ClaretWheel1481/Zephyr/pulls)
 
 ## Screenshots
 <table>
