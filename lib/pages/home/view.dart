@@ -93,8 +93,7 @@ class _HomePageState extends State<HomePage> {
       final mainCity = cities.first;
       final weather = weatherMap[mainCity.cacheKey];
       if (weather != null) {
-        await WidgetService.updateWidget(
-            context: context, city: mainCity, weatherData: weather);
+        await WidgetService.updateWidget(city: mainCity, weatherData: weather);
       }
     }
   }
@@ -135,8 +134,7 @@ class _HomePageState extends State<HomePage> {
       if (cities.isNotEmpty &&
           cities.first.lat == city.lat &&
           cities.first.lon == city.lon) {
-        await WidgetService.updateWidget(
-            context: context, city: city, weatherData: data);
+        await WidgetService.updateWidget(city: city, weatherData: data);
       }
     }
     if (!mounted) return;

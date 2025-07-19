@@ -209,5 +209,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addHomeWidget => 'Add Desktop Widget';
 
   @override
+  String get ignoreBatteryOptimization => 'Ignore Battery Optimization';
+
+  @override
+  String get iBODesc => 'Allows Zephyr to update weather data in the background';
+
+  @override
+  String get iBODisabled => 'Battery Optimization is disabled';
+
+  @override
   String get starUs => 'Star us on GitHub';
 }

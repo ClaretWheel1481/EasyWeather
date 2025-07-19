@@ -28,7 +28,6 @@ class WeatherWidgetProvider : AppWidgetProvider() {
                 var weatherDesc = "--"
                 var temperature = "--"
                 var weatherCode = 0
-                var tempUnit = "C" // 默认摄氏度
                 
                 if (widgetDataStr != null && widgetDataStr.isNotEmpty()) {
                     try {
@@ -37,7 +36,6 @@ class WeatherWidgetProvider : AppWidgetProvider() {
                         weatherDesc = widgetData.optString("weather_desc", "--")
                         temperature = widgetData.optString("temperature", "--")
                         weatherCode = widgetData.optInt("weather_code", 0)
-                        tempUnit = widgetData.optString("temp_unit", "C")
                     } catch (e: Exception) {
                         Log.e(TAG, "Error parsing widget data: $e")
                     }

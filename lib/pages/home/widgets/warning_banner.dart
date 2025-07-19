@@ -22,23 +22,24 @@ class WarningBanner extends StatefulWidget {
   State<WarningBanner> createState() => _WarningBannerState();
 }
 
-class _WarningBannerState extends State<WarningBanner> {
+class _WarningBannerState extends State<WarningBanner>
+    with TickerProviderStateMixin {
   int _currentWarningIndex = 0;
 
   void _showPrevWarning() {
-    setState(() {
-      if (_currentWarningIndex > 0) {
+    if (_currentWarningIndex > 0) {
+      setState(() {
         _currentWarningIndex--;
-      }
-    });
+      });
+    }
   }
 
   void _showNextWarning() {
-    setState(() {
-      if (_currentWarningIndex < widget.warnings.length - 1) {
+    if (_currentWarningIndex < widget.warnings.length - 1) {
+      setState(() {
         _currentWarningIndex++;
-      }
-    });
+      });
+    }
   }
 
   String formatPubTime(String pubTime) {
@@ -53,11 +54,9 @@ class _WarningBannerState extends State<WarningBanner> {
   @override
   void didUpdateWidget(covariant WarningBanner oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // 如果重新显示，重置索引
     if (widget.show && !oldWidget.show) {
       _currentWarningIndex = 0;
     }
-    // 如果预警数量变化，重置索引
     if (widget.warnings.length != oldWidget.warnings.length) {
       _currentWarningIndex = 0;
     }
@@ -67,8 +66,11 @@ class _WarningBannerState extends State<WarningBanner> {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+
     if (!widget.show || widget.warnings.isEmpty) return const SizedBox.shrink();
+
     final warning = widget.warnings[_currentWarningIndex];
+
     return Positioned(
       top: 0,
       left: 0,
@@ -78,90 +80,154 @@ class _WarningBannerState extends State<WarningBanner> {
         child: FadeTransition(
           opacity: widget.fadeAnimation,
           child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Material(
-              elevation: 3,
-              borderRadius: BorderRadius.circular(28),
-              color: colorScheme.surface,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 16, top: 2),
-                          child: Icon(Icons.warning_amber_rounded,
-                              color: colorScheme.onSurfaceVariant, size: 36),
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+            child: Card(
+              elevation: 0,
+              margin: EdgeInsets.zero,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(28),
+                side: BorderSide(
+                  color: colorScheme.outline.withValues(alpha: 0.12),
+                  width: 1,
+                ),
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(28),
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      colorScheme.errorContainer.withValues(alpha: 0.08),
+                      colorScheme.errorContainer.withValues(alpha: 0.04),
+                    ],
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: colorScheme.errorContainer,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Icon(
+                              Icons.warning_amber_rounded,
+                              color: colorScheme.onErrorContainer,
+                              size: 24,
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  warning.title,
+                                  style: textTheme.titleMedium?.copyWith(
+                                    color: colorScheme.onSurface,
+                                    fontWeight: FontWeight.w600,
+                                    height: 1.3,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  warning.text,
+                                  style: textTheme.bodySmall?.copyWith(
+                                    color: colorScheme.onSurfaceVariant,
+                                    height: 1.4,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Icon(
+                                      Icons.access_time_rounded,
+                                      size: 14,
+                                      color: colorScheme.onSurfaceVariant
+                                          .withValues(alpha: 0.6),
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Expanded(
+                                      child: Text(
+                                        '${warning.sender} • ${formatPubTime(warning.pubTime)}',
+                                        style: textTheme.bodySmall?.copyWith(
+                                          color: colorScheme.onSurfaceVariant
+                                              .withValues(alpha: 0.6),
+                                        ),
+                                        softWrap: true,
+                                        overflow: TextOverflow.visible,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          if (widget.warnings.length > 1)
+                            Text(
+                              '${_currentWarningIndex + 1} / ${widget.warnings.length}',
+                              style: textTheme.bodySmall?.copyWith(
+                                color: colorScheme.onSurfaceVariant
+                                    .withValues(alpha: 0.6),
+                              ),
+                            )
+                          else
+                            const SizedBox.shrink(),
+                          Row(
                             children: [
-                              Text(
-                                warning.title,
-                                style: textTheme.titleMedium?.copyWith(
-                                  color: colorScheme.onSurfaceVariant,
-                                  fontWeight: FontWeight.bold,
+                              if (widget.warnings.length > 1) ...[
+                                IconButton(
+                                  onPressed: _currentWarningIndex > 0
+                                      ? _showPrevWarning
+                                      : null,
+                                  icon: const Icon(Icons.chevron_left),
+                                  style: IconButton.styleFrom(
+                                    foregroundColor:
+                                        colorScheme.onSurfaceVariant,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                warning.text,
-                                style: textTheme.bodyMedium?.copyWith(
-                                  color: colorScheme.onSurfaceVariant,
+                                const SizedBox(width: 8),
+                                IconButton(
+                                  onPressed: _currentWarningIndex <
+                                          widget.warnings.length - 1
+                                      ? _showNextWarning
+                                      : null,
+                                  icon: const Icon(Icons.chevron_right),
+                                  style: IconButton.styleFrom(
+                                    foregroundColor:
+                                        colorScheme.onSurfaceVariant,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: 2),
-                              Text(
-                                '${warning.sender}  ${formatPubTime(warning.pubTime)}',
-                                style: textTheme.bodySmall?.copyWith(
-                                  color: colorScheme.onSurfaceVariant
-                                      .withValues(alpha: 0.7),
+                                const SizedBox(width: 8),
+                              ],
+                              IconButton(
+                                onPressed: widget.onClose,
+                                icon: const Icon(Icons.close),
+                                style: IconButton.styleFrom(
+                                  foregroundColor: colorScheme.onSurfaceVariant,
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                      ],
-                    ),
-                    // 按钮单独一行，底部居中
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          if (widget.warnings.length > 1)
-                            IconButton(
-                              icon: const Icon(Icons.chevron_left),
-                              onPressed: _currentWarningIndex > 0
-                                  ? _showPrevWarning
-                                  : null,
-                              tooltip: '上一条',
-                            ),
-                          if (widget.warnings.length > 1)
-                            IconButton(
-                              icon: const Icon(Icons.chevron_right),
-                              onPressed: _currentWarningIndex <
-                                      widget.warnings.length - 1
-                                  ? _showNextWarning
-                                  : null,
-                              tooltip: '下一条',
-                            ),
-                          IconButton(
-                            icon: Icon(Icons.close,
-                                color: colorScheme.onSurfaceVariant),
-                            onPressed: widget.onClose,
-                            tooltip: '关闭',
-                          ),
                         ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

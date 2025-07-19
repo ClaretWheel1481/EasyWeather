@@ -73,5 +73,8 @@
   "airQualityVeryUnhealthy": "极差",
   "airQualityHazardous": "危险",
   "addHomeWidget": "添加桌面小部件",
+  "ignoreBatteryOptimization": "忽略电池优化",
+  "iBODesc": "使Zephyr在后台可自动更新天气",
+  "iBODisabled": "电池优化已经关闭",
   "starUs" : "给我们点个Star"
 }

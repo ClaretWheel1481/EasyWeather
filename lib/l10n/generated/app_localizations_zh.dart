@@ -209,6 +209,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get addHomeWidget => '添加桌面小部件';
 
   @override
+  String get ignoreBatteryOptimization => '忽略电池优化';
+
+  @override
+  String get iBODesc => '使Zephyr在后台可自动更新天气';
+
+  @override
+  String get iBODisabled => '电池优化已经关闭';
+
+  @override
   String get starUs => '给我们点个Star';
 }
 
@@ -415,6 +424,15 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get addHomeWidget => '添加小部件至桌面';
+
+  @override
+  String get ignoreBatteryOptimization => '忽略電池優化';
+
+  @override
+  String get iBODesc => '允許 Zephyr 在後台自動更新天氣數據';
+
+  @override
+  String get iBODisabled => '電池優化已禁用';
 
   @override
   String get starUs => '給我们點個Star';

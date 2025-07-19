@@ -1,0 +1,105 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:disable_battery_optimizations_latest/disable_battery_optimizations_latest.dart';
+import 'package:zephyr/core/utils/notification_utils.dart';
+import 'package:zephyr/l10n/generated/app_localizations.dart';
+
+class IgnoreBatteryOptimizationWidget extends StatelessWidget {
+  final BuildContext? context;
+
+  const IgnoreBatteryOptimizationWidget({
+    super.key,
+    this.context,
+  });
+
+  Future<void> _requestIgnoreBatteryOptimization(BuildContext context) async {
+    if (Platform.isAndroid) {
+      try {
+        final isDisabled = await DisableBatteryOptimizationLatest
+            .isBatteryOptimizationDisabled;
+        if (isDisabled == false) {
+          await DisableBatteryOptimizationLatest
+              .showDisableBatteryOptimizationSettings();
+        } else {
+          NotificationUtils.showSnackBar(
+            context,
+            AppLocalizations.of(context).iBODisabled,
+          );
+        }
+      } catch (e) {
+        // 处理错误
+        debugPrint('Error requesting battery optimization: $e');
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext buildContext) {
+    final context = this.context ?? buildContext;
+    final textTheme = Theme.of(context).textTheme;
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(24),
+          onTap: Platform.isIOS
+              ? null
+              : () => _requestIgnoreBatteryOptimization(context),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(Icons.battery_saver,
+                    color: Platform.isIOS
+                        ? Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withValues(alpha: 0.38)
+                        : Theme.of(context).colorScheme.primary),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                          AppLocalizations.of(context)
+                              .ignoreBatteryOptimization,
+                          style: textTheme.titleMedium?.copyWith(
+                              color: Platform.isIOS
+                                  ? Theme.of(context)
+                                      .colorScheme
+                                      .onSurface
+                                      .withValues(alpha: 0.38)
+                                  : null)),
+                      const SizedBox(height: 4),
+                      Text(AppLocalizations.of(context).iBODesc,
+                          style: textTheme.bodySmall?.copyWith(
+                              color: Platform.isIOS
+                                  ? Theme.of(context)
+                                      .colorScheme
+                                      .onSurface
+                                      .withValues(alpha: 0.6)
+                                  : Theme.of(context)
+                                      .colorScheme
+                                      .onSurface
+                                      .withValues(alpha: 0.6)),
+                          maxLines: null,
+                          softWrap: true),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

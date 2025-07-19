@@ -1,4 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zephyr/core/services/widget_service.dart';
 import '../models/city.dart';
 import '../api/open_meteo_api.dart';
 import 'weather_cache.dart';
@@ -72,6 +73,7 @@ class WeatherFetchService {
       if (weather != null) {
         await cacheWeather(mainCity, weather);
         if (kDebugMode) print('天气数据获取并缓存成功');
+        WidgetService.updateWidget(city: mainCity, weatherData: weather);
       } else {
         if (kDebugMode) print('天气数据获取失败');
       }

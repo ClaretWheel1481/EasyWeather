@@ -496,6 +496,24 @@ abstract class AppLocalizations {
   /// **'Add Desktop Widget'**
   String get addHomeWidget;
 
+  /// No description provided for @ignoreBatteryOptimization.
+  ///
+  /// In en, this message translates to:
+  /// **'Ignore Battery Optimization'**
+  String get ignoreBatteryOptimization;
+
+  /// No description provided for @iBODesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Allows Zephyr to update weather data in the background'**
+  String get iBODesc;
+
+  /// No description provided for @iBODisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery Optimization is disabled'**
+  String get iBODisabled;
+
   /// No description provided for @starUs.
   ///
   /// In en, this message translates to:

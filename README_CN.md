@@ -9,12 +9,15 @@
 # Zephyr
 
 一款简洁美观的天气应用，基于 Flutter 开发，数据来源于 OpenMeteo API，搜索功能由 OpenStreetMap API 提供。
-
+> **注意**
+> 
+> 本项目仅供学习交流使用，请勿用于商业用途。且每个API接口都有一定用量限制，请勿滥用。
 ---
 ## 功能特性
 - 实时天气查询：支持多城市天气信息获取
 - 城市管理：可添加、删除、设为默认
 - 7天天气预报：未来一周天气趋势一目了然
+- 天气预警：实时天气预警信息
 - 多样天气图标与动态背景
 - 主题设置：支持Monet取色
 - 温度单位切换（℃/℉）
@@ -40,11 +43,13 @@
   <tr>
     <td><img src="./public/sample_main_light.png" width="200"/></td>
     <td><img src="./public/sample_main2_light.png" width="200"/></td>
+    <td><img src="./public/sample_main_alert_light.png" width="200"/></td>
     <td><img src="./public/sample_settings_light.png" width="200"/></td>
   </tr>
   <tr>
     <td><img src="./public/sample_main_dark.png" width="200"/></td>
     <td><img src="./public/sample_main2_dark.png" width="200"/></td>
+    <td><img src="./public/sample_main_alert_dark.png" width="200"/></td>
     <td><img src="./public/sample_settings_dark.png" width="200"/></td>
   </tr>
 </table>
@@ -70,6 +75,9 @@
 - [geolocator](https://pub.dev/packages/geolocator) - 定位服务
 - [geocoding](https://pub.dev/packages/geocoding) - 地址地理编码
 - [flutter_localizations](https://flutter.dev/docs/development/accessibility-and-localization/internationalization) - 国际化支持
+- [home_widget](https://pub.dev/packages/home_widget) - 桌面小部件
+- [url_launcher](https://pub.dev/packages/url_launcher) - 跳转至网页服务
+- [disable_battery_optimizations_latest](https://pub.dev/packages/disable_battery_optimizations_latest) - 忽略电池优化
 
 ## 许可
 [MIT License](LICENSE) © Huang LinXing

@@ -73,5 +73,8 @@
   "airQualityVeryUnhealthy": "Molto Scarsa",
   "airQualityHazardous": "Pericolosa",
   "addHomeWidget": "Aggiungi widget per il desktop",
+  "ignoreBatteryOptimization": "Ignora Ottimizzazione Batteria",
+  "iBODesc": "Permette a Zephyr di aggiornare i dati meteo in background",
+  "iBODisabled": "Ottimizzazione della batteria disattivata",
   "starUs" : "Dateci una stella"
 } 

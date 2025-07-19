@@ -14,9 +14,7 @@ class WidgetService {
   static const String _widgetDataKey = 'flutter.weather_widget_data';
 
   // 更新小部件数据
-  // TODO: 后台更新时同时更新小部件
   static Future<void> updateWidget({
-    required BuildContext context,
     required City city,
     WeatherData? weatherData,
   }) async {
@@ -24,7 +22,6 @@ class WidgetService {
       if (weatherData == null) {
         weatherData = await loadCachedWeather(city);
         if (weatherData == null) {
-          await _showNoDataWidget(context, city);
           return;
         }
       }
@@ -33,8 +30,10 @@ class WidgetService {
 
       final current = weatherData.current!;
 
-      // 获取当前语言设置
-      final weatherDesc = getLocalizedWeatherDesc(context, current.weatherCode);
+      // TODO: 获取当前语言设置（限定中文和英文）
+      final lang = localeIndexNotifier.value;
+      kDebugMode ? debugPrint('Language: $lang') : null;
+      final weatherDesc = getWeatherDescForWidget(current.weatherCode, lang);
 
       // 根据温度单位格式化温度显示
       final tempUnit = tempUnitNotifier.value;

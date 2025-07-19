@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zephyr/pages/settings/widgets/request_homewidget_widget.dart';
+import 'package:zephyr/pages/settings/widgets/ignore_battery_optimization_widget.dart';
 import '../../core/models/city.dart';
 import '../../core/notifiers.dart';
 import '../../l10n/generated/app_localizations.dart';
@@ -212,6 +213,8 @@ class _SettingsPageState extends State<SettingsPage> {
             const LanguageSelectorWidget(),
             const SizedBox(height: 16),
             const RequestHomewidgetWidget(),
+            const SizedBox(height: 16),
+            const IgnoreBatteryOptimizationWidget(),
             const SizedBox(height: 16),
             // 关于
             const AboutAppWidget(),

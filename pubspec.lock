@@ -65,6 +65,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.7.11"
+  disable_battery_optimizations_latest:
+    dependency: "direct main"
+    description:
+      name: disable_battery_optimizations_latest
+      sha256: "49b95d0c083ee96c310ab848a6de4cebec59e60775e6911d43300a7c42ecc14c"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.0"
   dynamic_color:
     dependency: "direct main"
     description:
@@ -161,10 +169,10 @@ packages:
     dependency: transitive
     description:
       name: geocoding_ios
-      sha256: "43bde988312feb1a3cb6c3d514e9f4b04b564d1884fa56bd8241030bbb3bde36"
+      sha256: "18ab1c8369e2b0dcb3a8ccc907319334f35ee8cf4cfef4d9c8e23b13c65cb825"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.0.2"
+    version: "3.1.0"
   geocoding_platform_interface:
     dependency: transitive
     description:

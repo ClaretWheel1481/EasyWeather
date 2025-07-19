@@ -9,12 +9,15 @@ English | [简体中文](README_CN.md)
 # Zephyr
 
 A simple and beautiful weather app built with Flutter, powered by the OpenMeteo API and the search functionality is provided by the OpenStreetMap API.
-
+> **Note** 
+> 
+> This project is only for learning and communication use, please do not use for commercial purposes. And each API has a certain dosage limit, please do not abuse.
 ---
 ## Features
 - Real-time weather query for multiple cities
 - City management: add, delete, set default
 - 7-day weather forecast
+- Weather warnings
 - Dynamic weather icons and backgrounds
 - Theme settings with dynamic color support
 - Temperature unit switch (°C/°F)
@@ -40,11 +43,13 @@ We welcome community users to contribute! Feel free to fork this repository, sub
   <tr>
     <td><img src="./public/sample_main_light.png" width="200"/></td>
     <td><img src="./public/sample_main2_light.png" width="200"/></td>
+    <td><img src="./public/sample_main_alert_light.png" width="200"/></td>
     <td><img src="./public/sample_settings_light.png" width="200"/></td>
   </tr>
   <tr>
     <td><img src="./public/sample_main_dark.png" width="200"/></td>
     <td><img src="./public/sample_main2_dark.png" width="200"/></td>
+    <td><img src="./public/sample_main_alert_dark.png" width="200"/></td>
     <td><img src="./public/sample_settings_dark.png" width="200"/></td>
   </tr>
 </table>
@@ -70,6 +75,9 @@ This project is built with the help of these amazing open-source projects and AP
 - [geolocator](https://pub.dev/packages/geolocator) - Location services
 - [geocoding](https://pub.dev/packages/geocoding) - Address geocoding
 - [flutter_localizations](https://flutter.dev/docs/development/accessibility-and-localization/internationalization) - Internationalization
+- [home_widget](https://pub.dev/packages/home_widget) - Home widget
+- [url_launcher](https://pub.dev/packages/url_launcher) - Open in browser
+- [disable_battery_optimizations_latest](https://pub.dev/packages/disable_battery_optimizations_latest) - Ignore battery optimization
 
 ## License
 [MIT License](LICENSE) © Huang LinXing
