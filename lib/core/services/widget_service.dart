@@ -6,8 +6,6 @@ import '../models/weather.dart';
 import '../models/city.dart';
 import '../notifiers.dart';
 import 'weather_cache.dart';
-import 'package:flutter/widgets.dart';
-import 'package:zephyr/l10n/generated/app_localizations.dart';
 import '../utils/weather_utils.dart';
 
 class WidgetService {
@@ -22,6 +20,7 @@ class WidgetService {
       if (weatherData == null) {
         weatherData = await loadCachedWeather(city);
         if (weatherData == null) {
+          await _showNoDataWidget(city);
           return;
         }
       }
@@ -30,7 +29,7 @@ class WidgetService {
 
       final current = weatherData.current!;
 
-      // TODO: 获取当前语言设置（限定中文和英文）
+      // 获取当前语言设置（限定中文和英文）
       final lang = localeIndexNotifier.value;
       kDebugMode ? debugPrint('Language: $lang') : null;
       final weatherDesc = getWeatherDescForWidget(current.weatherCode, lang);
@@ -88,11 +87,10 @@ class WidgetService {
   }
 
   // 显示无数据时的提示小部件
-  static Future<void> _showNoDataWidget(BuildContext context, City city) async {
+  static Future<void> _showNoDataWidget(City city) async {
     try {
-      final l10n = AppLocalizations.of(context);
-      final cityName = l10n.addCity;
-      final weatherDesc = l10n.weatherDataError;
+      final cityName = '--';
+      final weatherDesc = '--';
       final temperature = '--';
 
       // 获取当前温度单位设置
