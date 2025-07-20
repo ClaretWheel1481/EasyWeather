@@ -9,7 +9,7 @@ import 'weather_info_tile.dart';
 import 'section_title.dart';
 import 'rainfall_24h_view.dart';
 import 'future_weather_band.dart';
-import 'detailed_data_widget.dart';
+import 'details_widget.dart';
 import 'warning_banner.dart';
 import 'package:intl/intl.dart';
 
@@ -270,7 +270,7 @@ class _WeatherViewState extends State<WeatherView>
                               color: isNow
                                   ? colorScheme.primary
                                   : colorScheme.surface,
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(24),
                               border: isNow
                                   ? Border.all(
                                       color: colorScheme.primary, width: 2)
@@ -321,7 +321,7 @@ class _WeatherViewState extends State<WeatherView>
               const SizedBox(height: 8),
               if (daily.isNotEmpty)
                 Card(
-                  elevation: 0,
+                  elevation: 3,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(24)),
                   color: colorScheme.surface,
@@ -344,7 +344,7 @@ class _WeatherViewState extends State<WeatherView>
               DetailedDataWidget(
                   current: current,
                   daily: daily.first,
-                  hourly: widget.weather.hourly.first),
+                  hourly: widget.weather.hourly),
               const SizedBox(height: 24),
             ],
           ),

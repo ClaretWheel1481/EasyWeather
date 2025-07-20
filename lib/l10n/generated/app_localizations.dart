@@ -8,6 +8,7 @@ import 'package:intl/intl.dart' as intl;
 import 'app_localizations_de.dart';
 import 'app_localizations_en.dart';
 import 'app_localizations_es.dart';
+import 'app_localizations_fr.dart';
 import 'app_localizations_it.dart';
 import 'app_localizations_zh.dart';
 
@@ -97,6 +98,7 @@ abstract class AppLocalizations {
     Locale('de'),
     Locale('en'),
     Locale('es'),
+    Locale('fr'),
     Locale('it'),
     Locale('zh'),
     Locale('zh', 'TW')
@@ -138,18 +140,6 @@ abstract class AppLocalizations {
   /// **'Temperature Unit'**
   String get temperatureUnit;
 
-  /// No description provided for @celsius.
-  ///
-  /// In en, this message translates to:
-  /// **'Celsius (°C)'**
-  String get celsius;
-
-  /// No description provided for @fahrenheit.
-  ///
-  /// In en, this message translates to:
-  /// **'Fahrenheit (°F)'**
-  String get fahrenheit;
-
   /// No description provided for @cityManager.
   ///
   /// In en, this message translates to:
@@ -174,23 +164,11 @@ abstract class AppLocalizations {
   /// **'No cities added'**
   String get noCitiesAdded;
 
-  /// No description provided for @confirm.
-  ///
-  /// In en, this message translates to:
-  /// **'Confirm'**
-  String get confirm;
-
   /// No description provided for @deleteCityMessage.
   ///
   /// In en, this message translates to:
   /// **'Are you sure you want to delete \"{cityName}\"?'**
   String deleteCityMessage(String cityName);
-
-  /// No description provided for @cancel.
-  ///
-  /// In en, this message translates to:
-  /// **'Cancel'**
-  String get cancel;
 
   /// No description provided for @delete.
   ///
@@ -375,7 +353,7 @@ abstract class AppLocalizations {
   /// No description provided for @detailedData.
   ///
   /// In en, this message translates to:
-  /// **'Detailed Data'**
+  /// **'Details'**
   String get detailedData;
 
   /// No description provided for @settings.
@@ -525,8 +503,20 @@ abstract class AppLocalizations {
   /// No description provided for @alert.
   ///
   /// In en, this message translates to:
-  /// **'Alert'**
+  /// **'Alerts'**
   String get alert;
+
+  /// No description provided for @hourly_windSpeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Hourly Wind Speed'**
+  String get hourly_windSpeed;
+
+  /// No description provided for @hourly_windSpeed_Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Wind speed per hour, 10m represents the wind speed at 10 meters above the ground, and so on.'**
+  String get hourly_windSpeed_Desc;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
@@ -538,7 +528,7 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['de', 'en', 'es', 'it', 'zh'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['de', 'en', 'es', 'fr', 'it', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -561,6 +551,7 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
     case 'de': return AppLocalizationsDe();
     case 'en': return AppLocalizationsEn();
     case 'es': return AppLocalizationsEs();
+    case 'fr': return AppLocalizationsFr();
     case 'it': return AppLocalizationsIt();
     case 'zh': return AppLocalizationsZh();
   }

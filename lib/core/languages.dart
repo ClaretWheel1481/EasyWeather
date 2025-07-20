@@ -34,6 +34,8 @@ const List<AppLanguage> appLanguages = [
     apiLang: 'es',
   ),
   AppLanguage(
+      code: 'fr', locale: Locale('fr'), name: 'Français', apiLang: 'fr'),
+  AppLanguage(
     code: 'it',
     locale: Locale('it'),
     name: 'Italiano',

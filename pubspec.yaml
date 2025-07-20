@@ -3,7 +3,7 @@ description: zephyr by claret
 
 publish_to: 'none' 
 
-version: 2.1.0+1
+version: 2.1.1+1
 
 environment:
   sdk: '>=3.0.3 <4.0.0'
@@ -22,6 +22,8 @@ dependencies:
   url_launcher: 
   intl: 
   battery_optimization_helper: 
+  animations: 
+  fl_chart: 
   
 dev_dependencies:
   flutter_test:

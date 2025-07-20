@@ -27,12 +27,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get temperatureUnit => 'Temperatureinheit';
 
   @override
-  String get celsius => 'Celsius (°C)';
-
-  @override
-  String get fahrenheit => 'Fahrenheit (°F)';
-
-  @override
   String get cityManager => 'Städte verwalten';
 
   @override
@@ -45,15 +39,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get noCitiesAdded => 'Noch keine Städte hinzugefügt';
 
   @override
-  String get confirm => 'Bestätigen';
-
-  @override
   String deleteCityMessage(String cityName) {
     return 'Möchten Sie \"$cityName\" wirklich löschen?';
   }
-
-  @override
-  String get cancel => 'Abbrechen';
 
   @override
   String get delete => 'Löschen';
@@ -221,5 +209,11 @@ class AppLocalizationsDe extends AppLocalizations {
   String get starUs => 'Einen Stern auf GitHub';
 
   @override
-  String get alert => 'Alarmieren';
+  String get alert => 'Warnungen';
+
+  @override
+  String get hourly_windSpeed => 'Stündliche Windgeschwindigkeit';
+
+  @override
+  String get hourly_windSpeed_Desc => 'Windgeschwindigkeit pro Stunde, 10m steht für die Windgeschwindigkeit in 10 Metern über dem Boden, usw.';
 }

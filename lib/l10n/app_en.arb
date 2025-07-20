@@ -6,13 +6,10 @@
   "light": "Light",
   "dark": "Dark",
   "temperatureUnit": "Temperature Unit",
-  "celsius": "Celsius (°C)",
-  "fahrenheit": "Fahrenheit (°F)",
   "cityManager": "City Manager",
   "cities": "cities",
   "main": "Main",
   "noCitiesAdded": "No cities added",
-  "confirm": "Confirm",
   "deleteCityMessage": "Are you sure you want to delete \"{cityName}\"?",
   "@deleteCityMessage": {
     "placeholders": {
@@ -21,7 +18,6 @@
       }
     }
   },
-  "cancel": "Cancel",
   "delete": "Delete",
   "search": "Search",
   "searchHint": "Enter city name...",
@@ -52,7 +48,7 @@
   "precipitation": "Precipitation",
   "hourlyForecast": "Hourly Forecast",
   "next7Days": "Next 7 Days",
-  "detailedData": "Detailed Data",
+  "detailedData": "Details",
   "settings": "Settings",
   "language": "Language",
   "monetColor": "Dynamic Color",
@@ -77,5 +73,7 @@
   "iBODesc": "Allows Zephyr to update weather data in the background",
   "iBODisabled": "Battery Optimization is disabled",
   "starUs": "Star us on GitHub",
-  "alert": "Alert"
+  "alert": "Alerts",
+  "hourly_windSpeed": "Hourly Wind Speed",
+  "hourly_windSpeed_Desc": "Wind speed per hour, 10m represents the wind speed at 10 meters above the ground, and so on."
 }

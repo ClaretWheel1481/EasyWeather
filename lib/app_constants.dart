@@ -1,6 +1,6 @@
 class AppConstants {
   static const String appName = 'Zephyr';
-  static const String appVersion = 'v2.1.0';
+  static const String appVersion = 'v2.1.1';
   static const String appDescription =
       'Simple and fast real-time weather forecast software.';
   static const String appUrl = 'https://github.com/LanceHuang245/Zephyr';
@@ -15,7 +15,7 @@ class AppConstants {
   static const String omAirQualityUrl =
       'https://air-quality-api.open-meteo.com/v1/air-quality';
 
-  // QWeather API Url 用于获取天气预警 (Lance特供，有一定用量限制，请勿滥用)
+  // QWeather API Url 用于获取天气预警 (Lance免费特供，有一定用量限制，请勿滥用或攻击该服务器)
   static const String qWeatherWarningUrl =
       'http://43.136.78.208:443/api/v1/weather/alert';
 }

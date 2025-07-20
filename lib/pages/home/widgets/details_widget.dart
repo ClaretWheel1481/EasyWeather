@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:zephyr/l10n/generated/app_localizations.dart';
 import '../../../core/models/weather.dart';
+import 'package:animations/animations.dart';
+import 'details_full_page.dart';
 
 class DetailedDataWidget extends StatelessWidget {
   final CurrentWeather? current;
   final DailyWeather? daily;
-  final HourlyWeather? hourly;
+  final List<HourlyWeather>? hourly;
 
   const DetailedDataWidget({
     super.key,
@@ -18,6 +20,32 @@ class DetailedDataWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+      child: OpenContainer(
+        transitionType: ContainerTransitionType.fadeThrough,
+        closedElevation: 3,
+        closedShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24),
+        ),
+        closedColor: colorScheme.surface,
+        openColor: colorScheme.surface,
+        closedBuilder: (context, openContainer) {
+          return GestureDetector(
+            onTap: openContainer,
+            child: _buildCard(context, colorScheme),
+          );
+        },
+        openBuilder: (context, _) => DetailedDataFullPage(
+          current: current,
+          daily: daily,
+          hourly: hourly,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCard(BuildContext context, ColorScheme colorScheme) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -95,8 +123,11 @@ class DetailedDataWidget extends StatelessWidget {
                         context,
                         icon: Icons.remove_red_eye,
                         label: AppLocalizations.of(context).visibility,
-                        value: hourly?.visibility != null
-                            ? (hourly!.visibility! / 1000).toStringAsFixed(1)
+                        value: (hourly != null &&
+                                hourly!.isNotEmpty &&
+                                hourly!.first.visibility != null)
+                            ? (hourly!.first.visibility! / 1000)
+                                .toStringAsFixed(1)
                             : '-',
                         unit: 'km',
                       ),

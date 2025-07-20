@@ -20,6 +20,9 @@ class WeatherData {
           weatherCode: json['hourly']['weather_code']?[i],
           precipitation: (json['hourly']['precipitation']?[i])?.toDouble(),
           visibility: (json['hourly']['visibility']?[i])?.toDouble(),
+          windSpeed10m: (json['hourly']['wind_speed_10m']?[i])?.toDouble(),
+          windSpeed80m: (json['hourly']['wind_speed_80m']?[i])?.toDouble(),
+          windSpeed120m: (json['hourly']['wind_speed_120m']?[i])?.toDouble(),
         ));
       }
     }
@@ -47,6 +50,9 @@ class WeatherData {
           'weather_code': hourly.map((e) => e.weatherCode).toList(),
           'precipitation': hourly.map((e) => e.precipitation).toList(),
           'visibility': hourly.map((e) => e.visibility).toList(),
+          'wind_speed_10m': hourly.map((e) => e.windSpeed10m).toList(),
+          'wind_speed_80m': hourly.map((e) => e.windSpeed80m).toList(),
+          'wind_speed_120m': hourly.map((e) => e.windSpeed120m).toList(),
         },
         'daily': {
           'time': daily.map((e) => e.date).toList(),
@@ -115,26 +121,32 @@ class HourlyWeather {
   final String time;
   final double? temperature;
   final int? weatherCode;
-  final double? apparentTemperature;
   final double? precipitation;
   final double? visibility;
+  final double? windSpeed10m;
+  final double? windSpeed80m;
+  final double? windSpeed120m;
 
   HourlyWeather({
     required this.time,
     this.temperature,
     this.weatherCode,
-    this.apparentTemperature,
     this.precipitation,
     this.visibility,
+    this.windSpeed10m,
+    this.windSpeed80m,
+    this.windSpeed120m,
   });
 
   Map<String, dynamic> toJson() => {
         'time': time,
         'temperature_2m': temperature,
         'weather_code': weatherCode,
-        'apparentTemperature': apparentTemperature,
         'precipitation': precipitation,
         'visibility': visibility,
+        'wind_speed_10m': windSpeed10m,
+        'wind_speed_80m': windSpeed80m,
+        'wind_speed_120m': windSpeed120m,
       };
 }
 

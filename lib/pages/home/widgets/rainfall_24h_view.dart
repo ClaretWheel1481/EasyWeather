@@ -3,6 +3,7 @@ import 'package:zephyr/pages/home/widgets/section_title.dart';
 import 'package:flutter/material.dart';
 import '../../../core/models/weather.dart';
 
+// TODO: 用fl_chart替换优化
 class Rainfall24hView extends StatelessWidget {
   final List<HourlyWeather> hourly;
   const Rainfall24hView({super.key, required this.hourly});
@@ -42,78 +43,79 @@ class Rainfall24hView extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 8),
-        Container(
-          height: 200,
-          padding: const EdgeInsets.symmetric(vertical: 15),
-          decoration: BoxDecoration(
-            color: colorScheme.surface,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: SizedBox(
-              width: totalWidth,
-              height: 90,
-              child: Stack(
-                children: [
-                  // 曲线和阴影
-                  Positioned.fill(
-                    child: RainfallCurveWithShadow(
-                      rainfall: rainfall,
-                      color: colorScheme.primary,
+        Material(
+          elevation: 3,
+          color: colorScheme.surface,
+          borderRadius: BorderRadius.circular(24),
+          child: Container(
+            height: 200,
+            padding: const EdgeInsets.symmetric(vertical: 15),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: SizedBox(
+                width: totalWidth,
+                height: 90,
+                child: Stack(
+                  children: [
+                    // 曲线和阴影
+                    Positioned.fill(
+                      child: RainfallCurveWithShadow(
+                        rainfall: rainfall,
+                        color: colorScheme.primary,
+                      ),
                     ),
-                  ),
-                  // 数值和时间
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      for (int i = 0; i < hours.length; i++)
-                        SizedBox(
-                          width: hourWidth,
-                          child: Column(
-                            children: [
-                              // 数值气泡
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 8, vertical: 2),
-                                decoration: BoxDecoration(
-                                  color: colorScheme.primary
-                                      .withValues(alpha: 0.12),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Text(
-                                  hours[i].precipitation != null
-                                      ? hours[i]
-                                          .precipitation!
-                                          .toStringAsFixed(1)
-                                      : '-',
-                                  style: textTheme.bodyMedium?.copyWith(
-                                    color: colorScheme.primary,
-                                    fontWeight: FontWeight.bold,
+                    // 数值和时间
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        for (int i = 0; i < hours.length; i++)
+                          SizedBox(
+                            width: hourWidth,
+                            child: Column(
+                              children: [
+                                // 数值气泡
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 2),
+                                  decoration: BoxDecoration(
+                                    color: colorScheme.primary
+                                        .withValues(alpha: 0.12),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Text(
+                                    hours[i].precipitation != null
+                                        ? hours[i]
+                                            .precipitation!
+                                            .toStringAsFixed(1)
+                                        : '-',
+                                    style: textTheme.bodyMedium?.copyWith(
+                                      color: colorScheme.primary,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              const Spacer(),
-                              Text(
-                                (() {
-                                  final t = DateTime.tryParse(hours[i].time);
-                                  return t != null
-                                      ? '${t.hour.toString().padLeft(2, '0')}:00'
-                                      : '';
-                                })(),
-                                style: textTheme.bodySmall?.copyWith(
-                                  color: colorScheme.onSurfaceVariant
-                                      .withValues(alpha: 0.7),
-                                  fontSize: 12,
+                                const Spacer(),
+                                Text(
+                                  (() {
+                                    final t = DateTime.tryParse(hours[i].time);
+                                    return t != null
+                                        ? '${t.hour.toString().padLeft(2, '0')}:00'
+                                        : '';
+                                  })(),
+                                  style: textTheme.bodySmall?.copyWith(
+                                    color: colorScheme.onSurfaceVariant
+                                        .withValues(alpha: 0.7),
+                                    fontSize: 12,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: 6),
-                            ],
+                                const SizedBox(height: 6),
+                              ],
+                            ),
                           ),
-                        ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

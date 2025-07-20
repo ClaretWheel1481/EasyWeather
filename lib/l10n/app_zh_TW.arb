@@ -6,11 +6,8 @@
   "light": "淺色",
   "dark": "深色",
   "temperatureUnit": "溫度單位",
-  "celsius": "攝氏度 (°C)",
-  "fahrenheit": "華氏度 (°F)",
   "cityManager": "城市管理",
   "noCitiesAdded": "暫無已添加的城市",
-  "confirm": "確認",
   "deleteCityMessage": "確定要刪除 \"{cityName}\" 嗎？",
   "@deleteCityMessage": {
     "placeholders": {
@@ -19,7 +16,6 @@
       }
     }
   },
-  "cancel": "取消",
   "delete": "刪除",
   "search": "搜索",
   "searchHint": "輸入城市名稱...",
@@ -77,5 +73,7 @@
   "iBODesc": "允許 Zephyr 在後台自動更新天氣數據",
   "iBODisabled": "電池優化已禁用",
   "starUs": "給我们點個Star",
-  "alert" : "預警"
+  "alert" : "預警",
+  "hourly_windSpeed": "逐小時風速",
+  "hourly_windSpeed_Desc": "每小時風速，10m為距離地面10米的風俗，以此類推。"
 }

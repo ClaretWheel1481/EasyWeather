@@ -6,13 +6,10 @@
   "light": "Claro",
   "dark": "Oscuro",
   "temperatureUnit": "Unidad de Temperatura",
-  "celsius": "Celsius (°C)",
-  "fahrenheit": "Fahrenheit (°F)",
   "cityManager": "Gestor de Ciudades",
   "cities": "ciudades",
   "main": "Principal",
   "noCitiesAdded": "No hay ciudades agregadas",
-  "confirm": "Confirmar",
   "deleteCityMessage": "¿Estás seguro de eliminar \"{cityName}\"?",
   "@deleteCityMessage": {
     "placeholders": {
@@ -21,7 +18,6 @@
       }
     }
   },
-  "cancel": "Cancelar",
   "delete": "Eliminar",
   "search": "Buscar",
   "searchHint": "Introduce nombre de ciudad...",
@@ -77,5 +73,7 @@
   "iBODesc": "Permite a Zephyr actualizar los datos meteorológicos en segundo plano",
   "iBODisabled": "Optimización de batería desactivada",
   "starUs": "Valóranos en GitHub",
-  "alert": "Alerta"
+  "alert": "Alertas",
+  "hourly_windSpeed": "Velocidad horaria del viento",
+  "hourly_windSpeed_Desc": "Velocidad del viento por hora, 10m representa la velocidad del viento a 10 metros sobre el suelo, y así sucesivamente."
 }

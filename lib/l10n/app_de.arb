@@ -6,13 +6,10 @@
   "light": "Hell",
   "dark": "Dunkel",
   "temperatureUnit": "Temperatureinheit",
-  "celsius": "Celsius (°C)",
-  "fahrenheit": "Fahrenheit (°F)",
   "cityManager": "Städte verwalten",
   "cities": "Städte",
   "main": "Hauptstadt",
   "noCitiesAdded": "Noch keine Städte hinzugefügt",
-  "confirm": "Bestätigen",
   "deleteCityMessage": "Möchten Sie \"{cityName}\" wirklich löschen?",
   "@deleteCityMessage": {
     "placeholders": {
@@ -21,7 +18,6 @@
       }
     }
   },
-  "cancel": "Abbrechen",
   "delete": "Löschen",
   "search": "Suchen",
   "searchHint": "Stadtname eingeben...",
@@ -77,5 +73,7 @@
   "iBODesc": "Ermöglicht Zephyr die automatische Wetteraktualisierung im Hintergrund",
   "iBODisabled": "Batterieoptimierung ist bereits deaktiviert",
   "starUs": "Einen Stern auf GitHub",
-  "alert": "Alarmieren"
+  "alert": "Warnungen",
+  "hourly_windSpeed": "Stündliche Windgeschwindigkeit",
+  "hourly_windSpeed_Desc": "Windgeschwindigkeit pro Stunde, 10m steht für die Windgeschwindigkeit in 10 Metern über dem Boden, usw."
 }

@@ -6,13 +6,10 @@
   "light": "浅色",
   "dark": "深色",
   "temperatureUnit": "温度单位",
-  "celsius": "摄氏度 (°C)",
-  "fahrenheit": "华氏度 (°F)",
   "cityManager": "城市管理",
   "cities": "个城市",
   "main": "主城市",
   "noCitiesAdded": "暂无已添加的城市",
-  "confirm": "确认",
   "deleteCityMessage": "确定要删除 \"{cityName}\" 吗？",
   "@deleteCityMessage": {
     "placeholders": {
@@ -21,7 +18,6 @@
       }
     }
   },
-  "cancel": "取消",
   "delete": "删除",
   "search": "搜索",
   "searchHint": "输入城市名称...",
@@ -77,5 +73,7 @@
   "iBODesc": "使Zephyr在后台可自动更新天气",
   "iBODisabled": "电池优化已经关闭",
   "starUs" : "给我们点个Star",
-  "alert" : "预警"
+  "alert" : "预警",
+  "hourly_windSpeed": "逐小时风速",
+  "hourly_windSpeed_Desc": "每小时的风速，10m代表距离地面10米处的风速，以此类推。"
 }

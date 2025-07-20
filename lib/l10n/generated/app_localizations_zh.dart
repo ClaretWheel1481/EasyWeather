@@ -27,12 +27,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get temperatureUnit => '温度单位';
 
   @override
-  String get celsius => '摄氏度 (°C)';
-
-  @override
-  String get fahrenheit => '华氏度 (°F)';
-
-  @override
   String get cityManager => '城市管理';
 
   @override
@@ -45,15 +39,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get noCitiesAdded => '暂无已添加的城市';
 
   @override
-  String get confirm => '确认';
-
-  @override
   String deleteCityMessage(String cityName) {
     return '确定要删除 \"$cityName\" 吗？';
   }
-
-  @override
-  String get cancel => '取消';
 
   @override
   String get delete => '删除';
@@ -222,6 +210,12 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get alert => '预警';
+
+  @override
+  String get hourly_windSpeed => '逐小时风速';
+
+  @override
+  String get hourly_windSpeed_Desc => '每小时的风速，10m代表距离地面10米处的风速，以此类推。';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
@@ -247,12 +241,6 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get temperatureUnit => '溫度單位';
 
   @override
-  String get celsius => '攝氏度 (°C)';
-
-  @override
-  String get fahrenheit => '華氏度 (°F)';
-
-  @override
   String get cityManager => '城市管理';
 
   @override
@@ -265,15 +253,9 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get noCitiesAdded => '暫無已添加的城市';
 
   @override
-  String get confirm => '確認';
-
-  @override
   String deleteCityMessage(String cityName) {
     return '確定要刪除 \"$cityName\" 嗎？';
   }
-
-  @override
-  String get cancel => '取消';
 
   @override
   String get delete => '刪除';
@@ -442,4 +424,10 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get alert => '預警';
+
+  @override
+  String get hourly_windSpeed => '逐小時風速';
+
+  @override
+  String get hourly_windSpeed_Desc => '每小時風速，10m為距離地面10米的風俗，以此類推。';
 }
