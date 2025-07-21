@@ -78,7 +78,9 @@
 - [flutter_localizations](https://flutter.dev/docs/development/accessibility-and-localization/internationalization) - 国际化支持
 - [home_widget](https://pub.dev/packages/home_widget) - 桌面小部件
 - [url_launcher](https://pub.dev/packages/url_launcher) - 跳转至网页服务
-- [disable_battery_optimizations_latest](https://pub.dev/packages/disable_battery_optimizations_latest) - 忽略电池优化
+- [battery_optimization_helper](https://pub.dev/packages/battery_optimization_helper) - 忽略电池优化设置
+- [animations](https://pub.dev/packages/animations) - 动画库
+- [fl_chart](https://pub.dev/packages/fl_chart) - 图表库
 
 ## 许可
 [MIT License](LICENSE) © Huang LinXing

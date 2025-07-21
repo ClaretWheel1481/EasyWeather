@@ -78,7 +78,9 @@ This project is built with the help of these amazing open-source projects and AP
 - [flutter_localizations](https://flutter.dev/docs/development/accessibility-and-localization/internationalization) - Internationalization
 - [home_widget](https://pub.dev/packages/home_widget) - Home widget
 - [url_launcher](https://pub.dev/packages/url_launcher) - Open in browser
-- [disable_battery_optimizations_latest](https://pub.dev/packages/disable_battery_optimizations_latest) - Ignore battery optimization
+- [battery_optimization_helper](https://pub.dev/packages/battery_optimization_helper) - Ignore battery optimization
+- [animations](https://pub.dev/packages/animations) - Animation library
+- [fl_chart](https://pub.dev/packages/fl_chart) - Chart library
 
 ## License
 [MIT License](LICENSE) © Huang LinXing

@@ -61,7 +61,7 @@ class Rainfall24hView extends StatelessWidget {
                       left: 0,
                       right: 0,
                       top: 15,
-                      bottom: 20,
+                      bottom: 30,
                       child: LineChart(
                         LineChartData(
                           minX: 0,
