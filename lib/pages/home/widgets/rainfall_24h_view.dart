@@ -61,7 +61,7 @@ class Rainfall24hView extends StatelessWidget {
                       left: 0,
                       right: 0,
                       top: 15,
-                      bottom: 30,
+                      bottom: 5,
                       child: LineChart(
                         LineChartData(
                           minX: 0,
@@ -109,7 +109,7 @@ class Rainfall24hView extends StatelessWidget {
                                 gradient: LinearGradient(
                                   colors: [
                                     colorScheme.primary.withValues(alpha: 0.18),
-                                    colorScheme.primary.withValues(alpha: 0.02),
+                                    colorScheme.primary.withValues(alpha: 0.0),
                                   ],
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
