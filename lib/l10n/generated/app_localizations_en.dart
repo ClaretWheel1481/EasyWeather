@@ -212,8 +212,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get alert => 'Alerts';
 
   @override
-  String get hourly_windSpeed => 'Hourly Wind Speed';
+  String get hourly_windSpeed => 'Hourly wind speed';
 
   @override
-  String get hourly_windSpeed_Desc => 'Wind speed per hour, 10m represents the wind speed at 10 meters above the ground, and so on.';
+  String get hourly_windSpeed_Desc => 'Hourly wind speed, 10m represents wind speed at 10 meters above the ground, and so on. You can manually slide the chart to see detailed wind speed data per hour.';
+
+  @override
+  String get hourly_pressure => 'Hourly air pressure';
+
+  @override
+  String get hourly_pressure_Desc => 'Hourly air pressure at sea level and surface pressure at ground level, hPa is the unit of air pressure. You can manually slide the chart to see detailed hourly barometric pressure data.';
 }

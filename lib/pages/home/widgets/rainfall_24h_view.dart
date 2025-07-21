@@ -2,8 +2,8 @@ import 'package:zephyr/l10n/generated/app_localizations.dart';
 import 'package:zephyr/pages/home/widgets/section_title.dart';
 import 'package:flutter/material.dart';
 import '../../../core/models/weather.dart';
+import 'package:fl_chart/fl_chart.dart';
 
-// TODO: 用fl_chart替换优化
 class Rainfall24hView extends StatelessWidget {
   final List<HourlyWeather> hourly;
   const Rainfall24hView({super.key, required this.hourly});
@@ -48,7 +48,7 @@ class Rainfall24hView extends StatelessWidget {
           color: colorScheme.surface,
           borderRadius: BorderRadius.circular(24),
           child: Container(
-            height: 200,
+            height: 220,
             padding: const EdgeInsets.symmetric(vertical: 15),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -57,11 +57,71 @@ class Rainfall24hView extends StatelessWidget {
                 height: 90,
                 child: Stack(
                   children: [
-                    // 曲线和阴影
-                    Positioned.fill(
-                      child: RainfallCurveWithShadow(
-                        rainfall: rainfall,
-                        color: colorScheme.primary,
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      top: 15,
+                      bottom: 20,
+                      child: LineChart(
+                        LineChartData(
+                          minX: 0,
+                          maxX: rainfall.length.toDouble(),
+                          minY: (rainfall.isNotEmpty
+                              ? -(rainfall.reduce((a, b) => a > b ? a : b) *
+                                  0.2)
+                              : -0.2),
+                          maxY: (rainfall.isNotEmpty
+                              ? (rainfall.reduce((a, b) => a > b ? a : b) * 1.2)
+                              : 1.0),
+                          gridData: FlGridData(show: false),
+                          titlesData: FlTitlesData(
+                            leftTitles: AxisTitles(
+                              sideTitles: SideTitles(showTitles: false),
+                            ),
+                            rightTitles: AxisTitles(
+                              sideTitles: SideTitles(showTitles: false),
+                            ),
+                            topTitles: AxisTitles(
+                              sideTitles: SideTitles(showTitles: false),
+                            ),
+                            bottomTitles: AxisTitles(
+                              sideTitles: SideTitles(showTitles: false),
+                            ),
+                          ),
+                          borderData: FlBorderData(show: false),
+                          lineBarsData: [
+                            LineChartBarData(
+                              spots: [
+                                if (rainfall.isNotEmpty)
+                                  FlSpot(0, rainfall.first),
+                                for (int i = 0; i < rainfall.length; i++)
+                                  FlSpot(i + 0.5, rainfall[i]),
+                                if (rainfall.isNotEmpty)
+                                  FlSpot(rainfall.length.toDouble(),
+                                      rainfall.last / 1.5),
+                              ],
+                              isCurved: true,
+                              color: colorScheme.primary,
+                              barWidth: 2,
+                              dotData: FlDotData(show: false),
+                              belowBarData: BarAreaData(
+                                show: true,
+                                gradient: LinearGradient(
+                                  colors: [
+                                    colorScheme.primary.withValues(alpha: 0.18),
+                                    colorScheme.primary.withValues(alpha: 0.02),
+                                  ],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                ),
+                              ),
+                              preventCurveOverShooting: true,
+                              isStrokeCapRound: true,
+                            ),
+                          ],
+                          lineTouchData: LineTouchData(enabled: false),
+                          clipData: FlClipData.all(),
+                        ),
                       ),
                     ),
                     // 数值和时间
@@ -73,8 +133,8 @@ class Rainfall24hView extends StatelessWidget {
                             width: hourWidth,
                             child: Column(
                               children: [
-                                // 数值气泡
                                 Container(
+                                  margin: const EdgeInsets.only(bottom: 8),
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8, vertical: 2),
                                   decoration: BoxDecoration(
@@ -122,145 +182,5 @@ class Rainfall24hView extends StatelessWidget {
         ),
       ],
     );
-  }
-}
-
-// 曲线+阴影
-class RainfallCurveWithShadow extends StatelessWidget {
-  final List<double> rainfall;
-  final Color color;
-  const RainfallCurveWithShadow(
-      {super.key, required this.rainfall, required this.color});
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: _RainfallCurveShadowPainter(rainfall, color),
-      child: CustomPaint(
-        painter: RainfallCurvePainter(rainfall, color),
-      ),
-    );
-  }
-}
-
-class RainfallCurvePainter extends CustomPainter {
-  final List<double> rainfall;
-  final Color color;
-  RainfallCurvePainter(this.rainfall, this.color);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    if (rainfall.isEmpty) return;
-    final extendedRainfall = [0.0, ...rainfall, 0.0];
-    final paint = Paint()
-      ..color = color
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 2;
-    final maxRain = extendedRainfall.reduce((a, b) => a > b ? a : b);
-    final minRain = extendedRainfall.reduce((a, b) => a < b ? a : b);
-    final range = (maxRain - minRain).abs() < 1e-3 ? 1.0 : (maxRain - minRain);
-    final topPadding = size.height * 0.22;
-    final bottomPadding = size.height * 0.18;
-    List<Offset> points = [];
-    for (int i = 0; i < extendedRainfall.length; i++) {
-      final x = (i - 0.5) * size.width / rainfall.length;
-      final y = topPadding +
-          (size.height - topPadding - bottomPadding) *
-              (1 - (extendedRainfall[i] - minRain) / range);
-      points.add(Offset(x, y));
-    }
-    final path = Path();
-    if (points.isNotEmpty) {
-      path.moveTo(points[0].dx, points[0].dy);
-      for (int i = 1; i < points.length - 1; i++) {
-        final curr = points[i];
-        final next = points[i + 1];
-        // 控制点为当前点，终点为当前点和下一个点的中点
-        final controlPoint = curr;
-        final endPoint = Offset(
-          (curr.dx + next.dx) / 2,
-          (curr.dy + next.dy) / 2,
-        );
-        path.quadraticBezierTo(
-          controlPoint.dx,
-          controlPoint.dy,
-          endPoint.dx,
-          endPoint.dy,
-        );
-      }
-      // 最后一段直接连到最后一个点
-      path.lineTo(points.last.dx, points.last.dy);
-    }
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant RainfallCurvePainter oldDelegate) {
-    return oldDelegate.rainfall != rainfall || oldDelegate.color != color;
-  }
-}
-
-class _RainfallCurveShadowPainter extends CustomPainter {
-  final List<double> rainfall;
-  final Color color;
-  _RainfallCurveShadowPainter(this.rainfall, this.color);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    if (rainfall.isEmpty) return;
-    final extendedRainfall = [0.0, ...rainfall, 0.0];
-    final maxRain = extendedRainfall.reduce((a, b) => a > b ? a : b);
-    final minRain = extendedRainfall.reduce((a, b) => a < b ? a : b);
-    final range = (maxRain - minRain).abs() < 1e-3 ? 1.0 : (maxRain - minRain);
-    final topPadding = size.height * 0.22;
-    final bottomPadding = size.height * 0.18;
-    List<Offset> points = [];
-    for (int i = 0; i < extendedRainfall.length; i++) {
-      final x = (i - 0.5) * size.width / rainfall.length;
-      final y = topPadding +
-          (size.height - topPadding - bottomPadding) *
-              (1 - (extendedRainfall[i] - minRain) / range);
-      points.add(Offset(x, y));
-    }
-    final path = Path();
-    if (points.isNotEmpty) {
-      path.moveTo(points[0].dx, points[0].dy);
-      for (int i = 1; i < points.length - 1; i++) {
-        final curr = points[i];
-        final next = points[i + 1];
-        // 控制点为当前点，终点为当前点和下一个点的中点
-        final controlPoint = curr;
-        final endPoint = Offset(
-          (curr.dx + next.dx) / 2,
-          (curr.dy + next.dy) / 2,
-        );
-        path.quadraticBezierTo(
-          controlPoint.dx,
-          controlPoint.dy,
-          endPoint.dx,
-          endPoint.dy,
-        );
-      }
-      // 最后一段直接连到最后一个点
-      path.lineTo(points.last.dx, points.last.dy);
-    }
-    // 阴影填充
-    final shadowPath = Path.from(path)
-      ..lineTo(points.last.dx, size.height - bottomPadding)
-      ..lineTo(points.first.dx, size.height - bottomPadding)
-      ..close();
-    final shadowPaint = Paint()
-      ..shader = LinearGradient(
-        colors: [color.withValues(alpha: 0.18), color.withValues(alpha: 0.02)],
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-      ).createShader(Rect.fromLTWH(0, 0, size.width, size.height))
-      ..style = PaintingStyle.fill;
-    canvas.drawPath(shadowPath, shadowPaint);
-  }
-
-  @override
-  bool shouldRepaint(covariant _RainfallCurveShadowPainter oldDelegate) {
-    return oldDelegate.rainfall != rainfall || oldDelegate.color != color;
   }
 }

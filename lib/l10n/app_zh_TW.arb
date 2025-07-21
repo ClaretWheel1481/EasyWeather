@@ -73,7 +73,9 @@
   "iBODesc": "允許 Zephyr 在後台自動更新天氣數據",
   "iBODisabled": "電池優化已禁用",
   "starUs": "給我们點個Star",
-  "alert" : "預警",
+  "alert": "預警",
   "hourly_windSpeed": "逐小時風速",
-  "hourly_windSpeed_Desc": "每小時風速，10m為距離地面10米的風俗，以此類推。"
+  "hourly_windSpeed_Desc": "每小時風速，10m為距離地面10米的風俗，以此類推。可以手動滑動图表查看每小时的详细风速数据。",
+  "hourly_pressure": "逐小時氣壓",
+  "hourly_pressure_Desc": "每小時的海平面氣壓和地面氣壓，hPa為氣壓單位。可以手動滑動图表查看每小时的详细氣壓数据。"
 }

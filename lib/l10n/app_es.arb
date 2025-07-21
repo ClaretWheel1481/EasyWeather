@@ -75,5 +75,7 @@
   "starUs": "Valóranos en GitHub",
   "alert": "Alertas",
   "hourly_windSpeed": "Velocidad horaria del viento",
-  "hourly_windSpeed_Desc": "Velocidad del viento por hora, 10m representa la velocidad del viento a 10 metros sobre el suelo, y así sucesivamente."
+  "hourly_windSpeed_Desc": "Velocidad del viento por hora, 10m representa la velocidad del viento a 10 metros sobre el suelo, y así sucesivamente. Puede deslizar manualmente el gráfico para ver los datos detallados de la velocidad del viento por hora.",
+  "hourly_pressure": "Presión atmosférica horaria",
+  "hourly_pressure_Desc": "Presión atmosférica horaria a nivel del mar y presión superficial a nivel del suelo, hPa es la unidad de presión atmosférica. Puede deslizar manualmente el gráfico para ver los datos detallados de la presión barométrica horaria."
 }

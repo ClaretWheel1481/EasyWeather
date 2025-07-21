@@ -215,5 +215,11 @@ class AppLocalizationsEs extends AppLocalizations {
   String get hourly_windSpeed => 'Velocidad horaria del viento';
 
   @override
-  String get hourly_windSpeed_Desc => 'Velocidad del viento por hora, 10m representa la velocidad del viento a 10 metros sobre el suelo, y así sucesivamente.';
+  String get hourly_windSpeed_Desc => 'Velocidad del viento por hora, 10m representa la velocidad del viento a 10 metros sobre el suelo, y así sucesivamente. Puede deslizar manualmente el gráfico para ver los datos detallados de la velocidad del viento por hora.';
+
+  @override
+  String get hourly_pressure => 'Presión atmosférica horaria';
+
+  @override
+  String get hourly_pressure_Desc => 'Presión atmosférica horaria a nivel del mar y presión superficial a nivel del suelo, hPa es la unidad de presión atmosférica. Puede deslizar manualmente el gráfico para ver los datos detallados de la presión barométrica horaria.';
 }

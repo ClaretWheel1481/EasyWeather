@@ -215,7 +215,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get hourly_windSpeed => '逐小时风速';
 
   @override
-  String get hourly_windSpeed_Desc => '每小时的风速，10m代表距离地面10米处的风速，以此类推。';
+  String get hourly_windSpeed_Desc => '每小时的风速，10m代表距离地面10米处的风速，以此类推。可以手动滑动图表查看每小时的详细风速数据。';
+
+  @override
+  String get hourly_pressure => '逐小时气压';
+
+  @override
+  String get hourly_pressure_Desc => '每小时的海平面气压与地面气压，hPa为气压单位。可以手动滑动图表查看每小时的详细气压数据。';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
@@ -429,5 +435,11 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get hourly_windSpeed => '逐小時風速';
 
   @override
-  String get hourly_windSpeed_Desc => '每小時風速，10m為距離地面10米的風俗，以此類推。';
+  String get hourly_windSpeed_Desc => '每小時風速，10m為距離地面10米的風俗，以此類推。可以手動滑動图表查看每小时的详细风速数据。';
+
+  @override
+  String get hourly_pressure => '逐小時氣壓';
+
+  @override
+  String get hourly_pressure_Desc => '每小時的海平面氣壓和地面氣壓，hPa為氣壓單位。可以手動滑動图表查看每小时的详细氣壓数据。';
 }

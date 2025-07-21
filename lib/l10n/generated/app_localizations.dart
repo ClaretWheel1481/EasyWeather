@@ -509,14 +509,26 @@ abstract class AppLocalizations {
   /// No description provided for @hourly_windSpeed.
   ///
   /// In en, this message translates to:
-  /// **'Hourly Wind Speed'**
+  /// **'Hourly wind speed'**
   String get hourly_windSpeed;
 
   /// No description provided for @hourly_windSpeed_Desc.
   ///
   /// In en, this message translates to:
-  /// **'Wind speed per hour, 10m represents the wind speed at 10 meters above the ground, and so on.'**
+  /// **'Hourly wind speed, 10m represents wind speed at 10 meters above the ground, and so on. You can manually slide the chart to see detailed wind speed data per hour.'**
   String get hourly_windSpeed_Desc;
+
+  /// No description provided for @hourly_pressure.
+  ///
+  /// In en, this message translates to:
+  /// **'Hourly air pressure'**
+  String get hourly_pressure;
+
+  /// No description provided for @hourly_pressure_Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Hourly air pressure at sea level and surface pressure at ground level, hPa is the unit of air pressure. You can manually slide the chart to see detailed hourly barometric pressure data.'**
+  String get hourly_pressure_Desc;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

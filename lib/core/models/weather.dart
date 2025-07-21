@@ -23,6 +23,8 @@ class WeatherData {
           windSpeed10m: (json['hourly']['wind_speed_10m']?[i])?.toDouble(),
           windSpeed80m: (json['hourly']['wind_speed_80m']?[i])?.toDouble(),
           windSpeed120m: (json['hourly']['wind_speed_120m']?[i])?.toDouble(),
+          pressureMsl: (json['hourly']['pressure_msl']?[i])?.toDouble(),
+          surfacePressure: (json['hourly']['surface_pressure']?[i])?.toDouble(),
         ));
       }
     }
@@ -53,6 +55,8 @@ class WeatherData {
           'wind_speed_10m': hourly.map((e) => e.windSpeed10m).toList(),
           'wind_speed_80m': hourly.map((e) => e.windSpeed80m).toList(),
           'wind_speed_120m': hourly.map((e) => e.windSpeed120m).toList(),
+          'pressure_msl': hourly.map((e) => e.pressureMsl).toList(),
+          'surface_pressure': hourly.map((e) => e.surfacePressure).toList(),
         },
         'daily': {
           'time': daily.map((e) => e.date).toList(),
@@ -126,6 +130,8 @@ class HourlyWeather {
   final double? windSpeed10m;
   final double? windSpeed80m;
   final double? windSpeed120m;
+  final double? pressureMsl;
+  final double? surfacePressure;
 
   HourlyWeather({
     required this.time,
@@ -136,6 +142,8 @@ class HourlyWeather {
     this.windSpeed10m,
     this.windSpeed80m,
     this.windSpeed120m,
+    this.pressureMsl,
+    this.surfacePressure,
   });
 
   Map<String, dynamic> toJson() => {
@@ -147,6 +155,8 @@ class HourlyWeather {
         'wind_speed_10m': windSpeed10m,
         'wind_speed_80m': windSpeed80m,
         'wind_speed_120m': windSpeed120m,
+        'pressure_msl': pressureMsl,
+        'surface_pressure': surfacePressure,
       };
 }
 

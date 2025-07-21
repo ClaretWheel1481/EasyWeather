@@ -46,7 +46,7 @@ class OpenMeteoApi {
         '?latitude=$latitude'
         '&longitude=$longitude'
         '&current=apparent_temperature,temperature_2m,weather_code,relative_humidity_2m,wind_speed_10m,winddirection_10m,surface_pressure'
-        '&hourly=weather_code,temperature_2m,precipitation,visibility,wind_speed_10m,wind_speed_80m,wind_speed_120m'
+        '&hourly=weather_code,temperature_2m,precipitation,visibility,wind_speed_10m,wind_speed_80m,wind_speed_120m,pressure_msl,surface_pressure'
         '&daily=temperature_2m_max,temperature_2m_min,weather_code,uv_index_max'
         '&timezone=auto'
         '&lang=$lang'
@@ -68,7 +68,8 @@ class OpenMeteoApi {
     final url = Uri.parse('${AppConstants.omAirQualityUrl}'
         '?latitude=$latitude'
         '&longitude=$longitude'
-        '&current=pm2_5,pm10');
+        '&current=pm2_5,pm10'
+        '&timezone=auto');
 
     final response = await http.get(url);
     if (response.statusCode == 200) {

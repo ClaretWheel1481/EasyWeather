@@ -215,5 +215,11 @@ class AppLocalizationsDe extends AppLocalizations {
   String get hourly_windSpeed => 'Stündliche Windgeschwindigkeit';
 
   @override
-  String get hourly_windSpeed_Desc => 'Windgeschwindigkeit pro Stunde, 10m steht für die Windgeschwindigkeit in 10 Metern über dem Boden, usw.';
+  String get hourly_windSpeed_Desc => 'Stündliche Windgeschwindigkeit, 10m steht für die Windgeschwindigkeit in 10 Metern über dem Boden, usw. Sie können das Diagramm manuell verschieben, um detaillierte Windgeschwindigkeitsdaten pro Stunde zu sehen.';
+
+  @override
+  String get hourly_pressure => 'Stündlicher Luftdruck';
+
+  @override
+  String get hourly_pressure_Desc => 'Stündlicher Luftdruck auf Meereshöhe und Oberflächendruck auf Bodenhöhe, hPa ist die Einheit des Luftdrucks. Sie können das Diagramm manuell verschieben, um detaillierte stündliche Luftdruckdaten zu sehen.';
 }

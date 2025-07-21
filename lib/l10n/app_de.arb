@@ -75,5 +75,7 @@
   "starUs": "Einen Stern auf GitHub",
   "alert": "Warnungen",
   "hourly_windSpeed": "Stündliche Windgeschwindigkeit",
-  "hourly_windSpeed_Desc": "Windgeschwindigkeit pro Stunde, 10m steht für die Windgeschwindigkeit in 10 Metern über dem Boden, usw."
+  "hourly_windSpeed_Desc": "Stündliche Windgeschwindigkeit, 10m steht für die Windgeschwindigkeit in 10 Metern über dem Boden, usw. Sie können das Diagramm manuell verschieben, um detaillierte Windgeschwindigkeitsdaten pro Stunde zu sehen.",
+  "hourly_pressure": "Stündlicher Luftdruck",
+  "hourly_pressure_Desc": "Stündlicher Luftdruck auf Meereshöhe und Oberflächendruck auf Bodenhöhe, hPa ist die Einheit des Luftdrucks. Sie können das Diagramm manuell verschieben, um detaillierte stündliche Luftdruckdaten zu sehen."
 }
