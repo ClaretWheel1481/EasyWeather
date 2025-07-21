@@ -56,7 +56,7 @@ We welcome community users to contribute! Feel free to fork this repository, sub
 </table>
 
 ## Download
-[Click here to download the latest version of Zephyr](https://github.com/ClaretWheel1481/Zephyr/releases/latest)
+[Click here to download the latest version of Zephyr](https://github.com/LanceHuang245/Zephyr/releases/latest)
 
 ## Acknowledgments
 This project is built with the help of these amazing open-source projects and APIs:
@@ -68,6 +68,8 @@ This project is built with the help of these amazing open-source projects and AP
 ### APIs
 - [OpenMeteo API](https://open-meteo.com/) - Weather data
 - [OpenStreetMap API](https://www.openstreetmap.org/) - City search
+- [QWeather API](https://dev.qweather.com/) - China Mainland weather warning
+- [AccuWeather API](https://www.accuweather.com/zh-cn/api) - Global weather warning
 
 ### Dependencies
 - [shared_preferences](https://pub.dev/packages/shared_preferences) - Local data storage

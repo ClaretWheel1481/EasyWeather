@@ -56,7 +56,7 @@
 </table>
 
 ## 下载
-[点击前往下载最新版本](https://github.com/ClaretWheel1481/Zephyr/releases/latest)
+[点击前往下载最新版本](https://github.com/LanceHuang245/Zephyr/releases/latest)
 
 ## 致谢
 本项目得益于以下优秀的开源项目和API的支持：
@@ -66,8 +66,10 @@
 - [Dart](https://dart.dev/) - 编程语言
 
 ### API服务
-- [OpenMeteo API](https://open-meteo.com/) - 天气数据
+- [OpenMeteo API](https://open-meteo.com/) - 全球天气数据
 - [OpenStreetMap API](https://www.openstreetmap.org/) - 城市搜索
+- [QWeather API](https://dev.qweather.com/) - 中国大陆天气预警
+- [AccuWeather API](https://www.accuweather.com/zh-cn/api) - 全球天气预警
 
 ### 依赖包
 - [shared_preferences](https://pub.dev/packages/shared_preferences) - 本地数据存储

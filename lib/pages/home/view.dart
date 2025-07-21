@@ -15,7 +15,7 @@ import '../../core/utils/notification_utils.dart';
 import '../../core/services/widget_service.dart';
 import 'widgets/weather_bg.dart';
 import '../../core/models/weather_warning.dart';
-import '../../core/api/qweather_api.dart';
+import '../../core/api/alerts_api.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -36,17 +36,26 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     tempUnitNotifier.addListener(_onUnitChanged);
+    weatherDataChangedNotifier.addListener(_onWeatherDataChanged);
     _loadCities();
   }
 
   @override
   void dispose() {
     tempUnitNotifier.removeListener(_onUnitChanged);
+    weatherDataChangedNotifier.removeListener(_onWeatherDataChanged);
     _pageController?.dispose();
     super.dispose();
   }
 
   void _onUnitChanged() {
+    if (!mounted) return;
+    for (var city in cities) {
+      _loadWeather(city, force: true);
+    }
+  }
+
+  void _onWeatherDataChanged() {
     if (!mounted) return;
     for (var city in cities) {
       _loadWeather(city, force: true);
@@ -103,18 +112,19 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       loadingMap[city.cacheKey] = true;
     });
-    WeatherData? cached;
+    Map<String, dynamic>? cached;
     if (!force) {
       cached = await loadCachedWeather(city);
     }
     if (cached != null) {
       setState(() {
-        weatherMap[city.cacheKey] = cached;
+        kDebugMode ? debugPrint('已加载缓存天气数据: $city') : null;
+        weatherMap[city.cacheKey] = cached!['weather'];
+        warningsMap[city.cacheKey] = cached['warnings'];
         loadingMap[city.cacheKey] = false;
       });
-      // 后台刷新
-      _refreshWeather(city);
     } else {
+      kDebugMode ? debugPrint('缓存已过期，或无缓存，加载新数据: $city') : null;
       await _refreshWeather(city);
     }
   }
@@ -125,10 +135,11 @@ class _HomePageState extends State<HomePage> {
         latitude: city.lat, longitude: city.lon, units: unit);
     List<WeatherWarning> warnings = [];
     try {
-      warnings = await QWeatherApi.fetchWarning(lat: city.lat, lon: city.lon);
+      warnings =
+          await WeatherAlertApi.fetchWarning(lat: city.lat, lon: city.lon);
     } catch (_) {}
     if (data != null) {
-      await cacheWeather(city, data);
+      await cacheWeather(city, data, warnings);
 
       // 如果是主城市（第一个城市），更新小部件
       if (cities.isNotEmpty &&
@@ -197,18 +208,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _onOpenSettings() async {
-    final result = await Navigator.pushNamed(context, '/settings');
-    if (result == 'mainCityChanged' ||
-        result == 'cityListChanged' ||
-        result == 'tempUnitChanged') {
-      await _loadCities();
-      setState(() {
-        pageIndex = 0;
-      });
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _pageController?.jumpToPage(0);
-      });
-    }
+    await Navigator.pushNamed(context, '/settings');
+    await _loadCities();
+    setState(() {
+      pageIndex = 0;
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _pageController?.jumpToPage(0);
+    });
   }
 
   Future<void> _onLocate() async {

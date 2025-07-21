@@ -51,12 +51,6 @@
         android:exported="false"
         android:foregroundServiceType="dataSync" />
         
-        <!-- 天气获取服务 -->
-        <service
-            android:name=".WeatherService"
-            android:exported="false"
-            android:foregroundServiceType="dataSync" />
-            
         <!-- 全局天气广播接收器 -->
         <receiver
             android:name=".WeatherBroadcastReceiver"

@@ -10,7 +10,6 @@ Future<void> main() async {
   // 初始化并启动原生天气服务
   try {
     await NativeWeatherService.initialize();
-    await NativeWeatherService.startService();
     kDebugMode ? debugPrint('原生天气服务已启动') : null;
   } catch (e) {
     kDebugMode ? debugPrint('原生天气服务启动失败: $e') : null;

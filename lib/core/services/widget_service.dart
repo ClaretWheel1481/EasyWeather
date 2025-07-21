@@ -18,7 +18,8 @@ class WidgetService {
   }) async {
     try {
       if (weatherData == null) {
-        weatherData = await loadCachedWeather(city);
+        final cached = await loadCachedWeather(city);
+        weatherData = cached != null ? cached['weather'] as WeatherData? : null;
         if (weatherData == null) {
           await _showNoDataWidget(city);
           return;
@@ -72,16 +73,16 @@ class WidgetService {
 
         await HomeWidget.updateWidget(
           androidName: 'WeatherWidgetProvider',
-          iOSName: 'WeatherWidget',
+          // iOSName: 'WeatherWidget',
         );
       } catch (e) {
         if (kDebugMode) {
-          print('HomeWidget update failed: $e');
+          debugPrint('HomeWidget update failed: $e');
         }
       }
     } catch (e) {
       if (kDebugMode) {
-        print('Error updating widget: $e');
+        debugPrint('Error updating widget: $e');
       }
     }
   }
@@ -122,16 +123,16 @@ class WidgetService {
 
         await HomeWidget.updateWidget(
           androidName: 'WeatherWidgetProvider',
-          iOSName: 'WeatherWidget',
+          // iOSName: 'WeatherWidget',
         );
       } catch (e) {
         if (kDebugMode) {
-          print('HomeWidget update failed: $e');
+          debugPrint('HomeWidget update failed: $e');
         }
       }
     } catch (e) {
       if (kDebugMode) {
-        print('Error showing no data widget: $e');
+        debugPrint('Error showing no data widget: $e');
       }
     }
   }

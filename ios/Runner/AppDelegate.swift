@@ -82,11 +82,11 @@ import BackgroundTasks
   
   private func scheduleWeatherRefresh() {
     let request = BGAppRefreshTaskRequest(identifier: "com.zephyr.weather.refresh")
-    request.earliestBeginDate = Date(timeIntervalSinceNow: 5 * 60)
+    request.earliestBeginDate = Date(timeIntervalSinceNow: 15 * 60)
     
     do {
       try BGTaskScheduler.shared.submit(request)
-      print("iOS: 天气刷新任务已调度，将在5分钟后执行")
+      print("iOS: 天气刷新任务已调度，将在15分钟后执行")
     } catch {
       print("iOS: 调度天气刷新任务失败: \(error)")
     }

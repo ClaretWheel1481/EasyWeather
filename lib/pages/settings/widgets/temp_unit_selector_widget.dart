@@ -48,12 +48,10 @@ class TempUnitSelectorWidget extends StatelessWidget {
                               ButtonSegment(
                                 value: 'C',
                                 label: Text("°C"),
-                                icon: const Icon(Icons.thermostat),
                               ),
                               ButtonSegment(
                                 value: 'F',
                                 label: Text("°F"),
-                                icon: const Icon(Icons.device_thermostat),
                               ),
                             ],
                             selected: {tempUnit ?? 'C'},

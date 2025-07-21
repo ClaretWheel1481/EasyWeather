@@ -8,6 +8,10 @@ import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodChannel
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.ExistingPeriodicWorkPolicy
+import java.util.concurrent.TimeUnit
 
 class MainActivity : FlutterActivity() {
     companion object {
@@ -30,6 +34,7 @@ class MainActivity : FlutterActivity() {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "MainActivity onCreate")
         staticInstance = this
+        startWeatherWorkManager()
     }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
@@ -41,15 +46,6 @@ class MainActivity : FlutterActivity() {
             methodChannel.setMethodCallHandler { call, result ->
                 try {
                     when (call.method) {
-                        "startService" -> {
-                            startWeatherService()
-                            result.success(null)
-                        }
-                        "stopService" -> {
-                            stopWeatherService()
-                            result.success(null)
-                        }
-
                         else -> {
                             result.notImplemented()
                         }
@@ -79,29 +75,6 @@ class MainActivity : FlutterActivity() {
         }
     }
 
-    private fun startWeatherService() {
-        try {
-            val intent = Intent(this, WeatherService::class.java).apply {
-                action = "START_SERVICE"
-            }
-            startService(intent)
-            Log.d(TAG, "天气服务启动请求已发送")
-        } catch (e: Exception) {
-            Log.e(TAG, "启动天气服务失败", e)
-        }
-    }
-
-    private fun stopWeatherService() {
-        try {
-            val intent = Intent(this, WeatherService::class.java).apply {
-                action = "STOP_SERVICE"
-            }
-            startService(intent)
-            Log.d(TAG, "天气服务停止请求已发送")
-        } catch (e: Exception) {
-            Log.e(TAG, "停止天气服务失败", e)
-        }
-    }
     fun sendWeatherFetchEvent() {
         try {
             eventSink?.success("FETCH_WEATHER")
@@ -109,6 +82,16 @@ class MainActivity : FlutterActivity() {
         } catch (e: Exception) {
             Log.e(TAG, "发送天气获取事件失败", e)
         }
+    }
+
+    private fun startWeatherWorkManager() {
+        val workRequest = PeriodicWorkRequestBuilder<WeatherWorker>(15, TimeUnit.MINUTES)
+            .build()
+        WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(
+            "WeatherFetchWork",
+            ExistingPeriodicWorkPolicy.KEEP,
+            workRequest
+        )
     }
 
     override fun onDestroy() {

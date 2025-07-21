@@ -28,7 +28,6 @@ class _SettingsPageState extends State<SettingsPage> {
   int _mainCityIndex = 0;
   bool _cityLoading = true;
   bool _cityManagerExpanded = false;
-  String? _changeType;
 
   @override
   void initState() {
@@ -104,7 +103,6 @@ class _SettingsPageState extends State<SettingsPage> {
         if (_mainCityIndex >= _cities.length) {
           _mainCityIndex = 0;
         }
-        _changeType = 'cityListChanged';
       });
       await _saveCities();
     }
@@ -113,7 +111,6 @@ class _SettingsPageState extends State<SettingsPage> {
   void _setMainCity(int index) async {
     setState(() {
       _mainCityIndex = index;
-      _changeType = 'mainCityChanged';
     });
     await _saveCities();
   }
@@ -132,7 +129,6 @@ class _SettingsPageState extends State<SettingsPage> {
     await prefs.setString('temp_unit', unit);
     setState(() {
       _tempUnit = unit;
-      _changeType = 'tempUnitChanged';
     });
     tempUnitNotifier.value = unit;
   }
@@ -156,70 +152,62 @@ class _SettingsPageState extends State<SettingsPage> {
         body: const Center(child: CircularProgressIndicator()),
       );
     }
-    return WillPopScope(
-      onWillPop: () async {
-        if (_changeType != null) {
-          Navigator.of(context).pop(_changeType);
-        }
-        return true;
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: Align(
-            alignment: Alignment.topLeft,
-            child: Text(l10n.settings),
-          ),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.of(context).pop(_changeType);
+    return Scaffold(
+      appBar: AppBar(
+        title: Align(
+          alignment: Alignment.topLeft,
+          child: Text(l10n.settings),
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ),
+      backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          // 城市管理
+          CityManagerWidget(
+            cities: _cities,
+            mainCityIndex: _mainCityIndex,
+            cityLoading: _cityLoading,
+            cityManagerExpanded: _cityManagerExpanded,
+            onSetMainCity: _setMainCity,
+            onRemoveCity: _removeCity,
+            onToggleExpand: () {
+              setState(() {
+                _cityManagerExpanded = !_cityManagerExpanded;
+              });
             },
           ),
-        ),
-        backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
-        body: ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            // 城市管理
-            CityManagerWidget(
-              cities: _cities,
-              mainCityIndex: _mainCityIndex,
-              cityLoading: _cityLoading,
-              cityManagerExpanded: _cityManagerExpanded,
-              onSetMainCity: _setMainCity,
-              onRemoveCity: _removeCity,
-              onToggleExpand: () {
-                setState(() {
-                  _cityManagerExpanded = !_cityManagerExpanded;
-                });
-              },
-            ),
-            const SizedBox(height: 16),
-            // 温度单位
-            TempUnitSelectorWidget(
-              tempUnit: _tempUnit,
-              onTempUnitChanged: _saveTempUnit,
-            ),
-            const SizedBox(height: 16),
-            // 主题模式 + Monet取色
-            ThemeModeSelectorWidget(
-              themeMode: _themeMode,
-              dynamicColorEnabled: _dynamicColorEnabled,
-              onThemeModeChanged: _saveThemeMode,
-              onDynamicColorChanged: _saveDynamicColorEnabled,
-            ),
-            const SizedBox(height: 16),
-            // 语言选择
-            const LanguageSelectorWidget(),
-            const SizedBox(height: 16),
-            const RequestHomewidgetWidget(),
-            const SizedBox(height: 16),
-            const IgnoreBatteryOptimizationWidget(),
-            const SizedBox(height: 16),
-            // 关于
-            const AboutAppWidget(),
-          ],
-        ),
+          const SizedBox(height: 16),
+          // 温度单位
+          TempUnitSelectorWidget(
+            tempUnit: _tempUnit,
+            onTempUnitChanged: _saveTempUnit,
+          ),
+          const SizedBox(height: 16),
+          // 主题模式 + Monet取色
+          ThemeModeSelectorWidget(
+            themeMode: _themeMode,
+            dynamicColorEnabled: _dynamicColorEnabled,
+            onThemeModeChanged: _saveThemeMode,
+            onDynamicColorChanged: _saveDynamicColorEnabled,
+          ),
+          const SizedBox(height: 16),
+          // 语言选择
+          const LanguageSelectorWidget(),
+          const SizedBox(height: 16),
+          const RequestHomewidgetWidget(),
+          const SizedBox(height: 16),
+          const IgnoreBatteryOptimizationWidget(),
+          const SizedBox(height: 16),
+          // 关于
+          const AboutAppWidget(),
+        ],
       ),
     );
   }

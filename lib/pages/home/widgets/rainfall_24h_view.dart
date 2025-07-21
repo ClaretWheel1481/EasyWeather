@@ -32,6 +32,10 @@ class Rainfall24hView extends StatelessWidget {
     const double hourWidth = 70;
     final double totalWidth = hourWidth * hours.length;
     final rainfall = hours.map((h) => h.precipitation ?? 0).toList();
+    final double maxRainfall =
+        rainfall.isNotEmpty ? rainfall.reduce((a, b) => a > b ? a : b) : 0;
+    final double minY = maxRainfall == 0 ? -0.2 : -maxRainfall * 0.2;
+    final double maxY = maxRainfall > 0 ? maxRainfall * 1.2 : 1.0;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -66,13 +70,8 @@ class Rainfall24hView extends StatelessWidget {
                         LineChartData(
                           minX: 0,
                           maxX: rainfall.length.toDouble(),
-                          minY: (rainfall.isNotEmpty
-                              ? -(rainfall.reduce((a, b) => a > b ? a : b) *
-                                  0.2)
-                              : -0.2),
-                          maxY: (rainfall.isNotEmpty
-                              ? (rainfall.reduce((a, b) => a > b ? a : b) * 1.2)
-                              : 1.0),
+                          minY: minY,
+                          maxY: maxY,
                           gridData: FlGridData(show: false),
                           titlesData: FlTitlesData(
                             leftTitles: AxisTitles(

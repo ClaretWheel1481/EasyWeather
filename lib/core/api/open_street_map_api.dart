@@ -23,7 +23,6 @@ class CitySearchApi {
 
     final url = Uri.parse(
         '${AppConstants.osmUrl}?format=json&q=$query&accept-language=$acceptLanguage&limit=30&addressdetails=1&featureType=city');
-    kDebugMode ? debugPrint('search url: $url') : null;
     final response = await http.get(url, headers: {
       'User-Agent': '${AppConstants.appName}/${AppConstants.appVersion}'
     });
