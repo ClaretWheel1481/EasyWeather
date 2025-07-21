@@ -221,7 +221,6 @@ class WindLineChart extends StatelessWidget {
         ],
         lineTouchData: LineTouchData(
           touchTooltipData: LineTouchTooltipData(
-            tooltipBgColor: colorScheme.surface,
             getTooltipItems: (touchedSpots) {
               return touchedSpots.map((spot) {
                 String label = '';
@@ -317,7 +316,6 @@ class PressureLineChart extends StatelessWidget {
         ],
         lineTouchData: LineTouchData(
           touchTooltipData: LineTouchTooltipData(
-            tooltipBgColor: colorScheme.surface,
             getTooltipItems: (touchedSpots) {
               return touchedSpots.map((spot) {
                 String label = '';
