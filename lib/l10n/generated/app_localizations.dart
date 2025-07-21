@@ -509,7 +509,7 @@ abstract class AppLocalizations {
   /// No description provided for @hourly_windSpeed.
   ///
   /// In en, this message translates to:
-  /// **'Hourly wind speed'**
+  /// **'Hourly Wind Speed'**
   String get hourly_windSpeed;
 
   /// No description provided for @hourly_windSpeed_Desc.
@@ -521,7 +521,7 @@ abstract class AppLocalizations {
   /// No description provided for @hourly_pressure.
   ///
   /// In en, this message translates to:
-  /// **'Hourly air pressure'**
+  /// **'Hourly Air Pressure'**
   String get hourly_pressure;
 
   /// No description provided for @hourly_pressure_Desc.

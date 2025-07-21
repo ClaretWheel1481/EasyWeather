@@ -20,10 +20,12 @@ class IgnoreBatteryOptimizationWidget extends StatelessWidget {
         if (isEnabled) {
           await BatteryOptimizationHelper.openBatteryOptimizationSettings();
         } else {
-          NotificationUtils.showSnackBar(
-            context,
-            AppLocalizations.of(context).iBODisabled,
-          );
+          if (context.mounted) {
+            NotificationUtils.showSnackBar(
+              context,
+              AppLocalizations.of(context).iBODisabled,
+            );
+          }
         }
       } catch (e) {
         // 处理错误

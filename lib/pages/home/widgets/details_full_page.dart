@@ -257,6 +257,19 @@ class PressureLineChart extends StatelessWidget {
       spotsSeaLevel.add(FlSpot(i.toDouble(), hours[i].pressureMsl ?? 0));
       spotsSurface.add(FlSpot(i.toDouble(), hours[i].surfacePressure ?? 0));
     }
+    final allPressures = [
+      ...spotsSeaLevel.map((e) => e.y),
+      ...spotsSurface.map((e) => e.y),
+    ];
+    double minPressure = allPressures.isNotEmpty
+        ? allPressures.reduce((a, b) => a < b ? a : b)
+        : 970;
+    double maxPressure = allPressures.isNotEmpty
+        ? allPressures.reduce((a, b) => a > b ? a : b)
+        : 1050;
+    // 刻度范围
+    double minY = (minPressure - 10).clamp(600, 1100);
+    double maxY = (maxPressure + 10).clamp(600, 1100);
     return LineChart(
       LineChartData(
         gridData: FlGridData(show: true, drawVerticalLine: false),
@@ -267,7 +280,7 @@ class PressureLineChart extends StatelessWidget {
               reservedSize: 40,
               interval: 10,
               getTitlesWidget: (value, meta) {
-                if (value % 10 == 0 && value >= 970 && value <= 1050) {
+                if (value % 10 == 0 && value >= minY && value <= maxY) {
                   return Text(value.toInt().toString(),
                       style: textTheme.bodySmall);
                 }
@@ -294,8 +307,8 @@ class PressureLineChart extends StatelessWidget {
           show: true,
           border: Border.all(color: colorScheme.outline.withAlpha(60)),
         ),
-        minY: 970,
-        maxY: 1050,
+        minY: minY,
+        maxY: maxY,
         lineBarsData: [
           LineChartBarData(
             spots: spotsSeaLevel,

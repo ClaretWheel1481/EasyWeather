@@ -12,6 +12,7 @@ import 'future_weather_band.dart';
 import 'details_widget.dart';
 import 'warning_banner.dart';
 import 'package:intl/intl.dart';
+import 'package:animations/animations.dart';
 
 class WeatherView extends StatefulWidget {
   final City city;
@@ -29,11 +30,6 @@ class WeatherView extends StatefulWidget {
 
 class _WeatherViewState extends State<WeatherView>
     with SingleTickerProviderStateMixin {
-  bool _showWarning = false;
-  late final AnimationController _bannerController;
-  late final Animation<Offset> _bannerOffsetAnimation;
-  late final Animation<double> _bannerFadeAnimation;
-
   String formatPubTime(String pubTime) {
     try {
       final dt = DateTime.parse(pubTime).toLocal();
@@ -43,46 +39,30 @@ class _WeatherViewState extends State<WeatherView>
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _bannerController = AnimationController(
-      duration: const Duration(milliseconds: 350),
-      vsync: this,
+  void _showWarningBannerDialog() {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      transitionDuration: const Duration(milliseconds: 250),
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return SharedAxisTransition(
+          fillColor: Colors.transparent,
+          animation: animation,
+          secondaryAnimation: secondaryAnimation,
+          transitionType: SharedAxisTransitionType.vertical,
+          child: SafeArea(
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: WarningBanner(
+                warnings: widget.warnings,
+                onClose: () => Navigator.of(context).pop(),
+              ),
+            ),
+          ),
+        );
+      },
     );
-    _bannerOffsetAnimation = Tween<Offset>(
-      begin: const Offset(0, -1),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _bannerController,
-      curve: Curves.easeOutCubic,
-    ));
-    _bannerFadeAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _bannerController,
-      curve: Curves.easeIn,
-    ));
-  }
-
-  @override
-  void dispose() {
-    _bannerController.dispose();
-    super.dispose();
-  }
-
-  void _toggleWarning() {
-    if (_showWarning) {
-      _bannerController.reverse().then((_) {
-        if (mounted) setState(() => _showWarning = false);
-      });
-    } else {
-      setState(() {
-        _showWarning = true;
-      });
-      _bannerController.forward();
-    }
   }
 
   @override
@@ -198,15 +178,14 @@ class _WeatherViewState extends State<WeatherView>
                           shadowColor: colorScheme.error.withValues(alpha: 0.2),
                           child: InkWell(
                             borderRadius: BorderRadius.circular(24),
-                            onTap: _toggleWarning,
+                            onTap: _showWarningBannerDialog,
                             child: Container(
-                              padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                              padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
                               alignment: Alignment.center,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(Icons.error_outline,
-                                      color: colorScheme.onError),
+                                  Icon(Icons.error, color: colorScheme.onError),
                                   const SizedBox(width: 4),
                                   Text(
                                     AppLocalizations.of(context).alert,
@@ -348,14 +327,6 @@ class _WeatherViewState extends State<WeatherView>
               const SizedBox(height: 24),
             ],
           ),
-        ),
-        // 天气预警Banner
-        WarningBanner(
-          warnings: widget.warnings,
-          show: _showWarning && hasWarning,
-          offsetAnimation: _bannerOffsetAnimation,
-          fadeAnimation: _bannerFadeAnimation,
-          onClose: _toggleWarning,
         ),
       ],
     );

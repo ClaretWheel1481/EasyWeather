@@ -63,8 +63,7 @@ class DetailedDataWidget extends StatelessWidget {
                   children: [
                     // PM2.5
                     Expanded(
-                      child: _buildDataTile(
-                        context,
+                      child: DataTile(
                         icon: Icons.air,
                         label: "PM2.5",
                         value: current?.pm25 != null
@@ -76,8 +75,7 @@ class DetailedDataWidget extends StatelessWidget {
                     const SizedBox(width: 12),
                     // PM10
                     Expanded(
-                      child: _buildDataTile(
-                        context,
+                      child: DataTile(
                         icon: Icons.air,
                         label: "PM10",
                         value: current?.pm10 != null
@@ -89,8 +87,7 @@ class DetailedDataWidget extends StatelessWidget {
                     const SizedBox(width: 12),
                     // 紫外线指数
                     Expanded(
-                      child: _buildDataTile(
-                        context,
+                      child: DataTile(
                         icon: Icons.sunny,
                         label: AppLocalizations.of(context).uvIndex,
                         value: daily?.uvIndexMax != null
@@ -106,8 +103,7 @@ class DetailedDataWidget extends StatelessWidget {
                   children: [
                     // 风速
                     Expanded(
-                      child: _buildDataTile(
-                        context,
+                      child: DataTile(
                         icon: Icons.waves,
                         label: AppLocalizations.of(context).windSpeed,
                         value: current?.windSpeed != null
@@ -119,8 +115,7 @@ class DetailedDataWidget extends StatelessWidget {
                     const SizedBox(width: 12),
                     // 能见度
                     Expanded(
-                      child: _buildDataTile(
-                        context,
+                      child: DataTile(
                         icon: Icons.remove_red_eye,
                         label: AppLocalizations.of(context).visibility,
                         value: (hourly != null &&
@@ -135,8 +130,7 @@ class DetailedDataWidget extends StatelessWidget {
                     const SizedBox(width: 12),
                     // 气压
                     Expanded(
-                      child: _buildDataTile(
-                        context,
+                      child: DataTile(
                         icon: Icons.insights,
                         label: AppLocalizations.of(context).pressure,
                         value: current?.surfacePressure != null
@@ -154,14 +148,24 @@ class DetailedDataWidget extends StatelessWidget {
       ],
     );
   }
+}
 
-  Widget _buildDataTile(
-    BuildContext context, {
-    required IconData icon,
-    required String label,
-    required String value,
-    required String unit,
-  }) {
+class DataTile extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final String value;
+  final String unit;
+
+  const DataTile({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.value,
+    required this.unit,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
@@ -174,11 +178,7 @@ class DetailedDataWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            icon,
-            color: colorScheme.primary,
-            size: 24,
-          ),
+          Icon(icon, color: colorScheme.primary, size: 24),
           const SizedBox(height: 8),
           Text(
             label,

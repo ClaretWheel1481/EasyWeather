@@ -12,7 +12,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get about => '关于';
 
   @override
-  String get themeMode => '主题模式';
+  String get themeMode => '主题';
 
   @override
   String get system => '系统';
