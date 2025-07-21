@@ -8,7 +8,7 @@
 
 # Zephyr
 
-一款简洁美观的天气应用，基于 Flutter 开发，数据来源于 OpenMeteo API，搜索功能由 OpenStreetMap API 提供。
+一款简洁美观的天气应用，基于 Flutter 开发，数据来源于 OpenMeteo API 与 QWeather API，搜索功能由 OpenStreetMap API 提供。
 > **注意**
 > 
 > 本项目仅供学习交流使用，请勿用于商业用途。且每个API接口都有一定用量限制，请勿滥用。
@@ -21,7 +21,7 @@
 - 多样天气图标与动态背景
 - 主题设置：支持Monet取色
 - 温度单位切换（℃/℉）
-- 多语言本地化（l10n）
+- 多语言本地化（l10n）(简体中文、繁体中文、英语、德语、西班牙语、法语、意大利语)
 
 ## 使用方法
 1. 点击右上角搜索按钮，输入城市名进行搜索，选择城市后自动返回主界面并保存至城市列表，或使用定位功能自动获取您所在地的天气信息。
@@ -54,6 +54,8 @@
     <td><img src="./public/sample_settings_dark.png" width="200"/></td>
   </tr>
 </table>
+
+更多详细请查看[图片文件夹](https://github.com/LanceHuang245/Zephyr/tree/master/public)
 
 ## 下载
 [点击前往下载最新版本](https://github.com/LanceHuang245/Zephyr/releases/latest)

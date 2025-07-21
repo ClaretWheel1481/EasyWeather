@@ -8,7 +8,7 @@ English | [简体中文](README_CN.md)
 
 # Zephyr
 
-A simple and beautiful weather app built with Flutter, powered by the OpenMeteo API and the search functionality is provided by the OpenStreetMap API.
+A simple and beautiful weather app built with Flutter, powered by the OpenMeteo API, Qweather API and the search functionality is provided by the OpenStreetMap API.
 > **Note** 
 > 
 > This project is only for learning and communication use, please do not use for commercial purposes. And each API has a certain dosage limit, please do not abuse.
@@ -21,7 +21,7 @@ A simple and beautiful weather app built with Flutter, powered by the OpenMeteo 
 - Dynamic weather icons and backgrounds
 - Theme settings with dynamic color support
 - Temperature unit switch (°C/°F)
-- Localization (l10n) support
+- Localization (l10n) support (English, Deutch, French, Spanish, Italian, Chinese)
 
 ## Usage
 1. Tap the search button in the top right corner to search for a city. Select a city to return to the main screen and save it to city list, or tap the location button to get weather data of your local city.
@@ -54,6 +54,8 @@ We welcome community users to contribute! Feel free to fork this repository, sub
     <td><img src="./public/sample_settings_dark.png" width="200"/></td>
   </tr>
 </table>
+
+More screenshots in [Public Folder](https://github.com/LanceHuang245/Zephyr/tree/master/public)
 
 ## Download
 [Click here to download the latest version of Zephyr](https://github.com/LanceHuang245/Zephyr/releases/latest)
