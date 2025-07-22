@@ -64,10 +64,10 @@
   "airQuality": "Air Quality",
   "airQualityGood": "Good",
   "airQualityModerate": "Moderate",
-  "airQualityUnhealthyForSensitive": "Fair",
-  "airQualityUnhealthy": "Poor",
-  "airQualityVeryUnhealthy": "Very Poor",
-  "airQualityHazardous": "Hazardous",
+  "airQualityFair": "Fair",
+  "airQualityPoor": "Poor",
+  "airQualityVeryPoor": "Very Poor",
+  "airQualityExtremelyPoor": "Hazardous",
   "addHomeWidget": "Add Desktop Widget",
   "ignoreBatteryOptimization": "Ignore Battery Optimization",
   "iBODesc": "Allows Zephyr to update weather data in the background",
@@ -77,5 +77,7 @@
   "hourly_windSpeed": "Hourly Wind Speed",
   "hourly_windSpeed_Desc": "Hourly wind speed, 10m represents wind speed at 10 meters above the ground, and so on. You can manually slide the chart to see detailed wind speed data per hour.",
   "hourly_pressure": "Hourly Air Pressure",
-  "hourly_pressure_Desc": "Hourly air pressure at sea level and surface pressure at ground level, hPa is the unit of air pressure. You can manually slide the chart to see detailed hourly barometric pressure data."
+  "hourly_pressure_Desc": "Hourly air pressure at sea level and surface pressure at ground level, hPa is the unit of air pressure. You can manually slide the chart to see detailed hourly barometric pressure data.",
+  "eAQIGrading": "European Standard Air Quality Index Grading",
+  "eAQIDesc": "0-20 is good, 20-40 is fair, 40-60 is moderate, 60-80 is poor, 80-100 is very poor, >100 is extremely poor. \nThe grading of each pollutant is seen in the European Environment Standards."
 }

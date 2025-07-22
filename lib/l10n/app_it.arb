@@ -64,10 +64,10 @@
   "airQuality": "QA",
   "airQualityGood": "Buona",
   "airQualityModerate": "Moderata",
-  "airQualityUnhealthyForSensitive": "Discreta",
-  "airQualityUnhealthy": "Scarsa",
-  "airQualityVeryUnhealthy": "Molto Scarsa",
-  "airQualityHazardous": "Pericolosa",
+  "airQualityFair": "Discreta",
+  "airQualityPoor": "Scarsa",
+  "airQualityVeryPoor": "Molto Scarsa",
+  "airQualityExtremelyPoor": "Pericolosa",
   "addHomeWidget": "Aggiungi widget per il desktop",
   "ignoreBatteryOptimization": "Ignora Ottimizzazione Batteria",
   "iBODesc": "Permette a Zephyr di aggiornare i dati meteo in background",
@@ -77,5 +77,7 @@
   "hourly_windSpeed": "Velocità oraria del vento",
   "hourly_windSpeed_Desc": "Velocità oraria del vento, 10m rappresenta la velocità del vento a 10 metri dal suolo, e così via. È possibile far scorrere manualmente il grafico per visualizzare i dati dettagliati della velocità del vento all'ora.",
   "hourly_pressure": "Pressione oraria dell'aria",
-  "hourly_pressure_Desc": "Pressione oraria dell'aria al livello del mare e pressione superficiale al livello del suolo, hPa è l'unità di misura della pressione dell'aria. È possibile far scorrere manualmente il grafico per visualizzare i dati dettagliati della pressione barometrica oraria."
+  "hourly_pressure_Desc": "Pressione oraria dell'aria al livello del mare e pressione superficiale al livello del suolo, hPa è l'unità di misura della pressione dell'aria. È possibile far scorrere manualmente il grafico per visualizzare i dati dettagliati della pressione barometrica oraria.",
+  "eAQIGrading": "Classificazione dell'indice di qualità dell'aria secondo gli standard europei",
+  "eAQIDesc": "0-20 è buono, 20-40 è discreto, 40-60 è moderato, 60-80 è scarso, 80-100 è molto scarso, >100 è estremamente scarso. \nLa classificazione di ciascun inquinante è riportata negli Standard ambientali europei."
 }

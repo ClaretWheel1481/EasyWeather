@@ -44,7 +44,7 @@ class _WeatherViewState extends State<WeatherView>
       context: context,
       barrierDismissible: true,
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
-      transitionDuration: const Duration(milliseconds: 250),
+      transitionDuration: const Duration(milliseconds: 300),
       pageBuilder: (context, animation, secondaryAnimation) {
         return SharedAxisTransition(
           fillColor: Colors.transparent,
@@ -147,8 +147,7 @@ class _WeatherViewState extends State<WeatherView>
                                 WeatherInfoTile(
                                   icon: current.pm25 != null
                                       ? getAirQualityIcon(getAirQualityLevel(
-                                          pm25: current.pm25,
-                                          pm10: current.pm10))
+                                          euAQI: current.euAQI))
                                       : Icons.air,
                                   label:
                                       AppLocalizations.of(context).airQuality,
@@ -156,8 +155,7 @@ class _WeatherViewState extends State<WeatherView>
                                       ? getLocalizedAirQualityDesc(
                                           context,
                                           getAirQualityLevel(
-                                              pm25: current.pm25,
-                                              pm10: current.pm10))
+                                              euAQI: current.euAQI))
                                       : '-',
                                   unit: '',
                                 ),

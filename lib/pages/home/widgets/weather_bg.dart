@@ -104,7 +104,7 @@ class _WeatherBgState extends State<WeatherBg> {
                 right: 0,
                 bottom: 0,
                 child: Container(
-                  color: Colors.black.withValues(alpha: 0.3),
+                  color: Colors.black.withValues(alpha: 0.25),
                 ),
               ),
           ],

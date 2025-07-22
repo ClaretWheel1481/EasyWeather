@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zephyr/core/services/native_weather_service.dart';
 import 'notifiers.dart';
 import 'package:flutter/material.dart';
 import 'languages.dart';
@@ -32,4 +33,6 @@ Future<void> initAppSettings() async {
     );
     localeCodeNotifier.value = matched.code;
   }
+  // 初始化并启动原生天气服务
+  await NativeWeatherService.initialize();
 }

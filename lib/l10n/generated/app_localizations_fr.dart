@@ -182,16 +182,16 @@ class AppLocalizationsFr extends AppLocalizations {
   String get airQualityModerate => 'Modérée';
 
   @override
-  String get airQualityUnhealthyForSensitive => 'Acceptable';
+  String get airQualityFair => 'Acceptable';
 
   @override
-  String get airQualityUnhealthy => 'Mauvaise';
+  String get airQualityPoor => 'Mauvaise';
 
   @override
-  String get airQualityVeryUnhealthy => 'Très mauvaise';
+  String get airQualityVeryPoor => 'Très mauvaise';
 
   @override
-  String get airQualityHazardous => 'Dangereuse';
+  String get airQualityExtremelyPoor => 'Dangereuse';
 
   @override
   String get addHomeWidget => 'Ajouter un widget au bureau';
@@ -222,4 +222,10 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get hourly_pressure_Desc => 'Pression atmosphérique horaire au niveau de la mer et pression de surface au niveau du sol, hPa étant l\'unité de pression atmosphérique. Vous pouvez faire glisser manuellement le graphique pour obtenir des données détaillées sur la pression barométrique horaire.';
+
+  @override
+  String get eAQIGrading => 'Classification de l\'indice de qualité de l\'air selon les normes européennes';
+
+  @override
+  String get eAQIDesc => '0-20 est bon, 20-40 est moyen, 40-60 est modéré, 60-80 est mauvais, 80-100 est très mauvais, >100 est extrêmement mauvais. \nLa classification de chaque polluant est indiquée dans les normes européennes de l\'environnement.';
 }

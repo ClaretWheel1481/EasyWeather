@@ -9,8 +9,8 @@ class ThunderFlashAnimation extends StatefulWidget {
   const ThunderFlashAnimation({
     super.key,
     this.opacity = 0.7,
-    this.fadeInMs = 120,
-    this.fadeOutMs = 400,
+    this.fadeInMs = 110,
+    this.fadeOutMs = 380,
     this.minIntervalMs = 4000,
     this.maxIntervalMs = 6000,
   });

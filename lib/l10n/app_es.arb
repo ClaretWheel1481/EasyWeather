@@ -64,10 +64,10 @@
   "airQuality": "CA",
   "airQualityGood": "Buena",
   "airQualityModerate": "Moderada",
-  "airQualityUnhealthyForSensitive": "Aceptable",
-  "airQualityUnhealthy": "Mala",
-  "airQualityVeryUnhealthy": "Muy Mala",
-  "airQualityHazardous": "Peligrosa",
+  "airQualityFair": "Aceptable",
+  "airQualityPoor": "Mala",
+  "airQualityVeryPoor": "Muy Mala",
+  "airQualityExtremelyPoor": "Peligrosa",
   "addHomeWidget": "Agregar Widget al Escritorio",
   "ignoreBatteryOptimization": "Ignorar Optimización de Batería",
   "iBODesc": "Permite a Zephyr actualizar los datos meteorológicos en segundo plano",
@@ -77,5 +77,7 @@
   "hourly_windSpeed": "Velocidad horaria del viento",
   "hourly_windSpeed_Desc": "Velocidad del viento por hora, 10m representa la velocidad del viento a 10 metros sobre el suelo, y así sucesivamente. Puede deslizar manualmente el gráfico para ver los datos detallados de la velocidad del viento por hora.",
   "hourly_pressure": "Presión atmosférica horaria",
-  "hourly_pressure_Desc": "Presión atmosférica horaria a nivel del mar y presión superficial a nivel del suelo, hPa es la unidad de presión atmosférica. Puede deslizar manualmente el gráfico para ver los datos detallados de la presión barométrica horaria."
+  "hourly_pressure_Desc": "Presión atmosférica horaria a nivel del mar y presión superficial a nivel del suelo, hPa es la unidad de presión atmosférica. Puede deslizar manualmente el gráfico para ver los datos detallados de la presión barométrica horaria.",
+  "eAQIGrading": "Clasificación del índice europeo de calidad del aire",
+  "eAQIDesc": "0-20 es bueno, 20-40 es regular, 40-60 es moderado, 60-80 es deficiente, 80-100 es muy deficiente, >100 es extremadamente deficiente. \nLa clasificación de cada contaminante se ve en las Normas Europeas de Medio Ambiente."
 }

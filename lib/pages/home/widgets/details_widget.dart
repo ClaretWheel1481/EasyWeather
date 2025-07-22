@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:zephyr/l10n/generated/app_localizations.dart';
 import '../../../core/models/weather.dart';
 import 'package:animations/animations.dart';
-import 'details_full_page.dart';
+import '../../details_full_page/view.dart';
 
 class DetailedDataWidget extends StatelessWidget {
   final CurrentWeather? current;

@@ -64,10 +64,10 @@
   "airQuality": "AQ",
   "airQualityGood": "Bonne",
   "airQualityModerate": "Modérée",
-  "airQualityUnhealthyForSensitive": "Acceptable",
-  "airQualityUnhealthy": "Mauvaise",
-  "airQualityVeryUnhealthy": "Très mauvaise",
-  "airQualityHazardous": "Dangereuse",
+  "airQualityFair": "Acceptable",
+  "airQualityPoor": "Mauvaise",
+  "airQualityVeryPoor": "Très mauvaise",
+  "airQualityExtremelyPoor": "Dangereuse",
   "addHomeWidget": "Ajouter un widget au bureau",
   "ignoreBatteryOptimization": "Ignorer l'optimisation de la batterie",
   "iBODesc": "Permet à Zephyr de mettre à jour les données météo en arrière-plan",
@@ -77,5 +77,7 @@
   "hourly_windSpeed": "Vitesse horaire du vent",
   "hourly_windSpeed_Desc": "Vitesse horaire du vent, 10m représente la vitesse du vent à 10 mètres au-dessus du sol, etc. Vous pouvez faire glisser manuellement le graphique pour obtenir des données détaillées sur la vitesse du vent par heure.",
   "hourly_pressure": "Pression atmosphérique horaire",
-  "hourly_pressure_Desc": "Pression atmosphérique horaire au niveau de la mer et pression de surface au niveau du sol, hPa étant l'unité de pression atmosphérique. Vous pouvez faire glisser manuellement le graphique pour obtenir des données détaillées sur la pression barométrique horaire."
+  "hourly_pressure_Desc": "Pression atmosphérique horaire au niveau de la mer et pression de surface au niveau du sol, hPa étant l'unité de pression atmosphérique. Vous pouvez faire glisser manuellement le graphique pour obtenir des données détaillées sur la pression barométrique horaire.",
+  "eAQIGrading": "Classification de l'indice de qualité de l'air selon les normes européennes",
+  "eAQIDesc": "0-20 est bon, 20-40 est moyen, 40-60 est modéré, 60-80 est mauvais, 80-100 est très mauvais, >100 est extrêmement mauvais. \nLa classification de chaque polluant est indiquée dans les normes européennes de l'environnement."
 }

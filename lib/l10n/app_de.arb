@@ -64,10 +64,10 @@
   "airQuality": "Luftqual.",
   "airQualityGood": "Gut",
   "airQualityModerate": "Mäßig",
-  "airQualityUnhealthyForSensitive": "Ungesund für sensible Gruppen",
-  "airQualityUnhealthy": "Ungesund",
-  "airQualityVeryUnhealthy": "Sehr ungesund",
-  "airQualityHazardous": "Gefährlich",
+  "airQualityFair": "Messe",
+  "airQualityPoor": "Ungesund",
+  "airQualityVeryPoor": "Sehr ungesund",
+  "airQualityExtremelyPoor": "Gefährlich",
   "addHomeWidget": "Homescreen-Widget hinzufügen",
   "ignoreBatteryOptimization": "Batterieoptimierung ignorieren",
   "iBODesc": "Ermöglicht Zephyr die automatische Wetteraktualisierung im Hintergrund",
@@ -77,5 +77,7 @@
   "hourly_windSpeed": "Stündliche Windgeschwindigkeit",
   "hourly_windSpeed_Desc": "Stündliche Windgeschwindigkeit, 10m steht für die Windgeschwindigkeit in 10 Metern über dem Boden, usw. Sie können das Diagramm manuell verschieben, um detaillierte Windgeschwindigkeitsdaten pro Stunde zu sehen.",
   "hourly_pressure": "Stündlicher Luftdruck",
-  "hourly_pressure_Desc": "Stündlicher Luftdruck auf Meereshöhe und Oberflächendruck auf Bodenhöhe, hPa ist die Einheit des Luftdrucks. Sie können das Diagramm manuell verschieben, um detaillierte stündliche Luftdruckdaten zu sehen."
+  "hourly_pressure_Desc": "Stündlicher Luftdruck auf Meereshöhe und Oberflächendruck auf Bodenhöhe, hPa ist die Einheit des Luftdrucks. Sie können das Diagramm manuell verschieben, um detaillierte stündliche Luftdruckdaten zu sehen.",
+  "eAQIGrading": "Europäische Norm für die Einstufung des Luftqualitätsindex",
+  "eAQIDesc": "0-20 ist gut, 20-40 ist mittelmäßig, 40-60 ist mäßig, 60-80 ist schlecht, 80-100 ist sehr schlecht, >100 ist extrem schlecht. \nDie Einstufung der einzelnen Schadstoffe ist in den Europäischen Umweltnormen zu finden."
 }

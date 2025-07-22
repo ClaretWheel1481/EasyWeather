@@ -182,16 +182,16 @@ class AppLocalizationsIt extends AppLocalizations {
   String get airQualityModerate => 'Moderata';
 
   @override
-  String get airQualityUnhealthyForSensitive => 'Discreta';
+  String get airQualityFair => 'Discreta';
 
   @override
-  String get airQualityUnhealthy => 'Scarsa';
+  String get airQualityPoor => 'Scarsa';
 
   @override
-  String get airQualityVeryUnhealthy => 'Molto Scarsa';
+  String get airQualityVeryPoor => 'Molto Scarsa';
 
   @override
-  String get airQualityHazardous => 'Pericolosa';
+  String get airQualityExtremelyPoor => 'Pericolosa';
 
   @override
   String get addHomeWidget => 'Aggiungi widget per il desktop';
@@ -222,4 +222,10 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get hourly_pressure_Desc => 'Pressione oraria dell\'aria al livello del mare e pressione superficiale al livello del suolo, hPa è l\'unità di misura della pressione dell\'aria. È possibile far scorrere manualmente il grafico per visualizzare i dati dettagliati della pressione barometrica oraria.';
+
+  @override
+  String get eAQIGrading => 'Classificazione dell\'indice di qualità dell\'aria secondo gli standard europei';
+
+  @override
+  String get eAQIDesc => '0-20 è buono, 20-40 è discreto, 40-60 è moderato, 60-80 è scarso, 80-100 è molto scarso, >100 è estremamente scarso. \nLa classificazione di ciascun inquinante è riportata negli Standard ambientali europei.';
 }

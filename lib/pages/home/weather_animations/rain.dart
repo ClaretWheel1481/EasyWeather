@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'dart:ui';
 
-// 雨滴动画组件
 class RainAnimation extends StatefulWidget {
   final int dropCount;
   final double maxHeight;
   const RainAnimation(
-      {super.key, this.dropCount = 30, required this.maxHeight});
+      {super.key, this.dropCount = 40, required this.maxHeight});
 
   @override
   State<RainAnimation> createState() => _RainAnimationState();
@@ -22,22 +22,10 @@ class _RainAnimationState extends State<RainAnimation>
   void initState() {
     super.initState();
     _controller = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 200))
-      ..addListener(() {
-        setState(() {});
-      })
-      ..repeat();
-    _drops = List.generate(widget.dropCount, (index) => _randomDrop());
-  }
-
-  _RainDrop _randomDrop() {
-    return _RainDrop(
-      x: _random.nextDouble(),
-      y: _random.nextDouble(),
-      length: 15 + _random.nextDouble() * 15,
-      speed: 0.5 + _random.nextDouble() * 1.2,
-      opacity: 0.3 + _random.nextDouble() * 0.5,
-    );
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    )..repeat();
+    _drops = List.generate(widget.dropCount, (_) => _RainDrop.random(_random));
   }
 
   @override
@@ -48,56 +36,79 @@ class _RainAnimationState extends State<RainAnimation>
 
   @override
   Widget build(BuildContext context) {
-    final double maxHeight = widget.maxHeight;
-    for (var drop in _drops) {
-      drop.y += drop.speed * 0.02;
-      if (drop.y * maxHeight > maxHeight) {
-        // 到达底部后重置到顶部
-        drop.x = _random.nextDouble();
-        drop.y = 0;
-        drop.length = 15 + _random.nextDouble() * 15;
-        drop.speed = 0.5 + _random.nextDouble() * 1.2;
-        drop.opacity = 0.3 + _random.nextDouble() * 0.5;
-      }
-    }
-    return CustomPaint(
-      size: Size(double.infinity, maxHeight),
-      painter: _RainPainter(_drops, maxHeight),
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (_, __) => CustomPaint(
+        size: Size(MediaQuery.of(context).size.width, widget.maxHeight),
+        painter: _RainPainter(_drops, _controller.value, widget.maxHeight),
+      ),
     );
   }
 }
 
 class _RainDrop {
-  double x; // 0~1, 相对宽度
-  double y; // 0~1, 相对高度
-  double length;
-  double speed;
-  double opacity;
-  _RainDrop(
-      {required this.x,
-      required this.y,
-      required this.length,
-      required this.speed,
-      required this.opacity});
+  final double x;
+  final double length;
+  final double speed;
+  final double thickness;
+  final double opacity;
+  final double phase;
+
+  _RainDrop({
+    required this.x,
+    required this.length,
+    required this.speed,
+    required this.thickness,
+    required this.opacity,
+    required this.phase,
+  });
+
+  factory _RainDrop.random(Random random) {
+    final double depth = pow(random.nextDouble(), 1).toDouble();
+    final double length = lerpDouble(18, 36, depth)!;
+    final double speed = lerpDouble(1.3, 2.2, depth)!;
+    final double thickness = lerpDouble(1.2, 2.8, 1 - depth)!;
+    final double opacity = lerpDouble(0.25, 0.4, 1 - depth)!;
+    return _RainDrop(
+      x: random.nextDouble(),
+      length: length,
+      speed: speed,
+      thickness: thickness,
+      opacity: opacity,
+      phase: random.nextDouble(),
+    );
+  }
 }
 
 class _RainPainter extends CustomPainter {
   final List<_RainDrop> drops;
+  final double progress;
   final double maxHeight;
-  _RainPainter(this.drops, this.maxHeight);
+  final Random _random = Random();
+
+  _RainPainter(this.drops, this.progress, this.maxHeight);
 
   @override
   void paint(Canvas canvas, Size size) {
-    final Paint paint = Paint()
-      ..strokeCap = StrokeCap.round
-      ..strokeWidth = 1.2;
-    for (var drop in drops) {
-      paint.color = Colors.white.withValues(alpha: drop.opacity);
+    for (int i = 0; i < drops.length; i++) {
+      var drop = drops[i];
+      final double t = (progress + drop.phase) % 1.0;
+      final double y = t * size.height * drop.speed;
       final double dx = drop.x * size.width;
-      final double dy = drop.y * size.height;
+
+      // 重新生成参数
+      if (y > size.height) {
+        drops[i] = _RainDrop.random(_random);
+        continue;
+      }
+
+      final Paint paint = Paint()
+        ..strokeCap = StrokeCap.round
+        ..strokeWidth = drop.thickness
+        ..color = Colors.white.withValues(alpha: drop.opacity);
       canvas.drawLine(
-        Offset(dx, dy),
-        Offset(dx, dy + drop.length),
+        Offset(dx, y),
+        Offset(dx, y + drop.length),
         paint,
       );
     }

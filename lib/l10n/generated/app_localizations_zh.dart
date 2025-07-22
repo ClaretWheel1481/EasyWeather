@@ -182,16 +182,16 @@ class AppLocalizationsZh extends AppLocalizations {
   String get airQualityModerate => '良';
 
   @override
-  String get airQualityUnhealthyForSensitive => '一般';
+  String get airQualityFair => '一般';
 
   @override
-  String get airQualityUnhealthy => '较差';
+  String get airQualityPoor => '较差';
 
   @override
-  String get airQualityVeryUnhealthy => '极差';
+  String get airQualityVeryPoor => '极差';
 
   @override
-  String get airQualityHazardous => '危险';
+  String get airQualityExtremelyPoor => '危险';
 
   @override
   String get addHomeWidget => '添加桌面小部件';
@@ -222,6 +222,12 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get hourly_pressure_Desc => '每小时的海平面气压与地面气压，hPa为气压单位。可以手动滑动图表查看每小时的详细气压数据。';
+
+  @override
+  String get eAQIGrading => '欧洲标准空气质量分级';
+
+  @override
+  String get eAQIDesc => '0-20 为好，20-40 为一般，40-60 为良，60-80 为较差，80-100 为极差，>100 为危险。\n每种污染物的分级见欧洲环境标准。';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
@@ -402,16 +408,16 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get airQualityModerate => '良';
 
   @override
-  String get airQualityUnhealthyForSensitive => '一般';
+  String get airQualityFair => '一般';
 
   @override
-  String get airQualityUnhealthy => '較差';
+  String get airQualityPoor => '較差';
 
   @override
-  String get airQualityVeryUnhealthy => '極差';
+  String get airQualityVeryPoor => '極差';
 
   @override
-  String get airQualityHazardous => '危險';
+  String get airQualityExtremelyPoor => '危險';
 
   @override
   String get addHomeWidget => '添加小部件至桌面';
@@ -442,4 +448,10 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get hourly_pressure_Desc => '每小時的海平面氣壓和地面氣壓，hPa為氣壓單位。可以手動滑動图表查看每小时的详细氣壓数据。';
+
+  @override
+  String get eAQIGrading => '歐洲標準空氣品質分級';
+
+  @override
+  String get eAQIDesc => '0-20 為良好，20-40 為一般，40-60 為中等，60-80 為較差，80-100 為非常差，>100 為極差。\n每種污染物的分級見於歐洲環境標準。';
 }

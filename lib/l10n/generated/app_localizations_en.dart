@@ -182,16 +182,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get airQualityModerate => 'Moderate';
 
   @override
-  String get airQualityUnhealthyForSensitive => 'Fair';
+  String get airQualityFair => 'Fair';
 
   @override
-  String get airQualityUnhealthy => 'Poor';
+  String get airQualityPoor => 'Poor';
 
   @override
-  String get airQualityVeryUnhealthy => 'Very Poor';
+  String get airQualityVeryPoor => 'Very Poor';
 
   @override
-  String get airQualityHazardous => 'Hazardous';
+  String get airQualityExtremelyPoor => 'Hazardous';
 
   @override
   String get addHomeWidget => 'Add Desktop Widget';
@@ -222,4 +222,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get hourly_pressure_Desc => 'Hourly air pressure at sea level and surface pressure at ground level, hPa is the unit of air pressure. You can manually slide the chart to see detailed hourly barometric pressure data.';
+
+  @override
+  String get eAQIGrading => 'European Standard Air Quality Index Grading';
+
+  @override
+  String get eAQIDesc => '0-20 is good, 20-40 is fair, 40-60 is moderate, 60-80 is poor, 80-100 is very poor, >100 is extremely poor. \nThe grading of each pollutant is seen in the European Environment Standards.';
 }

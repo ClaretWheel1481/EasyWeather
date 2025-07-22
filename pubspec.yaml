@@ -24,6 +24,7 @@ dependencies:
   battery_optimization_helper: 
   animations: 
   fl_chart: 
+  percent_indicator: 
   
 dev_dependencies:
   flutter_test:

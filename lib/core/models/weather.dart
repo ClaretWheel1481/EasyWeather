@@ -78,6 +78,10 @@ class CurrentWeather {
   final double? surfacePressure;
   final double? pm25;
   final double? pm10;
+  final double? ozone;
+  final double? nitrogenDioxide;
+  final double? sulphurDioxide;
+  final double? euAQI;
 
   CurrentWeather({
     required this.temperature,
@@ -89,6 +93,10 @@ class CurrentWeather {
     this.surfacePressure,
     this.pm25,
     this.pm10,
+    this.ozone,
+    this.nitrogenDioxide,
+    this.sulphurDioxide,
+    this.euAQI,
   });
 
   factory CurrentWeather.fromJson(
@@ -105,6 +113,16 @@ class CurrentWeather {
       surfacePressure: (json['surface_pressure'] ?? 0).toDouble(),
       pm25: json['pm25'] != null ? (json['pm25']).toDouble() : null,
       pm10: json['pm10'] != null ? (json['pm10']).toDouble() : null,
+      ozone: json['ozone'] != null ? (json['ozone']).toDouble() : null,
+      nitrogenDioxide: json['nitrogen_dioxide'] != null
+          ? (json['nitrogen_dioxide']).toDouble()
+          : null,
+      sulphurDioxide: json['sulphur_dioxide'] != null
+          ? (json['sulphur_dioxide']).toDouble()
+          : null,
+      euAQI: json['european_aqi'] != null
+          ? (json['european_aqi']).toDouble()
+          : null,
     );
   }
 
@@ -118,6 +136,10 @@ class CurrentWeather {
         'surface_pressure': surfacePressure,
         'pm25': pm25,
         'pm10': pm10,
+        'ozone': ozone,
+        'nitrogen_dioxide': nitrogenDioxide,
+        'sulphur_dioxide': sulphurDioxide,
+        'european_aqi': euAQI
       };
 }
 

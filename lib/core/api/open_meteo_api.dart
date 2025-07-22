@@ -26,6 +26,13 @@ class OpenMeteoApi {
         if (airQualityJson != null && airQualityJson['current'] != null) {
           weatherJson['current']['pm25'] = airQualityJson['current']['pm2_5'];
           weatherJson['current']['pm10'] = airQualityJson['current']['pm10'];
+          weatherJson['current']['ozone'] = airQualityJson['current']['ozone'];
+          weatherJson['current']['european_aqi'] =
+              airQualityJson['current']['european_aqi'];
+          weatherJson['current']['nitrogen_dioxide'] =
+              airQualityJson['current']['nitrogen_dioxide'];
+          weatherJson['current']['sulphur_dioxide'] =
+              airQualityJson['current']['sulphur_dioxide'];
         }
         return WeatherData.fromJson(weatherJson);
       }
@@ -68,7 +75,7 @@ class OpenMeteoApi {
     final url = Uri.parse('${AppConstants.omAirQualityUrl}'
         '?latitude=$latitude'
         '&longitude=$longitude'
-        '&current=pm2_5,pm10'
+        '&current=pm2_5,pm10,ozone,nitrogen_dioxide,sulphur_dioxide,european_aqi'
         '&timezone=auto');
 
     final response = await http.get(url);

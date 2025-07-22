@@ -110,68 +110,31 @@ String getLocalizedWeatherDesc(BuildContext context, int? code) {
 // 空气质量等级
 enum AirQualityLevel {
   good,
+  fair,
   moderate,
-  unhealthyForSensitive,
-  unhealthy,
-  veryUnhealthy,
-  hazardous,
+  poor,
+  veryPoor,
+  extremelyPoor,
 }
 
-// 根据PM2.5和PM10值综合判断空气质量等级
-AirQualityLevel getAirQualityLevel({double? pm25, double? pm10}) {
-  if (pm25 == null && pm10 == null) return AirQualityLevel.good;
-
-  // 如果只有一个值，使用单个值判断
-  if (pm25 == null) {
-    return _getAirQualityLevelByPM10(pm10!);
+// 返回空气质量等级
+AirQualityLevel getAirQualityLevel({double? euAQI}) {
+  if (euAQI == null) {
+    return AirQualityLevel.extremelyPoor;
   }
-  if (pm10 == null) {
-    return _getAirQualityLevelByPM25(pm25);
+  if (euAQI >= 0 && euAQI <= 20) {
+    return AirQualityLevel.good;
+  } else if (euAQI > 20 && euAQI <= 40) {
+    return AirQualityLevel.fair;
+  } else if (euAQI > 40 && euAQI <= 60) {
+    return AirQualityLevel.moderate;
+  } else if (euAQI > 60 && euAQI <= 80) {
+    return AirQualityLevel.poor;
+  } else if (euAQI > 80 && euAQI <= 100) {
+    return AirQualityLevel.veryPoor;
+  } else {
+    return AirQualityLevel.extremelyPoor;
   }
-
-  // 两个值都存在，综合判断
-  final pm25Level = _getAirQualityLevelByPM25(pm25);
-  final pm10Level = _getAirQualityLevelByPM10(pm10);
-
-  // 取较差的等级作为最终结果
-  return _getWorseLevel(pm25Level, pm10Level);
-}
-
-// 根据PM2.5值获取空气质量等级
-AirQualityLevel _getAirQualityLevelByPM25(double pm25) {
-  if (pm25 <= 12) return AirQualityLevel.good;
-  if (pm25 <= 35.4) return AirQualityLevel.moderate;
-  if (pm25 <= 55.4) return AirQualityLevel.unhealthyForSensitive;
-  if (pm25 <= 150.4) return AirQualityLevel.unhealthy;
-  if (pm25 <= 250.4) return AirQualityLevel.veryUnhealthy;
-  return AirQualityLevel.hazardous;
-}
-
-// 根据PM10值获取空气质量等级
-AirQualityLevel _getAirQualityLevelByPM10(double pm10) {
-  if (pm10 <= 54) return AirQualityLevel.good;
-  if (pm10 <= 154) return AirQualityLevel.moderate;
-  if (pm10 <= 254) return AirQualityLevel.unhealthyForSensitive;
-  if (pm10 <= 354) return AirQualityLevel.unhealthy;
-  if (pm10 <= 424) return AirQualityLevel.veryUnhealthy;
-  return AirQualityLevel.hazardous;
-}
-
-// 比较两个空气质量等级，返回较差的等级
-AirQualityLevel _getWorseLevel(AirQualityLevel level1, AirQualityLevel level2) {
-  final levels = [
-    AirQualityLevel.good,
-    AirQualityLevel.moderate,
-    AirQualityLevel.unhealthyForSensitive,
-    AirQualityLevel.unhealthy,
-    AirQualityLevel.veryUnhealthy,
-    AirQualityLevel.hazardous,
-  ];
-
-  final index1 = levels.indexOf(level1);
-  final index2 = levels.indexOf(level2);
-
-  return levels[index1 > index2 ? index1 : index2];
 }
 
 // 获取空气质量等级对应的图标
@@ -179,15 +142,15 @@ IconData getAirQualityIcon(AirQualityLevel level) {
   switch (level) {
     case AirQualityLevel.good:
       return Icons.sentiment_very_satisfied;
-    case AirQualityLevel.moderate:
+    case AirQualityLevel.fair:
       return Icons.sentiment_satisfied;
-    case AirQualityLevel.unhealthyForSensitive:
+    case AirQualityLevel.moderate:
       return Icons.sentiment_neutral;
-    case AirQualityLevel.unhealthy:
+    case AirQualityLevel.poor:
       return Icons.sentiment_dissatisfied;
-    case AirQualityLevel.veryUnhealthy:
+    case AirQualityLevel.veryPoor:
       return Icons.sentiment_very_dissatisfied;
-    case AirQualityLevel.hazardous:
+    case AirQualityLevel.extremelyPoor:
       return Icons.warning;
   }
 }
@@ -201,14 +164,14 @@ String getLocalizedAirQualityDesc(BuildContext context, AirQualityLevel level) {
       return l10n.airQualityGood;
     case AirQualityLevel.moderate:
       return l10n.airQualityModerate;
-    case AirQualityLevel.unhealthyForSensitive:
-      return l10n.airQualityUnhealthyForSensitive;
-    case AirQualityLevel.unhealthy:
-      return l10n.airQualityUnhealthy;
-    case AirQualityLevel.veryUnhealthy:
-      return l10n.airQualityVeryUnhealthy;
-    case AirQualityLevel.hazardous:
-      return l10n.airQualityHazardous;
+    case AirQualityLevel.fair:
+      return l10n.airQualityFair;
+    case AirQualityLevel.poor:
+      return l10n.airQualityPoor;
+    case AirQualityLevel.veryPoor:
+      return l10n.airQualityVeryPoor;
+    case AirQualityLevel.extremelyPoor:
+      return l10n.airQualityExtremelyPoor;
   }
 }
 
@@ -255,4 +218,65 @@ String getLocalizedWindDirection(BuildContext context, double deg) {
     default:
       return l10n.windDirectionNorth;
   }
+}
+
+// 欧标分级颜色
+Color getAqiColor(String type, double value, ColorScheme colorScheme) {
+  if (type == 'aqi') {
+    if (value <= 20) return Colors.green;
+    if (value <= 40) return Colors.lightGreen;
+    if (value <= 60) return Colors.yellow;
+    if (value <= 80) return Colors.orange;
+    if (value <= 100) return Colors.red;
+    return Colors.brown;
+  }
+  if (type == 'pm2_5') {
+    if (value <= 10) return Colors.green;
+    if (value <= 20) return Colors.lightGreen;
+    if (value <= 25) return Colors.yellow;
+    if (value <= 50) return Colors.orange;
+    if (value <= 75) return Colors.red;
+    return Colors.brown;
+  }
+  if (type == 'pm10') {
+    if (value <= 20) return Colors.green;
+    if (value <= 40) return Colors.lightGreen;
+    if (value <= 50) return Colors.yellow;
+    if (value <= 100) return Colors.orange;
+    if (value <= 150) return Colors.red;
+    return Colors.brown;
+  }
+  if (type == 'no2') {
+    if (value <= 40) return Colors.green;
+    if (value <= 90) return Colors.lightGreen;
+    if (value <= 120) return Colors.yellow;
+    if (value <= 230) return Colors.orange;
+    if (value <= 340) return Colors.red;
+    return Colors.brown;
+  }
+  if (type == 'o3') {
+    if (value <= 50) return Colors.green;
+    if (value <= 100) return Colors.lightGreen;
+    if (value <= 130) return Colors.yellow;
+    if (value <= 240) return Colors.orange;
+    if (value <= 380) return Colors.red;
+    return Colors.brown;
+  }
+  if (type == 'so2') {
+    if (value <= 100) return Colors.green;
+    if (value <= 200) return Colors.lightGreen;
+    if (value <= 350) return Colors.yellow;
+    if (value <= 500) return Colors.orange;
+    if (value <= 750) return Colors.red;
+    return Colors.brown;
+  }
+  if (type == 'co') {
+    if (value <= 2000) return Colors.green;
+    if (value <= 4000) return Colors.lightGreen;
+    if (value <= 10000) return Colors.yellow;
+    if (value <= 20000) return Colors.orange;
+    if (value <= 30000) return Colors.red;
+    return Colors.brown;
+  }
+  return colorScheme.primary;
 }

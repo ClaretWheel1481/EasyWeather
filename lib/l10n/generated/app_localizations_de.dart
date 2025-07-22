@@ -182,16 +182,16 @@ class AppLocalizationsDe extends AppLocalizations {
   String get airQualityModerate => 'Mäßig';
 
   @override
-  String get airQualityUnhealthyForSensitive => 'Ungesund für sensible Gruppen';
+  String get airQualityFair => 'Messe';
 
   @override
-  String get airQualityUnhealthy => 'Ungesund';
+  String get airQualityPoor => 'Ungesund';
 
   @override
-  String get airQualityVeryUnhealthy => 'Sehr ungesund';
+  String get airQualityVeryPoor => 'Sehr ungesund';
 
   @override
-  String get airQualityHazardous => 'Gefährlich';
+  String get airQualityExtremelyPoor => 'Gefährlich';
 
   @override
   String get addHomeWidget => 'Homescreen-Widget hinzufügen';
@@ -222,4 +222,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get hourly_pressure_Desc => 'Stündlicher Luftdruck auf Meereshöhe und Oberflächendruck auf Bodenhöhe, hPa ist die Einheit des Luftdrucks. Sie können das Diagramm manuell verschieben, um detaillierte stündliche Luftdruckdaten zu sehen.';
+
+  @override
+  String get eAQIGrading => 'Europäische Norm für die Einstufung des Luftqualitätsindex';
+
+  @override
+  String get eAQIDesc => '0-20 ist gut, 20-40 ist mittelmäßig, 40-60 ist mäßig, 60-80 ist schlecht, 80-100 ist sehr schlecht, >100 ist extrem schlecht. \nDie Einstufung der einzelnen Schadstoffe ist in den Europäischen Umweltnormen zu finden.';
 }

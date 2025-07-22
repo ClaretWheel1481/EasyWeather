@@ -446,29 +446,29 @@ abstract class AppLocalizations {
   /// **'Moderate'**
   String get airQualityModerate;
 
-  /// No description provided for @airQualityUnhealthyForSensitive.
+  /// No description provided for @airQualityFair.
   ///
   /// In en, this message translates to:
   /// **'Fair'**
-  String get airQualityUnhealthyForSensitive;
+  String get airQualityFair;
 
-  /// No description provided for @airQualityUnhealthy.
+  /// No description provided for @airQualityPoor.
   ///
   /// In en, this message translates to:
   /// **'Poor'**
-  String get airQualityUnhealthy;
+  String get airQualityPoor;
 
-  /// No description provided for @airQualityVeryUnhealthy.
+  /// No description provided for @airQualityVeryPoor.
   ///
   /// In en, this message translates to:
   /// **'Very Poor'**
-  String get airQualityVeryUnhealthy;
+  String get airQualityVeryPoor;
 
-  /// No description provided for @airQualityHazardous.
+  /// No description provided for @airQualityExtremelyPoor.
   ///
   /// In en, this message translates to:
   /// **'Hazardous'**
-  String get airQualityHazardous;
+  String get airQualityExtremelyPoor;
 
   /// No description provided for @addHomeWidget.
   ///
@@ -529,6 +529,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Hourly air pressure at sea level and surface pressure at ground level, hPa is the unit of air pressure. You can manually slide the chart to see detailed hourly barometric pressure data.'**
   String get hourly_pressure_Desc;
+
+  /// No description provided for @eAQIGrading.
+  ///
+  /// In en, this message translates to:
+  /// **'European Standard Air Quality Index Grading'**
+  String get eAQIGrading;
+
+  /// No description provided for @eAQIDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'0-20 is good, 20-40 is fair, 40-60 is moderate, 60-80 is poor, 80-100 is very poor, >100 is extremely poor. \nThe grading of each pollutant is seen in the European Environment Standards.'**
+  String get eAQIDesc;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'dart:ui';
 
-// 雪花动画组件
 class SnowAnimation extends StatefulWidget {
-  final int snowCount;
   final double maxHeight;
-  const SnowAnimation(
-      {super.key, this.snowCount = 35, required this.maxHeight});
+  const SnowAnimation({super.key, required this.maxHeight});
 
   @override
   State<SnowAnimation> createState() => _SnowAnimationState();
@@ -17,30 +15,16 @@ class _SnowAnimationState extends State<SnowAnimation>
   late AnimationController _controller;
   late List<_SnowFlake> _flakes;
   final Random _random = Random();
+  int snowCount = 40;
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 200),
-    )
-      ..addListener(() {
-        setState(() {});
-      })
-      ..repeat();
-    _flakes = List.generate(widget.snowCount, (index) => _randomFlake());
-  }
-
-  _SnowFlake _randomFlake() {
-    return _SnowFlake(
-      x: _random.nextDouble(),
-      y: _random.nextDouble(),
-      radius: 2.5 + _random.nextDouble() * 2.5, // 雪花半径2.5~5
-      speed: 0.2 + _random.nextDouble() * 0.7, // 下落速度
-      drift: (_random.nextDouble() - 0.5) * 0.01, // 左右漂移
-      opacity: 0.5 + _random.nextDouble() * 0.5,
-    );
+      duration: const Duration(milliseconds: 4000),
+    )..repeat();
+    _flakes = List.generate(snowCount, (_) => _SnowFlake.random(_random));
   }
 
   @override
@@ -51,57 +35,75 @@ class _SnowAnimationState extends State<SnowAnimation>
 
   @override
   Widget build(BuildContext context) {
-    final double maxHeight = widget.maxHeight;
-    for (var flake in _flakes) {
-      flake.y += flake.speed * 0.01;
-      flake.x += flake.drift;
-      if (flake.y * maxHeight > maxHeight || flake.x < 0 || flake.x > 1) {
-        // 到达底部或漂出边界后重置到顶部
-        flake.x = _random.nextDouble();
-        flake.y = 0;
-        flake.radius = 2.5 + _random.nextDouble() * 2.5;
-        flake.speed = 0.2 + _random.nextDouble() * 0.7;
-        flake.drift = (_random.nextDouble() - 0.5) * 0.01;
-        flake.opacity = 0.5 + _random.nextDouble() * 0.5;
-      }
-    }
-    return CustomPaint(
-      size: Size(double.infinity, maxHeight),
-      painter: _SnowPainter(_flakes, maxHeight),
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (_, __) => CustomPaint(
+        size: Size(MediaQuery.of(context).size.width, widget.maxHeight),
+        painter: _SnowPainter(_flakes, _controller.value, widget.maxHeight),
+      ),
     );
   }
 }
 
 class _SnowFlake {
   double x; // 0~1, 相对宽度
-  double y; // 0~1, 相对高度
+  double phase; // 初始相位
   double radius;
   double speed;
   double drift;
   double opacity;
+
   _SnowFlake({
     required this.x,
-    required this.y,
+    required this.phase,
     required this.radius,
     required this.speed,
     required this.drift,
     required this.opacity,
   });
+
+  factory _SnowFlake.random(Random random) {
+    final double depth = pow(random.nextDouble(), 2).toDouble();
+    final double radius = lerpDouble(2.5, 5.0, 1 - depth)!;
+    final double speed = lerpDouble(0.7, 1.5, depth)!;
+    final double drift =
+        (random.nextDouble() - 0.5) * lerpDouble(0.01, 0.04, depth)!;
+    final double opacity = lerpDouble(0.4, 0.8, 1 - depth)!;
+    return _SnowFlake(
+      x: random.nextDouble(),
+      phase: random.nextDouble(),
+      radius: radius,
+      speed: speed,
+      drift: drift,
+      opacity: opacity,
+    );
+  }
 }
 
 class _SnowPainter extends CustomPainter {
   final List<_SnowFlake> flakes;
+  final double progress;
   final double maxHeight;
-  _SnowPainter(this.flakes, this.maxHeight);
+  final Random _random = Random();
+
+  _SnowPainter(this.flakes, this.progress, this.maxHeight);
 
   @override
   void paint(Canvas canvas, Size size) {
     final Paint paint = Paint();
-    for (var flake in flakes) {
+    for (int i = 0; i < flakes.length; i++) {
+      var flake = flakes[i];
+      final double t = (progress + flake.phase) % 1.0;
+      final double y = t * (size.height + flake.radius * 2);
+      final double dx = flake.x * size.width +
+          sin(t * 2 * pi) * 20 * flake.drift * size.width;
+      // 如果雪花超出底部或漂出边界，重新生成参数
+      if (y > size.height + flake.radius || dx < 0 || dx > size.width) {
+        flakes[i] = _SnowFlake.random(_random);
+        continue;
+      }
       paint.color = Colors.white.withValues(alpha: flake.opacity);
-      final double dx = flake.x * size.width;
-      final double dy = flake.y * size.height;
-      canvas.drawCircle(Offset(dx, dy), flake.radius, paint);
+      canvas.drawCircle(Offset(dx, y), flake.radius, paint);
     }
   }
 
