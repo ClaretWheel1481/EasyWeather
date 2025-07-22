@@ -280,3 +280,21 @@ Color getAqiColor(String type, double value, ColorScheme colorScheme) {
   }
   return colorScheme.primary;
 }
+
+// 获取各污染物最大值（欧标）
+double getAqiMaxValue(String type) {
+  switch (type) {
+    case 'pm2_5':
+      return 800;
+    case 'pm10':
+      return 1200;
+    case 'no2':
+      return 1000;
+    case 'o3':
+      return 800;
+    case 'so2':
+      return 1250;
+    default:
+      return 100;
+  }
+}

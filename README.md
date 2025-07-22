@@ -70,8 +70,7 @@ This project is built with the help of these amazing open-source projects and AP
 ### APIs
 - [OpenMeteo API](https://open-meteo.com/) - Weather data
 - [OpenStreetMap API](https://www.openstreetmap.org/) - City search
-- [QWeather API](https://dev.qweather.com/) - China Mainland weather warning
-- [AccuWeather API](https://www.accuweather.com/zh-cn/api) - Global weather warning
+- [QWeather API](https://dev.qweather.com/) - Weather warning
 
 ### Dependencies
 - [shared_preferences](https://pub.dev/packages/shared_preferences) - Local data storage

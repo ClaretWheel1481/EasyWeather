@@ -81,8 +81,9 @@ class WindLineChartCard extends StatelessWidget {
                         interval: 3,
                         getTitlesWidget: (value, meta) {
                           int idx = value.toInt();
-                          if (idx < 0 || idx >= hours.length)
+                          if (idx < 0 || idx >= hours.length) {
                             return const SizedBox();
+                          }
                           final t = hours[idx].time;
                           return Text(t.substring(11, 13),
                               style: textTheme.bodySmall);

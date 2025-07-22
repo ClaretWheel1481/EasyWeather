@@ -70,8 +70,7 @@
 ### API服务
 - [OpenMeteo API](https://open-meteo.com/) - 全球天气数据
 - [OpenStreetMap API](https://www.openstreetmap.org/) - 城市搜索
-- [QWeather API](https://dev.qweather.com/) - 中国大陆天气预警
-- [AccuWeather API](https://www.accuweather.com/zh-cn/api) - 全球天气预警
+- [QWeather API](https://dev.qweather.com/) - 天气预警数据
 
 ### 依赖包
 - [shared_preferences](https://pub.dev/packages/shared_preferences) - 本地数据存储

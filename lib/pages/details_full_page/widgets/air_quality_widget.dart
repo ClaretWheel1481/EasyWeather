@@ -103,10 +103,10 @@ class AirQualityCard extends StatelessWidget {
     );
   }
 
-  /// 构建单项污染物的横向柱状图
+  // 单项污染物的柱状图
   Widget _buildPollutantBar(BuildContext context, String label, double? value,
       String type, String unit, ColorScheme colorScheme) {
-    final max = _getMaxValue(type);
+    final max = getAqiMaxValue(type);
     final color = getAqiColor(type, value ?? 0, colorScheme);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
@@ -135,23 +135,5 @@ class AirQualityCard extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  // 获取各污染物最大值
-  double _getMaxValue(String type) {
-    switch (type) {
-      case 'pm2_5':
-        return 800;
-      case 'pm10':
-        return 1200;
-      case 'no2':
-        return 1000;
-      case 'o3':
-        return 800;
-      case 'so2':
-        return 1250;
-      default:
-        return 100;
-    }
   }
 }
