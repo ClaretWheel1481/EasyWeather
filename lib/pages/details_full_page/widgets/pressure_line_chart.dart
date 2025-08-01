@@ -31,11 +31,17 @@ class PressureLineChartCard extends StatelessWidget {
     double minY = (minPressure - 10).clamp(600, 1100);
     double maxY = (maxPressure + 10).clamp(600, 1100);
     return Card(
-      elevation: 3,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-      color: colorScheme.primaryContainer,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(28),
+        side: BorderSide(
+          color: colorScheme.outlineVariant,
+          width: 1,
+        ),
+      ),
+      color: colorScheme.surface,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(24, 10, 24, 16),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -44,14 +50,16 @@ class PressureLineChartCard extends StatelessWidget {
               children: [
                 Text(
                   AppLocalizations.of(context).hourly_pressure,
-                  style: textTheme.titleMedium?.copyWith(
-                    color: colorScheme.onPrimaryContainer,
+                  style: textTheme.titleLarge?.copyWith(
+                    color: colorScheme.onSurface,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.info_outline),
-                  color: colorScheme.onPrimaryContainer,
+                  icon: Icon(
+                    Icons.info_outline,
+                    color: colorScheme.onSurfaceVariant,
+                  ),
                   onPressed: () {
                     showDialog(
                       context: context,
@@ -63,8 +71,12 @@ class PressureLineChartCard extends StatelessWidget {
                         actions: [
                           TextButton(
                             onPressed: () => Navigator.of(context).pop(),
-                            child: Text(MaterialLocalizations.of(context)
-                                .okButtonLabel),
+                            child: Text(
+                              MaterialLocalizations.of(context).okButtonLabel,
+                              style: TextStyle(
+                                color: colorScheme.primary,
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -73,24 +85,43 @@ class PressureLineChartCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
             SizedBox(
-              height: 260,
+              height: 240,
               child: LineChart(
                 LineChartData(
-                  gridData: FlGridData(show: true, drawVerticalLine: false),
+                  gridData: FlGridData(
+                    show: true,
+                    drawVerticalLine: false,
+                    getDrawingHorizontalLine: (value) {
+                      return FlLine(
+                        color: colorScheme.outlineVariant,
+                        strokeWidth: 0.5,
+                      );
+                    },
+                    getDrawingVerticalLine: (value) {
+                      return FlLine(
+                        color: colorScheme.outlineVariant,
+                        strokeWidth: 0.5,
+                      );
+                    },
+                  ),
                   titlesData: FlTitlesData(
                     leftTitles: AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: true,
-                        reservedSize: 40,
+                        reservedSize: 35,
                         interval: 10,
                         getTitlesWidget: (value, meta) {
                           if (value % 10 == 0 &&
                               value >= minY &&
                               value <= maxY) {
-                            return Text(value.toInt().toString(),
-                                style: textTheme.bodySmall);
+                            return Text(
+                              value.toInt().toString(),
+                              style: textTheme.labelMedium?.copyWith(
+                                color: colorScheme.onSurfaceVariant,
+                              ),
+                            );
                           }
                           return const SizedBox();
                         },
@@ -106,8 +137,12 @@ class PressureLineChartCard extends StatelessWidget {
                             return const SizedBox();
                           }
                           final t = hours[idx].time;
-                          return Text(t.substring(11, 13),
-                              style: textTheme.bodySmall);
+                          return Text(
+                            t.substring(11, 13),
+                            style: textTheme.labelMedium?.copyWith(
+                              color: colorScheme.onSurfaceVariant,
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -118,8 +153,10 @@ class PressureLineChartCard extends StatelessWidget {
                   ),
                   borderData: FlBorderData(
                     show: true,
-                    border:
-                        Border.all(color: colorScheme.outline.withAlpha(60)),
+                    border: Border.all(
+                      color: colorScheme.outlineVariant,
+                      width: 0.5,
+                    ),
                   ),
                   minY: minY,
                   maxY: maxY,
@@ -130,7 +167,10 @@ class PressureLineChartCard extends StatelessWidget {
                       color: colorScheme.primary,
                       barWidth: 3,
                       dotData: FlDotData(show: false),
-                      belowBarData: BarAreaData(show: false),
+                      belowBarData: BarAreaData(
+                        show: true,
+                        color: colorScheme.primary.withValues(alpha: 0.2),
+                      ),
                     ),
                     LineChartBarData(
                       spots: spotsSurface,
@@ -138,7 +178,10 @@ class PressureLineChartCard extends StatelessWidget {
                       color: colorScheme.secondary,
                       barWidth: 3,
                       dotData: FlDotData(show: false),
-                      belowBarData: BarAreaData(show: false),
+                      belowBarData: BarAreaData(
+                        show: true,
+                        color: colorScheme.secondary.withValues(alpha: 0.2),
+                      ),
                     ),
                   ],
                   lineTouchData: LineTouchData(
@@ -150,7 +193,7 @@ class PressureLineChartCard extends StatelessWidget {
                           if (spot.barIndex == 1) label = 'Surface';
                           return LineTooltipItem(
                             '$label:  ${spot.y.toStringAsFixed(1)} hPa',
-                            textTheme.bodySmall!.copyWith(
+                            textTheme.labelMedium!.copyWith(
                               color: colorScheme.onSurface,
                             ),
                           );

@@ -19,21 +19,28 @@ class DetailedDataFullPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).detailedData),
+        backgroundColor: colorScheme.surface,
+        elevation: 0,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (current != null && current!.euAQI != null)
+            if (current != null && current!.euAQI != null) ...[
               AirQualityCard(current: current!),
-            const SizedBox(height: 24),
-            WindLineChartCard(hourly: hourly!),
-            const SizedBox(height: 24),
-            PressureLineChartCard(hourly: hourly!),
+              const SizedBox(height: 12),
+            ],
+            if (hourly != null && hourly!.isNotEmpty) ...[
+              WindLineChartCard(hourly: hourly!),
+              const SizedBox(height: 12),
+              PressureLineChartCard(hourly: hourly!),
+            ],
           ],
         ),
       ),

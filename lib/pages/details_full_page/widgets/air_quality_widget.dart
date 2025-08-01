@@ -15,11 +15,17 @@ class AirQualityCard extends StatelessWidget {
     final aqiColor = getAqiColor('aqi', current.euAQI ?? 0, colorScheme);
 
     return Card(
-      elevation: 3,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-      color: colorScheme.primaryContainer,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(28),
+        side: BorderSide(
+          color: colorScheme.outlineVariant,
+          width: 1,
+        ),
+      ),
+      color: colorScheme.surface,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(24, 10, 24, 16),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -28,14 +34,16 @@ class AirQualityCard extends StatelessWidget {
               children: [
                 Text(
                   AppLocalizations.of(context).airQuality,
-                  style: textTheme.titleMedium?.copyWith(
-                    color: colorScheme.onPrimaryContainer,
+                  style: textTheme.titleLarge?.copyWith(
+                    color: colorScheme.onSurface,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.info_outline),
-                  color: colorScheme.onPrimaryContainer,
+                  icon: Icon(
+                    Icons.info_outline,
+                    color: colorScheme.onSurfaceVariant,
+                  ),
                   onPressed: () {
                     showDialog(
                       context: context,
@@ -47,8 +55,12 @@ class AirQualityCard extends StatelessWidget {
                         actions: [
                           TextButton(
                             onPressed: () => Navigator.of(context).pop(),
-                            child: Text(MaterialLocalizations.of(context)
-                                .okButtonLabel),
+                            child: Text(
+                              MaterialLocalizations.of(context).okButtonLabel,
+                              style: TextStyle(
+                                color: colorScheme.primary,
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -57,39 +69,53 @@ class AirQualityCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CircularPercentIndicator(
-                  radius: 48,
-                  lineWidth: 12,
+                  radius: 46,
+                  lineWidth: 10,
                   percent: ((current.euAQI ?? 0) / 100).clamp(0.0, 1.0),
                   center: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(current.euAQI?.toStringAsFixed(0) ?? '--',
-                          style:
-                              textTheme.titleLarge?.copyWith(color: aqiColor)),
-                      Text('AQI', style: textTheme.bodySmall),
+                      Text(
+                        current.euAQI?.toStringAsFixed(0) ?? '--',
+                        style: textTheme.titleMedium?.copyWith(
+                          color: aqiColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'AQI',
+                        style: textTheme.bodySmall?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
+                        ),
+                      ),
                     ],
                   ),
                   progressColor: aqiColor,
-                  backgroundColor: colorScheme.outline.withAlpha(30),
+                  backgroundColor: colorScheme.outlineVariant,
                   circularStrokeCap: CircularStrokeCap.round,
                 ),
-                const SizedBox(width: 24),
+                const SizedBox(width: 20),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildPollutantBar(context, 'PM2.5', current.pm25,
                           'pm2_5', 'μg/m³', colorScheme),
+                      const SizedBox(height: 12),
                       _buildPollutantBar(context, 'PM10', current.pm10, 'pm10',
                           'μg/m³', colorScheme),
+                      const SizedBox(height: 12),
                       _buildPollutantBar(context, 'O₃', current.ozone, 'o3',
                           'μg/m³', colorScheme),
+                      const SizedBox(height: 12),
                       _buildPollutantBar(context, 'NO₂',
                           current.nitrogenDioxide, 'no2', 'μg/m³', colorScheme),
+                      const SizedBox(height: 12),
                       _buildPollutantBar(context, 'SO₂', current.sulphurDioxide,
                           'so2', 'μg/m³', colorScheme),
                     ],
@@ -108,32 +134,39 @@ class AirQualityCard extends StatelessWidget {
       String type, String unit, ColorScheme colorScheme) {
     final max = getAqiMaxValue(type);
     final color = getAqiColor(type, value ?? 0, colorScheme);
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        children: [
-          SizedBox(
-              width: 48,
-              child: Text(label, style: Theme.of(context).textTheme.bodySmall)),
-          Expanded(
-            child: LinearProgressIndicator(
-              value: ((value ?? 0) / max).clamp(0.0, 1.0),
-              color: color,
-              backgroundColor: colorScheme.outline.withAlpha(30),
-              minHeight: 10,
-            ),
+    return Row(
+      children: [
+        SizedBox(
+          width: 48,
+          child: Text(
+            label,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: colorScheme.onSurface,
+                ),
           ),
-          const SizedBox(width: 8),
-          SizedBox(
-            width: 70,
-            child: Text(
-              value != null ? '${value.toStringAsFixed(1)} $unit' : '--',
-              textAlign: TextAlign.right,
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
+        ),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              LinearProgressIndicator(
+                value: ((value ?? 0) / max).clamp(0.0, 1.0),
+                color: color,
+                backgroundColor: colorScheme.outlineVariant,
+                minHeight: 10,
+                borderRadius: BorderRadius.circular(5),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                value != null ? '${value.toStringAsFixed(1)} $unit' : '--',
+                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

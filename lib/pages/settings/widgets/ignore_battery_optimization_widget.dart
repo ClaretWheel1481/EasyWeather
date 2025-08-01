@@ -28,7 +28,6 @@ class IgnoreBatteryOptimizationWidget extends StatelessWidget {
           }
         }
       } catch (e) {
-        // 处理错误
         debugPrint('Error requesting battery optimization: $e');
       }
     }

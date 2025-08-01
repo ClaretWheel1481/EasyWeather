@@ -21,11 +21,17 @@ class WindLineChartCard extends StatelessWidget {
       spots120m.add(FlSpot(i.toDouble(), hours[i].windSpeed120m ?? 0));
     }
     return Card(
-      elevation: 3,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-      color: colorScheme.primaryContainer,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(28),
+        side: BorderSide(
+          color: colorScheme.outlineVariant,
+          width: 1,
+        ),
+      ),
+      color: colorScheme.surface,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(24, 10, 24, 16),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -34,14 +40,16 @@ class WindLineChartCard extends StatelessWidget {
               children: [
                 Text(
                   AppLocalizations.of(context).hourly_windSpeed,
-                  style: textTheme.titleMedium?.copyWith(
-                    color: colorScheme.onPrimaryContainer,
+                  style: textTheme.titleLarge?.copyWith(
+                    color: colorScheme.onSurface,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.info_outline),
-                  color: colorScheme.onPrimaryContainer,
+                  icon: Icon(
+                    Icons.info_outline,
+                    color: colorScheme.onSurfaceVariant,
+                  ),
                   tooltip: AppLocalizations.of(context).hourly_windSpeed,
                   onPressed: () {
                     showDialog(
@@ -54,8 +62,12 @@ class WindLineChartCard extends StatelessWidget {
                         actions: [
                           TextButton(
                             onPressed: () => Navigator.of(context).pop(),
-                            child: Text(MaterialLocalizations.of(context)
-                                .okButtonLabel),
+                            child: Text(
+                              MaterialLocalizations.of(context).okButtonLabel,
+                              style: TextStyle(
+                                color: colorScheme.primary,
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -64,16 +76,45 @@ class WindLineChartCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
             SizedBox(
-              height: 260,
+              height: 240,
               child: LineChart(
                 LineChartData(
-                  gridData: FlGridData(show: true, drawVerticalLine: false),
+                  gridData: FlGridData(
+                    show: true,
+                    drawVerticalLine: false,
+                    getDrawingHorizontalLine: (value) {
+                      return FlLine(
+                        color: colorScheme.outlineVariant,
+                        strokeWidth: 0.5,
+                      );
+                    },
+                    getDrawingVerticalLine: (value) {
+                      return FlLine(
+                        color: colorScheme.outlineVariant,
+                        strokeWidth: 0.5,
+                      );
+                    },
+                  ),
                   titlesData: FlTitlesData(
                     leftTitles: AxisTitles(
-                      sideTitles:
-                          SideTitles(showTitles: true, reservedSize: 40),
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        reservedSize: 35,
+                        interval: 5,
+                        getTitlesWidget: (value, meta) {
+                          if (value % 10 == 0) {
+                            return Text(
+                              value.toInt().toString(),
+                              style: textTheme.labelMedium?.copyWith(
+                                color: colorScheme.onSurfaceVariant,
+                              ),
+                            );
+                          }
+                          return const SizedBox();
+                        },
+                      ),
                     ),
                     bottomTitles: AxisTitles(
                       sideTitles: SideTitles(
@@ -85,8 +126,12 @@ class WindLineChartCard extends StatelessWidget {
                             return const SizedBox();
                           }
                           final t = hours[idx].time;
-                          return Text(t.substring(11, 13),
-                              style: textTheme.bodySmall);
+                          return Text(
+                            t.substring(11, 13),
+                            style: textTheme.labelMedium?.copyWith(
+                              color: colorScheme.onSurfaceVariant,
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -97,8 +142,10 @@ class WindLineChartCard extends StatelessWidget {
                   ),
                   borderData: FlBorderData(
                     show: true,
-                    border:
-                        Border.all(color: colorScheme.outline.withAlpha(60)),
+                    border: Border.all(
+                      color: colorScheme.outlineVariant,
+                      width: 0.5,
+                    ),
                   ),
                   minY: 0,
                   lineBarsData: [
@@ -108,7 +155,10 @@ class WindLineChartCard extends StatelessWidget {
                       color: colorScheme.primary,
                       barWidth: 3,
                       dotData: FlDotData(show: false),
-                      belowBarData: BarAreaData(show: false),
+                      belowBarData: BarAreaData(
+                        show: true,
+                        color: colorScheme.primary.withValues(alpha: 0.2),
+                      ),
                     ),
                     LineChartBarData(
                       spots: spots80m,
@@ -116,7 +166,10 @@ class WindLineChartCard extends StatelessWidget {
                       color: colorScheme.secondary,
                       barWidth: 3,
                       dotData: FlDotData(show: false),
-                      belowBarData: BarAreaData(show: false),
+                      belowBarData: BarAreaData(
+                        show: true,
+                        color: colorScheme.secondary.withValues(alpha: 0.2),
+                      ),
                     ),
                     LineChartBarData(
                       spots: spots120m,
@@ -124,7 +177,10 @@ class WindLineChartCard extends StatelessWidget {
                       color: colorScheme.tertiary,
                       barWidth: 3,
                       dotData: FlDotData(show: false),
-                      belowBarData: BarAreaData(show: false),
+                      belowBarData: BarAreaData(
+                        show: true,
+                        color: colorScheme.tertiary.withValues(alpha: 0.2),
+                      ),
                     ),
                   ],
                   lineTouchData: LineTouchData(
@@ -137,7 +193,7 @@ class WindLineChartCard extends StatelessWidget {
                           if (spot.barIndex == 2) label = '120m';
                           return LineTooltipItem(
                             '$label: ${spot.y.toStringAsFixed(1)} km/h',
-                            textTheme.bodySmall!.copyWith(
+                            textTheme.labelMedium!.copyWith(
                               color: colorScheme.onSurface,
                             ),
                           );
