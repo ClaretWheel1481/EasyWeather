@@ -541,6 +541,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'0-20 is good, 20-40 is fair, 40-60 is moderate, 60-80 is poor, 80-100 is very poor, >100 is extremely poor. \nThe grading of each pollutant is seen in the European Environment Standards.'**
   String get eAQIDesc;
+
+  /// No description provided for @weatherSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Weather Source'**
+  String get weatherSource;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

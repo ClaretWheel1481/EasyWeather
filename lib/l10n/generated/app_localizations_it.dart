@@ -228,4 +228,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get eAQIDesc => '0-20 è buono, 20-40 è discreto, 40-60 è moderato, 60-80 è scarso, 80-100 è molto scarso, >100 è estremamente scarso. \nLa classificazione di ciascun inquinante è riportata negli Standard ambientali europei.';
+
+  @override
+  String get weatherSource => 'Fonte meteorologica';
 }

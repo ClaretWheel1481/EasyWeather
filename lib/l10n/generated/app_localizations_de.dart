@@ -228,4 +228,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get eAQIDesc => '0-20 ist gut, 20-40 ist mittelmäßig, 40-60 ist mäßig, 60-80 ist schlecht, 80-100 ist sehr schlecht, >100 ist extrem schlecht. \nDie Einstufung der einzelnen Schadstoffe ist in den Europäischen Umweltnormen zu finden.';
+
+  @override
+  String get weatherSource => 'Wetterquelle';
 }

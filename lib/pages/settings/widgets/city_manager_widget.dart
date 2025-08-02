@@ -47,7 +47,7 @@ class CityManagerWidget extends StatelessWidget {
                 child: Row(
                   children: [
                     Icon(Icons.location_city, color: colorScheme.primary),
-                    const SizedBox(width: 12),
+                    const SizedBox(width: 8),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

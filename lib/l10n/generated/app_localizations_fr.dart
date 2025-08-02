@@ -228,4 +228,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get eAQIDesc => '0-20 est bon, 20-40 est moyen, 40-60 est modéré, 60-80 est mauvais, 80-100 est très mauvais, >100 est extrêmement mauvais. \nLa classification de chaque polluant est indiquée dans les normes européennes de l\'environnement.';
+
+  @override
+  String get weatherSource => 'Source météo';
 }

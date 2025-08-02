@@ -79,5 +79,6 @@
   "hourly_pressure": "Pression atmosphérique horaire",
   "hourly_pressure_Desc": "Pression atmosphérique horaire au niveau de la mer et pression de surface au niveau du sol, hPa étant l'unité de pression atmosphérique. Vous pouvez faire glisser manuellement le graphique pour obtenir des données détaillées sur la pression barométrique horaire.",
   "eAQIGrading": "Classification de l'indice de qualité de l'air selon les normes européennes",
-  "eAQIDesc": "0-20 est bon, 20-40 est moyen, 40-60 est modéré, 60-80 est mauvais, 80-100 est très mauvais, >100 est extrêmement mauvais. \nLa classification de chaque polluant est indiquée dans les normes européennes de l'environnement."
+  "eAQIDesc": "0-20 est bon, 20-40 est moyen, 40-60 est modéré, 60-80 est mauvais, 80-100 est très mauvais, >100 est extrêmement mauvais. \nLa classification de chaque polluant est indiquée dans les normes européennes de l'environnement.",
+  "weatherSource": "Source météo"
 }

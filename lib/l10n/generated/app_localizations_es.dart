@@ -228,4 +228,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get eAQIDesc => '0-20 es bueno, 20-40 es regular, 40-60 es moderado, 60-80 es deficiente, 80-100 es muy deficiente, >100 es extremadamente deficiente. \nLa clasificación de cada contaminante se ve en las Normas Europeas de Medio Ambiente.';
+
+  @override
+  String get weatherSource => 'Fuente meteorológica';
 }

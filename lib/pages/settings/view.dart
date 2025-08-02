@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zephyr/pages/settings/widgets/request_homewidget_widget.dart';
 import 'package:zephyr/pages/settings/widgets/ignore_battery_optimization_widget.dart';
+import 'package:zephyr/pages/settings/widgets/weather_sources_selector_widget.dart';
 import '../../core/models/city.dart';
 import '../../core/notifiers.dart';
 import '../../l10n/generated/app_localizations.dart';
@@ -23,6 +24,8 @@ class _SettingsPageState extends State<SettingsPage> {
   String? _tempUnit;
   bool _loading = true;
   bool _dynamicColorEnabled = false;
+  String? _weatherSource;
+
   // 城市管理相关
   List<City> _cities = [];
   int _mainCityIndex = 0;
@@ -41,6 +44,7 @@ class _SettingsPageState extends State<SettingsPage> {
     setState(() {
       _themeMode = ThemeMode.values[prefs.getInt('theme_mode') ?? 0];
       _tempUnit = prefs.getString('temp_unit') ?? 'C';
+      _weatherSource = prefs.getString('weather_source') ?? 'OpenMeteo';
       _dynamicColorEnabled = prefs.getBool('dynamic_color_enabled') ?? false;
       _loading = false;
     });
@@ -133,6 +137,15 @@ class _SettingsPageState extends State<SettingsPage> {
     tempUnitNotifier.value = unit;
   }
 
+  Future<void> _saveWeatherSources(String name) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('weather_source', name);
+    setState(() {
+      _weatherSource = name;
+    });
+    weatherSourceNotifier.value = name;
+  }
+
   Future<void> _saveDynamicColorEnabled(bool enabled) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('dynamic_color_enabled', enabled);
@@ -169,6 +182,11 @@ class _SettingsPageState extends State<SettingsPage> {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
+          // 天气源选择
+          WeatherSourceSelectorWidget(
+              weatherSource: _weatherSource,
+              onWeatherSourceChanged: _saveWeatherSources),
+          const SizedBox(height: 16),
           // 城市管理
           CityManagerWidget(
             cities: _cities,

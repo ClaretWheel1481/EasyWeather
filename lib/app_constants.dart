@@ -5,7 +5,11 @@ class AppConstants {
       'Simple and fast real-time weather forecast software.';
   static const String appUrl = 'https://github.com/LanceHuang245/Zephyr';
 
-  static String? qWeatherApiKey;
+  static const List<String> weatherSources = [
+    'OpenMeteo',
+    'QWeather',
+    'AccuWeather'
+  ];
 
   // OpenStreetMap API Url 用于搜索城市
   static const String osmUrl = 'https://nominatim.openstreetmap.org/search';
@@ -19,4 +23,6 @@ class AppConstants {
   // 数据由QWeather提供
   static const String weatherAlertUrl =
       'http://43.136.78.208:443/api/v1/weather/alert';
+
+  // TODO: 未来将通过以参数的方式传入经纬度、天气源、语言等信息，仅设置一个API URL
 }
