@@ -43,7 +43,7 @@ class CityManagerWidget extends StatelessWidget {
               onTap: onToggleExpand,
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                 child: Row(
                   children: [
                     Icon(Icons.location_city, color: colorScheme.primary),

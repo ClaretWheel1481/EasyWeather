@@ -50,7 +50,7 @@ class IgnoreBatteryOptimizationWidget extends StatelessWidget {
               ? null
               : () => _requestIgnoreBatteryOptimization(context),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

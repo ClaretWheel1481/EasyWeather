@@ -25,6 +25,7 @@ dependencies:
   animations: 
   fl_chart: 
   percent_indicator: 
+  flutter_colorpicker: 
   
 dev_dependencies:
   flutter_test:

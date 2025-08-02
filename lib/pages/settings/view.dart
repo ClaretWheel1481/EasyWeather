@@ -25,6 +25,7 @@ class _SettingsPageState extends State<SettingsPage> {
   bool _loading = true;
   bool _dynamicColorEnabled = false;
   String? _weatherSource;
+  Color _customColor = Colors.blue;
 
   // 城市管理相关
   List<City> _cities = [];
@@ -46,9 +47,14 @@ class _SettingsPageState extends State<SettingsPage> {
       _tempUnit = prefs.getString('temp_unit') ?? 'C';
       _weatherSource = prefs.getString('weather_source') ?? 'OpenMeteo';
       _dynamicColorEnabled = prefs.getBool('dynamic_color_enabled') ?? false;
+      final customColorValue =
+          prefs.getInt('custom_color') ?? Colors.blue.toARGB32();
+      _customColor = Color(customColorValue);
       _loading = false;
     });
+
     dynamicColorEnabledNotifier.value = _dynamicColorEnabled;
+    customColorNotifier.value = _customColor;
   }
 
   Future<void> _loadCities() async {
@@ -155,6 +161,15 @@ class _SettingsPageState extends State<SettingsPage> {
     dynamicColorEnabledNotifier.value = enabled;
   }
 
+  Future<void> _saveCustomColor(Color color) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('custom_color', color.toARGB32());
+    setState(() {
+      _customColor = color;
+    });
+    customColorNotifier.value = color;
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -208,12 +223,14 @@ class _SettingsPageState extends State<SettingsPage> {
             onTempUnitChanged: _saveTempUnit,
           ),
           const SizedBox(height: 16),
-          // 主题模式 + Monet取色
+          // 主题模式 + Monet取色 + 自定义颜色
           ThemeModeSelectorWidget(
             themeMode: _themeMode,
             dynamicColorEnabled: _dynamicColorEnabled,
+            customColor: _customColor,
             onThemeModeChanged: _saveThemeMode,
             onDynamicColorChanged: _saveDynamicColorEnabled,
+            onCustomColorChanged: _saveCustomColor,
           ),
           const SizedBox(height: 16),
           // 语言选择

@@ -37,7 +37,6 @@ class AboutAppWidget extends StatelessWidget {
                   const SizedBox(height: 16),
                   Container(
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.surface,
                         borderRadius: BorderRadius.circular(24),
                       ),
                       child: Material(
@@ -66,7 +65,7 @@ class AboutAppWidget extends StatelessWidget {
                 ]);
           },
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
             child: Row(
               children: [
                 Icon(Icons.info_outline,

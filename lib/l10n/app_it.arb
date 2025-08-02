@@ -80,5 +80,8 @@
   "hourly_pressure_Desc": "Pressione oraria dell'aria al livello del mare e pressione superficiale al livello del suolo, hPa è l'unità di misura della pressione dell'aria. È possibile far scorrere manualmente il grafico per visualizzare i dati dettagliati della pressione barometrica oraria.",
   "eAQIGrading": "Classificazione dell'indice di qualità dell'aria secondo gli standard europei",
   "eAQIDesc": "0-20 è buono, 20-40 è discreto, 40-60 è moderato, 60-80 è scarso, 80-100 è molto scarso, >100 è estremamente scarso. \nLa classificazione di ciascun inquinante è riportata negli Standard ambientali europei.",
-  "weatherSource": "Fonte meteorologica"
+  "weatherSource": "Fonte meteorologica",
+  "customColor": "Colore personalizzato",
+  "celsius": "Celsius",
+  "fahrenheit": "Fahrenheit"
 }

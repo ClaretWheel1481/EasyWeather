@@ -45,12 +45,12 @@ class _WeatherSourceSelectorWidgetState
                   onTap: () => setState(() => _expanded = !_expanded),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        vertical: 20, horizontal: 16),
+                        vertical: 16, horizontal: 16),
                     child: Row(
                       children: [
                         Icon(Icons.downloading, color: colorScheme.primary),
                         const SizedBox(width: 8),
-                        Text("${l10n.weatherSource} （Unavailable now）",
+                        Text("${l10n.weatherSource} Unavailable now",
                             style: textTheme.titleMedium),
                         const Spacer(),
                         Icon(_expanded ? Icons.expand_less : Icons.expand_more),

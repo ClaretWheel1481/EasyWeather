@@ -547,6 +547,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Weather Source'**
   String get weatherSource;
+
+  /// No description provided for @customColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Color'**
+  String get customColor;
+
+  /// No description provided for @celsius.
+  ///
+  /// In en, this message translates to:
+  /// **'Celsius'**
+  String get celsius;
+
+  /// No description provided for @fahrenheit.
+  ///
+  /// In en, this message translates to:
+  /// **'Fahrenheit'**
+  String get fahrenheit;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -6,3 +6,4 @@ final dynamicColorEnabledNotifier = ValueNotifier<bool>(false);
 final localeCodeNotifier = ValueNotifier<String>('en');
 final weatherSourceNotifier = ValueNotifier<String>('OpenMeteo');
 final weatherDataChangedNotifier = ValueNotifier<int>(0);
+final customColorNotifier = ValueNotifier<Color>(Colors.blue);

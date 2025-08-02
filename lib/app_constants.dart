@@ -8,7 +8,7 @@ class AppConstants {
   static const List<String> weatherSources = [
     'OpenMeteo',
     'QWeather',
-    'AccuWeather'
+    // 'AccuWeather'
   ];
 
   // OpenStreetMap API Url 用于搜索城市

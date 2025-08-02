@@ -230,7 +230,16 @@ class AppLocalizationsZh extends AppLocalizations {
   String get eAQIDesc => '0-20 为好，20-40 为一般，40-60 为良，60-80 为较差，80-100 为极差，>100 为危险。\n每种污染物的分级见欧洲环境标准。';
 
   @override
-  String get weatherSource => '天气源';
+  String get weatherSource => '自定义天气源';
+
+  @override
+  String get customColor => '自定义颜色';
+
+  @override
+  String get celsius => '摄氏度';
+
+  @override
+  String get fahrenheit => '华氏度';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
@@ -459,5 +468,14 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get eAQIDesc => '0-20 為良好，20-40 為一般，40-60 為中等，60-80 為較差，80-100 為非常差，>100 為極差。\n每種污染物的分級見於歐洲環境標準。';
 
   @override
-  String get weatherSource => '天氣源';
+  String get weatherSource => '自定天氣源';
+
+  @override
+  String get customColor => '自定顏色';
+
+  @override
+  String get celsius => '攝氏度';
+
+  @override
+  String get fahrenheit => '華氏度';
 }

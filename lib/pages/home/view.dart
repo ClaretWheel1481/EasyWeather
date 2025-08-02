@@ -214,7 +214,9 @@ class _HomePageState extends State<HomePage> {
       pageIndex = 0;
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _pageController?.jumpToPage(0);
+      if (cities.isNotEmpty) {
+        _pageController?.jumpToPage(0);
+      }
     });
   }
 

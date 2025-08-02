@@ -231,4 +231,13 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get weatherSource => 'Wetterquelle';
+
+  @override
+  String get customColor => 'Benutzerdefinierte Farbe';
+
+  @override
+  String get celsius => 'Celsius';
+
+  @override
+  String get fahrenheit => 'Fahrenheit';
 }

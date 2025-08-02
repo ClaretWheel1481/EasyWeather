@@ -80,5 +80,8 @@
   "hourly_pressure_Desc": "Presión atmosférica horaria a nivel del mar y presión superficial a nivel del suelo, hPa es la unidad de presión atmosférica. Puede deslizar manualmente el gráfico para ver los datos detallados de la presión barométrica horaria.",
   "eAQIGrading": "Clasificación del índice europeo de calidad del aire",
   "eAQIDesc": "0-20 es bueno, 20-40 es regular, 40-60 es moderado, 60-80 es deficiente, 80-100 es muy deficiente, >100 es extremadamente deficiente. \nLa clasificación de cada contaminante se ve en las Normas Europeas de Medio Ambiente.",
-  "weatherSource": "Fuente meteorológica"
+  "weatherSource": "Fuente meteorológica",
+  "customColor": "Color personalizado",
+  "celsius": "Celsius",
+  "fahrenheit": "Fahrenheit"
 }

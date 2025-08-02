@@ -1,34 +1,84 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import '../../../l10n/generated/app_localizations.dart';
 
 class ThemeModeSelectorWidget extends StatelessWidget {
   final ThemeMode? themeMode;
   final bool dynamicColorEnabled;
+  final Color customColor;
   final ValueChanged<ThemeMode> onThemeModeChanged;
   final ValueChanged<bool> onDynamicColorChanged;
+  final ValueChanged<Color> onCustomColorChanged;
 
   const ThemeModeSelectorWidget({
     super.key,
     required this.themeMode,
     required this.dynamicColorEnabled,
+    required this.customColor,
     required this.onThemeModeChanged,
     required this.onDynamicColorChanged,
+    required this.onCustomColorChanged,
   });
+
+  void _showColorPicker(BuildContext context) {
+    Color pickerColor = customColor;
+    final l10n = AppLocalizations.of(context);
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(l10n.customColor),
+          content: SingleChildScrollView(
+            child: ColorPicker(
+              pickerColor: pickerColor,
+              onColorChanged: (Color color) {
+                pickerColor = color;
+              },
+              pickerAreaHeightPercent: 0.8,
+              enableAlpha: false,
+              displayThumbColor: true,
+              paletteType: PaletteType.hueWheel,
+              labelTypes: const [],
+              portraitOnly: true,
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FilledButton(
+              child: Text(MaterialLocalizations.of(context).okButtonLabel),
+              onPressed: () {
+                onCustomColorChanged(pickerColor);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final l10n = AppLocalizations.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        color: colorScheme.surface,
         borderRadius: BorderRadius.circular(24),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // 主题模式选择
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
             child: Column(
@@ -37,8 +87,7 @@ class ThemeModeSelectorWidget extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Icon(Icons.brightness_6,
-                        color: Theme.of(context).colorScheme.primary),
+                    Icon(Icons.brightness_6, color: colorScheme.primary),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Column(
@@ -84,14 +133,11 @@ class ThemeModeSelectorWidget extends StatelessWidget {
               ],
             ),
           ),
-          Divider(),
+          const Divider(),
+          // Monet取色开关
           Material(
             color: Colors.transparent,
-            child: InkWell(
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(24),
-                bottomRight: Radius.circular(24),
-              ),
+            child: GestureDetector(
               onTap: Platform.isIOS
                   ? null
                   : () => onDynamicColorChanged(!dynamicColorEnabled),
@@ -101,19 +147,14 @@ class ThemeModeSelectorWidget extends StatelessWidget {
                   children: [
                     Icon(Icons.palette_outlined,
                         color: Platform.isIOS
-                            ? Theme.of(context)
-                                .colorScheme
-                                .onSurface
-                                .withValues(alpha: 0.38)
-                            : Theme.of(context).colorScheme.primary),
+                            ? colorScheme.onSurface.withValues(alpha: 0.38)
+                            : colorScheme.primary),
                     const SizedBox(width: 8),
                     Expanded(
                         child: Text(l10n.monetColor,
                             style: textTheme.titleMedium?.copyWith(
                               color: Platform.isIOS
-                                  ? Theme.of(context)
-                                      .colorScheme
-                                      .onSurface
+                                  ? colorScheme.onSurface
                                       .withValues(alpha: 0.38)
                                   : null,
                             ))),
@@ -126,6 +167,42 @@ class ThemeModeSelectorWidget extends StatelessWidget {
               ),
             ),
           ),
+          const Divider(),
+          const SizedBox(height: 12),
+          // 自定义颜色选择
+          Material(
+            color: Colors.transparent,
+            child: GestureDetector(
+              onTap: (!dynamicColorEnabled)
+                  ? () => _showColorPicker(context)
+                  : null,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.color_lens_outlined,
+                      color: (!dynamicColorEnabled)
+                          ? colorScheme.primary
+                          : colorScheme.onSurface.withValues(alpha: 0.38),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        l10n.customColor,
+                        style: textTheme.titleMedium?.copyWith(
+                          color: (!dynamicColorEnabled)
+                              ? null
+                              : colorScheme.onSurface.withValues(alpha: 0.38),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
         ],
       ),
     );
